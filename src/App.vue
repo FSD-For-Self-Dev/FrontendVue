@@ -1,21 +1,13 @@
 <template>
-  <p class="greeting">{{ greeting }}</p>
+  <RouterView />
 </template>
 
 <script lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
 export default {
   data() {
-    return {
-      greeting: "Hello World!",
-    };
+    return {};
   },
 };
 </script>
 
-<style scoped lang="scss">
-.greeting {
-  color: red;
-  font-weight: bold;
-}
-</style>
+<style scoped lang="scss"></style>
