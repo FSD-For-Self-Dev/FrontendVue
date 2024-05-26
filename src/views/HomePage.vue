@@ -8,7 +8,7 @@
     <span>{{ dubleCount }}</span>
   </div>
   <button @click="increment">increment</button>
-  <button @click="clear">clear</button>
+  <button @click="clearUser">clear</button>
 </template>
 
 <script lang="ts">
@@ -20,6 +20,9 @@ export default {
   },
   methods: {
     ...mapActions(useCounterStore, ["increment", "clear"]),
+    clearUser() {
+      this.$api.auth.login();
+    },
   },
 };
 </script>

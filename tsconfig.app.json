@@ -1,6 +1,12 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "sfc.d.ts", "src/**/*", "src/**/*.vue"],
+  "include": [
+    "custom-properties.d.ts",
+    "env.d.ts",
+    "sfc.d.ts",
+    "src/**/*",
+    "src/**/*.vue"
+  ],
   "exclude": ["src/**/*.spec.ts", "dist", "node_modules"],
   "compilerOptions": {
     "composite": true,
