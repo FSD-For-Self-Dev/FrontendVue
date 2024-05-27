@@ -1,0 +1,13 @@
+@font-face {
+    font-family: "Fredoka";
+    font-weight: 400;
+    src: local('Fredoka-Regular') ,url("Fredoka-Regular.woff2") format("woff2"),
+    local('Fredoka-Regular') ,url("Fredoka-Regular.woff") format("woff");
+}
+
+@font-face {
+    font-family: "Fredoka";
+    font-weight: 500;
+    src: local('Fredoka-Medium') ,url("Fredoka-Medium.woff2") format("woff2"),
+    local('Fredoka-Medium') ,url("Fredoka-Medium.woff") format("woff");
+}
