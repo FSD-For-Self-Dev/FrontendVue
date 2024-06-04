@@ -7,14 +7,161 @@
     <span style="margin-right: 50px">dubleCount</span>
     <span>{{ dubleCount }}</span>
   </div>
-  <button @click="increment">increment</button>
-  <button @click="clearUser">clear</button>
+  <div class="div">
+    <ButtonComponent
+      variant="success"
+      type="right-icon"
+      icon="pen"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="success"
+      type="right-icon"
+      icon="pen"
+      size="medium-long"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="success"
+      type="right-icon"
+      icon="pen"
+      size="medium"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="success"
+      type="right-icon"
+      icon="pen"
+      size="small"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="primary"
+      type="right-icon"
+      icon="pen"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="primary"
+      type="right-icon"
+      icon="pen"
+      size="medium-long"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="primary"
+      type="right-icon"
+      icon="pen"
+      size="medium"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="primary"
+      type="right-icon"
+      icon="pen"
+      size="small"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="secondary"
+      type="right-icon"
+      icon="pen"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="secondary"
+      type="right-icon"
+      icon="pen"
+      size="medium-long"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="secondary"
+      type="right-icon"
+      icon="pen"
+      size="medium"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="secondary"
+      type="right-icon"
+      icon="pen"
+      size="small"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="danger"
+      type="right-icon"
+      icon="pen"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="danger"
+      type="right-icon"
+      icon="pen"
+      size="medium-long"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="danger"
+      type="right-icon"
+      icon="pen"
+      size="medium"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <ButtonComponent
+      variant="danger"
+      type="right-icon"
+      icon="pen"
+      size="small"
+      :additionalText="count.toString()"
+      @click="increment"
+      >Написать</ButtonComponent
+    >
+    <InputComponent type="text" label="Name" :showLabel="true" v-model="pew" error="Warning" />
+  </div>
 </template>
 
 <script lang="ts">
+import ButtonComponent from "@/components/UI/button/";
+import InputComponent from "@/components/UI/input/";
 import { mapActions, mapState } from "pinia";
 import { useCounterStore } from "@/store/counter";
 export default {
+  components: {
+    ButtonComponent,
+    InputComponent,
+  },
   computed: {
     ...mapState(useCounterStore, ["count", "dubleCount"]),
   },
@@ -24,7 +171,20 @@ export default {
       this.$api.auth.login();
     },
   },
+  data() {
+    return {
+      pew: "",
+    };
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.div {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  align-items: flex-end;
+  justify-content: flex-start;
+  gap: 10px;
+}
+</style>
