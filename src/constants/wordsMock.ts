@@ -1,0 +1,18 @@
+export const words = [
+  { name: 'break a leg' },
+  { name: 'out of the blue' },
+  { name: 'stand up to' },
+  { name: 'get the message across' },
+  { name: 'kick the bucket' },
+  { name: 'over the moon' },
+  { name: 'kill the lights' },
+  { name: 'kingdom come' },
+  { name: 'break a leg' },
+  { name: 'out of the blue' },
+  { name: 'stand up to' },
+  { name: 'get the message across' },
+  { name: 'kick the bucket' },
+  { name: 'over the moon' },
+  { name: 'kill the lights' },
+  { name: 'kingdom come' },
+]
