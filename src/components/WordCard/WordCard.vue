@@ -21,18 +21,4 @@
     box-shadow: $regular-shadow;
     @include flex-center;
   }
-  .v-enter-active,
-  .v-leave-active {
-    transition: opacity 0.2s, transform 0.4s ease;
-  }
-  .v-enter-from,
-  .v-leave-to {
-    opacity: 0;
-    transform: translateY(100px);
-  }
-  .v-enter-to,
-  .v-leave-from {
-    opacity: 1;
-    transform: translateY(0);
-  }
 </style>
