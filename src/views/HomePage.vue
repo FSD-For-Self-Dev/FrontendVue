@@ -27,6 +27,9 @@ export default {
   },
   methods: {
     ...mapActions(useCounterStore, ["increment", "clear"]),
+    clearUser() {
+      this.$api.auth.login();
+    },
   },
   setup () {
     const router = useRouter();
