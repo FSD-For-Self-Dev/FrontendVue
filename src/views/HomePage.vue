@@ -148,41 +148,44 @@
       @click="increment"
       >Написать</ButtonComponent
     >
-    <InputComponent type="text" label="Name" :showLabel="true" v-model="pew" error="Warning" />
+    <InputComponent :showLabel="true" label="Name" v-model="pew" />
+    <TextareaComponent :showLabel="true" label="Name" v-model="pew" />
   </div>
 </template>
 
 <script lang="ts">
-import ButtonComponent from "@/components/UI/button/";
-import InputComponent from "@/components/UI/input/";
-import { mapActions, mapState } from "pinia";
-import { useCounterStore } from "@/store/counter";
+import ButtonComponent from '@/components/UI/button/'
+import InputComponent from '@/components/UI/input/'
+import TextareaComponent from '@/components/UI/textarea'
+import { mapActions, mapState } from 'pinia'
+import { useCounterStore } from '@/store/counter'
 export default {
   components: {
     ButtonComponent,
     InputComponent,
+    TextareaComponent
   },
   computed: {
-    ...mapState(useCounterStore, ["count", "dubleCount"]),
+    ...mapState(useCounterStore, ['count', 'dubleCount'])
   },
   methods: {
-    ...mapActions(useCounterStore, ["increment", "clear"]),
+    ...mapActions(useCounterStore, ['increment', 'clear']),
     clearUser() {
-      this.$api.auth.login();
-    },
+      this.$api.auth.login()
+    }
   },
   data() {
     return {
-      pew: "",
-    };
-  },
-};
+      pew: ''
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
 .div {
   display: grid;
-  grid-template-columns: repeat(4, auto);
+  grid-template-columns: repeat(4, 400px);
   align-items: flex-end;
   justify-content: flex-start;
   gap: 10px;

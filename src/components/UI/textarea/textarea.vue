@@ -1,8 +1,8 @@
 <script lang="ts">
-import { InputTypeHTMLAttribute, defineComponent } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'CustomInput',
+  name: 'CustomTextarea',
   props: {
     label: {
       type: String,
@@ -23,23 +23,9 @@ export default defineComponent({
       type: String
     }
   },
-  data() {
-    return {
-      fieldType: this.$attrs.type
-    }
-  },
   computed: {
     name() {
       return this.label.toLowerCase()
-    }
-  },
-  methods: {
-    togglePassword() {
-      if (this.fieldType === 'password') {
-        this.fieldType = 'text'
-      } else {
-        this.fieldType = 'password'
-      }
     }
   }
 })
@@ -47,33 +33,24 @@ export default defineComponent({
 
 <template>
   <div class="form-row">
-    <input
-      v-bind="{ ...$attrs, type: undefined }"
-      :type="fieldType as InputTypeHTMLAttribute"
-      class="input"
+    <textarea
+      v-bind="$attrs"
+      class="textarea"
       :class="{
-        'input--with-label': showLabel,
-        'input--validation-error': validationError,
-        'input--server-error': serverError
+        'textarea--with-label': showLabel,
+        'textarea--validation-error': validationError,
+        'textarea--server-error': serverError
       }"
       :id="name"
       :name="name"
       :value="modelValue"
       @input="
-        $emit('update:modelValue', ($event.target as HTMLInputElement).value)
+        $emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)
       "
       :aria-disabled="this.$attrs.disabled"
       :aria-invalid="!!validationError || !!serverError"
       :aria-labelledby="`${name}-${label}`"
     />
-    <button
-      v-if="$attrs.type === 'password'"
-      :aria-label="fieldType === 'password' ? 'Show password' : 'Hide password'"
-      class="password-toggle"
-      @click="togglePassword"
-    >
-      {{ fieldType === 'password' ? 'Show' : 'Hide' }}
-    </button>
     <label
       :id="`${name}-${label}`"
       :class="{
@@ -91,8 +68,8 @@ export default defineComponent({
 </template>
 
 <style lang="scss" scoped>
-.input {
-  min-height: 5.9rem;
+.textarea {
+  min-height: 5.6rem;
   min-width: 32rem;
   border-radius: $border-radius-large;
   padding-inline: 2rem;
@@ -101,6 +78,7 @@ export default defineComponent({
   line-height: 1.6rem;
   font-weight: 500;
   color: $neutrals-900;
+  resize: vertical;
 
   @include hover {
     border-color: $primary-300;
@@ -124,7 +102,7 @@ export default defineComponent({
   }
 
   &--with-label {
-    padding-top: 1rem;
+    padding-top: 2.4rem;
   }
 
   &--validation-error {
@@ -142,7 +120,7 @@ export default defineComponent({
   flex-direction: column;
   gap: 0.8rem;
 
-  & input:focus + label,
+  & textarea:focus + label,
   label.up {
     top: 1.2rem;
     font-size: 1.2rem;
@@ -166,25 +144,5 @@ export default defineComponent({
   line-height: 1.4rem;
   color: $neutrals-600;
   padding-left: 2.4rem;
-}
-
-.password-toggle {
-  position: absolute;
-  top: 1.9rem;
-  right: 5rem;
-  font-size: 1.4rem;
-  line-height: 1.6rem;
-  color: $neutrals-900;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  outline: none;
-  transition: color 0.05s ease-in-out;
-
-  &:hover {
-    color: $primary-500;
-  }
 }
 </style>

@@ -1,31 +1,31 @@
 <script lang="ts">
-import { defineComponent, type PropType } from "vue";
+import { defineComponent, type PropType } from 'vue'
 
 export default defineComponent({
-  name: "ButtonComponent",
+  name: 'ButtonComponent',
   props: {
     type: {
-      type: String as PropType<"text" | "left-icon" | "right-icon">,
-      required: true,
+      type: String as PropType<'text' | 'left-icon' | 'right-icon'>,
+      required: true
     },
     icon: {
-      type: String as PropType<"pen" | "add">,
-      required: false,
+      type: String as PropType<'pen' | 'add'>,
+      required: false
     },
     size: {
-      type: String as PropType<"normal" | "medium" | "small" | "medium-long">,
-      default: "normal" as const,
+      type: String as PropType<'normal' | 'medium' | 'small' | 'medium-long'>,
+      default: 'normal' as const
     },
     variant: {
-      type: String as PropType<"primary" | "secondary" | "success" | "danger">,
-      default: "primary" as const,
+      type: String as PropType<'primary' | 'secondary' | 'success' | 'danger'>,
+      default: 'primary' as const
     },
     additionalText: {
       type: String,
-      required: false,
-    },
-  },
-});
+      required: false
+    }
+  }
+})
 </script>
 
 <template>
@@ -43,7 +43,7 @@ export default defineComponent({
       'button--primary': variant === 'primary',
       'button--secondary': variant === 'secondary',
       'button--success': variant === 'success',
-      'button--danger': variant === 'danger',
+      'button--danger': variant === 'danger'
     }"
   >
     <span v-if="type === 'left-icon'" class="left">
@@ -63,6 +63,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .button {
+  width: max-content;
   display: inline-flex;
   border: 0.1rem solid transparent;
   align-items: center;
@@ -212,6 +213,6 @@ export default defineComponent({
 }
 
 .additional {
-  color: red;
+  color: $neutrals-600;
 }
 </style>
