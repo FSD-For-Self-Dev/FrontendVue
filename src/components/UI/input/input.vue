@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, type PropType } from "vue";
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "CustomInput",
@@ -18,8 +18,10 @@ export default defineComponent({
     },
     validationError: {
       type: String,
-      default: "",
     },
+    serverError : {
+      type: String,
+    }
   },
   computed: {
     name() {
@@ -53,6 +55,7 @@ export default defineComponent({
       {{ label }}
     </label>
     <p v-if="validationError" class="validation-error">{{ validationError }}</p>
+    <p v-if="serverError" class="server-error">{{ serverError }}</p>
   </div>
 </template>
 
@@ -96,6 +99,10 @@ export default defineComponent({
   &--validation-error {
     border-color: $warning-500;
   }
+
+  &--server-error {
+    border-color: $danger-700;
+  }
 }
 
 .form-row {
@@ -122,7 +129,8 @@ export default defineComponent({
   color: $neutrals-900;
 }
 
-.validation-error {
+.validation-error,
+.server-error {
   font-size: 1.2rem;
   line-height: 1.4rem;
   color: $neutrals-600;
