@@ -1,6 +1,6 @@
 <template>
   <PageLayout>
-    <button @click="goVacab">в словарь</button>
+    <button @click="goToVocab">в словарь</button>
     <div>
       <span style="margin-right: 50px">count</span>
       <span>{{ count }}</span>
@@ -15,10 +15,10 @@
 </template>
 
 <script lang="ts">
-import PageLayout from '../components/UI/PageLayout/PageLayout.vue';
+import { PageLayout } from '@/components/UI';
 import { mapActions, mapState } from "pinia";
 import { useCounterStore } from "@/store/counter";
-import { useRouter } from 'vue-router'
+
 export default {
   components: { PageLayout },
   
@@ -30,16 +30,10 @@ export default {
     clearUser() {
       this.$api.auth.login();
     },
+    goToVocab() {
+      this.$router.push({ path: '/vocabulary'})
+    },
   },
-  setup () {
-    const router = useRouter();
-    const goVacab = () => router.push('/vocabulary');
-    
-    return {
-      goVacab
-    }
-  }
-  
 };
 </script>
 

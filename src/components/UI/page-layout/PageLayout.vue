@@ -3,10 +3,10 @@
   <main class="main">
     <div :class="{ wrapper: !landingPage }">
       <!-- TODO: выделить компонент для простых кнопок с иконкой -->
-      <button @click="goBack" v-if="!startPage" class="button" :class="{ 'back-button': true }"/>
+      <button @click="goBack" v-if="$route.path !== '/'" class="button back-button" />
       <slot></slot>
       <Transition>
-        <button @click="scrollToTop" class="button" :class="{ 'up-button': true }" v-if="!landingPage && y > 50"/>
+        <button @click="scrollToTop" class="button up-button" v-if="!landingPage && y > 50"/>
       </Transition>
     </div>
   </main>
@@ -15,31 +15,27 @@
 
 <script lang="ts">
   import { useWindowScroll } from '@vueuse/core'
-  import { useRouter, useRoute } from 'vue-router'
+  const { x, y } = useWindowScroll({ behavior: 'smooth' })
 
   export default {
     props: {
       landingPage: {type: Boolean, required: false, default: false},
     },
-    
-    setup(props) {
-      const router = useRouter();
-      const route = useRoute();
-      const startPage = route.path === '/';
-      const { x, y } = useWindowScroll({ behavior: 'smooth' })
-
-      const goBack= () => {
-        if (history.state.back) {
-          router.go(-1)
-        } else router.push('/')
+    data(){
+      return {
+        y
       }
-      const scrollToTop = () => {
+    },
+    methods: {
+      goBack() {
+        if (history.state.back) {
+          this.$router.go(-1)
+        } else this.$router.push('/')
+      },
+      scrollToTop() {
         y.value = 0
       }
-      return {
-        startPage, y, goBack, scrollToTop
-      }
-    }
+    },
   };
 </script>
 

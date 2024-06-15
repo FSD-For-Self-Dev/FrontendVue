@@ -1,13 +1,16 @@
 <template>
   <article class="card">
-    {{card.name}}
+    {{card.text}}
   </article>
 </template>
 
 <script lang="ts">
+import type { PropType } from "vue";
+import type { IWordCard } from '@/types/word-card';
+
   export default {
     props: {
-      card: {type: Object, required: true},
+      card: {type: Object as PropType<IWordCard>, required: true},
     },
   };
 </script>

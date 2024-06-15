@@ -5,13 +5,13 @@
 </template>
 
 <script lang="ts">
-import PageLayout from '../components/UI/PageLayout/PageLayout.vue';
-import WordList from '../components/WordList/WordList.vue';
-import { words } from "../constants/wordsMock";
+import { PageLayout } from '@/components/UI';
+import { WordList } from '@/components';
+import { words } from "@/constants/wordsMock";
 
 export default {
   components: { PageLayout, WordList },
-  setup() {
+  data() {
     return { words }
   }
 };
