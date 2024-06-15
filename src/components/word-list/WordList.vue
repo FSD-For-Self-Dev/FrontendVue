@@ -11,14 +11,14 @@
 <script lang="ts">
 import type { PropType } from "vue";
 import type { IWordCard } from '@/types/word-card';
-import { WordCard } from '@/components';
+import WordCard from '@/components/word-card/WordCard.vue';
 
-  export default {
+export default {
   components: { WordCard },
-    props: {
-      cards: {type: Array as PropType<IWordCard[]>, required: true},
-    },
-  };
+  props: {
+    cards: { type: Array as PropType<IWordCard[]>, required: true },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

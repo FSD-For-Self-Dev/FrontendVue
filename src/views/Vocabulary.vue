@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { PageLayout } from '@/components/UI';
-import { WordList } from '@/components';
+import WordList from '@/components/word-list/WordList.vue';
 import { words } from "@/constants/wordsMock";
 
 export default {
