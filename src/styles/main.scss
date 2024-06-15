@@ -1,3 +1,5 @@
+@import "fonts";
+
 html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   padding: 0;
@@ -20,7 +22,7 @@ body {
   color: $neutrals-900;
   background: #fff;
   font-size: 1.6rem;
-  // Добавить дефолтный шрифт Inter
+  font-family: "Inter","Arial",sans-serif;
   min-width: 360px;
   -webkit-overflow-scrolling: touch;
   position: relative;
@@ -109,7 +111,7 @@ h2 .secondaryheading {
   font-size: 2rem;
   font-weight: 500;
   line-height: 2.4rem;
-  // Добавить шрифт Fredoka
+  font-family: "Fredoka";
 }
 
 .subheading1 {
