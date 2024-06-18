@@ -1,4 +1,5 @@
-<template class="layout">
+<template>
+  <div class="layout">
   <!-- Header -->
   <main class="main">
     <div :class="{ wrapper: !landingPage }">
@@ -10,14 +11,17 @@
       </Transition>
     </div>
   </main>
-  <!-- Footer -->
+  <Footer />
+  </div>
 </template>
 
 <script lang="ts">
   import { useWindowScroll } from '@vueuse/core'
+  import Footer from '../Footer.vue';
   const { x, y } = useWindowScroll({ behavior: 'smooth' })
 
-  export default {
+export default {
+    components: { Footer },
     props: {
       landingPage: {type: Boolean, required: false, default: false},
     },
@@ -42,11 +46,14 @@
 <style lang="scss" scoped>
   .layout {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: $neutrals-200;
   }
   .main {
     width: 100%;
     background-color: $neutrals-200;
-    min-height: 100%;
   }
   .wrapper {
     max-width: 1600px;

@@ -1,8 +1,11 @@
 <script lang="ts">
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
+import Logo from '@/components/UI/logo/Logo.vue'
+const year = new Date().getFullYear()
 
 export default defineComponent({
   name: "Footer",
+  components: { Logo },
   data(){
     return{
       privacyPolicies: [
@@ -14,25 +17,17 @@ export default defineComponent({
         { name: 'О платформе', link: '#' },
         { name: 'Контакты', link: '#' },
         { name: 'Отзывы', link: '#' }
-      ]as Array<{ name: string; link: string }>,
+      ] as Array<{ name: string; link: string }>,
+      year
     }
   }
 })
-
-
 </script>
 
 <template>
   <footer class="footer">
     <div class="footer-wrapper">
-
-      <div class="footer-head">
-        <img class="logo" src="../../../public/logo.svg" alt="logo"/>
-        <div class="logo-name">
-          <h3 class="logo-title">Linguista</h3>
-          <p class="logo-subtitle text">Control & Repeat</p>
-        </div>
-      </div>
+      <Logo />
       <div class="footer-content">
         <ul class="footer-list text">
           <li class="footer-list-item" v-for="navigationLink in navigationLinks">
@@ -97,17 +92,13 @@ export default defineComponent({
 
       </div>
       <div class="footer-bottom">
-        <p class="text">© 2023 Linguista. Все права защищены.</p>
+        <p class="text">© {{ year }} Linguista. Все права защищены.</p>
       </div>
     </div>
   </footer>
 </template>
 
 <style scoped lang="scss">
-a{
-  text-decoration: none;
-  color: inherit;
-}
 
 .text{
   color: $neutrals-700;
@@ -116,34 +107,14 @@ a{
 .footer {
   display: flex;
   justify-content: center;
+  background-color:white;
+  box-shadow: $regular-shadow;
 }
 
 .footer-wrapper {
   width: 85%;
   max-width: 1220px;
-}
-
-.footer-head {
-  display: flex;
-  align-items: center;
-
-}
-
-.logo-name{
-  margin: 0 1.5rem;
-  * {
-    padding: 0;
-    margin: 0;
-  }
-}
-
-.logo-title {
-  font-family: "Fredoka";
-  font-size: 2.4rem;
-}
-
-.logo-subtitle {
-  font-size: 1.4rem;
+  padding: 4rem 0 2.8rem;
 }
 
 .footer-content {
