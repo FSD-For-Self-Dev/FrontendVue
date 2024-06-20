@@ -2,7 +2,6 @@
 import {defineComponent} from 'vue'
 
 export default defineComponent({
-  name: "Footer"
 })
 
 
@@ -21,14 +20,8 @@ export default defineComponent({
       </div>
       <div class="footer-content">
         <ul class="footer-list text">
-          <li class="footer-list-item">О платформе</li>
-          <li class="footer-list-item">Контакты</li>
-          <li class="footer-list-item">Отзывы</li>
         </ul>
         <ul class="footer-list text">
-          <li class="footer-list-item">Правила и условия</li>
-          <li class="footer-list-item">Политика конфиденциальности</li>
-          <li class="footer-list-item">Согласие на обработку персональных данных</li>
         </ul>
         <div class="footer-actions">
           <label class="footer-form-label text">Нашли ошибку? – Напишите нам!</label>
@@ -88,7 +81,6 @@ export default defineComponent({
 <style scoped lang="scss">
 .text{
   color: $text-grey-dark;
-
 }
 
 .footer {

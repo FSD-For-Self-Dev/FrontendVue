@@ -7,3 +7,23 @@
   justify-content: center;
   align-items: center;
 }
+
+@mixin grid16($columns: 4) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: 1.6rem;
+
+  // Здесь впоследствии будет медиа
+}
+
+@mixin grid20($columns: 4) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: 2rem;
+}
+
+@mixin grid24($columns: 4) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: 2.4rem;
+}
