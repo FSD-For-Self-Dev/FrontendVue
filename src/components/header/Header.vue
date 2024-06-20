@@ -34,25 +34,25 @@ export default defineComponent({
   <OnClickOutside @trigger="hideSearchBar">
   <header class="header">
     <!-- TODO: Кнопка-иконка -->
-    <img class="burger" src="../../../../public/icons/burger.svg" alt="Раскрыть меню"/>
+    <img class="burger" src="/icons/burger.svg" alt="Раскрыть меню"/>
     <div class="wrapper">
       <Logo />
       <nav v-if="authorized">
         <!-- TODO: элементы навигации -->
         <ul class="navlinks">
           <li class="navlink" >
-            <img src="../../../../public/icons/vocab.svg" alt=""/>Мой словарь</li>
+            <img src="/icons/vocab.svg" alt=""/>Мой словарь</li>
           <li class="navlink">
-            <img src="../../../../public/icons/collection.svg" alt=""/>Коллекции</li>
+            <img src="/icons/collection.svg" alt=""/>Коллекции</li>
           <li class="navlink">
-            <img src="../../../../public/icons/exercise.svg" alt=""/>Упражнения</li>
+            <img src="/icons/exercise.svg" alt=""/>Упражнения</li>
         </ul>
       </nav>
       <div class="buttons" v-if="authorized">
         <div class="search">
           <!-- TODO: Кнопка-иконка -->
           <button class="button" @click="showSearchBar">
-            <img src="../../../../public/icons/search.svg" alt="Поиск"/>
+            <img src="/icons/search.svg" alt="Поиск"/>
           </button>
           <div class="searchbar" :class="{ shown: shownBar }">
             <!-- TODO: инпут-поиск -->
@@ -61,18 +61,18 @@ export default defineComponent({
         </div>
         <!-- TODO: Кнопка-иконка -->
         <button class="button">
-          <img src="../../../../public/icons/plus.svg" alt="Раскрыть меню"/>
+          <img src="/icons/plus.svg" alt="Раскрыть меню"/>
         </button>
         <div/>
         <div/>
         
         <!-- TODO: Кнопка-иконка -->
         <button class="link">
-          <img src="../../../../public/icons/bell.svg" alt="Уведомления"/>
+          <img src="/icons/bell.svg" alt="Уведомления"/>
         </button>
         <!-- TODO: Кнопка-иконка -->
         <button class="link">
-          <img src="../../../../public/icons/profile.svg" alt="Профиль пользователя"/>
+          <img src="/icons/profile.svg" alt="Профиль пользователя"/>
         </button>
       </div>
       <div class="buttons" v-if="!authorized">
@@ -82,7 +82,7 @@ export default defineComponent({
       </div>
     </div>
     <!-- TODO: компонент - выпадашка с языками -->
-    <img class="burger" src="../../../../public/icons/ru.svg" alt="Выбрать язык"/>
+    <img class="burger" src="/icons/ru.svg" alt="Выбрать язык"/>
   </header>
   </OnClickOutside>
 </template>

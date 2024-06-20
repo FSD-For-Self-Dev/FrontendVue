@@ -4,10 +4,14 @@
   <main class="main">
     <div :class="{ wrapper: !landingPage }">
       <!-- TODO: выделить компонент для простых кнопок с иконкой -->
-      <button @click="goBack" v-if="!isMainpage" class="button back-button" />
+      <button @click="goBack" v-if="!isMainpage" class="button back-button">
+        <img src="/icons/arrow-left.svg" alt=""/>
+      </button>
       <slot></slot>
       <Transition>
-        <button @click="scrollToTop" class="button up-button" v-if="!landingPage && y > 50"/>
+        <button @click="scrollToTop" class="button up-button" v-if="!landingPage && y > 50">
+          <img src="/icons/arrow-left.svg" class="up-svg" alt=""/>
+        </button>
       </Transition>
     </div>
   </main>
@@ -91,6 +95,9 @@ export default {
     position: fixed;
     bottom: 4rem;
     right: 1.6rem;
+  }
+  .up-svg {
+    transform: rotate(90deg);
   }
   .v-enter-active,
   .v-leave-active {
