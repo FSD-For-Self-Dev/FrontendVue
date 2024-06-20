@@ -1,10 +1,10 @@
 <template>
   <div class="layout">
-  <!-- Header -->
+  <Header />
   <main class="main">
     <div :class="{ wrapper: !landingPage }">
       <!-- TODO: выделить компонент для простых кнопок с иконкой -->
-      <button @click="goBack" v-if="$route.path !== '/'" class="button back-button" />
+      <button @click="goBack" v-if="!isMainpage" class="button back-button" />
       <slot></slot>
       <Transition>
         <button @click="scrollToTop" class="button up-button" v-if="!landingPage && y > 50"/>
@@ -16,36 +16,43 @@
 </template>
 
 <script lang="ts">
-  import { useWindowScroll } from '@vueuse/core'
+import { useWindowScroll } from '@vueuse/core'
+  import Header from '@/components/header/Header.vue';
   import Footer from '../Footer.vue';
   const { x, y } = useWindowScroll({ behavior: 'smooth' })
 
 export default {
-    components: { Footer },
-    props: {
-      landingPage: {type: Boolean, required: false, default: false},
+  components: { Header, Footer },
+  props: {
+    landingPage: {type: Boolean, required: false, default: false},
+  },
+  data(){
+    return {
+      y
+    }
+  },
+  computed: {
+    isMainpage() {
+      return this.$route.path === '/'
     },
-    data(){
-      return {
-        y
-      }
+  },
+  methods: {
+    goBack() {
+      if (history.state.back) {
+        this.$router.go(-1)
+      } else this.$router.push('/')
     },
-    methods: {
-      goBack() {
-        if (history.state.back) {
-          this.$router.go(-1)
-        } else this.$router.push('/')
-      },
-      scrollToTop() {
-        y.value = 0
-      }
-    },
-  };
+    scrollToTop() {
+      y.value = 0
+    }
+  },
+};
 </script>
 
 <style lang="scss" scoped>
   .layout {
     min-height: 100vh;
+    padding-top: 10rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

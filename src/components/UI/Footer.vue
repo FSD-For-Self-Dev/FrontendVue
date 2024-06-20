@@ -109,12 +109,12 @@ export default defineComponent({
   justify-content: center;
   background-color:white;
   box-shadow: $regular-shadow;
+  padding: 4rem 10rem 2.8rem;
 }
 
 .footer-wrapper {
-  width: 85%;
-  max-width: 1220px;
-  padding: 4rem 0 2.8rem;
+  width: 100%;
+  max-width: 1400px;
 }
 
 .footer-content {
