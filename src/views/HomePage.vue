@@ -1,37 +1,30 @@
 <template>
-  <PageLayout>
-    <button @click="goToVocab">в словарь</button>
-    <div>
-      <span style="margin-right: 50px">count</span>
-      <span>{{ count }}</span>
-    </div>
-    <div>
-      <span style="margin-right: 50px">doubleCount</span>
-      <span>{{ doubleCount }}</span>
-    </div>
-    <button @click="increment">increment</button>
-    <button @click="clear">clear</button>
-  </PageLayout>
+<!--  <div>-->
+<!--    <span style="margin-right: 50px">count</span>-->
+<!--    <span>{{ count }}</span>-->
+<!--  </div>-->
+<!--  <div>-->
+<!--    <span style="margin-right: 50px">dubleCount</span>-->
+<!--    <span>{{ dubleCount }}</span>-->
+<!--  </div>-->
+<!--  <button @click="increment">increment</button>-->
+<!--  <button @click="clearUser">clear</button>-->
+  <Footer/>
 </template>
 
 <script lang="ts">
-import { PageLayout } from '@/components/UI';
 import { mapActions, mapState } from "pinia";
 import { useCounterStore } from "@/store/counter";
-
+import Footer from "@/components/UI/Footer.vue";
 export default {
-  components: { PageLayout },
-  
+  components: {Footer},
   computed: {
-    ...mapState(useCounterStore, ["count", "doubleCount"]),
+    ...mapState(useCounterStore, ["count", "dubleCount"]),
   },
   methods: {
     ...mapActions(useCounterStore, ["increment", "clear"]),
     clearUser() {
       this.$api.auth.login();
-    },
-    goToVocab() {
-      this.$router.push({ path: '/vocabulary'})
     },
   },
 };

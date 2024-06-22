@@ -1,13 +1,13 @@
 <template>
   <RouterView />
-  <Footer/>
+  <Error404/>
 </template>
 
 <script lang="ts">
-import Footer from "@/components/UI/Footer.vue";
+import Error404 from "@/views/Error404.vue";
 
 export default {
-  components: {Footer},
+  components: {Error404},
   data() {
     return {};
   },
