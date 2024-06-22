@@ -110,7 +110,8 @@ a{
 }
 
 .text{
-  color: $text-grey-dark;
+  //color: $text-grey-dark;
+  color: $neutrals-700;
 }
 
 .footer {
@@ -141,7 +142,8 @@ a{
 .logo-title {
   font-family: "Fredoka";
   font-size: 24px;
-  color: $text-black;
+  //color: $text-black;
+  color: $neutrals-900;
 }
 
 .logo-subtitle {
@@ -181,14 +183,18 @@ a{
   padding: 16px 20px 16px 20px;
   margin: 0 15px 0 0;
   border: 1px solid $neutrals-400;
-  color: $text-grey;
+  //color: $text-grey;
+  color: $neutrals-600;
 }
 
 .footer-form-button {
-  background-color: $button-default;
+  //background-color: $button-default;
+  background-color: $primary-400;
   padding: 16px 32px 16px 32px;
   border-radius: 10px;
-  border: 1px solid $button-default;
+  //border: 1px solid $button-default;
+  border: 1px solid $primary-400;
+
   cursor: pointer;
 }
 
