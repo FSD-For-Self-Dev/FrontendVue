@@ -9,15 +9,15 @@
   </div>
   <button @click="increment">increment</button>
   <button @click="clearUser">clear</button>
-  <Svg name="" />
+  <Icon :name="pen" class="icon" />
 </template>
 
 <script lang="ts">
-import Svg from '@/components/Svg.vue'
 import { mapActions, mapState } from "pinia";
 import { useCounterStore } from "@/store/counter";
+import Icon from "@/components/Icon.vue";
 export default {
-  components: {Svg},
+  components: {Icon},
   computed: {
     ...mapState(useCounterStore, ["count", "dubleCount"]),
   },
