@@ -110,7 +110,7 @@ a{
 }
 
 .text{
-  color: $text-grey-dark;
+  color: $neutrals-700;
 }
 
 .footer {
@@ -130,27 +130,24 @@ a{
 }
 
 .logo-name{
-  margin: 0 15px;
+  margin: 0 1.5rem;
   * {
     padding: 0;
     margin: 0;
   }
 }
 
-
 .logo-title {
   font-family: "Fredoka";
-  font-size: 24px;
-  color: $text-black;
+  font-size: 2.4rem;
 }
 
 .logo-subtitle {
-  font-family: "Inter";
-  font-size: 14px;
+  font-size: 1.4rem;
 }
 
 .footer-content {
-  margin: 32px 0 0 0;
+  margin: 3.2rem 0 0 0;
   display: flex;
   justify-content: space-between;
 }
@@ -159,41 +156,37 @@ a{
   width: 40%;
 }
 
-
 .footer-list {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  line-height: 20px;
+  line-height: 2rem;
 }
-
 
 .footer-form {
-  gap: 8px;
-  margin: 12px 0 24px;
+  gap: 0.8rem;
+  margin: 1.2rem 0 2.4rem;
 }
-
-
 
 .footer-form-input {
   width: 50%;
-  border-radius: 12px;
-  padding: 16px 20px 16px 20px;
-  margin: 0 15px 0 0;
+  border-radius: 1.2rem;
+  padding: 1.6rem 2rem 1.6rem 2rem;
+  margin: 0 1.5rem 0 0;
   border: 1px solid $neutrals-400;
-  color: $text-grey;
+  color: $neutrals-700;
 }
 
 .footer-form-button {
-  background-color: $button-default;
-  padding: 16px 32px 16px 32px;
-  border-radius: 10px;
-  border: 1px solid $button-default;
+  background-color: $primary-400;
+  padding: 1.6rem 3.2rem 1.6rem 3.2rem;
+  border-radius: 1rem;
+  border: 1px solid $primary-400;
   cursor: pointer;
 }
 
 .footer-icons{
   display: flex;
-  gap: 12px;
+  gap: 1.2rem;
 }
 </style>
