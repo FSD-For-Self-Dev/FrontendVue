@@ -1,92 +1,116 @@
 <script lang="ts">
-import { InputTypeHTMLAttribute, defineComponent } from 'vue'
+import { type InputTypeHTMLAttribute, defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'CustomInput',
+  name: "Input",
+  inheritAttrs: false,
   props: {
     label: {
       type: String,
-      required: true
+      required: true,
     },
     modelValue: {
       type: String,
-      required: true
+      required: true,
     },
     showLabel: {
       type: Boolean,
-      default: false
+      default: false,
     },
     validationError: {
-      type: String
+      type: String,
     },
     serverError: {
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
-      fieldType: this.$attrs.type
-    }
+      inputType: this.$attrs.type || "text",
+    } as {
+      inputType: InputTypeHTMLAttribute;
+    };
   },
   computed: {
     name() {
-      return this.label.toLowerCase()
-    }
+      return this.label.toLowerCase();
+    },
+    isDisabled() {
+      return Boolean(this.$attrs.disabled);
+    },
+    isValid() {
+      return !this.validationError && !this.serverError;
+    },
+    descriptionId() {
+      return this.isValid ? `${this.name}-label` : `${this.name}-error`;
+    },
+    inputClasses() {
+      return {
+        "input--with-label": this.showLabel,
+        "input--validation-error": this.validationError,
+        "input--server-error": this.serverError,
+      };
+    },
+    labelClasses() {
+      return {
+        label: this.showLabel,
+        "visually-hidden": !this.showLabel,
+        up: this.modelValue.length > 0,
+      };
+    },
   },
   methods: {
     togglePassword() {
-      if (this.fieldType === 'password') {
-        this.fieldType = 'text'
+      if (this.inputType === "password") {
+        this.inputType = "text";
       } else {
-        this.fieldType = 'password'
+        this.inputType = "password";
       }
-    }
-  }
-})
+    },
+    handleInput(event: InputEvent) {
+      this.$emit("update:modelValue", (event.target as HTMLInputElement).value);
+    },
+  },
+});
 </script>
 
 <template>
   <div class="form-row">
     <input
-      v-bind="{ ...$attrs, type: undefined }"
-      :type="fieldType as InputTypeHTMLAttribute"
+      v-bind="{ ...$attrs, onInput: undefined }"
+      :type="inputType"
       class="input"
-      :class="{
-        'input--with-label': showLabel,
-        'input--validation-error': validationError,
-        'input--server-error': serverError
-      }"
+      :class="inputClasses"
       :id="name"
       :name="name"
       :value="modelValue"
-      @input="
-        $emit('update:modelValue', ($event.target as HTMLInputElement).value)
-      "
-      :aria-disabled="this.$attrs.disabled"
-      :aria-invalid="!!validationError || !!serverError"
-      :aria-labelledby="`${name}-${label}`"
+      @input="handleInput"
+      :disabled="isDisabled"
+      :aria-disabled="isDisabled"
+      :aria-invalid="!isValid"
+      :aria-describedby="descriptionId"
     />
     <button
       v-if="$attrs.type === 'password'"
-      :aria-label="fieldType === 'password' ? 'Show password' : 'Hide password'"
+      :aria-label="inputType === 'password' ? 'Show password' : 'Hide password'"
       class="password-toggle"
       @click="togglePassword"
     >
-      {{ fieldType === 'password' ? 'Show' : 'Hide' }}
+      {{ inputType === "password" ? "Show" : "Hide" }}
     </button>
     <label
-      :id="`${name}-${label}`"
-      :class="{
-        label: showLabel,
-        'visually-hidden': !showLabel,
-        up: modelValue.length > 0
-      }"
+      :id="`${name}-label`"
+      :class="labelClasses"
       :for="name"
     >
       {{ label }}
     </label>
-    <p v-if="validationError" class="validation-error">{{ validationError }}</p>
-    <p v-if="serverError" class="server-error">{{ serverError }}</p>
+    <p v-if="validationError" :id="`${name}-error`" class="validation-error">
+      {{ validationError }}
+    </p>
+    <p v-if="serverError" :id="`${name}-error`" class="server-error">
+      {{ serverError }}
+    </p>
   </div>
 </template>
 

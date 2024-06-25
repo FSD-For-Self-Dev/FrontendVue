@@ -1,69 +1,95 @@
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: 'CustomTextarea',
+  name: "Textarea",
   props: {
     label: {
       type: String,
-      required: true
+      required: true,
     },
     modelValue: {
       type: String,
-      required: true
+      required: true,
     },
     showLabel: {
       type: Boolean,
-      default: false
+      default: false,
     },
     validationError: {
-      type: String
+      type: String,
     },
     serverError: {
-      type: String
-    }
+      type: String,
+    },
+  },
+  methods: {
+    handleInput(event: InputEvent) {
+      this.$emit(
+        "update:modelValue",
+        (event.target as HTMLTextAreaElement).value,
+      );
+    },
   },
   computed: {
     name() {
-      return this.label.toLowerCase()
-    }
-  }
-})
+      return this.label.toLowerCase();
+    },
+    isDisabled() {
+      return Boolean(this.$attrs.disabled);
+    },
+    isValid() {
+      return !this.validationError && !this.serverError;
+    },
+    descriptionId() {
+      return this.isValid ? `${this.name}-label` : `${this.name}-error`;
+    },
+    textareaClasses() {
+      return {
+        "textarea--with-label": this.showLabel,
+        "textarea--validation-error": this.validationError,
+        "textarea--server-error": this.serverError,
+      };
+    },
+    labelClasses() {
+      return {
+        label: this.showLabel,
+        "visually-hidden": !this.showLabel,
+        up: this.modelValue.length > 0,
+      };
+    },
+  },
+});
 </script>
 
 <template>
   <div class="form-row">
     <textarea
-      v-bind="$attrs"
+      v-bind="{ ...$attrs, onInput: undefined }"
       class="textarea"
-      :class="{
-        'textarea--with-label': showLabel,
-        'textarea--validation-error': validationError,
-        'textarea--server-error': serverError
-      }"
+      :class="textareaClasses"
       :id="name"
       :name="name"
       :value="modelValue"
-      @input="
-        $emit('update:modelValue', ($event.target as HTMLTextAreaElement).value)
-      "
-      :aria-disabled="this.$attrs.disabled"
-      :aria-invalid="!!validationError || !!serverError"
-      :aria-labelledby="`${name}-${label}`"
+      @input="handleInput"
+      :disabled="isDisabled"
+      :aria-disabled="isDisabled"
+      :aria-invalid="!isValid"
+      :aria-describedby="descriptionId"
     />
     <label
-      :id="`${name}-${label}`"
-      :class="{
-        label: showLabel,
-        'visually-hidden': !showLabel,
-        up: modelValue.length > 0
-      }"
+      :id="`${name}-label`"
+      :class="labelClasses"
       :for="name"
     >
       {{ label }}
     </label>
-    <p v-if="validationError" class="validation-error">{{ validationError }}</p>
-    <p v-if="serverError" class="server-error">{{ serverError }}</p>
+    <p v-if="validationError" :id="`${name}-error`" class="validation-error">
+      {{ validationError }}
+    </p>
+    <p v-if="serverError" :id="`${name}-error`" class="server-error">
+      {{ serverError }}
+    </p>
   </div>
 </template>
 

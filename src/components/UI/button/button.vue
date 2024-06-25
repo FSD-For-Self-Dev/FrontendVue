@@ -1,62 +1,70 @@
 <script lang="ts">
-import { defineComponent, type PropType } from 'vue'
+import { defineComponent, type PropType } from "vue";
+
+interface ButtonProps {
+  type: "text" | "left-icon" | "right-icon";
+  icon?: "pen" | "add";
+  size: "normal" | "medium" | "small" | "medium-long";
+  variant: "primary" | "secondary" | "success" | "danger";
+  additionalText?: string;
+}
 
 export default defineComponent({
-  name: 'ButtonComponent',
+  name: "Button",
   props: {
     type: {
-      type: String as PropType<'text' | 'left-icon' | 'right-icon'>,
-      required: true
+      type: String as PropType<ButtonProps["type"]>,
+      default: "text",
     },
     icon: {
-      type: String as PropType<'pen' | 'add'>,
-      required: false
+      type: String as PropType<ButtonProps["icon"]>,
     },
     size: {
-      type: String as PropType<'normal' | 'medium' | 'small' | 'medium-long'>,
-      default: 'normal' as const
+      type: String as PropType<ButtonProps["size"]>,
+      default: "normal",
     },
     variant: {
-      type: String as PropType<'primary' | 'secondary' | 'success' | 'danger'>,
-      default: 'primary' as const
+      type: String as PropType<ButtonProps["variant"]>,
+      default: "primary",
     },
     additionalText: {
-      type: String,
-      required: false
-    }
-  }
-})
+      type: String as PropType<ButtonProps["additionalText"]>,
+      required: false,
+    },
+  },
+  computed: {
+    buttonClasses() {
+      return {
+        /* Sizes */
+        "button--normal": this.size === "normal",
+        "button--medium": this.size === "medium",
+        "button--small": this.size === "small",
+        "button--medium-long": this.size === "medium-long",
+
+        /* Variants */
+        "button--primary": this.variant === "primary",
+        "button--secondary": this.variant === "secondary",
+        "button--success": this.variant === "success",
+        "button--danger": this.variant === "danger",
+      };
+    },
+  },
+});
 </script>
 
 <template>
-  <button
-    v-bind="$attrs"
-    class="button"
-    :class="{
-      /* Sizes */
-      'button--normal': size === 'normal',
-      'button--medium': size === 'medium',
-      'button--small': size === 'small',
-      'button--medium-long': size === 'medium-long',
-
-      /* Variants */
-      'button--primary': variant === 'primary',
-      'button--secondary': variant === 'secondary',
-      'button--success': variant === 'success',
-      'button--danger': variant === 'danger'
-    }"
-  >
-    <span v-if="type === 'left-icon'" class="left">
-      <span>{{ icon }}</span>
+  <button class="button" :class="buttonClasses">
+    <span v-if="type === 'left-icon'" class="icon">
+      {{ icon }}
     </span>
     <span>
       <slot />
     </span>
-    <span v-if="type === 'right-icon'" class="right">
-      <span>{{ icon }}</span>
+    <span v-if="type === 'right-icon'" class="icon">
+      {{ icon }}
     </span>
     <span v-if="additionalText" class="additional">
-      <span>{{ additionalText }}</span>
+      {{ additionalText }}
     </span>
   </button>
 </template>
@@ -121,7 +129,7 @@ export default defineComponent({
       --buttonAccentColor: #{$primary-300};
     }
 
-    &:active {
+    @include active {
       --buttonAccentColor: #{$primary-500};
       color: $text-white;
     }
@@ -130,7 +138,7 @@ export default defineComponent({
       --buttonAccentColor: #{$neutrals-300};
     }
 
-    &:focus-visible {
+    @include focus {
       outline-offset: -0.1rem;
       outline: $primary-900 0.2rem solid;
     }
@@ -146,7 +154,7 @@ export default defineComponent({
       box-shadow: 0 0 0 0.1rem $primary-300;
     }
 
-    &:active {
+    @include active {
       border-color: $primary-500;
       box-shadow: 0 0 0 0.1rem $primary-500;
     }
@@ -155,7 +163,7 @@ export default defineComponent({
       background-color: $neutrals-200;
     }
 
-    &:focus-visible {
+    @include focus {
       outline-offset: -0.1rem;
       outline: $secondary-900 0.2rem solid;
     }
@@ -171,7 +179,7 @@ export default defineComponent({
       box-shadow: 0 0 0 0.1rem $danger-200;
     }
 
-    &:active {
+    @include active {
       border-color: $danger-400;
       box-shadow: 0 0 0 0.1rem $danger-400;
     }
@@ -180,7 +188,7 @@ export default defineComponent({
       color: $danger-700;
     }
 
-    &:focus-visible {
+    @include focus {
       outline-offset: -0.1rem;
       outline: $danger-400 -0.2rem solid;
     }
@@ -196,7 +204,7 @@ export default defineComponent({
       box-shadow: 0 0 0 0.1rem $success-700;
     }
 
-    &:active {
+    @include active {
       border-color: $success-500;
       box-shadow: 0 0 0 0.1rem $success-500;
     }
@@ -205,7 +213,7 @@ export default defineComponent({
       background-color: $neutrals-200;
     }
 
-    &:focus-visible {
+    @include focus {
       outline-offset: -0.1rem;
       outline: $success-900 -0.2rem solid;
     }
@@ -214,5 +222,11 @@ export default defineComponent({
 
 .additional {
   color: $neutrals-600;
+}
+
+.icon svg {
+  width: 2.4rem;
+  height: 2.4rem;
+  color: $neutrals-900;
 }
 </style>

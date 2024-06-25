@@ -8,145 +8,145 @@
     <span>{{ dubleCount }}</span>
   </div>
   <div class="div">
-    <ButtonComponent
+    <Button
       variant="success"
       type="right-icon"
       icon="pen"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="success"
       type="right-icon"
       icon="pen"
       size="medium-long"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="success"
       type="right-icon"
       icon="pen"
       size="medium"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="success"
       type="right-icon"
       icon="pen"
       size="small"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="primary"
       type="right-icon"
       icon="pen"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="primary"
       type="right-icon"
       icon="pen"
       size="medium-long"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="primary"
       type="right-icon"
       icon="pen"
       size="medium"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="primary"
       type="right-icon"
       icon="pen"
       size="small"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="secondary"
       type="right-icon"
       icon="pen"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="secondary"
       type="right-icon"
       icon="pen"
       size="medium-long"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="secondary"
       type="right-icon"
       icon="pen"
       size="medium"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="secondary"
       type="right-icon"
       icon="pen"
       size="small"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="danger"
       type="right-icon"
       icon="pen"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="danger"
       type="right-icon"
       icon="pen"
       size="medium-long"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="danger"
       type="right-icon"
       icon="pen"
       size="medium"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
-    <ButtonComponent
+    <Button
       variant="danger"
       type="right-icon"
       icon="pen"
       size="small"
       :additionalText="count.toString()"
       @click="increment"
-      >Написать</ButtonComponent
+      >Написать</Button
     >
     <InputComponent :showLabel="true" label="Name" v-model="pew" />
     <TextareaComponent :showLabel="true" label="Name" v-model="pew" />
@@ -154,32 +154,32 @@
 </template>
 
 <script lang="ts">
-import ButtonComponent from '@/components/UI/button/'
-import InputComponent from '@/components/UI/input/'
-import TextareaComponent from '@/components/UI/textarea'
-import { mapActions, mapState } from 'pinia'
-import { useCounterStore } from '@/store/counter'
+import Button from "@/components/UI/button/";
+import InputComponent from "@/components/UI/input/";
+import TextareaComponent from "@/components/UI/textarea";
+import { mapActions, mapState } from "pinia";
+import { useCounterStore } from "@/store/counter";
 export default {
   components: {
-    ButtonComponent,
+    Button,
     InputComponent,
-    TextareaComponent
+    TextareaComponent,
   },
   computed: {
-    ...mapState(useCounterStore, ['count', 'dubleCount'])
+    ...mapState(useCounterStore, ["count", "dubleCount"]),
   },
   methods: {
-    ...mapActions(useCounterStore, ['increment', 'clear']),
+    ...mapActions(useCounterStore, ["increment", "clear"]),
     clearUser() {
-      this.$api.auth.login()
-    }
+      this.$api.auth.login();
+    },
   },
   data() {
     return {
-      pew: ''
-    }
-  }
-}
+      pew: "",
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
