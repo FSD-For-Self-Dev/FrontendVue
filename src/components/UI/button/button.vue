@@ -86,7 +86,7 @@ export default defineComponent({
   &--normal {
     @include padding(2, 3.2, 0.1);
 
-    border-radius: $border-radius-large;
+    border-radius: $radius-md;
     column-gap: 0.8rem;
     font-size: 2rem;
     line-height: 2.4rem;
@@ -95,7 +95,7 @@ export default defineComponent({
   &--medium {
     @include padding(1.6, 3.2, 0.1);
 
-    border-radius: $border-radius-medium;
+    border-radius: $radius-sm;
     column-gap: 0.8rem;
     font-size: 1.6rem;
     line-height: 2rem;
@@ -104,7 +104,7 @@ export default defineComponent({
   &--medium-long {
     @include padding(1.8, 2.4, 0.1);
 
-    border-radius: $border-radius-large;
+    border-radius: $radius-md;
     column-gap: 0.8rem;
     font-size: 1.6rem;
     line-height: 2rem;
@@ -113,7 +113,7 @@ export default defineComponent({
   &--small {
     @include padding(1.4, 2.4, 0.1);
 
-    border-radius: $border-radius-small;
+    border-radius: $radius-xs;
     column-gap: 0.6rem;
     font-size: 1.4rem;
     line-height: 1.6rem;
@@ -131,7 +131,7 @@ export default defineComponent({
 
     @include active {
       --buttonAccentColor: #{$primary-500};
-      color: $text-white;
+      color: $neutrals-100;
     }
 
     &:disabled {
@@ -171,7 +171,7 @@ export default defineComponent({
 
   &--danger {
     border-color: $neutrals-400;
-    background-color: $background-white;
+    background-color: $neutrals-100;
     color: $danger-700;
 
     @include hover {

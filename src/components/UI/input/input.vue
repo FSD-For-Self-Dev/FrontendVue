@@ -98,11 +98,7 @@ export default defineComponent({
     >
       {{ inputType === "password" ? "Show" : "Hide" }}
     </button>
-    <label
-      :id="`${name}-label`"
-      :class="labelClasses"
-      :for="name"
-    >
+    <label :id="`${name}-label`" :class="labelClasses" :for="name">
       {{ label }}
     </label>
     <p v-if="validationError" :id="`${name}-error`" class="validation-error">
@@ -118,7 +114,7 @@ export default defineComponent({
 .input {
   min-height: 5.9rem;
   min-width: 32rem;
-  border-radius: $border-radius-large;
+  border-radius: $radius-md;
   padding-inline: 2rem;
   border: 0.1rem solid $neutrals-400;
   font-size: 1.4rem;

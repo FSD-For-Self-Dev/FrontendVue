@@ -77,11 +77,7 @@ export default defineComponent({
       :aria-invalid="!isValid"
       :aria-describedby="descriptionId"
     />
-    <label
-      :id="`${name}-label`"
-      :class="labelClasses"
-      :for="name"
-    >
+    <label :id="`${name}-label`" :class="labelClasses" :for="name">
       {{ label }}
     </label>
     <p v-if="validationError" :id="`${name}-error`" class="validation-error">
@@ -97,7 +93,7 @@ export default defineComponent({
 .textarea {
   min-height: 5.6rem;
   min-width: 32rem;
-  border-radius: $border-radius-large;
+  border-radius: $radius-md;
   padding-inline: 2rem;
   border: 0.1rem solid $neutrals-400;
   font-size: 1.4rem;
