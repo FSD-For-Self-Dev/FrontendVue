@@ -190,7 +190,7 @@ export default defineComponent({
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $danger-400 -0.2rem solid;
+      outline: $danger-400 0.2rem solid;
     }
   }
 
@@ -215,7 +215,7 @@ export default defineComponent({
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $success-900 -0.2rem solid;
+      outline: $success-900 0.2rem solid;
     }
   }
 }
