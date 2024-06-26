@@ -11,9 +11,6 @@ const routes = [
   {
     path: "/vocabulary", component: Vocabulary,
   },
-  // {
-  //   path:"/:catchAll(.*)",component:Error404
-  // }
 ] as RouteRecordRaw[];
 
 const router = createRouter({

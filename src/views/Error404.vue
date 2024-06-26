@@ -1,11 +1,10 @@
 <script lang="ts">
-import {defineComponent} from 'vue'
 import PageLayout from "@/components/UI/page-layout/PageLayout.vue";
 
-export default defineComponent({
+export default {
   name: "Error404",
   components: {PageLayout}
-})
+}
 </script>
 
 <template>
