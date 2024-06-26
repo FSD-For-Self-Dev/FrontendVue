@@ -2,6 +2,21 @@
 import {defineComponent} from 'vue'
 
 export default defineComponent({
+  name: "Footer",
+  data(){
+    return{
+      privacyPolicies: [
+        { name: 'Правила и условия', link: '#' },
+        { name: 'Политика конфиденциальности', link: '#' },
+        { name: 'Согласие на обработку персональных данных', link: '#' }
+      ] as Array<{ name: string; link: string }>,
+      navigationLinks:[
+        { name: 'О платформе', link: '#' },
+        { name: 'Контакты', link: '#' },
+        { name: 'Отзывы', link: '#' }
+      ]as Array<{ name: string; link: string }>,
+    }
+  }
 })
 
 
@@ -20,8 +35,18 @@ export default defineComponent({
       </div>
       <div class="footer-content">
         <ul class="footer-list text">
+          <li class="footer-list-item" v-for="navigationLink in navigationLinks">
+            <a :href="navigationLink.link">
+              {{navigationLink.name}}
+            </a>
+          </li>
         </ul>
         <ul class="footer-list text">
+          <li class="footer-list-item" v-for="privacyPolicy in privacyPolicies">
+            <a :href="privacyPolicy.link">
+              {{privacyPolicy.name}}
+            </a>
+          </li>
         </ul>
         <div class="footer-actions">
           <label class="footer-form-label text">Нашли ошибку? – Напишите нам!</label>
@@ -79,8 +104,14 @@ export default defineComponent({
 </template>
 
 <style scoped lang="scss">
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
 .text{
-  color: $text-grey-dark;
+  //color: $text-grey-dark;
+  color: $neutrals-700;
 }
 
 .footer {
@@ -111,7 +142,8 @@ export default defineComponent({
 .logo-title {
   font-family: "Fredoka";
   font-size: 24px;
-  color: $text-black;
+  //color: $text-black;
+  color: $neutrals-900;
 }
 
 .logo-subtitle {
@@ -134,7 +166,9 @@ export default defineComponent({
   list-style-type: none;
   margin: 0;
   padding: 0;
+  line-height: 20px;
 }
+
 
 .footer-form {
   gap: 8px;
@@ -147,15 +181,21 @@ export default defineComponent({
   width: 50%;
   border-radius: 12px;
   padding: 16px 20px 16px 20px;
+  margin: 0 15px 0 0;
   border: 1px solid $neutrals-400;
-  color: $text-grey;
+  //color: $text-grey;
+  color: $neutrals-600;
 }
 
 .footer-form-button {
-  background-color: $button-default;
+  //background-color: $button-default;
+  background-color: $primary-400;
   padding: 16px 32px 16px 32px;
   border-radius: 10px;
-  border: 1px solid $button-default;
+  //border: 1px solid $button-default;
+  border: 1px solid $primary-400;
+
+  cursor: pointer;
 }
 
 .footer-icons{
