@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import type { PropType } from "vue";
-import type { IWordCard } from '@/types/word-card';
-import WordCard from '@/components/word-card/WordCard.vue';
+import type { IWordCard } from "@/types/word-card";
+import WordCard from "@/components/word-card/WordCard.vue";
 
 export default {
   components: { WordCard },
@@ -22,10 +22,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .list {
-    @include grid20();
-  }
-  .item {
-    width: 100%;
-  }
+.list {
+  @include grid20();
+}
+.item {
+  width: 100%;
+}
 </style>

@@ -5,11 +5,13 @@ import Vocabulary from "@/views/Vocabulary.vue";
 
 const routes = [
   {
-    path: "/", component: HomePage,
+    path: "/",
+    component: HomePage,
   },
   {
-    path: "/vocabulary", component: Vocabulary,
-  }
+    path: "/vocabulary",
+    component: Vocabulary,
+  },
 ] as RouteRecordRaw[];
 
 const router = createRouter({

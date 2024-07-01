@@ -1,13 +1,13 @@
 <template>
   <RouterView />
-  <Footer/>
+  <Footer />
 </template>
 
 <script lang="ts">
 import Footer from "@/components/UI/Footer.vue";
 
 export default {
-  components: {Footer},
+  components: { Footer },
   data() {
     return {};
   },
