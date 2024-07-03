@@ -58,15 +58,17 @@ $warning-400: #ffc943;
 $warning-200: #ffe89b;
 $warning-300: #ffd869;
 
-$outer-shadow: 0px 0px 8px 0px #11111A1A;
-$inner-shadow: 0px 1px 0px 0px #11111A0D;
+$outer-shadow: 0px 0px 8px 0px #11111a1a;
+$inner-shadow: 0px 1px 0px 0px #11111a0d;
 $regular-shadow: $inner-shadow, $outer-shadow;
 
 $radius-full: 100%;
-$radius-xl: 4rem;
-$radius-lg: 2rem;
-$radius-md: 1.6rem;
+$radius-2xl: 4rem;
+$radius-xl: 2rem;
+$radius-lg: 1.6rem;
+$radius-md: 1.2rem;
 $radius-sm: 1rem;
+$radius-xs: 0.9rem;
 
 // Primary/purple
 // $primary-purple: #6c8dff;

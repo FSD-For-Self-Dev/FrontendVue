@@ -1,16 +1,13 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { ref } from 'vue'
 import { OnClickOutside } from '@vueuse/components'
-import Logo from '@/components/UI/logo/Logo.vue'
+import { Logo, Button } from '@/components/UI'
 
-const shownBar = ref(false)
-
-export default defineComponent({
-  name: "Header",
-  components: { Logo, OnClickOutside },
+export default {
+  components: { Logo, Button, OnClickOutside },
   data() {
     return {
-      shownBar
+      shownBar: ref(false)
     }
   },
   computed: {
@@ -21,13 +18,13 @@ export default defineComponent({
   },
   methods: {
     showSearchBar() {
-      shownBar.value = true
+      this.shownBar = true
     },
     hideSearchBar() {
-      shownBar.value = false
+      this.shownBar = false
     }
   }
-})
+}
 </script>
 
 <template>
@@ -77,7 +74,8 @@ export default defineComponent({
       </div>
       <div class="buttons" v-if="!authorized">
         <!-- TODO: Кнопки -->
-        <button class="navlink">Войти</button>
+        <Button variant="primary">Войти</Button>
+        <button class="navlink"></button>
         <button class="navlink">Зарегистрироваться</button>
       </div>
     </div>

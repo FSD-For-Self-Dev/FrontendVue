@@ -1,4 +1,4 @@
-export interface IWordCard  {
+export interface IWordCard {
   text: string;
 }
 

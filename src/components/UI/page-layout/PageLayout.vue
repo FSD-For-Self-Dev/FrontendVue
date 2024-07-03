@@ -28,7 +28,7 @@ import { useWindowScroll } from '@vueuse/core'
 export default {
   components: { Header, Footer },
   props: {
-    landingPage: {type: Boolean, required: false, default: false},
+    landingPage: { type: Boolean, required: false, default: false },
   },
   data(){
     return {
