@@ -1,6 +1,8 @@
 <template>
   <PageLayout>
-    <Button variant="secondary" size="medium-long" @click="goToVocab">в словарь</Button>
+    <Button variant="secondary" size="medium-long" @click="goToVocab"
+      >в словарь</Button
+    >
     <div>
       <span style="margin-right: 50px">count</span>
       <span>{{ count }}</span>
@@ -15,7 +17,8 @@
 </template>
 
 <script lang="ts">
-import { PageLayout, Button } from "@/components/UI";
+import PageLayout from "@/components/UI/page-layout/PageLayout.vue";
+import Button from "@/components/UI/button/button.vue";
 import { mapActions, mapState } from "pinia";
 import { useCounterStore } from "@/store/counter";
 

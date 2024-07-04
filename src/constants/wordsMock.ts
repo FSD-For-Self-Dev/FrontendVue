@@ -1,4 +1,4 @@
-import type { IWordCard } from "@/types/word-card";
+import type { IWordCard } from "@/types/components/word-card";
 
 export const words: IWordCard[] = [
   { text: "break a leg" },

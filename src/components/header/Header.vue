@@ -1,87 +1,90 @@
 <script lang="ts">
-import { ref } from 'vue'
-import { OnClickOutside } from '@vueuse/components'
-import { Logo, Button } from '@/components/UI'
+import { OnClickOutside } from "@vueuse/components";
+import Logo from "../UI/logo/Logo.vue";
+import Button from "../UI/button/button.vue";
 
 export default {
-  components: { Logo, Button, OnClickOutside },
+  components: { OnClickOutside, Logo, Button },
   data() {
     return {
-      shownBar: ref(false)
-    }
+      shownBar: false,
+    };
   },
   computed: {
     authorized() {
-      // TODO: получать статус авторизации 
-      return this.$route.path !== '/'
-    }
+      // TODO: получать статус авторизации
+      return this.$route.path !== "/";
+    },
   },
   methods: {
     showSearchBar() {
-      this.shownBar = true
+      this.shownBar = true;
     },
     hideSearchBar() {
-      this.shownBar = false
-    }
-  }
-}
+      this.shownBar = false;
+    },
+  },
+};
 </script>
 
 <template>
   <OnClickOutside @trigger="hideSearchBar">
-  <header class="header">
-    <!-- TODO: Кнопка-иконка -->
-    <img class="burger" src="/icons/burger.svg" alt="Раскрыть меню"/>
-    <div class="wrapper">
-      <Logo />
-      <nav v-if="authorized">
-        <!-- TODO: элементы навигации -->
-        <ul class="navlinks">
-          <li class="navlink" >
-            <img src="/icons/vocab.svg" alt=""/>Мой словарь</li>
-          <li class="navlink">
-            <img src="/icons/collection.svg" alt=""/>Коллекции</li>
-          <li class="navlink">
-            <img src="/icons/exercise.svg" alt=""/>Упражнения</li>
-        </ul>
-      </nav>
-      <div class="buttons" v-if="authorized">
-        <div class="search">
-          <!-- TODO: Кнопка-иконка -->
-          <button class="button" @click="showSearchBar">
-            <img src="/icons/search.svg" alt="Поиск"/>
-          </button>
-          <div class="searchbar" :class="{ shown: shownBar }">
-            <!-- TODO: инпут-поиск -->
-            <div  class="input"/>
+    <header class="header">
+      <!-- TODO: Кнопка-иконка -->
+      <img class="burger" src="/icons/burger.svg" alt="Раскрыть меню" />
+      <div class="wrapper">
+        <Logo />
+        <nav v-if="authorized">
+          <!-- TODO: элементы навигации -->
+          <ul class="navlinks">
+            <li class="navlink">
+              <img src="/icons/vocab.svg" alt="" />Мой словарь
+            </li>
+            <li class="navlink">
+              <img src="/icons/collection.svg" alt="" />Коллекции
+            </li>
+            <li class="navlink">
+              <img src="/icons/exercise.svg" alt="" />Упражнения
+            </li>
+          </ul>
+        </nav>
+        <div class="buttons" v-if="authorized">
+          <div class="search">
+            <!-- TODO: Кнопка-иконка -->
+            <button class="button" @click="showSearchBar">
+              <img src="/icons/search.svg" alt="Поиск" />
+            </button>
+            <div class="searchbar" :class="{ shown: shownBar }">
+              <!-- TODO: инпут-поиск -->
+              <div class="input" />
+            </div>
           </div>
+          <!-- TODO: Кнопка-иконка -->
+          <button class="button">
+            <img src="/icons/plus.svg" alt="Раскрыть меню" />
+          </button>
+          <div />
+          <div />
+
+          <!-- TODO: Кнопка-иконка -->
+          <button class="link">
+            <img src="/icons/bell.svg" alt="Уведомления" />
+          </button>
+          <!-- TODO: Кнопка-иконка -->
+          <button class="link">
+            <img src="/icons/profile.svg" alt="Профиль пользователя" />
+          </button>
         </div>
-        <!-- TODO: Кнопка-иконка -->
-        <button class="button">
-          <img src="/icons/plus.svg" alt="Раскрыть меню"/>
-        </button>
-        <div/>
-        <div/>
-        
-        <!-- TODO: Кнопка-иконка -->
-        <button class="link">
-          <img src="/icons/bell.svg" alt="Уведомления"/>
-        </button>
-        <!-- TODO: Кнопка-иконка -->
-        <button class="link">
-          <img src="/icons/profile.svg" alt="Профиль пользователя"/>
-        </button>
+        <div class="buttons" v-if="!authorized">
+          <!-- TODO: Кнопки -->
+          <Button variant="primary">Войти</Button>
+          <button class="navlink"></button>
+          <button class="navlink">Зарегистрироваться</button>
+        </div>
       </div>
-      <div class="buttons" v-if="!authorized">
-        <!-- TODO: Кнопки -->
-        <Button variant="primary">Войти</Button>
-        <button class="navlink"></button>
-        <button class="navlink">Зарегистрироваться</button>
-      </div>
-    </div>
-    <!-- TODO: компонент - выпадашка с языками -->
-    <img class="burger" src="/icons/ru.svg" alt="Выбрать язык"/>
-  </header>
+      <!-- TODO: компонент - выпадашка с языками -->
+      <img class="burger" src="/icons/ru.svg" alt="Выбрать язык" />
+    </header>
   </OnClickOutside>
 </template>
 
@@ -97,7 +100,7 @@ export default {
   gap: 3.2rem;
   justify-content: space-between;
   align-items: center;
-  background-color: #FFFFFFE6;
+  background-color: #ffffffe6;
   box-shadow: $regular-shadow;
   padding: 2.2rem 3.2rem;
   backdrop-filter: blur(4px);
@@ -176,7 +179,7 @@ export default {
 }
 
 .input {
-  width: calc(56.4rem + 5.6rem + ((100vw - 116rem)/2));
+  width: calc(56.4rem + 5.6rem + ((100vw - 116rem) / 2));
   max-width: 81.4rem;
   height: 5.6rem;
   border: 2px solid $primary-400;
@@ -188,5 +191,4 @@ export default {
   top: -0.4rem;
   opacity: 1;
 }
-
 </style>

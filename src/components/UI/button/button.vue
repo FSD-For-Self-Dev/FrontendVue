@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, type PropType } from "vue";
+import type { PropType } from "vue";
 
 interface ButtonProps {
   type: "text" | "left-icon" | "right-icon";
@@ -9,8 +9,7 @@ interface ButtonProps {
   additionalText?: string;
 }
 
-export default defineComponent({
-  name: "Button",
+export default {
   props: {
     type: {
       type: String as PropType<ButtonProps["type"]>,
@@ -49,7 +48,7 @@ export default defineComponent({
       };
     },
   },
-});
+};
 </script>
 
 <template>

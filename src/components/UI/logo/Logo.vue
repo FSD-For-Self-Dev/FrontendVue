@@ -1,9 +1,10 @@
 <script lang="ts">
+export default {};
 </script>
 
 <template>
   <a class="logo" href="/">
-    <img class="logo" src="../../../../public/logo.svg" alt="logo"/>
+    <img class="logo" src="../../../../public/logo.svg" alt="logo" />
     <div class="logo-name">
       <h3 class="logo-title">Linguista</h3>
       <p class="logo-subtitle text">Control & Repeat</p>
@@ -12,8 +13,7 @@
 </template>
 
 <style scoped lang="scss">
-
-.text{
+.text {
   color: $neutrals-700;
 }
 
@@ -22,7 +22,7 @@
   align-items: center;
 }
 
-.logo-name{
+.logo-name {
   margin: 0 1.5rem;
 }
 

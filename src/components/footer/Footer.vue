@@ -1,11 +1,10 @@
 <script lang="ts">
-import { Logo } from '@/components/UI'
-const year = new Date().getFullYear()
+import Logo from '../UI/logo/Logo.vue';
 
 export default {
   components: { Logo },
   data() {
-    return{
+    return {
       privacyPolicies: [
         { name: "Правила и условия", link: "#" },
         { name: "Политика конфиденциальности", link: "#" },
@@ -16,10 +15,10 @@ export default {
         { name: "Контакты", link: "#" },
         { name: "Отзывы", link: "#" },
       ] as Array<{ name: string; link: string }>,
-      year
-    }
-  }
-}
+      year: new Date().getFullYear(),
+    };
+  },
+};
 </script>
 
 <template>
@@ -141,7 +140,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-
 .text {
   color: $neutrals-700;
 }
@@ -149,7 +147,7 @@ export default {
 .footer {
   display: flex;
   justify-content: center;
-  background-color:white;
+  background-color: white;
   box-shadow: $regular-shadow;
   padding: 4rem 10rem 2.8rem;
 }
