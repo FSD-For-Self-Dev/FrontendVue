@@ -6,10 +6,12 @@ import Error404 from "@/views/Error404.vue";
 
 const routes = [
   {
-    path: "/", component: HomePage,
+    path: "/",
+    component: HomePage,
   },
   {
-    path: "/vocabulary", component: Vocabulary,
+    path: "/vocabulary",
+    component: Vocabulary,
   },
 ] as RouteRecordRaw[];
 

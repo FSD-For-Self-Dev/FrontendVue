@@ -22,7 +22,7 @@ body {
   color: $neutrals-900;
   background: #fff;
   font-size: 1.6rem;
-  font-family: "Inter","Arial",sans-serif;
+  font-family: "Inter", "Arial", sans-serif;
   min-width: 360px;
   -webkit-overflow-scrolling: touch;
   position: relative;
@@ -192,4 +192,24 @@ h2 .secondaryheading {
   font-weight: 400;
   line-height: 1.2rem;
   text-transform: uppercase;
+}
+
+svg *[fill] {
+  fill: currentColor;
+}
+svg *[stroke] {
+  stroke: currentColor;
+}
+svg * {
+  transition-property: fill, stroke;
+}
+
+/* Remove all animations and transitions for people that prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
