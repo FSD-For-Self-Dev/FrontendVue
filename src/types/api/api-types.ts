@@ -3,10 +3,10 @@ import type { Auth } from "./services/auth-types";
 import type { AxiosInstance } from "axios";
 
 export interface IApi {
-	auth: Auth;
-	request: AxiosInstance;
+  auth: Auth;
+  request: AxiosInstance;
 }
 
 export type Module = {
-	default: (api: IApi) => any;
+  default: (api: IApi) => any;
 };

@@ -1,6 +1,6 @@
 <template>
   <PageLayout>
-    <button @click="goToVocab">в словарь</button>
+    <Button variant="secondary" size="medium-long" @click="goToVocab">в словарь</Button>
     <div>
       <span style="margin-right: 50px">count</span>
       <span>{{ count }}</span>
@@ -9,19 +9,19 @@
       <span style="margin-right: 50px">doubleCount</span>
       <span>{{ doubleCount }}</span>
     </div>
-    <button @click="increment">increment</button>
-    <button @click="clear">clear</button>
+    <Button variant="primary" @click="increment">increment</Button>
+    <Button variant="success" size="small" @click="clear">clear</Button>
   </PageLayout>
 </template>
 
 <script lang="ts">
-import { PageLayout } from '@/components/UI';
+import { PageLayout, Button } from "@/components/UI";
 import { mapActions, mapState } from "pinia";
 import { useCounterStore } from "@/store/counter";
 
 export default {
-  components: { PageLayout },
-  
+  components: { PageLayout, Button },
+
   computed: {
     ...mapState(useCounterStore, ["count", "doubleCount"]),
   },
@@ -31,7 +31,7 @@ export default {
       this.$api.auth.login();
     },
     goToVocab() {
-      this.$router.push({ path: '/vocabulary'})
+      this.$router.push({ path: "/vocabulary" });
     },
   },
 };

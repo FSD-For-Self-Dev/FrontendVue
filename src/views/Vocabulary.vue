@@ -1,19 +1,19 @@
 <template>
   <PageLayout>
-    <WordList :cards="words"/>
+    <WordList :cards="words" />
   </PageLayout>
 </template>
 
 <script lang="ts">
-import { PageLayout } from '@/components/UI';
-import WordList from '@/components/word-list/WordList.vue';
+import { PageLayout } from "@/components/UI";
+import WordList from "@/components/word-list/WordList.vue";
 import { words } from "@/constants/wordsMock";
 
 export default {
   components: { PageLayout, WordList },
   data() {
-    return { words }
-  }
+    return { words };
+  },
 };
 </script>
 
