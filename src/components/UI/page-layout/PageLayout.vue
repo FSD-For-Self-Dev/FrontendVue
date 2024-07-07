@@ -1,31 +1,36 @@
-<template class="layout">
-  <!-- Header -->
-  <main class="main">
-    <div :class="{ wrapper: !landingPage }">
-      <!-- TODO: выделить компонент для простых кнопок с иконкой -->
-      <button
-        @click="goBack"
-        v-if="$route.path !== '/'"
-        class="button back-button"
-      />
-      <slot></slot>
-      <Transition>
-        <button
-          @click="scrollToTop"
-          class="button up-button"
-          v-if="!landingPage && y > 50"
-        />
-      </Transition>
-    </div>
-  </main>
-  <!-- Footer -->
+<template>
+  <div class="layout">
+    <Header />
+    <main class="main">
+      <div :class="{ wrapper: !landingPage }">
+        <!-- TODO: выделить компонент для простых кнопок с иконкой -->
+        <button @click="goBack" v-if="!isMainpage" class="button back-button">
+          <img src="/icons/arrow-left.svg" alt="" />
+        </button>
+        <slot></slot>
+        <Transition>
+          <button
+            @click="scrollToTop"
+            class="button up-button"
+            v-if="!landingPage && y > 50"
+          >
+            <img src="/icons/arrow-left.svg" class="up-svg" alt="" />
+          </button>
+        </Transition>
+      </div>
+    </main>
+    <Footer />
+  </div>
 </template>
 
 <script lang="ts">
 import { useWindowScroll } from "@vueuse/core";
+import Header from "@/components/header/Header.vue";
+import Footer from "@/components/footer/Footer.vue";
 const { x, y } = useWindowScroll({ behavior: "smooth" });
 
 export default {
+  components: { Header, Footer },
   props: {
     landingPage: { type: Boolean, required: false, default: false },
   },
@@ -33,6 +38,11 @@ export default {
     return {
       y,
     };
+  },
+  computed: {
+    isMainpage() {
+      return this.$route.path === "/";
+    },
   },
   methods: {
     goBack() {
@@ -50,11 +60,15 @@ export default {
 <style lang="scss" scoped>
 .layout {
   min-height: 100vh;
+  padding-top: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: $neutrals-200;
 }
 .main {
   width: 100%;
   background-color: $neutrals-200;
-  min-height: 100%;
 }
 .wrapper {
   max-width: 1600px;
@@ -86,11 +100,12 @@ export default {
   bottom: 4rem;
   right: 1.6rem;
 }
+.up-svg {
+  transform: rotate(90deg);
+}
 .v-enter-active,
 .v-leave-active {
-  transition:
-    opacity 0.2s,
-    transform 0.4s ease;
+  transition: opacity 0.2s, transform 0.4s ease;
 }
 .v-enter-from,
 .v-leave-to {
