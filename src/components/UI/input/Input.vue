@@ -1,8 +1,7 @@
 <script lang="ts">
-import { type InputTypeHTMLAttribute, defineComponent } from "vue";
+import type { InputTypeHTMLAttribute } from "vue";
 
-export default defineComponent({
-  name: "Input",
+export default {
   inheritAttrs: false,
   props: {
     label: {
@@ -71,7 +70,7 @@ export default defineComponent({
       this.$emit("update:modelValue", (event.target as HTMLInputElement).value);
     },
   },
-});
+};
 </script>
 
 <template>

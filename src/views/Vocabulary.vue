@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { PageLayout } from "@/components/UI";
+import PageLayout from "@/components/UI/page-layout/PageLayout.vue";
 import WordList from "@/components/word-list/WordList.vue";
 import { words } from "@/constants/wordsMock";
 

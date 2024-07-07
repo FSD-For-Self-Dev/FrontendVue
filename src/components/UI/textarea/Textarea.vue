@@ -1,8 +1,5 @@
 <script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "Textarea",
+export default {
   props: {
     label: {
       type: String,
@@ -27,7 +24,7 @@ export default defineComponent({
     handleInput(event: InputEvent) {
       this.$emit(
         "update:modelValue",
-        (event.target as HTMLTextAreaElement).value,
+        (event.target as HTMLTextAreaElement).value
       );
     },
   },
@@ -59,7 +56,7 @@ export default defineComponent({
       };
     },
   },
-});
+};
 </script>
 
 <template>
