@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-interface CunterStore {
+export interface CunterStore {
   count: number;
 }
 

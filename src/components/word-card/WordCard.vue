@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import type { PropType } from "vue";
-import type { IWordCard } from "@/types/word-card";
+import type { IWordCard } from "@/types/components/word-card";
 
 export default {
   props: {
