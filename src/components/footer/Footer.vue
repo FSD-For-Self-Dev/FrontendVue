@@ -1,5 +1,5 @@
 <script lang="ts">
-import Logo from '../UI/logo/Logo.vue';
+import Logo from "../UI/logo/Logo.vue";
 
 export default {
   components: { Logo },

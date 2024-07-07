@@ -1,7 +1,7 @@
 <script lang="ts">
 import { OnClickOutside } from "@vueuse/components";
 import Logo from "../UI/logo/Logo.vue";
-import Button from "../UI/button/button.vue";
+import Button from "../UI/button/Button.vue";
 
 export default {
   components: { OnClickOutside, Logo, Button },
