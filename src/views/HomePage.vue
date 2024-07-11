@@ -10,7 +10,7 @@
   <button @click="increment">increment</button>
   <button @click="clearUser">clear</button>
 
-  <Icon name="sun"  class="icon" />
+  <Icon name="sun" />
 
 </template>
 
