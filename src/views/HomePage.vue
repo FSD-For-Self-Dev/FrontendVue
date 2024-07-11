@@ -10,30 +10,18 @@
   <button @click="increment">increment</button>
   <button @click="clearUser">clear</button>
 
-<BaseIcon icon-name="pen"
-          width="20px"
-          height="20px" >
-  <IconPen />
-</BaseIcon>
-  <BaseIcon icon-name="home"
-            width="44px"
-            height="44px">
-    <IconHome />
-  </BaseIcon>
-
+  <Icon name="sun"  class="icon" />
 
 </template>
 
 <script lang="ts">
 import { mapActions, mapState } from "pinia";
 import { useCounterStore } from "@/store/counter";
-import BaseIcon from "@/components/icons/BaseIcon.vue";
-import IconPen from "@/components/icons/IconPen.vue";
-import IconHome from "@/components/icons/IconHome.vue";
+import Icon from "@/components/UI/Icon.vue";
 
 
 export default {
-  components: {IconPen, BaseIcon, IconHome },
+  components: { Icon },
   computed: {
     ...mapState(useCounterStore, ["count", "dubleCount"]),
   },
@@ -46,4 +34,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+
+</style>
+
