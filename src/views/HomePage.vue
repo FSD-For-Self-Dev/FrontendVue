@@ -21,7 +21,6 @@ import PageLayout from "@/components/UI/page-layout/PageLayout.vue";
 import Button from "@/components/UI/button/Button.vue";
 import { mapActions, mapState } from "pinia";
 import { useCounterStore } from "@/store/counter";
-import Footer from "@/components/UI/Footer.vue";
 export default {
   components: { PageLayout, Button },
   computed: {
