@@ -24,7 +24,7 @@ import { useCounterStore } from "@/store/counter";
 export default {
   components: { PageLayout, Button },
   computed: {
-    ...mapState(useCounterStore, ["count", "dubleCount"]),
+    ...mapState(useCounterStore, ["count", "doubleCount"]),
   },
   methods: {
     ...mapActions(useCounterStore, ["increment", "clear"]),
