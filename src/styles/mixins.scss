@@ -1,73 +1,73 @@
 @mixin flex-center($isInline: false) {
-  @if $isInline {
-    display: inline-flex;
-  } @else {
-    display: flex;
-  }
-  justify-content: center;
-  align-items: center;
+    @if $isInline {
+        display: inline-flex;
+    } @else {
+        display: flex;
+    }
+    justify-content: center;
+    align-items: center;
 }
 
 @mixin padding($vertical, $horizontal, $border: 1) {
-  padding: #{$vertical - $border}rem #{$horizontal - $border}rem;
+    padding: #{$vertical - $border}rem #{$horizontal - $border}rem;
 }
 
 @mixin visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  margin: -1px !important;
-  border: 0 !important;
-  padding: 0 !important;
-  white-space: nowrap !important;
-  clip-path: inset(100%) !important;
-  clip: rect(0 0 0 0) !important;
-  overflow: hidden !important;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    border: 0 !important;
+    padding: 0 !important;
+    white-space: nowrap !important;
+    clip-path: inset(100%) !important;
+    clip: rect(0 0 0 0) !important;
+    overflow: hidden !important;
 }
 
 @mixin abs-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 @mixin grid16($columns: 4) {
-  display: grid;
-  grid-template-columns: repeat($columns, 1fr);
-  gap: 1.6rem;
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: 1.6rem;
 
-  // Здесь впоследствии будет медиа
+    // Здесь впоследствии будет медиа
 }
 
 @mixin grid20($columns: 4) {
-  display: grid;
-  grid-template-columns: repeat($columns, 1fr);
-  gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: 2rem;
 }
 
 @mixin grid24($columns: 4) {
-  display: grid;
-  grid-template-columns: repeat($columns, 1fr);
-  gap: 2.4rem;
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: 2.4rem;
 }
 
 @mixin grid16($columns: 4) {
-  display: grid;
-  grid-template-columns: repeat($columns, 1fr);
-  gap: 1.6rem;
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: 1.6rem;
 
-  // Здесь впоследствии будет медиа
+    // Здесь впоследствии будет медиа
 }
 
 @mixin grid20($columns: 4) {
-  display: grid;
-  grid-template-columns: repeat($columns, 1fr);
-  gap: 2rem;
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: 2rem;
 }
 
 @mixin grid24($columns: 4) {
-  display: grid;
-  grid-template-columns: repeat($columns, 1fr);
-  gap: 2.4rem;
+    display: grid;
+    grid-template-columns: repeat($columns, 1fr);
+    gap: 2.4rem;
 }

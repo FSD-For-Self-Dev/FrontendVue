@@ -1,209 +1,218 @@
 <script lang="ts">
-import type { InputTypeHTMLAttribute } from 'vue'
+import type { InputTypeHTMLAttribute } from 'vue';
 
 export default {
-  inheritAttrs: false,
-  props: {
-    label: {
-      type: String,
-      required: true,
+    inheritAttrs: false,
+    props: {
+        label: {
+            type: String,
+            required: true,
+        },
+        modelValue: {
+            type: String,
+            required: true,
+        },
+        showLabel: {
+            type: Boolean,
+            default: false,
+        },
+        validationError: {
+            type: String,
+        },
+        serverError: {
+            type: String,
+        },
     },
-    modelValue: {
-      type: String,
-      required: true,
+    data() {
+        return {
+            inputType: this.$attrs.type || 'text',
+        } as {
+            inputType: InputTypeHTMLAttribute;
+        };
     },
-    showLabel: {
-      type: Boolean,
-      default: false,
+    computed: {
+        name() {
+            return this.label.toLowerCase();
+        },
+        isDisabled() {
+            return Boolean(this.$attrs.disabled);
+        },
+        isValid() {
+            return !this.validationError && !this.serverError;
+        },
+        descriptionId() {
+            return this.isValid ? `${this.name}-label` : `${this.name}-error`;
+        },
+        inputClasses() {
+            return {
+                'input--with-label': this.showLabel,
+                'input--validation-error': this.validationError,
+                'input--server-error': this.serverError,
+            };
+        },
+        labelClasses() {
+            return {
+                label: this.showLabel,
+                'visually-hidden': !this.showLabel,
+                up: this.modelValue.length > 0,
+            };
+        },
     },
-    validationError: {
-      type: String,
+    methods: {
+        togglePassword() {
+            if (this.inputType === 'password') {
+                this.inputType = 'text';
+            } else {
+                this.inputType = 'password';
+            }
+        },
+        handleInput(event: InputEvent) {
+            this.$emit(
+                'update:modelValue',
+                (event.target as HTMLInputElement).value,
+            );
+        },
     },
-    serverError: {
-      type: String,
-    },
-  },
-  data() {
-    return {
-      inputType: this.$attrs.type || 'text',
-    } as {
-      inputType: InputTypeHTMLAttribute
-    }
-  },
-  computed: {
-    name() {
-      return this.label.toLowerCase()
-    },
-    isDisabled() {
-      return Boolean(this.$attrs.disabled)
-    },
-    isValid() {
-      return !this.validationError && !this.serverError
-    },
-    descriptionId() {
-      return this.isValid ? `${this.name}-label` : `${this.name}-error`
-    },
-    inputClasses() {
-      return {
-        'input--with-label': this.showLabel,
-        'input--validation-error': this.validationError,
-        'input--server-error': this.serverError,
-      }
-    },
-    labelClasses() {
-      return {
-        label: this.showLabel,
-        'visually-hidden': !this.showLabel,
-        up: this.modelValue.length > 0,
-      }
-    },
-  },
-  methods: {
-    togglePassword() {
-      if (this.inputType === 'password') {
-        this.inputType = 'text'
-      } else {
-        this.inputType = 'password'
-      }
-    },
-    handleInput(event: InputEvent) {
-      this.$emit('update:modelValue', (event.target as HTMLInputElement).value)
-    },
-  },
-}
+};
 </script>
 
 <template>
-  <div class="form-row">
-    <input
-      v-bind="{ ...$attrs, onInput: undefined }"
-      :type="inputType"
-      class="input"
-      :class="inputClasses"
-      :id="name"
-      :name="name"
-      :value="modelValue"
-      @input="handleInput"
-      :disabled="isDisabled"
-      :aria-disabled="isDisabled"
-      :aria-invalid="!isValid"
-      :aria-describedby="descriptionId"
-    />
-    <button
-      v-if="$attrs.type === 'password'"
-      :aria-label="inputType === 'password' ? 'Show password' : 'Hide password'"
-      class="password-toggle"
-      @click="togglePassword"
-    >
-      {{ inputType === 'password' ? 'Show' : 'Hide' }}
-    </button>
-    <label :id="`${name}-label`" :class="labelClasses" :for="name">
-      {{ label }}
-    </label>
-    <p v-if="validationError" :id="`${name}-error`" class="validation-error">
-      {{ validationError }}
-    </p>
-    <p v-if="serverError" :id="`${name}-error`" class="server-error">
-      {{ serverError }}
-    </p>
-  </div>
+    <div class="form-row">
+        <input
+            v-bind="{ ...$attrs, onInput: undefined }"
+            :type="inputType"
+            class="input"
+            :class="inputClasses"
+            :id="name"
+            :name="name"
+            :value="modelValue"
+            @input="handleInput"
+            :disabled="isDisabled"
+            :aria-disabled="isDisabled"
+            :aria-invalid="!isValid"
+            :aria-describedby="descriptionId"
+        />
+        <button
+            v-if="$attrs.type === 'password'"
+            :aria-label="
+                inputType === 'password' ? 'Show password' : 'Hide password'
+            "
+            class="password-toggle"
+            @click="togglePassword"
+        >
+            {{ inputType === 'password' ? 'Show' : 'Hide' }}
+        </button>
+        <label :id="`${name}-label`" :class="labelClasses" :for="name">
+            {{ label }}
+        </label>
+        <p
+            v-if="validationError"
+            :id="`${name}-error`"
+            class="validation-error"
+        >
+            {{ validationError }}
+        </p>
+        <p v-if="serverError" :id="`${name}-error`" class="server-error">
+            {{ serverError }}
+        </p>
+    </div>
 </template>
 
 <style lang="scss" scoped>
 .input {
-  min-height: 5.9rem;
-  min-width: 32rem;
-  border-radius: $radius-md;
-  padding-inline: 2rem;
-  border: 0.1rem solid $neutrals-400;
-  font-size: 1.4rem;
-  line-height: 1.6rem;
-  font-weight: 500;
-  color: $neutrals-900;
+    min-height: 5.9rem;
+    min-width: 32rem;
+    border-radius: $radius-md;
+    padding-inline: 2rem;
+    border: 0.1rem solid $neutrals-400;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+    font-weight: 500;
+    color: $neutrals-900;
 
-  @include hover {
-    border-color: $primary-300;
-    box-shadow: 0 0 0 0.1rem $primary-300;
-  }
-
-  &:disabled {
-    background-color: $neutrals-200;
-    border-color: $neutrals-200;
-    color: $neutrals-600;
-    cursor: not-allowed;
-
-    & + label {
-      color: $neutrals-600;
+    @include hover {
+        border-color: $primary-300;
+        box-shadow: 0 0 0 0.1rem $primary-300;
     }
-  }
 
-  &:focus-visible {
-    outline-offset: -0.1rem;
-    outline: $primary-500 0.2rem solid;
-  }
+    &:disabled {
+        background-color: $neutrals-200;
+        border-color: $neutrals-200;
+        color: $neutrals-600;
+        cursor: not-allowed;
 
-  &--with-label {
-    padding-top: 1rem;
-  }
+        & + label {
+            color: $neutrals-600;
+        }
+    }
 
-  &--validation-error {
-    border-color: $warning-500;
-  }
+    &:focus-visible {
+        outline-offset: -0.1rem;
+        outline: $primary-500 0.2rem solid;
+    }
 
-  &--server-error {
-    border-color: $danger-700;
-  }
+    &--with-label {
+        padding-top: 1rem;
+    }
+
+    &--validation-error {
+        border-color: $warning-500;
+    }
+
+    &--server-error {
+        border-color: $danger-700;
+    }
 }
 
 .form-row {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
 
-  & input:focus + label,
-  label.up {
-    top: 1.2rem;
-    font-size: 1.2rem;
-    line-height: 1.4rem;
-    color: $neutrals-600;
-  }
+    & input:focus + label,
+    label.up {
+        top: 1.2rem;
+        font-size: 1.2rem;
+        line-height: 1.4rem;
+        color: $neutrals-600;
+    }
 }
 
 .label {
-  position: absolute;
-  top: 1.9rem;
-  left: 2rem;
-  font-size: 1.4rem;
-  transition: all 0.05s ease-in-out;
-  color: $neutrals-900;
+    position: absolute;
+    top: 1.9rem;
+    left: 2rem;
+    font-size: 1.4rem;
+    transition: all 0.05s ease-in-out;
+    color: $neutrals-900;
 }
 
 .validation-error,
 .server-error {
-  font-size: 1.2rem;
-  line-height: 1.4rem;
-  color: $neutrals-600;
-  padding-left: 2.4rem;
+    font-size: 1.2rem;
+    line-height: 1.4rem;
+    color: $neutrals-600;
+    padding-left: 2.4rem;
 }
 
 .password-toggle {
-  position: absolute;
-  top: 1.9rem;
-  right: 5rem;
-  font-size: 1.4rem;
-  line-height: 1.6rem;
-  color: $neutrals-900;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  outline: none;
-  transition: color 0.05s ease-in-out;
+    position: absolute;
+    top: 1.9rem;
+    right: 5rem;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+    color: $neutrals-900;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    transition: color 0.05s ease-in-out;
 
-  &:hover {
-    color: $primary-500;
-  }
+    &:hover {
+        color: $primary-500;
+    }
 }
 </style>
