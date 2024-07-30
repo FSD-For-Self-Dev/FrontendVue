@@ -1,33 +1,33 @@
 <script lang="ts">
-import type { PropType } from "vue";
+import type { PropType } from 'vue'
 
 interface ButtonProps {
-  type: "text" | "left-icon" | "right-icon";
-  icon?: "pen" | "add";
-  size: "normal" | "medium" | "small" | "medium-long";
-  variant: "primary" | "secondary" | "success" | "danger";
-  additionalText?: string;
+  type: 'text' | 'left-icon' | 'right-icon'
+  icon?: 'pen' | 'add'
+  size: 'normal' | 'medium' | 'small' | 'medium-long'
+  variant: 'primary' | 'secondary' | 'success' | 'danger'
+  additionalText?: string
 }
 
 export default {
   props: {
     type: {
-      type: String as PropType<ButtonProps["type"]>,
-      default: "text",
+      type: String as PropType<ButtonProps['type']>,
+      default: 'text',
     },
     icon: {
-      type: String as PropType<ButtonProps["icon"]>,
+      type: String as PropType<ButtonProps['icon']>,
     },
     size: {
-      type: String as PropType<ButtonProps["size"]>,
-      default: "normal",
+      type: String as PropType<ButtonProps['size']>,
+      default: 'normal',
     },
     variant: {
-      type: String as PropType<ButtonProps["variant"]>,
-      default: "primary",
+      type: String as PropType<ButtonProps['variant']>,
+      default: 'primary',
     },
     additionalText: {
-      type: String as PropType<ButtonProps["additionalText"]>,
+      type: String as PropType<ButtonProps['additionalText']>,
       required: false,
     },
   },
@@ -35,20 +35,20 @@ export default {
     buttonClasses() {
       return {
         /* Sizes */
-        "button--normal": this.size === "normal",
-        "button--medium": this.size === "medium",
-        "button--small": this.size === "small",
-        "button--medium-long": this.size === "medium-long",
+        'button--normal': this.size === 'normal',
+        'button--medium': this.size === 'medium',
+        'button--small': this.size === 'small',
+        'button--medium-long': this.size === 'medium-long',
 
         /* Variants */
-        "button--primary": this.variant === "primary",
-        "button--secondary": this.variant === "secondary",
-        "button--success": this.variant === "success",
-        "button--danger": this.variant === "danger",
-      };
+        'button--primary': this.variant === 'primary',
+        'button--secondary': this.variant === 'secondary',
+        'button--success': this.variant === 'success',
+        'button--danger': this.variant === 'danger',
+      }
     },
   },
-};
+}
 </script>
 
 <template>

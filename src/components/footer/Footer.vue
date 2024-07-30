@@ -1,24 +1,24 @@
 <script lang="ts">
-import Logo from "../UI/logo/Logo.vue";
+import Logo from '../UI/logo/Logo.vue'
 
 export default {
   components: { Logo },
   data() {
     return {
       privacyPolicies: [
-        { name: "Правила и условия", link: "#" },
-        { name: "Политика конфиденциальности", link: "#" },
-        { name: "Согласие на обработку персональных данных", link: "#" },
+        { name: 'Правила и условия', link: '#' },
+        { name: 'Политика конфиденциальности', link: '#' },
+        { name: 'Согласие на обработку персональных данных', link: '#' },
       ] as Array<{ name: string; link: string }>,
       navigationLinks: [
-        { name: "О платформе", link: "#" },
-        { name: "Контакты", link: "#" },
-        { name: "Отзывы", link: "#" },
+        { name: 'О платформе', link: '#' },
+        { name: 'Контакты', link: '#' },
+        { name: 'Отзывы', link: '#' },
       ] as Array<{ name: string; link: string }>,
       year: new Date().getFullYear(),
-    };
+    }
   },
-};
+}
 </script>
 
 <template>

@@ -5,9 +5,9 @@
 <script lang="ts">
 export default {
   data() {
-    return {};
+    return {}
   },
-};
+}
 </script>
 
 <style scoped lang="scss"></style>

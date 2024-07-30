@@ -5,14 +5,14 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
-import type { IWordCard } from "@/types/components/word-card";
+import type { PropType } from 'vue'
+import type { IWordCard } from '@/types/components/word-card'
 
 export default {
   props: {
     card: { type: Object as PropType<IWordCard>, required: true },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

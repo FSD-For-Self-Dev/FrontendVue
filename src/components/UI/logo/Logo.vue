@@ -1,5 +1,5 @@
 <script lang="ts">
-export default {};
+export default {}
 </script>
 
 <template>
@@ -27,7 +27,7 @@ export default {};
 }
 
 .logo-title {
-  font-family: "Fredoka";
+  font-family: 'Fredoka';
   font-size: 2.4rem;
 }
 

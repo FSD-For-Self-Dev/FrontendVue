@@ -1,30 +1,30 @@
 <script lang="ts">
-import { OnClickOutside } from "@vueuse/components";
-import Logo from "../UI/logo/Logo.vue";
-import Button from "../UI/button/Button.vue";
+import { OnClickOutside } from '@vueuse/components'
+import Logo from '../UI/logo/Logo.vue'
+import Button from '../UI/button/Button.vue'
 
 export default {
   components: { OnClickOutside, Logo, Button },
   data() {
     return {
       shownBar: false,
-    };
+    }
   },
   computed: {
     authorized() {
       // TODO: получать статус авторизации
-      return this.$route.path !== "/";
+      return this.$route.path !== '/'
     },
   },
   methods: {
     showSearchBar() {
-      this.shownBar = true;
+      this.shownBar = true
     },
     hideSearchBar() {
-      this.shownBar = false;
+      this.shownBar = false
     },
   },
-};
+}
 </script>
 
 <template>
@@ -175,7 +175,9 @@ export default {
   top: -10rem;
   opacity: 0;
   padding: 0.4rem;
-  transition: top 0.3s, opacity 0.3s ease-out;
+  transition:
+    top 0.3s,
+    opacity 0.3s ease-out;
 }
 
 .input {

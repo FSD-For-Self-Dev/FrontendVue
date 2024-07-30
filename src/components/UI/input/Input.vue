@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { InputTypeHTMLAttribute } from "vue";
+import type { InputTypeHTMLAttribute } from 'vue'
 
 export default {
   inheritAttrs: false,
@@ -25,52 +25,52 @@ export default {
   },
   data() {
     return {
-      inputType: this.$attrs.type || "text",
+      inputType: this.$attrs.type || 'text',
     } as {
-      inputType: InputTypeHTMLAttribute;
-    };
+      inputType: InputTypeHTMLAttribute
+    }
   },
   computed: {
     name() {
-      return this.label.toLowerCase();
+      return this.label.toLowerCase()
     },
     isDisabled() {
-      return Boolean(this.$attrs.disabled);
+      return Boolean(this.$attrs.disabled)
     },
     isValid() {
-      return !this.validationError && !this.serverError;
+      return !this.validationError && !this.serverError
     },
     descriptionId() {
-      return this.isValid ? `${this.name}-label` : `${this.name}-error`;
+      return this.isValid ? `${this.name}-label` : `${this.name}-error`
     },
     inputClasses() {
       return {
-        "input--with-label": this.showLabel,
-        "input--validation-error": this.validationError,
-        "input--server-error": this.serverError,
-      };
+        'input--with-label': this.showLabel,
+        'input--validation-error': this.validationError,
+        'input--server-error': this.serverError,
+      }
     },
     labelClasses() {
       return {
         label: this.showLabel,
-        "visually-hidden": !this.showLabel,
+        'visually-hidden': !this.showLabel,
         up: this.modelValue.length > 0,
-      };
+      }
     },
   },
   methods: {
     togglePassword() {
-      if (this.inputType === "password") {
-        this.inputType = "text";
+      if (this.inputType === 'password') {
+        this.inputType = 'text'
       } else {
-        this.inputType = "password";
+        this.inputType = 'password'
       }
     },
     handleInput(event: InputEvent) {
-      this.$emit("update:modelValue", (event.target as HTMLInputElement).value);
+      this.$emit('update:modelValue', (event.target as HTMLInputElement).value)
     },
   },
-};
+}
 </script>
 
 <template>
@@ -95,7 +95,7 @@ export default {
       class="password-toggle"
       @click="togglePassword"
     >
-      {{ inputType === "password" ? "Show" : "Hide" }}
+      {{ inputType === 'password' ? 'Show' : 'Hide' }}
     </button>
     <label :id="`${name}-label`" :class="labelClasses" :for="name">
       {{ label }}

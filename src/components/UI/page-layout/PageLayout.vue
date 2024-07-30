@@ -24,10 +24,10 @@
 </template>
 
 <script lang="ts">
-import { useWindowScroll } from "@vueuse/core";
-import Header from "@/components/header/Header.vue";
-import Footer from "@/components/footer/Footer.vue";
-const { x, y } = useWindowScroll({ behavior: "smooth" });
+import { useWindowScroll } from '@vueuse/core'
+import Header from '@/components/header/Header.vue'
+import Footer from '@/components/footer/Footer.vue'
+const { x, y } = useWindowScroll({ behavior: 'smooth' })
 
 export default {
   components: { Header, Footer },
@@ -37,24 +37,24 @@ export default {
   data() {
     return {
       y,
-    };
+    }
   },
   computed: {
     isMainpage() {
-      return this.$route.path === "/";
+      return this.$route.path === '/'
     },
   },
   methods: {
     goBack() {
       if (history.state.back) {
-        this.$router.go(-1);
-      } else this.$router.push("/");
+        this.$router.go(-1)
+      } else this.$router.push('/')
     },
     scrollToTop() {
-      y.value = 0;
+      y.value = 0
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -105,7 +105,9 @@ export default {
 }
 .v-enter-active,
 .v-leave-active {
-  transition: opacity 0.2s, transform 0.4s ease;
+  transition:
+    opacity 0.2s,
+    transform 0.4s ease;
 }
 .v-enter-from,
 .v-leave-to {

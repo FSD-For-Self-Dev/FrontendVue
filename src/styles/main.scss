@@ -1,4 +1,4 @@
-@import "fonts";
+@import 'fonts';
 
 html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
@@ -22,7 +22,7 @@ body {
   color: $neutrals-900;
   background: #fff;
   font-size: 1.6rem;
-  font-family: "Inter", "Arial", sans-serif;
+  font-family: 'Inter', 'Arial', sans-serif;
   min-width: 360px;
   -webkit-overflow-scrolling: touch;
   position: relative;
@@ -71,7 +71,12 @@ section {
   gap: 2rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
   padding: 0;
 }
@@ -116,7 +121,7 @@ h2 .secondaryheading {
   font-size: 2rem;
   font-weight: 500;
   line-height: 2.4rem;
-  font-family: "Fredoka";
+  font-family: 'Fredoka';
 }
 
 .subheading1 {

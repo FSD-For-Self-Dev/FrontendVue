@@ -17,25 +17,25 @@
 </template>
 
 <script lang="ts">
-import PageLayout from "@/components/UI/page-layout/PageLayout.vue";
-import Button from "@/components/UI/button/Button.vue";
-import { mapActions, mapState } from "pinia";
-import { useCounterStore } from "@/store/counter";
+import PageLayout from '@/components/UI/page-layout/PageLayout.vue'
+import Button from '@/components/UI/button/Button.vue'
+import { mapActions, mapState } from 'pinia'
+import { useCounterStore } from '@/store/counter'
 export default {
   components: { PageLayout, Button },
   computed: {
-    ...mapState(useCounterStore, ["count", "dubleCount"]),
+    ...mapState(useCounterStore, ['count', 'dubleCount']),
   },
   methods: {
-    ...mapActions(useCounterStore, ["increment", "clear"]),
+    ...mapActions(useCounterStore, ['increment', 'clear']),
     clearUser() {
-      this.$api.auth.login();
+      this.$api.auth.login()
     },
     goToVocab() {
-      this.$router.push({ path: "/vocabulary" });
+      this.$router.push({ path: '/vocabulary' })
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped></style>

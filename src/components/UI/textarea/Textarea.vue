@@ -23,40 +23,40 @@ export default {
   methods: {
     handleInput(event: InputEvent) {
       this.$emit(
-        "update:modelValue",
-        (event.target as HTMLTextAreaElement).value
-      );
+        'update:modelValue',
+        (event.target as HTMLTextAreaElement).value,
+      )
     },
   },
   computed: {
     name() {
-      return this.label.toLowerCase();
+      return this.label.toLowerCase()
     },
     isDisabled() {
-      return Boolean(this.$attrs.disabled);
+      return Boolean(this.$attrs.disabled)
     },
     isValid() {
-      return !this.validationError && !this.serverError;
+      return !this.validationError && !this.serverError
     },
     descriptionId() {
-      return this.isValid ? `${this.name}-label` : `${this.name}-error`;
+      return this.isValid ? `${this.name}-label` : `${this.name}-error`
     },
     textareaClasses() {
       return {
-        "textarea--with-label": this.showLabel,
-        "textarea--validation-error": this.validationError,
-        "textarea--server-error": this.serverError,
-      };
+        'textarea--with-label': this.showLabel,
+        'textarea--validation-error': this.validationError,
+        'textarea--server-error': this.serverError,
+      }
     },
     labelClasses() {
       return {
         label: this.showLabel,
-        "visually-hidden": !this.showLabel,
+        'visually-hidden': !this.showLabel,
         up: this.modelValue.length > 0,
-      };
+      }
     },
   },
-};
+}
 </script>
 
 <template>
