@@ -31,28 +31,22 @@ export default {
   <OnClickOutside @trigger="hideSearchBar">
     <header class="header">
       <!-- TODO: Кнопка-иконка -->
-      <img class="burger" src="/icons/burger.svg" alt="Раскрыть меню" />
+      <img class="burger" src="#" alt="Раскрыть меню" />
       <div class="wrapper">
         <Logo />
         <nav v-if="authorized">
           <!-- TODO: элементы навигации -->
           <ul class="navlinks">
-            <li class="navlink">
-              <img src="/icons/vocab.svg" alt="" />Мой словарь
-            </li>
-            <li class="navlink">
-              <img src="/icons/collection.svg" alt="" />Коллекции
-            </li>
-            <li class="navlink">
-              <img src="/icons/exercise.svg" alt="" />Упражнения
-            </li>
+            <li class="navlink"><img src="#" alt="" />Мой словарь</li>
+            <li class="navlink"><img src="#" alt="" />Коллекции</li>
+            <li class="navlink"><img src="#" alt="" />Упражнения</li>
           </ul>
         </nav>
         <div class="buttons" v-if="authorized">
           <div class="search">
             <!-- TODO: Кнопка-иконка -->
             <button class="button" @click="showSearchBar">
-              <img src="/icons/search.svg" alt="Поиск" />
+              <img src="#" alt="Поиск" />
             </button>
             <div class="searchbar" :class="{ shown: shownBar }">
               <!-- TODO: инпут-поиск -->
@@ -61,18 +55,18 @@ export default {
           </div>
           <!-- TODO: Кнопка-иконка -->
           <button class="button">
-            <img src="/icons/plus.svg" alt="Раскрыть меню" />
+            <img src="#" alt="Раскрыть меню" />
           </button>
           <div />
           <div />
 
           <!-- TODO: Кнопка-иконка -->
           <button class="link">
-            <img src="/icons/bell.svg" alt="Уведомления" />
+            <img src="#" alt="Уведомления" />
           </button>
           <!-- TODO: Кнопка-иконка -->
           <button class="link">
-            <img src="/icons/profile.svg" alt="Профиль пользователя" />
+            <img src="#" alt="Профиль пользователя" />
           </button>
         </div>
         <div class="buttons" v-if="!authorized">
@@ -83,7 +77,7 @@ export default {
         </div>
       </div>
       <!-- TODO: компонент - выпадашка с языками -->
-      <img class="burger" src="/icons/ru.svg" alt="Выбрать язык" />
+      <img class="burger" src="#" alt="Выбрать язык" />
     </header>
   </OnClickOutside>
 </template>

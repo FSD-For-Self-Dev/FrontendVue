@@ -5,7 +5,7 @@
       <div :class="{ wrapper: !landingPage }">
         <!-- TODO: выделить компонент для простых кнопок с иконкой -->
         <button @click="goBack" v-if="!isMainpage" class="button back-button">
-          <img src="/icons/arrow-left.svg" alt="" />
+          <img src="#" alt="" />
         </button>
         <slot></slot>
         <Transition>
@@ -14,7 +14,7 @@
             class="button up-button"
             v-if="!landingPage && y > 50"
           >
-            <img src="/icons/arrow-left.svg" class="up-svg" alt="" />
+            <img src="#" alt="" />
           </button>
         </Transition>
       </div>
