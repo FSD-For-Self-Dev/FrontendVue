@@ -26,11 +26,6 @@ export default {
   computed: {
     ...mapState(useCounterStore, ["count", "doubleCount"]),
   },
-  methods: {
-    ...mapActions(useCounterStore, ["increment", "clear"]),
-    clearUser() {
-      this.$api.auth.login();
-    },
     methods: {
         ...mapActions(useCounterStore, ['increment', 'clear']),
         clearUser() {
