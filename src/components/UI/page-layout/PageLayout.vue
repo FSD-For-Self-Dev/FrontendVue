@@ -1,34 +1,26 @@
 <template>
-    <div class="layout">
-        <Header />
-        <main class="main">
-            <div :class="{ wrapper: !landingPage }">
-                <!-- TODO: выделить компонент для простых кнопок с иконкой -->
-                <button
-                    @click="goBack"
-                    v-if="!isMainpage"
-                    class="button back-button"
-                >
-                    <img src="/icons/arrow-left.svg" alt="" />
-                </button>
-                <slot></slot>
-                <Transition>
-                    <button
-                        @click="scrollToTop"
-                        class="button up-button"
-                        v-if="!landingPage && y > 50"
-                    >
-                        <img
-                            src="/icons/arrow-left.svg"
-                            class="up-svg"
-                            alt=""
-                        />
-                    </button>
-                </Transition>
-            </div>
-        </main>
-        <Footer />
-    </div>
+  <div class="layout">
+    <Header />
+    <main class="main">
+      <div :class="{ wrapper: !landingPage }">
+        <!-- TODO: выделить компонент для простых кнопок с иконкой -->
+        <button @click="goBack" v-if="!isMainpage" class="button back-button">
+          <img src="#" alt="" />
+        </button>
+        <slot></slot>
+        <Transition>
+          <button
+            @click="scrollToTop"
+            class="button up-button"
+            v-if="!landingPage && y > 50"
+          >
+            <img src="#" alt="" />
+          </button>
+        </Transition>
+      </div>
+    </main>
+    <Footer />
+  </div>
 </template>
 
 <script lang="ts">

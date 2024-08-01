@@ -22,9 +22,14 @@ import Button from '@/components/UI/button/Button.vue';
 import { mapActions, mapState } from 'pinia';
 import { useCounterStore } from '@/store/counter';
 export default {
-    components: { PageLayout, Button },
-    computed: {
-        ...mapState(useCounterStore, ['count', 'dubleCount']),
+  components: { PageLayout, Button },
+  computed: {
+    ...mapState(useCounterStore, ["count", "doubleCount"]),
+  },
+  methods: {
+    ...mapActions(useCounterStore, ["increment", "clear"]),
+    clearUser() {
+      this.$api.auth.login();
     },
     methods: {
         ...mapActions(useCounterStore, ['increment', 'clear']),
