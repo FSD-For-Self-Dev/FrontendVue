@@ -1,35 +1,14 @@
 <script lang="ts">
-import type { PropType } from 'vue';
-
-interface ButtonProps {
-    type: 'text' | 'left-icon' | 'right-icon';
-    icon?: 'pen' | 'add';
-    size: 'normal' | 'medium' | 'small' | 'medium-long';
-    variant: 'primary' | 'secondary' | 'success' | 'danger';
-    additionalText?: string;
-}
+import type { PropType } from "vue";
+import type { ButtonProps } from "@/types/components/button";
+import Icon from "@/components/UI/icon/Icon.vue";
 
 export default {
-    props: {
-        type: {
-            type: String as PropType<ButtonProps['type']>,
-            default: 'text',
-        },
-        icon: {
-            type: String as PropType<ButtonProps['icon']>,
-        },
-        size: {
-            type: String as PropType<ButtonProps['size']>,
-            default: 'normal',
-        },
-        variant: {
-            type: String as PropType<ButtonProps['variant']>,
-            default: 'primary',
-        },
-        additionalText: {
-            type: String as PropType<ButtonProps['additionalText']>,
-            required: false,
-        },
+  components: { Icon },
+  props: {
+    type: {
+      type: String as PropType<ButtonProps["type"]>,
+      default: "text",
     },
     computed: {
         buttonClasses() {
@@ -52,20 +31,20 @@ export default {
 </script>
 
 <template>
-    <button class="button" :class="buttonClasses">
-        <span v-if="type === 'left-icon'" class="icon">
-            {{ icon }}
-        </span>
-        <span>
-            <slot />
-        </span>
-        <span v-if="type === 'right-icon'" class="icon">
-            {{ icon }}
-        </span>
-        <span v-if="additionalText" class="additional">
-            {{ additionalText }}
-        </span>
-    </button>
+  <button class="button" :class="buttonClasses">
+    <span v-if="type === 'left-icon'" class="icon">
+      <Icon :name="icon" />
+    </span>
+    <span>
+      <slot />
+    </span>
+    <span v-if="type === 'right-icon'" class="icon">
+      <Icon :name="icon" />
+    </span>
+    <span v-if="additionalText" class="additional">
+      {{ additionalText }}
+    </span>
+  </button>
 </template>
 
 <style lang="scss" scoped>
@@ -223,9 +202,7 @@ export default {
     color: $neutrals-600;
 }
 
-.icon svg {
-    width: 2.4rem;
-    height: 2.4rem;
-    color: $neutrals-900;
+.icon {
+  @include square(2.4rem);
 }
 </style>

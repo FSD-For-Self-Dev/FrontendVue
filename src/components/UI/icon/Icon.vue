@@ -16,5 +16,13 @@ const icon = defineAsyncComponent(
 </script>
 
 <template>
-    <component :is="icon" />
+  <component class="icon" :is="icon" />
 </template>
+
+<style lang="scss" scoped>
+.icon  {
+  & svg {
+    @include flex-center;
+  }
+}
+</style>

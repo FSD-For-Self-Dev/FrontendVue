@@ -8,6 +8,11 @@
     align-items: center;
 }
 
+@mixin square($size) {
+  width: $size;
+  aspect-ratio: 1 / 1;
+}
+
 @mixin padding($vertical, $horizontal, $border: 1) {
     padding: #{$vertical - $border}rem #{$horizontal - $border}rem;
 }
