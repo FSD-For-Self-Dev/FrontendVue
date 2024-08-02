@@ -10,23 +10,39 @@ export default {
       type: String as PropType<ButtonProps["type"]>,
       default: "text",
     },
-    computed: {
-        buttonClasses() {
-            return {
-                /* Sizes */
-                'button--normal': this.size === 'normal',
-                'button--medium': this.size === 'medium',
-                'button--small': this.size === 'small',
-                'button--medium-long': this.size === 'medium-long',
-
-                /* Variants */
-                'button--primary': this.variant === 'primary',
-                'button--secondary': this.variant === 'secondary',
-                'button--success': this.variant === 'success',
-                'button--danger': this.variant === 'danger',
-            };
-        },
+    icon: {
+      type: String as PropType<ButtonProps["icon"]>,
     },
+    size: {
+      type: String as PropType<ButtonProps["size"]>,
+      default: "normal",
+    },
+    variant: {
+      type: String as PropType<ButtonProps["variant"]>,
+      default: "primary",
+    },
+    additionalText: {
+      type: String as PropType<ButtonProps["additionalText"]>,
+      required: false,
+    },
+  },
+  computed: {
+    buttonClasses() {
+      return {
+        /* Sizes */
+        "button--normal": this.size === "normal",
+        "button--medium": this.size === "medium",
+        "button--small": this.size === "small",
+        "button--medium-long": this.size === "medium-long",
+
+        /* Variants */
+        "button--primary": this.variant === "primary",
+        "button--secondary": this.variant === "secondary",
+        "button--success": this.variant === "success",
+        "button--danger": this.variant === "danger",
+      };
+    },
+  },
 };
 </script>
 
@@ -49,157 +65,157 @@ export default {
 
 <style lang="scss" scoped>
 .button {
-    width: max-content;
-    display: inline-flex;
-    border: 0.1rem solid transparent;
-    align-items: center;
-    text-decoration: none;
-    font-weight: 400;
+  width: max-content;
+  display: inline-flex;
+  border: 0.1rem solid transparent;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 400;
+
+  &:disabled {
+    cursor: not-allowed;
+    color: $neutrals-600;
+  }
+
+  &--normal {
+    @include padding(2, 3.2, 0.1);
+
+    border-radius: $radius-md;
+    column-gap: 0.8rem;
+    font-size: 2rem;
+    line-height: 2.4rem;
+  }
+
+  &--medium {
+    @include padding(1.6, 3.2, 0.1);
+
+    border-radius: $radius-sm;
+    column-gap: 0.8rem;
+    font-size: 1.6rem;
+    line-height: 2rem;
+  }
+
+  &--medium-long {
+    @include padding(1.8, 2.4, 0.1);
+
+    border-radius: $radius-md;
+    column-gap: 0.8rem;
+    font-size: 1.6rem;
+    line-height: 2rem;
+  }
+
+  &--small {
+    @include padding(1.4, 2.4, 0.1);
+
+    border-radius: $radius-xs;
+    column-gap: 0.6rem;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+  }
+
+  &--primary {
+    --buttonAccentColor: #{$primary-400};
+    background-color: var(--buttonAccentColor);
+    border-color: var(--buttonAccentColor);
+    color: $neutrals-900;
+
+    @include hover {
+      --buttonAccentColor: #{$primary-300};
+    }
+
+    @include active {
+      --buttonAccentColor: #{$primary-500};
+      color: $neutrals-100;
+    }
 
     &:disabled {
-        cursor: not-allowed;
-        color: $neutrals-600;
+      --buttonAccentColor: #{$neutrals-300};
     }
 
-    &--normal {
-        @include padding(2, 3.2, 0.1);
+    @include focus {
+      outline-offset: -0.1rem;
+      outline: $primary-900 0.2rem solid;
+    }
+  }
 
-        border-radius: $radius-md;
-        column-gap: 0.8rem;
-        font-size: 2rem;
-        line-height: 2.4rem;
+  &--secondary {
+    border-color: $neutrals-400;
+    background-color: $neutrals-100;
+    color: $neutrals-900;
+
+    @include hover {
+      border-color: $primary-300;
+      box-shadow: 0 0 0 0.1rem $primary-300;
     }
 
-    &--medium {
-        @include padding(1.6, 3.2, 0.1);
-
-        border-radius: $radius-sm;
-        column-gap: 0.8rem;
-        font-size: 1.6rem;
-        line-height: 2rem;
+    @include active {
+      border-color: $primary-500;
+      box-shadow: 0 0 0 0.1rem $primary-500;
     }
 
-    &--medium-long {
-        @include padding(1.8, 2.4, 0.1);
-
-        border-radius: $radius-md;
-        column-gap: 0.8rem;
-        font-size: 1.6rem;
-        line-height: 2rem;
+    &:disabled {
+      background-color: $neutrals-200;
     }
 
-    &--small {
-        @include padding(1.4, 2.4, 0.1);
+    @include focus {
+      outline-offset: -0.1rem;
+      outline: $secondary-900 0.2rem solid;
+    }
+  }
 
-        border-radius: $radius-xs;
-        column-gap: 0.6rem;
-        font-size: 1.4rem;
-        line-height: 1.6rem;
+  &--danger {
+    border-color: $neutrals-400;
+    background-color: $neutrals-100;
+    color: $danger-700;
+
+    @include hover {
+      border-color: $danger-200;
+      box-shadow: 0 0 0 0.1rem $danger-200;
     }
 
-    &--primary {
-        --buttonAccentColor: #{$primary-400};
-        background-color: var(--buttonAccentColor);
-        border-color: var(--buttonAccentColor);
-        color: $neutrals-900;
-
-        @include hover {
-            --buttonAccentColor: #{$primary-300};
-        }
-
-        @include active {
-            --buttonAccentColor: #{$primary-500};
-            color: $neutrals-100;
-        }
-
-        &:disabled {
-            --buttonAccentColor: #{$neutrals-300};
-        }
-
-        @include focus {
-            outline-offset: -0.1rem;
-            outline: $primary-900 0.2rem solid;
-        }
+    @include active {
+      border-color: $danger-400;
+      box-shadow: 0 0 0 0.1rem $danger-400;
     }
 
-    &--secondary {
-        border-color: $neutrals-400;
-        background-color: $neutrals-100;
-        color: $neutrals-900;
-
-        @include hover {
-            border-color: $primary-300;
-            box-shadow: 0 0 0 0.1rem $primary-300;
-        }
-
-        @include active {
-            border-color: $primary-500;
-            box-shadow: 0 0 0 0.1rem $primary-500;
-        }
-
-        &:disabled {
-            background-color: $neutrals-200;
-        }
-
-        @include focus {
-            outline-offset: -0.1rem;
-            outline: $secondary-900 0.2rem solid;
-        }
+    &:disabled {
+      color: $danger-700;
     }
 
-    &--danger {
-        border-color: $neutrals-400;
-        background-color: $neutrals-100;
-        color: $danger-700;
+    @include focus {
+      outline-offset: -0.1rem;
+      outline: $danger-400 0.2rem solid;
+    }
+  }
 
-        @include hover {
-            border-color: $danger-200;
-            box-shadow: 0 0 0 0.1rem $danger-200;
-        }
+  &--success {
+    border-color: $primary-400;
+    background-color: $success-300;
+    color: $neutrals-900;
 
-        @include active {
-            border-color: $danger-400;
-            box-shadow: 0 0 0 0.1rem $danger-400;
-        }
-
-        &:disabled {
-            color: $danger-700;
-        }
-
-        @include focus {
-            outline-offset: -0.1rem;
-            outline: $danger-400 0.2rem solid;
-        }
+    @include hover {
+      border-color: $success-700;
+      box-shadow: 0 0 0 0.1rem $success-700;
     }
 
-    &--success {
-        border-color: $primary-400;
-        background-color: $success-300;
-        color: $neutrals-900;
-
-        @include hover {
-            border-color: $success-700;
-            box-shadow: 0 0 0 0.1rem $success-700;
-        }
-
-        @include active {
-            border-color: $success-500;
-            box-shadow: 0 0 0 0.1rem $success-500;
-        }
-
-        &:disabled {
-            background-color: $neutrals-200;
-        }
-
-        @include focus {
-            outline-offset: -0.1rem;
-            outline: $success-900 0.2rem solid;
-        }
+    @include active {
+      border-color: $success-500;
+      box-shadow: 0 0 0 0.1rem $success-500;
     }
+
+    &:disabled {
+      background-color: $neutrals-200;
+    }
+
+    @include focus {
+      outline-offset: -0.1rem;
+      outline: $success-900 0.2rem solid;
+    }
+  }
 }
 
 .additional {
-    color: $neutrals-600;
+  color: $neutrals-600;
 }
 
 .icon {
