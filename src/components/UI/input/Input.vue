@@ -1,26 +1,28 @@
 <script lang="ts">
 import type { InputTypeHTMLAttribute } from "vue";
+import Icon from "@/components/UI/icon/Icon.vue";
+import type InputProps from "@/types/components/input";
+
 
 export default {
+  components: { Icon },
   inheritAttrs: false,
   props: {
     label: {
-      type: String,
-      required: true,
+      type: String as PropType<InputProps["label"]>,
     },
     modelValue: {
-      type: String,
-      required: true,
+      type: String as PropType<InputProps["modelValue"]>,
     },
     showLabel: {
-      type: Boolean,
+      type: Boolean as PropType<InputProps["showLabel"]>,
       default: false,
     },
     validationError: {
-      type: String,
+      type: String as PropType<InputProps["validationError"]>,
     },
     serverError: {
-      type: String,
+      type: String as PropType<InputProps["serverError"]>,
     },
   },
   data() {
@@ -94,8 +96,10 @@ export default {
       :aria-label="inputType === 'password' ? 'Show password' : 'Hide password'"
       class="password-toggle"
       @click="togglePassword"
+      type="button"
     >
-      {{ inputType === "password" ? "Show" : "Hide" }}
+    <Icon aria-hidden="true" v-if="inputType === 'password'" name="eye-on" />
+    <Icon aria-hidden="true" v-else name="eye-off" />
     </button>
     <label :id="`${name}-label`" :class="labelClasses" :for="name">
       {{ label }}
@@ -190,17 +194,15 @@ export default {
 .password-toggle {
   position: absolute;
   top: 1.9rem;
-  right: 5rem;
-  font-size: 1.4rem;
-  line-height: 1.6rem;
-  color: $neutrals-900;
-  background-color: transparent;
+  right: 4rem;
   border: none;
   cursor: pointer;
   padding: 0;
   margin: 0;
   outline: none;
-  transition: color 0.05s ease-in-out;
+  background-color: transparent;
+
+      @include square(2.4rem);
 
   &:hover {
     color: $primary-500;

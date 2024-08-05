@@ -3,7 +3,7 @@ import { defineComponent, type PropType } from "vue";
 import type { CircleButtonProps } from "@/types/components/circle-button";
 import Icon from "@/components/UI/icon/Icon.vue";
 
-export default defineComponent({
+export default {
   name: "CircleButton",
   components: { Icon },
   props: {
@@ -34,7 +34,7 @@ export default defineComponent({
       };
     },
   },
-});
+};
 </script>
 
 <template>

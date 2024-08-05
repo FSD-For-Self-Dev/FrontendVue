@@ -1,23 +1,22 @@
 <script lang="ts">
+import type TextareaProps from "@/types/components/textarea";
 export default {
   props: {
     label: {
-      type: String,
-      required: true,
+      type: String as PropType<TextareaProps["label"]>,
     },
     modelValue: {
-      type: String,
-      required: true,
+      type: String as PropType<TextareaProps["modelValue"]>,
     },
     showLabel: {
-      type: Boolean,
+      type: Boolean as PropType<TextareaProps["showLabel"]>,
       default: false,
     },
     validationError: {
-      type: String,
+      type: String as PropType<TextareaProps["validationError"]>,
     },
     serverError: {
-      type: String,
+      type: String as PropType<TextareaProps["serverError"]>,
     },
   },
   methods: {
@@ -73,6 +72,7 @@ export default {
       :aria-disabled="isDisabled"
       :aria-invalid="!isValid"
       :aria-describedby="descriptionId"
+      rows="4"
     />
     <label :id="`${name}-label`" :class="labelClasses" :for="name">
       {{ label }}
@@ -91,6 +91,7 @@ export default {
   min-height: 5.6rem;
   min-width: 32rem;
   border-radius: $radius-md;
+  padding-block: 1.6rem;
   padding-inline: 2rem;
   border: 0.1rem solid $neutrals-400;
   font-size: 1.4rem;
