@@ -1,25 +1,25 @@
 @mixin hover {
-  @media (hover: hover) {
-    &:hover:not(:disabled) {
-      @content;
+    @media (hover: hover) {
+        &:hover:not(:disabled) {
+            @content;
+        }
     }
-  }
 
-  @media (hover: none) {
-    &:active:not(:disabled) {
-      @content;
+    @media (hover: none) {
+        &:active:not(:disabled) {
+            @content;
+        }
     }
-  }
 }
 
 @mixin active {
-  &:active:not(:disabled) {
-    @content;
-  }
+    &:active:not(:disabled) {
+        @content;
+    }
 }
 
 @mixin focus {
-  &:focus-visible:not(:disabled) {
-    @content;
-  }
+    &:focus-visible:not(:disabled) {
+        @content;
+    }
 }

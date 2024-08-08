@@ -1,5 +1,5 @@
 export interface IWordCard {
-  text: string;
+    text: string;
 }
 
 // под расширение
