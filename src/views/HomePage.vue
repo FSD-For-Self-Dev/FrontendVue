@@ -13,6 +13,7 @@
         </div>
         <Button variant="primary" @click="increment">increment</Button>
         <Button variant="success" size="small" @click="clear">clear</Button>
+
     </PageLayout>
 </template>
 

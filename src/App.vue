@@ -1,9 +1,13 @@
 <template>
-    <RouterView />
+<!--    <RouterView />-->
+  <Register/>
 </template>
 
 <script lang="ts">
+import Register from "@/views/Register.vue";
+
 export default {
+  components: {Register},
     data() {
         return {};
     },
