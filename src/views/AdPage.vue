@@ -2,9 +2,10 @@
 import {defineComponent} from 'vue'
 import PageLayout from "@/components/UI/page-layout/PageLayout.vue";
 import Header from "@/components/header/Header.vue";
+import Icon from "@/components/UI/icon/Icon.vue";
 
 export default {
-  components: {Header, PageLayout},
+  components: {Icon, Header, PageLayout},
   data() {
     return {
       heroWords:[
@@ -78,20 +79,20 @@ export default {
           <div class="hero-card card-1">
             <div class="card-header">
               <span class="card-status">
-                <img src="../assets/icons/active-click.svg" alt="active icon"/> Активное
+                <Icon name="active-click"/>Активное
               </span>
               <span class="card-actions">
-                <img src="../assets/icons/favourite-default.svg" alt="favourite icon">
-                <img src="../assets/icons/more-default.svg" alt="more icon"/>
+                <Icon name="favourite-default"/>
+                <Icon name="more-default"/>
               </span>
             </div>
             <div class="card-main">
               <span class="card-flag">
-                <img src="../assets/icons/italian.svg" alt="italy flag"/>
+                <Icon name="italian"/>
               </span>
               <div class="card-content">
                 <span class="part-of-speech">СУЩЕСТВИТЕЛЬНОЕ</span>
-                <h2 class="card-word">Spiaggia <img src="../assets/icons/copy-default.svg" alt="copy icon"/>  </h2>
+                <h2 class="card-word">Spiaggia <Icon name="copy-default" class="interactive-icon"/> </h2>
                 <div class="card-tags">
                   <span class="card-tag">
                     ОТПУСК
@@ -123,8 +124,8 @@ export default {
                   <span class="card-4-subtitle">Часто используются в IT сфере</span>
                 </div>
                 <div class="card-4-actions">
-                  <img src="../assets/icons/favourite-default.svg" alt="favourite icon">
-                  <img src="../assets/icons/more-default.svg" alt="more icon"/>
+                  <Icon name="favourite-default" class="interactive-icon"/>
+                  <Icon name="more-default" class="interactive-icon"/>
                 </div>
               </div>
               <div class="card-4-footer">
@@ -143,20 +144,20 @@ export default {
           <div class="hero-card card-5">
             <div class="card-header">
               <span class="card-status">
-                <img src="../assets/icons/time.svg" alt="active icon"/> Почти активное
+                <Icon name="time"/>Почти активное
               </span>
               <span class="card-actions">
-                <img src="../assets/icons/favourite-default.svg" alt="favourite icon">
-                <img src="../assets/icons/more-default.svg" alt="more icon"/>
+                  <Icon name="favourite-default" class="interactive-icon"/>
+                  <Icon name="more-default" class="interactive-icon"/>
               </span>
             </div>
             <div class="card-main">
               <span class="card-flag">
-                <img src="../assets/icons/english%20(UK).svg" alt="italy flag"/>
+                <Icon name="english (UK)"/>
               </span>
               <div class="card-content">
                 <span class="part-of-speech">ГЛАГОЛ</span>
-                <h2 class="card-word">Develop <img src="../assets/icons/copy-default.svg" alt="copy icon"/>  </h2>
+                <h2 class="card-word">Develop <Icon name="copy-default" class="interactive-icon"/>   </h2>
                 <div class="card-tags">
                   <span class="card-tag">
                     IT
@@ -362,14 +363,14 @@ export default {
   box-shadow: 0 0 8px 0 rgba(17, 17, 26, 0.1), 0 1px 0 0 rgba(17, 17, 26, 0.05);
   background-color: $primary-300;
 }
-.card-4-decor{
-  box-shadow: 0 0 8px 0 rgba(17, 17, 26, 0.1), 0 1px 0 0 rgba(17, 17, 26, 0.05);
-  background-color: rgba(92, 119, 210, 0.6);
-  transform: rotate(-357deg);
-  height: 100%;
-  width: 100%;
-  border-radius: 20px;
-}
+//.card-4-decor{
+//  box-shadow: 0 0 8px 0 rgba(17, 17, 26, 0.1), 0 1px 0 0 rgba(17, 17, 26, 0.05);
+//  background-color: rgba(92, 119, 210, 0.6);
+//  transform: rotate(-357deg);
+//  height: 100%;
+//  width: 100%;
+//  border-radius: 20px;
+//}
 .card-4-content{
   padding: 25px 20px;
   display: flex;
@@ -553,6 +554,13 @@ export default {
   width: 80%;
 }
 
+.card-translation-navigation{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: inherit;
+}
+
 .card-translation-word{
   font-size: 16px;
   line-height: 20px;
@@ -594,6 +602,10 @@ export default {
 
 .language-card-title{
   font-size: 20px;
+}
+
+.interactive-icon{
+  cursor: pointer;
 }
 
 </style>
