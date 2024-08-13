@@ -100,69 +100,69 @@ export default {
   color: $neutrals-900;
   resize: vertical;
 
-  @include hover {
-    border-color: $primary-300;
-    box-shadow: 0 0 0 0.1rem $primary-300;
-  }
-
-  &:disabled {
-    background-color: $neutrals-200;
-    border-color: $neutrals-200;
-    color: $neutrals-600;
-    cursor: not-allowed;
-
-    & + label {
-      color: $neutrals-600;
+    @include hover {
+        border-color: $primary-300;
+        box-shadow: 0 0 0 0.1rem $primary-300;
     }
-  }
 
-  &:focus-visible {
-    outline-offset: -0.1rem;
-    outline: $primary-500 0.2rem solid;
-  }
+    &:disabled {
+        background-color: $neutrals-200;
+        border-color: $neutrals-200;
+        color: $neutrals-600;
+        cursor: not-allowed;
 
-  &--with-label {
-    padding-top: 2.4rem;
-  }
+        & + label {
+            color: $neutrals-600;
+        }
+    }
 
-  &--validation-error {
-    border-color: $warning-500;
-  }
+    &:focus-visible {
+        outline-offset: -0.1rem;
+        outline: $primary-500 0.2rem solid;
+    }
 
-  &--server-error {
-    border-color: $danger-700;
-  }
+    &--with-label {
+        padding-top: 2.4rem;
+    }
+
+    &--validation-error {
+        border-color: $warning-500;
+    }
+
+    &--server-error {
+        border-color: $danger-700;
+    }
 }
 
 .form-row {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
 
-  & textarea:focus + label,
-  label.up {
-    top: 1.2rem;
-    font-size: 1.2rem;
-    line-height: 1.4rem;
-    color: $neutrals-600;
-  }
+    & textarea:focus + label,
+    label.up {
+        top: 1.2rem;
+        font-size: 1.2rem;
+        line-height: 1.4rem;
+        color: $neutrals-600;
+    }
 }
 
 .label {
-  position: absolute;
-  top: 1.9rem;
-  left: 2rem;
-  font-size: 1.4rem;
-  transition: all 0.05s ease-in-out;
-  color: $neutrals-900;
+    position: absolute;
+    top: 1.9rem;
+    left: 2rem;
+    font-size: 1.4rem;
+    transition: all 0.05s ease-in-out;
+    color: $neutrals-900;
 }
 
 .validation-error,
 .server-error {
-  font-size: 1.2rem;
-  line-height: 1.4rem;
-  color: $neutrals-600;
-  padding-left: 2.4rem;
+    font-size: 1.2rem;
+    line-height: 1.4rem;
+    color: $neutrals-600;
+    padding-left: 2.4rem;
 }
 </style>
