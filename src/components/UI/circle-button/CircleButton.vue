@@ -29,8 +29,7 @@ export default {
         /* Variants */
         "button--primary": this.variant === "primary",
         "button--secondary": this.variant === "secondary",
-        "button--success": this.variant === "success",
-        "button--danger": this.variant === "danger",
+        "button--ghost": this.variant === "ghost",
       };
     },
   },
@@ -86,6 +85,25 @@ export default {
       border-color: $primary-500;
       background-color: $primary-500;
       color: $neutrals-100;
+    }
+
+    @include focus {
+      outline-offset: -0.1rem;
+      outline: $primary-500 0.2rem solid;
+    }
+  }
+
+  &--ghost {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+
+    @include hover {
+      background-color: $neutrals-300;
+    }
+
+    @include active {
+      background-color: $neutrals-200;
     }
 
     @include focus {

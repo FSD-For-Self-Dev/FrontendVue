@@ -33,7 +33,6 @@ export default {
         "button--normal": this.size === "normal",
         "button--medium": this.size === "medium",
         "button--small": this.size === "small",
-        "button--medium-long": this.size === "medium-long",
 
         /* Variants */
         "button--primary": this.variant === "primary",
@@ -90,15 +89,6 @@ export default {
     @include padding(1.6, 3.2, 0.1);
 
     border-radius: $radius-sm;
-    column-gap: 0.8rem;
-    font-size: 1.6rem;
-    line-height: 2rem;
-  }
-
-  &--medium-long {
-    @include padding(1.8, 2.4, 0.1);
-
-    border-radius: $radius-md;
     column-gap: 0.8rem;
     font-size: 1.6rem;
     line-height: 2rem;
