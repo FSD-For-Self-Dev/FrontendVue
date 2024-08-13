@@ -1,10 +1,10 @@
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { PropType } from 'vue';
 import Icon from "@/components/UI/icon/Icon.vue";
 import type SearchProps from "@/types/components/search";
 
 
-export default defineComponent({
+export default {
   components: { Icon },
   inheritAttrs: false,
   props: {
@@ -51,7 +51,7 @@ export default defineComponent({
       this.$emit("update:modelValue", (event.target as HTMLInputElement).value);
     },
   },
-});
+};
 </script>
 
 <template>
