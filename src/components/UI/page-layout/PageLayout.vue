@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { useWindowScroll } from '@vueuse/core';
-import Header from '@/components/header/Header.vue';
+import Header from '@/components/my-header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
