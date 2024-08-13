@@ -1,29 +1,29 @@
 <script lang="ts">
-import { OnClickOutside } from "@vueuse/components";
-import Logo from "../UI/logo/Logo.vue";
-import Button from "../UI/button/Button.vue";
+import { OnClickOutside } from '@vueuse/components';
+import Logo from '../UI/logo/Logo.vue';
+import Button from '../UI/button/Button.vue';
 
 export default {
-  components: { OnClickOutside, Logo, Button },
-  data() {
-    return {
-      shownBar: false,
-    };
-  },
-  computed: {
-    authorized() {
-      // TODO: получать статус авторизации
-      return this.$route.path !== "/";
+    components: { OnClickOutside, Logo, Button },
+    data() {
+        return {
+            shownBar: false,
+        };
     },
-  },
-  methods: {
-    showSearchBar() {
-      this.shownBar = true;
+    computed: {
+        authorized() {
+            // TODO: получать статус авторизации
+            return this.$route.path !== '/';
+        },
     },
-    hideSearchBar() {
-      this.shownBar = false;
+    methods: {
+        showSearchBar() {
+            this.shownBar = true;
+        },
+        hideSearchBar() {
+            this.shownBar = false;
+        },
     },
-  },
 };
 </script>
 
@@ -84,105 +84,107 @@ export default {
 
 <style scoped lang="scss">
 .header {
-  position: fixed;
-  z-index: 10;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 10rem;
-  display: flex;
-  gap: 3.2rem;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffffffe6;
-  box-shadow: $regular-shadow;
-  padding: 2.2rem 3.2rem;
-  backdrop-filter: blur(4px);
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10rem;
+    display: flex;
+    gap: 3.2rem;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffffe6;
+    box-shadow: $regular-shadow;
+    padding: 2.2rem 3.2rem;
+    backdrop-filter: blur(4px);
 }
 
 .wrapper {
-  width: 100%;
-  max-width: 1400px;
-  display: flex;
-  gap: 4rem;
-  justify-content: space-between;
-  align-items: center;
+    width: 100%;
+    max-width: 1400px;
+    display: flex;
+    gap: 4rem;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navlinks {
-  display: flex;
-  gap: 1.2rem;
-  justify-content: space-between;
-  align-items: center;
-  width: 56.4rem;
+    display: flex;
+    gap: 1.2rem;
+    justify-content: space-between;
+    align-items: center;
+    width: 56.4rem;
 }
 
 .navlink {
-  padding: 1.8rem 2.3rem;
-  border: 1px solid $neutrals-400;
-  background-color: white;
-  border-radius: $radius-xl;
-  height: 5.6rem;
-  display: flex;
-  gap: 0.4rem;
-  align-items: center;
-  font-weight: 600;
-  cursor: pointer;
+    padding: 1.8rem 2.3rem;
+    border: 1px solid $neutrals-400;
+    background-color: white;
+    border-radius: $radius-xl;
+    height: 5.6rem;
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .buttons {
-  display: flex;
-  gap: 1.2rem;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    gap: 1.2rem;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .burger {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .button {
-  width: 5.6rem;
-  height: 5.6rem;
-  border-radius: $radius-full;
-  border: 1px solid $neutrals-400;
-  background-color: transparent;
-  cursor: pointer;
+    width: 5.6rem;
+    height: 5.6rem;
+    border-radius: $radius-full;
+    border: 1px solid $neutrals-400;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .link {
-  width: 4.4rem;
-  height: 4.4rem;
-  border-radius: $radius-full;
-  border: 1px solid $neutrals-400;
-  background-color: transparent;
-  cursor: pointer;
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: $radius-full;
+    border: 1px solid $neutrals-400;
+    background-color: transparent;
+    cursor: pointer;
 }
 
 .search {
-  position: relative;
+    position: relative;
 }
 
 .searchbar {
-  position: absolute;
-  right: -0.4rem;
-  top: -10rem;
-  opacity: 0;
-  padding: 0.4rem;
-  transition: top 0.3s, opacity 0.3s ease-out;
+    position: absolute;
+    right: -0.4rem;
+    top: -10rem;
+    opacity: 0;
+    padding: 0.4rem;
+    transition:
+        top 0.3s,
+        opacity 0.3s ease-out;
 }
 
 .input {
-  width: calc(56.4rem + 5.6rem + ((100vw - 116rem) / 2));
-  max-width: 81.4rem;
-  height: 5.6rem;
-  border: 2px solid $primary-400;
-  border-radius: $radius-lg;
-  background-color: white;
+    width: calc(56.4rem + 5.6rem + ((100vw - 116rem) / 2));
+    max-width: 81.4rem;
+    height: 5.6rem;
+    border: 2px solid $primary-400;
+    border-radius: $radius-lg;
+    background-color: white;
 }
 
 .shown {
-  top: -0.4rem;
-  opacity: 1;
+    top: -0.4rem;
+    opacity: 1;
 }
 </style>
