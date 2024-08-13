@@ -2,9 +2,10 @@
 import { OnClickOutside } from '@vueuse/components';
 import Logo from '../UI/logo/Logo.vue';
 import Button from '../UI/button/Button.vue';
+import CircleButton from '../UI/circle-button/CircleButton.vue';
 
 export default {
-    components: { OnClickOutside, Logo, Button },
+    components: { OnClickOutside, Logo, Button, CircleButton },
     data() {
         return {
             shownBar: false,
@@ -31,7 +32,7 @@ export default {
   <OnClickOutside @trigger="hideSearchBar">
     <header class="header">
       <!-- TODO: Кнопка-иконка -->
-      <img class="burger" src="#" alt="Раскрыть меню" />
+      <CircleButton size="large" variant="ghost" icon="burger-menu" aria-label="Открыть меню"/>
       <div class="wrapper">
         <Logo />
         <nav v-if="authorized">
@@ -45,9 +46,7 @@ export default {
         <div class="buttons" v-if="authorized">
           <div class="search">
             <!-- TODO: Кнопка-иконка -->
-            <button class="button" @click="showSearchBar">
-              <img src="#" alt="Поиск" />
-            </button>
+            <CircleButton @click="showSearchBar" icon="search" aria-label=""Поиск/>
             <div class="searchbar" :class="{ shown: shownBar }">
               <!-- TODO: инпут-поиск -->
               <div class="input" />
@@ -71,13 +70,12 @@ export default {
         </div>
         <div class="buttons" v-if="!authorized">
           <!-- TODO: Кнопки -->
-          <Button variant="primary">Войти</Button>
-          <button class="navlink"></button>
-          <button class="navlink">Зарегистрироваться</button>
+          <Button variant="primary" size="small">Войти</Button>
+          <Button variant="secondary" size="small">Зарегистрироваться</Button>
         </div>
       </div>
       <!-- TODO: компонент - выпадашка с языками -->
-      <img class="burger" src="#" alt="Выбрать язык" />
+      <CircleButton size="large" variant="ghost" icon="russian" aria-label="Выбрать язык"/>
     </header>
   </OnClickOutside>
 </template>
@@ -117,19 +115,6 @@ export default {
     width: 56.4rem;
 }
 
-.navlink {
-    padding: 1.8rem 2.3rem;
-    border: 1px solid $neutrals-400;
-    background-color: white;
-    border-radius: $radius-xl;
-    height: 5.6rem;
-    display: flex;
-    gap: 0.4rem;
-    align-items: center;
-    font-weight: 600;
-    cursor: pointer;
-}
-
 .buttons {
     display: flex;
     gap: 1.2rem;
@@ -138,15 +123,6 @@ export default {
 }
 
 .burger {
-    cursor: pointer;
-}
-
-.button {
-    width: 5.6rem;
-    height: 5.6rem;
-    border-radius: $radius-full;
-    border: 1px solid $neutrals-400;
-    background-color: transparent;
     cursor: pointer;
 }
 
