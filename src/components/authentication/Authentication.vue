@@ -43,13 +43,17 @@ export default {
     switchFormHandler(form: 'login' | 'register') {
       this.clearState();
       this.switchForm(form);
+    },
+    closeFormHandler() {
+      this.clearState();
+      this.closeAuth();
     }
   },
 }
 </script>
 
 <template>
-  <OnClickOutside @trigger="() => closeAuth()">
+  <OnClickOutside @trigger="closeFormHandler">
     <div class="modal-auth" v-if="showAuth">
       <form @submit="loginSubmit" class="modal-auth--form" v-if="viewAuth === 'login'">
         <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
@@ -96,7 +100,7 @@ export default {
 
       <div class="modal-auth--image" />
 
-      <button class="modal-auth--close" @click="() => closeAuth()" />
+      <button class="modal-auth--close" @click="closeFormHandler" />
     </div>
   </OnClickOutside>
 </template>
