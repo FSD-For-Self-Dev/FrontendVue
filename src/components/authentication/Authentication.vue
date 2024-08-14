@@ -3,20 +3,14 @@ import { OnClickOutside } from '@vueuse/components';
 import type { PropType } from 'vue';
 import Input from '@/components/UI/input/Input.vue';
 import Button from '@/components/UI/button/Button.vue';
-import api from "@/api"
+import { mapActions, mapState, mapWritableState } from 'pinia';
+import { useAuthStore } from '@/store/auth';
 
 export default {
   name: "Authentication",
   components: { OnClickOutside, Input, Button },
-  data() {
-    return {
-      username: "",
-      password: "",
-      password1: "",
-      password2: "",
-      email: "",
-      remember: false
-    };
+  computed: {
+    ...mapWritableState(useAuthStore, ["email", "password", "password1", "password2", "username", "remember"]),
   },
   props: {
     showAuth: {
@@ -24,7 +18,7 @@ export default {
       default: false,
     },
     closeAuth: {
-      type: Function,
+      type: Function as PropType<() => void>,
       required: true,
     },
     viewAuth: {
@@ -32,38 +26,32 @@ export default {
       required: true,
     },
     switchForm: {
-      type: Function,
+      type: Function as PropType<(form: 'login' | 'register') => void>,
       required: true,
     }
   },
   methods: {
-    async authorization(event: Event) {
+    ...mapActions(useAuthStore, ["login", "registration", "clearState"]),
+    loginSubmit(event: Event) {
       event.preventDefault();
-      const data = await api.auth.login(this.username, this.password);
-      localStorage.setItem('token', data.key);
-      // TODO: Обработчики ошибок
+      this.login();
     },
-    async registration(event: Event) {
+    registrationSubmit(event: Event) {
       event.preventDefault();
-      await api.auth.registration(this.username, this.email, this.password1, this.password2);
-      // TODO: Обработчики ошибок
+      this.registration();
     },
     switchFormHandler(form: 'login' | 'register') {
-      this.email = '';
-      this.password = '';
-      this.password1 = '';
-      this.password2 = '';
-      this.username = '';
+      this.clearState();
       this.switchForm(form);
     }
-  }
+  },
 }
 </script>
 
 <template>
   <OnClickOutside @trigger="() => closeAuth()">
     <div class="modal-auth" v-if="showAuth">
-      <form @submit="authorization" class="modal-auth--form" v-if="viewAuth === 'login'">
+      <form @submit="loginSubmit" class="modal-auth--form" v-if="viewAuth === 'login'">
         <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
 
         <Input type="text" label="Логин" :show-label="true" v-model="username" />
@@ -84,11 +72,12 @@ export default {
         <Button style="width: 100%; display: flex; justify-content: center" variant="primary" size="medium"
           view="icon">Войти</Button>
 
-        <div>Нет аккаунта? <a class="modal-auth--link" @click="() => switchFormHandler('register')">Зарегистрироваться</a>
+        <div>Нет аккаунта? <a class="modal-auth--link"
+            @click="() => switchFormHandler('register')">Зарегистрироваться</a>
         </div>
       </form>
 
-      <form @submit="registration" class="modal-auth--form" v-if="viewAuth === 'register'">
+      <form @submit="registrationSubmit" class="modal-auth--form" v-if="viewAuth === 'register'">
         <h2 class="modal-auth--title">Добро пожаловать!</h2>
 
         <Input type="text" label="Логин" :show-label="true" v-model="username" />

@@ -1,13 +1,7 @@
+import type { LoginDto, RegistrationDto } from '@/dto/auth.dto';
+
 export type Auth = {
-    login: (
-        username: string,
-        password: string,
-    ) => Promise<{ key: string }>;
+    login: (data: LoginDto) => Promise<{ data: { key: string } }>;
     logout: () => void;
-    registration: (
-        username: string,
-        email: string,
-        password1: string,
-        password2: string,
-    ) => void;
+    registration: (data: RegistrationDto) => void;
 };

@@ -28,9 +28,6 @@ export default {
   },
     methods: {
         ...mapActions(useCounterStore, ['increment', 'clear']),
-        clearUser() {
-            this.$api.auth.login();
-        },
         goToVocab() {
             this.$router.push({ path: '/vocabulary' });
         },
