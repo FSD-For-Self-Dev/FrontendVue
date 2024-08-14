@@ -1,107 +1,104 @@
 <script lang="ts">
+import type TextareaProps from "@/types/components/textarea";
 export default {
-    props: {
-        label: {
-            type: String,
-            required: true,
-        },
-        modelValue: {
-            type: String,
-            required: true,
-        },
-        showLabel: {
-            type: Boolean,
-            default: false,
-        },
-        validationError: {
-            type: String,
-        },
-        serverError: {
-            type: String,
-        },
+  props: {
+    label: {
+      type: String as PropType<TextareaProps["label"]>,
     },
-    methods: {
-        handleInput(event: InputEvent) {
-            this.$emit(
-                'update:modelValue',
-                (event.target as HTMLTextAreaElement).value,
-            );
-        },
+    modelValue: {
+      type: String as PropType<TextareaProps["modelValue"]>,
     },
-    computed: {
-        name() {
-            return this.label.toLowerCase();
-        },
-        isDisabled() {
-            return Boolean(this.$attrs.disabled);
-        },
-        isValid() {
-            return !this.validationError && !this.serverError;
-        },
-        descriptionId() {
-            return this.isValid ? `${this.name}-label` : `${this.name}-error`;
-        },
-        textareaClasses() {
-            return {
-                'textarea--with-label': this.showLabel,
-                'textarea--validation-error': this.validationError,
-                'textarea--server-error': this.serverError,
-            };
-        },
-        labelClasses() {
-            return {
-                label: this.showLabel,
-                'visually-hidden': !this.showLabel,
-                up: this.modelValue.length > 0,
-            };
-        },
+    showLabel: {
+      type: Boolean as PropType<TextareaProps["showLabel"]>,
+      default: false,
     },
+    validationError: {
+      type: String as PropType<TextareaProps["validationError"]>,
+    },
+    serverError: {
+      type: String as PropType<TextareaProps["serverError"]>,
+    },
+  },
+  methods: {
+    handleInput(event: InputEvent) {
+      this.$emit(
+        "update:modelValue",
+        (event.target as HTMLTextAreaElement).value
+      );
+    },
+  },
+  computed: {
+    name() {
+      return this.label.toLowerCase();
+    },
+    isDisabled() {
+      return Boolean(this.$attrs.disabled);
+    },
+    isValid() {
+      return !this.validationError && !this.serverError;
+    },
+    descriptionId() {
+      return this.isValid ? `${this.name}-label` : `${this.name}-error`;
+    },
+    textareaClasses() {
+      return {
+        "textarea--with-label": this.showLabel,
+        "textarea--validation-error": this.validationError,
+        "textarea--server-error": this.serverError,
+      };
+    },
+    labelClasses() {
+      return {
+        label: this.showLabel,
+        "visually-hidden": !this.showLabel,
+        up: this.modelValue.length > 0,
+      };
+    },
+  },
 };
 </script>
 
 <template>
-    <div class="form-row">
-        <textarea
-            v-bind="{ ...$attrs, onInput: undefined }"
-            class="textarea"
-            :class="textareaClasses"
-            :id="name"
-            :name="name"
-            :value="modelValue"
-            @input="handleInput"
-            :disabled="isDisabled"
-            :aria-disabled="isDisabled"
-            :aria-invalid="!isValid"
-            :aria-describedby="descriptionId"
-        />
-        <label :id="`${name}-label`" :class="labelClasses" :for="name">
-            {{ label }}
-        </label>
-        <p
-            v-if="validationError"
-            :id="`${name}-error`"
-            class="validation-error"
-        >
-            {{ validationError }}
-        </p>
-        <p v-if="serverError" :id="`${name}-error`" class="server-error">
-            {{ serverError }}
-        </p>
-    </div>
+  <div class="form-row">
+    <textarea
+      v-bind="{ ...$attrs, onInput: undefined }"
+      class="textarea"
+      :class="textareaClasses"
+      :id="name"
+      :name="name"
+      :value="modelValue"
+      @input="handleInput"
+      :disabled="isDisabled"
+      :aria-disabled="isDisabled"
+      :aria-invalid="!isValid"
+      :aria-describedby="descriptionId"
+      rows="4"
+    />
+    <label :id="`${name}-label`" :class="labelClasses" :for="name">
+      {{ label }}
+    </label>
+    <p v-if="validationError" :id="`${name}-error`" class="validation-error">
+      {{ validationError }}
+    </p>
+    <p v-if="serverError" :id="`${name}-error`" class="server-error">
+      {{ serverError }}
+    </p>
+  </div>
 </template>
 
 <style lang="scss" scoped>
 .textarea {
-    min-height: 5.6rem;
-    min-width: 32rem;
-    border-radius: $radius-md;
-    padding-inline: 2rem;
-    border: 0.1rem solid $neutrals-400;
-    font-size: 1.4rem;
-    line-height: 1.6rem;
-    font-weight: 500;
-    color: $neutrals-900;
-    resize: vertical;
+  min-height: 5.6rem;
+  min-width: 32rem;
+  border-radius: $radius-md;
+  padding-block: 1.6rem;
+  padding-inline: 2rem;
+  border: 0.1rem solid $neutrals-400;
+  font-size: 1.4rem;
+  line-height: 1.6rem;
+  font-weight: 500;
+  color: $neutrals-900;
+  resize: vertical;
 
     @include hover {
         border-color: $primary-300;
