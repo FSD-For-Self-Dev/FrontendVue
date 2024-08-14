@@ -6,16 +6,38 @@ import Icon from '../UI/icon/Icon.vue';
 import Navigation from './Navigation.vue';
 import Search from './Search.vue';
 import Language from './Language.vue';
+import Authentication from '@/components/authentication/Authentication.vue';
 
 export default {
 	name: 'Header',
-	components: { Logo, Menu, Button, Icon, Navigation, Search, Language},
+	components: { Logo, Menu, Button, Icon, Navigation, Search, Language, Authentication },
 	computed: {
 		authorized() {
 			return this.$route.path !== '/';
 		},
 	},
-}
+	data(): {
+		showAuth: boolean,
+		viewAuth: 'login' | 'register',
+	} {
+		return {
+			showAuth: false,
+			viewAuth: 'login',
+		};
+	},
+	methods: {
+		openAuth(view: 'login' | 'register') {
+			this.showAuth = !this.showAuth;
+			this.viewAuth = view;
+		},
+		closeAuth() {
+			this.showAuth = false;
+		},
+		switchForm(view: 'login' | 'register') {
+			this.viewAuth = view;
+		},
+	},
+};
 
 </script>
 
@@ -31,25 +53,28 @@ export default {
 		</div>
 
 		<div class="header--right">
-			<Button view="text" v-if="!authorized">Войти</Button>
-			<Button view="text" variant="secondary" v-if="!authorized">Зарегистрироваться</Button>
+			<Button @click="() => openAuth('login')">Войти</Button>
+			<Button variant="secondary" @click="() => openAuth('register')">Зарегистрироваться</Button>
+
+			<Authentication :switch-form="switchForm" :close-auth="closeAuth" :show-auth="showAuth"
+				:view-auth="viewAuth" v-if="!authorized" />
 
 			<div class="header--tools" v-if="authorized">
-				<Search  />
+				<Search />
 				<Button variant="primary" view="icon">
 					<Icon name="plus-white" width="25" height="25" />
 				</Button>
 			</div>
 
 			<div class="header--user" v-if="authorized">
-				<Button  variant="secondary" size="small" view="icon">
+				<Button variant="secondary" size="small" view="icon">
 					<Icon name="bell-default" width="18" height="18" />
 				</Button>
 				<Button variant="secondary" size="small" view="icon">
 					<Icon name="profile" width="18" height="18" />
 				</Button>
 			</div>
-			
+
 			<div class="header--language">
 				<Language />
 			</div>

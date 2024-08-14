@@ -93,6 +93,7 @@ export default {
             :aria-describedby="descriptionId"
         />
         <button
+            type="button"
             v-if="$attrs.type === 'password'"
             :aria-label="
                 inputType === 'password' ? 'Show password' : 'Hide password'
