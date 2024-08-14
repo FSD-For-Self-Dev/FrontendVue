@@ -83,7 +83,7 @@ export default {
         <Input type="text" label="Логин" :show-label="true" v-model="username" />
         <Input type="email" label="Email" :show-label="true" v-model="email" />
         <Input type="password" label="Пароль" :show-label="true" v-model="password1" />
-        <Input type="password" label="Пароль" :show-label="true" v-model="password2" />
+        <Input type="password" label="Подтверждение пароля" :show-label="true" v-model="password2" />
 
 
 
