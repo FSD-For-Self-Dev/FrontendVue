@@ -1,6 +1,6 @@
 <template>
     <PageLayout>
-        <Button variant="secondary" size="medium-long" @click="goToVocab"
+        <Button variant="secondary" size="medium" @click="goToVocab"
             >в словарь</Button
         >
         <div>
