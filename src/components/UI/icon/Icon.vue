@@ -1,27 +1,31 @@
-<script setup lang="ts">
-import { computed, defineProps, type PropType } from 'vue';
+<script lang="ts">
+import { type PropType } from 'vue';
 import type { IconProps } from '@/types/components/icon';
 
-const props = defineProps({
-  name: {
-    type: String as PropType<IconProps['type']>
-  }
-});
+export default {
+  name: 'Icon',
+  props: {
+    name: {
+      type: String as PropType<IconProps['type']>
+    }
+  },
+  computed: {
+    iconSrc(): string {
+      if (!this.name) return ''
 
-const iconSrc = computed(() => {
-  if (!props.name) return ''
-
-  try {
-    return new URL(`/src/assets/icons/${props.name}.svg`, import.meta.url).href;
-  } catch (error) {
-    console.error(`Icon "${props.name}" not found!`, error)
-    return '';
+      try {
+        return new URL(`/src/assets/icons/${this.name}.svg`, import.meta.url).href;
+      } catch (error) {
+        console.error(`Icon "${this.name}" not found!`, error)
+        return '';
+      }
+    }
   }
-});
+}
 </script>
 
 <template>
-  <img class="icon" :src="iconSrc" :alt="props.name" />
+  <img class="icon" :src="iconSrc" :alt="name" />
 </template>
 
 <style lang="scss">

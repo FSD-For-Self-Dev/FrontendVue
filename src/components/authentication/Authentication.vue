@@ -32,14 +32,6 @@ export default {
   },
   methods: {
     ...mapActions(useAuthStore, ["login", "registration", "clearState"]),
-    loginSubmit(event: Event) {
-      event.preventDefault();
-      this.login();
-    },
-    registrationSubmit(event: Event) {
-      event.preventDefault();
-      this.registration();
-    },
     switchFormHandler(form: 'login' | 'register') {
       this.clearState();
       this.switchForm(form);
@@ -55,7 +47,7 @@ export default {
 <template>
   <OnClickOutside @trigger="closeFormHandler">
     <div class="modal-auth" v-if="showAuth">
-      <form @submit="loginSubmit" class="modal-auth--form" v-if="viewAuth === 'login'">
+      <form @submit.prevent="login" class="modal-auth--form" v-if="viewAuth === 'login'">
         <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
 
         <Input type="text" label="Логин" :show-label="true" v-model="username" />
@@ -65,7 +57,6 @@ export default {
           <div>
             <input class="custom-checkbox" type="checkbox" id="remember" v-model="remember" />
             <label class="custom-label" for="remember">
-
               Запомнить меня
             </label>
           </div>
@@ -81,15 +72,13 @@ export default {
         </div>
       </form>
 
-      <form @submit="registrationSubmit" class="modal-auth--form" v-if="viewAuth === 'register'">
+      <form @submit.prevent="registration" class="modal-auth--form" v-if="viewAuth === 'register'">
         <h2 class="modal-auth--title">Добро пожаловать!</h2>
 
         <Input type="text" label="Логин" :show-label="true" v-model="username" />
         <Input type="email" label="Email" :show-label="true" v-model="email" />
         <Input type="password" label="Пароль" :show-label="true" v-model="password1" />
         <Input type="password" label="Подтверждение пароля" :show-label="true" v-model="password2" />
-
-
 
         <Button style="width: 100%; display: flex; justify-content: center" variant="primary" size="medium"
           view="icon">Создать аккаунт</Button>

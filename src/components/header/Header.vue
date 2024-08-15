@@ -9,7 +9,6 @@ import Language from './Language.vue';
 import Authentication from '@/components/authentication/Authentication.vue';
 
 export default {
-	name: 'Header',
 	components: { Logo, Menu, Button, Icon, Navigation, Search, Language, Authentication },
 	computed: {
 		authorized() {
@@ -53,8 +52,9 @@ export default {
 		</div>
 
 		<div class="header--right">
-			<Button @click="() => openAuth('login')">Войти</Button>
-			<Button variant="secondary" @click="() => openAuth('register')">Зарегистрироваться</Button>
+			<Button v-if="!authorized" @click="() => openAuth('login')">Войти</Button>
+			<Button v-if="!authorized" variant="secondary"
+				@click="() => openAuth('register')">Зарегистрироваться</Button>
 
 			<Authentication :switch-form="switchForm" :close-auth="closeAuth" :show-auth="showAuth"
 				:view-auth="viewAuth" v-if="!authorized" />
