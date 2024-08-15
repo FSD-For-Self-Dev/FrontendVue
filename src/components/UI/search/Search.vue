@@ -1,7 +1,7 @@
 <script lang="ts">
-import { PropType } from 'vue';
+import type { PropType } from 'vue';
 import Icon from "@/components/UI/icon/Icon.vue";
-import type SearchProps from "@/types/components/search";
+import type { SearchProps } from "@/types/components/search";
 
 
 export default {
@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     name() {
-      return this.label.toLowerCase();
+      return this.label?.toLowerCase();
     },
     descriptionId() {
       return `${this.name}-label`;
@@ -56,19 +56,9 @@ export default {
 
 <template>
   <div class="form-row">
-    <input
-      v-bind="{ ...$attrs, onInput: undefined }"
-      type="search"
-      class="input"
-      :class="inputClasses"
-      :id="name"
-      :name="name"
-      :value="modelValue"
-      @input="handleInput"
-      :placeholder="placeholder"
-      :disabled="isDisabled"
-      :aria-describedby="descriptionId"
-    />
+    <input v-bind="{ ...$attrs, onInput: undefined }" type="search" class="input" :class="inputClasses" :id="name"
+      :name="name" :value="modelValue" @input="handleInput" :placeholder="placeholder" :disabled="isDisabled"
+      :aria-describedby="descriptionId" />
     <label :id="`${name}-label`" class="visually-hidden" :for="name">
       {{ label }}
     </label>

@@ -1,6 +1,6 @@
 <template>
     <PageLayout>
-        <Button variant="secondary" size="medium-long" @click="goToVocab"
+        <Button variant="secondary" size="medium" @click="goToVocab"
             >в словарь</Button
         >
         <div>
@@ -28,9 +28,6 @@ export default {
   },
     methods: {
         ...mapActions(useCounterStore, ['increment', 'clear']),
-        clearUser() {
-            this.$api.auth.login();
-        },
         goToVocab() {
             this.$router.push({ path: '/vocabulary' });
         },

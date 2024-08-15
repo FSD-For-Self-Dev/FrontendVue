@@ -1,166 +1,130 @@
 <script lang="ts">
-import { OnClickOutside } from '@vueuse/components';
-import Logo from '../UI/logo/Logo.vue';
-import Button from '../UI/button/Button.vue';
-import CircleButton from '../UI/circle-button/CircleButton.vue';
+import Logo from '@/components/UI/logo/Logo.vue'
+import Menu from './Menu.vue';
+import Button from './Button.vue';
+import Icon from '../UI/icon/Icon.vue';
+import Navigation from './Navigation.vue';
+import Search from './Search.vue';
+import Language from './Language.vue';
+import Authentication from '@/components/authentication/Authentication.vue';
 
 export default {
-    components: { OnClickOutside, Logo, Button, CircleButton },
-    data() {
-        return {
-            shownBar: false,
-        };
-    },
-    computed: {
-        authorized() {
-            // TODO: получать статус авторизации
-            return this.$route.path !== '/';
-        },
-    },
-    methods: {
-        showSearchBar() {
-            this.shownBar = true;
-        },
-        hideSearchBar() {
-            this.shownBar = false;
-        },
-    },
+	components: { Logo, Menu, Button, Icon, Navigation, Search, Language, Authentication },
+	computed: {
+		authorized() {
+			return this.$route.path !== '/';
+		},
+	},
+	data(): {
+		showAuth: boolean,
+		viewAuth: 'login' | 'register',
+	} {
+		return {
+			showAuth: false,
+			viewAuth: 'login',
+		};
+	},
+	methods: {
+		openAuth(view: 'login' | 'register') {
+			this.showAuth = !this.showAuth;
+			this.viewAuth = view;
+		},
+		closeAuth() {
+			this.showAuth = false;
+		},
+		switchForm(view: 'login' | 'register') {
+			this.viewAuth = view;
+		},
+	},
 };
+
 </script>
 
 <template>
-  <OnClickOutside @trigger="hideSearchBar">
-    <header class="header">
-      <!-- TODO: Кнопка-иконка -->
-      <CircleButton size="large" variant="ghost" icon="burger-menu" aria-label="Открыть меню"/>
-      <div class="wrapper">
-        <Logo />
-        <nav v-if="authorized">
-          <!-- TODO: элементы навигации -->
-          <ul class="navlinks">
-            <li class="navlink"><img src="#" alt="" />Мой словарь</li>
-            <li class="navlink"><img src="#" alt="" />Коллекции</li>
-            <li class="navlink"><img src="#" alt="" />Упражнения</li>
-          </ul>
-        </nav>
-        <div class="buttons" v-if="authorized">
-          <div class="search">
-            <!-- TODO: Кнопка-иконка -->
-            <CircleButton @click="showSearchBar" icon="search" aria-label=""Поиск/>
-            <div class="searchbar" :class="{ shown: shownBar }">
-              <!-- TODO: инпут-поиск -->
-              <div class="input" />
-            </div>
-          </div>
-          <!-- TODO: Кнопка-иконка -->
-          <button class="button">
-            <img src="#" alt="Раскрыть меню" />
-          </button>
-          <div />
-          <div />
+	<header class="header">
+		<div class="header--left">
+			<Menu />
+			<Logo />
+		</div>
 
-          <!-- TODO: Кнопка-иконка -->
-          <button class="link">
-            <img src="#" alt="Уведомления" />
-          </button>
-          <!-- TODO: Кнопка-иконка -->
-          <button class="link">
-            <img src="#" alt="Профиль пользователя" />
-          </button>
-        </div>
-        <div class="buttons" v-if="!authorized">
-          <!-- TODO: Кнопки -->
-          <Button variant="primary" size="small">Войти</Button>
-          <Button variant="secondary" size="small">Зарегистрироваться</Button>
-        </div>
-      </div>
-      <!-- TODO: компонент - выпадашка с языками -->
-      <CircleButton size="large" variant="ghost" icon="russian" aria-label="Выбрать язык"/>
-    </header>
-  </OnClickOutside>
+		<div class="header--center">
+			<Navigation v-if="authorized" />
+		</div>
+
+		<div class="header--right">
+			<Button v-if="!authorized" @click="() => openAuth('login')">Войти</Button>
+			<Button v-if="!authorized" variant="secondary"
+				@click="() => openAuth('register')">Зарегистрироваться</Button>
+
+			<Authentication :switch-form="switchForm" :close-auth="closeAuth" :show-auth="showAuth"
+				:view-auth="viewAuth" v-if="!authorized" />
+
+			<div class="header--tools" v-if="authorized">
+				<Search />
+				<Button variant="primary" view="icon">
+					<Icon name="plus-white" width="25" height="25" />
+				</Button>
+			</div>
+
+			<div class="header--user" v-if="authorized">
+				<Button variant="secondary" size="small" view="icon">
+					<Icon name="bell-default" width="18" height="18" />
+				</Button>
+				<Button variant="secondary" size="small" view="icon">
+					<Icon name="profile" width="18" height="18" />
+				</Button>
+			</div>
+
+			<div class="header--language">
+				<Language />
+			</div>
+		</div>
+	</header>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .header {
-    position: fixed;
-    z-index: 10;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 10rem;
-    display: flex;
-    gap: 3.2rem;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffffe6;
-    box-shadow: $regular-shadow;
-    padding: 2.2rem 3.2rem;
-    backdrop-filter: blur(4px);
-}
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 10rem;
+	display: flex;
+	gap: 3.2rem;
+	justify-content: space-between;
+	background-color: #ffffffe6;
+	box-shadow: $regular-shadow;
+	padding: 2.2rem 3.2rem;
+	backdrop-filter: blur(4px);
+	align-items: center;
 
-.wrapper {
-    width: 100%;
-    max-width: 1400px;
-    display: flex;
-    gap: 4rem;
-    justify-content: space-between;
-    align-items: center;
-}
 
-.navlinks {
-    display: flex;
-    gap: 1.2rem;
-    justify-content: space-between;
-    align-items: center;
-    width: 56.4rem;
-}
+	.header--left {
+		display: flex;
+		gap: 3.2rem;
+	}
 
-.buttons {
-    display: flex;
-    gap: 1.2rem;
-    justify-content: space-between;
-    align-items: center;
-}
+	.header--center {
+		display: flex;
+		gap: 1rem;
+	}
 
-.burger {
-    cursor: pointer;
-}
+	.header--right {
+		display: flex;
+		gap: 4rem;
+		align-items: center;
 
-.link {
-    width: 4.4rem;
-    height: 4.4rem;
-    border-radius: $radius-full;
-    border: 1px solid $neutrals-400;
-    background-color: transparent;
-    cursor: pointer;
-}
 
-.search {
-    position: relative;
-}
+		.header--tools {
+			display: flex;
+			gap: 1rem;
+		}
 
-.searchbar {
-    position: absolute;
-    right: -0.4rem;
-    top: -10rem;
-    opacity: 0;
-    padding: 0.4rem;
-    transition:
-        top 0.3s,
-        opacity 0.3s ease-out;
-}
-
-.input {
-    width: calc(56.4rem + 5.6rem + ((100vw - 116rem) / 2));
-    max-width: 81.4rem;
-    height: 5.6rem;
-    border: 2px solid $primary-400;
-    border-radius: $radius-lg;
-    background-color: white;
-}
-
-.shown {
-    top: -0.4rem;
-    opacity: 1;
+		.header--user {
+			display: flex;
+			gap: 1rem;
+		}
+	}
 }
 </style>

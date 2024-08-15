@@ -118,6 +118,7 @@ export interface IconProps {
         | 'pen'
         | 'play'
         | 'plus'
+        | 'plus-white'
         | 'popular'
         | 'profile'
         | 'profile-click'

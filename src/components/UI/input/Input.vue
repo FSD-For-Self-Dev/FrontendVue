@@ -1,116 +1,109 @@
 <script lang="ts">
-import type { InputTypeHTMLAttribute } from "vue";
+import type { InputTypeHTMLAttribute, PropType } from "vue";
 import Icon from "@/components/UI/icon/Icon.vue";
-import type InputProps from "@/types/components/input";
+import type { InputProps } from "@/types/components/input";
 
 
 export default {
-  components: { Icon },
-  inheritAttrs: false,
-  props: {
-    label: {
-      type: String as PropType<InputProps["label"]>,
+    components: { Icon },
+    inheritAttrs: false,
+    props: {
+        label: {
+            type: String as PropType<InputProps["label"]>,
+        },
+        modelValue: {
+            type: String as PropType<InputProps["modelValue"]>,
+        },
+        showLabel: {
+            type: Boolean as PropType<InputProps["showLabel"]>,
+            default: false,
+        },
+        validationError: {
+            type: String as PropType<InputProps["validationError"]>,
+        },
+        serverError: {
+            type: String as PropType<InputProps["serverError"]>,
+        },
     },
-    modelValue: {
-      type: String as PropType<InputProps["modelValue"]>,
+    data() {
+        return {
+            inputType: this.$attrs.type || "text",
+        } as {
+            inputType: InputTypeHTMLAttribute;
+        };
     },
-    showLabel: {
-      type: Boolean as PropType<InputProps["showLabel"]>,
-      default: false,
+    computed: {
+        name() {
+            return this.label?.toLowerCase() ?? '';
+        },
+        isDisabled() {
+            return Boolean(this.$attrs.disabled);
+        },
+        isValid() {
+            return !this.validationError && !this.serverError;
+        },
+        descriptionId() {
+            return this.isValid ? `${this.name}-label` : `${this.name}-error`;
+        },
+        inputClasses() {
+            return {
+                "input--with-label": this.showLabel,
+                "input--validation-error": this.validationError,
+                "input--server-error": this.serverError,
+            };
+        },
+        labelClasses() {
+            if (this.modelValue) {
+                return {
+                    label: this.showLabel,
+                    "visually-hidden": !this.showLabel,
+                    up: this.modelValue.length > 0,
+                };
+            } else {
+                return {
+                    label: this.showLabel,
+                    "visually-hidden": !this.showLabel,
+                    up: false
+                };
+            }
+        },
     },
-    validationError: {
-      type: String as PropType<InputProps["validationError"]>,
+    methods: {
+        togglePassword() {
+            if (this.inputType === "password") {
+                this.inputType = "text";
+            } else {
+                this.inputType = "password";
+            }
+        },
+        handleInput(event: InputEvent) {
+            this.$emit("update:modelValue", (event.target as HTMLInputElement).value);
+        },
     },
-    serverError: {
-      type: String as PropType<InputProps["serverError"]>,
-    },
-  },
-  data() {
-    return {
-      inputType: this.$attrs.type || "text",
-    } as {
-      inputType: InputTypeHTMLAttribute;
-    };
-  },
-  computed: {
-    name() {
-      return this.label.toLowerCase();
-    },
-    isDisabled() {
-      return Boolean(this.$attrs.disabled);
-    },
-    isValid() {
-      return !this.validationError && !this.serverError;
-    },
-    descriptionId() {
-      return this.isValid ? `${this.name}-label` : `${this.name}-error`;
-    },
-    inputClasses() {
-      return {
-        "input--with-label": this.showLabel,
-        "input--validation-error": this.validationError,
-        "input--server-error": this.serverError,
-      };
-    },
-    labelClasses() {
-      return {
-        label: this.showLabel,
-        "visually-hidden": !this.showLabel,
-        up: this.modelValue.length > 0,
-      };
-    },
-  },
-  methods: {
-    togglePassword() {
-      if (this.inputType === "password") {
-        this.inputType = "text";
-      } else {
-        this.inputType = "password";
-      }
-    },
-    handleInput(event: InputEvent) {
-      this.$emit("update:modelValue", (event.target as HTMLInputElement).value);
-    },
-  },
 };
 </script>
 
 <template>
-  <div class="form-row">
-    <input
-      v-bind="{ ...$attrs, onInput: undefined }"
-      :type="inputType"
-      class="input"
-      :class="inputClasses"
-      :id="name"
-      :name="name"
-      :value="modelValue"
-      @input="handleInput"
-      :disabled="isDisabled"
-      :aria-disabled="isDisabled"
-      :aria-invalid="!isValid"
-      :aria-describedby="descriptionId"
-    />
-    <button
-      v-if="$attrs.type === 'password'"
-      :aria-label="inputType === 'password' ? 'Show password' : 'Hide password'"
-      class="password-toggle"
-      @click="togglePassword"
-      type="button"
-    >
-    <Icon aria-hidden="true" v-if="inputType === 'password'" name="eye-on" />
-    <Icon aria-hidden="true" v-else name="eye-off" />
-    </button>
-    <label :id="`${name}-label`" :class="labelClasses" :for="name">
-      {{ label }}
-    </label>
-    <p v-if="validationError" :id="`${name}-error`" class="validation-error">
-      {{ validationError }}
-    </p>
-    <p v-if="serverError" :id="`${name}-error`" class="server-error">
-      {{ serverError }}
-    </p>
-  </div>
+    <div class="form-row">
+        <input v-bind="{ ...$attrs, onInput: undefined }" :type="inputType" class="input" :class="inputClasses"
+            :id="name" :name="name" :value="modelValue" @input="handleInput" :disabled="isDisabled"
+            :aria-disabled="isDisabled" :aria-invalid="!isValid" :aria-describedby="descriptionId" />
+        <button v-if="$attrs.type === 'password'"
+            :aria-label="inputType === 'password' ? 'Show password' : 'Hide password'" class="password-toggle"
+            @click="togglePassword" type="button">
+            <Icon aria-hidden="true" v-if="inputType === 'password'" name="eye-on" />
+            <Icon aria-hidden="true" v-else name="eye-off" />
+        </button>
+        <label :id="`${name}-label`" :class="labelClasses" :for="name">
+            {{ label }}
+        </label>
+        <p v-if="validationError" :id="`${name}-error`" class="validation-error">
+            {{ validationError }}
+        </p>
+        <p v-if="serverError" :id="`${name}-error`" class="server-error">
+            {{ serverError }}
+        </p>
+    </div>
 </template>
 
 <style lang="scss" scoped>
@@ -136,7 +129,7 @@ export default {
         color: $neutrals-600;
         cursor: not-allowed;
 
-        & + label {
+        &+label {
             color: $neutrals-600;
         }
     }
@@ -165,7 +158,7 @@ export default {
     flex-direction: column;
     gap: 0.8rem;
 
-    & input:focus + label,
+    & input:focus+label,
     label.up {
         top: 1.2rem;
         font-size: 1.2rem;
@@ -192,17 +185,17 @@ export default {
 }
 
 .password-toggle {
-  position: absolute;
-  top: 1.9rem;
-  right: 4rem;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  margin: 0;
-  outline: none;
-  background-color: transparent;
+    position: absolute;
+    top: 1.9rem;
+    right: 4rem;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    background-color: transparent;
 
-      @include square(2.4rem);
+    @include square(2.4rem);
 
     &:hover {
         color: $primary-500;
