@@ -28,6 +28,7 @@ export const useAuthStore = defineStore('auth', {
                 password: this.password,
             });
             localStorage.setItem('key', res.data.key);
+            return res;
         },
         async registration() {
             await api.auth.registration({

@@ -2,6 +2,7 @@
 import axios from 'axios';
 import type { IApi, Module } from '@/types/api/api-types';
 import type { Auth } from '@/types/api/services';
+import type { User } from '@/types/api/services';
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -23,6 +24,7 @@ export class Api implements IApi {
     }
 
     auth = <Auth>{};
+    user = <User>{};
     request = instance;
 }
 

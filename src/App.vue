@@ -1,13 +1,40 @@
 <template>
-    <RouterView />
+    <RouterView v-if="!isLoading" />
+    <div v-else class="preloader">
+        <Preloader />
+    </div>
 </template>
 
 <script lang="ts">
+import { mapActions } from 'pinia';
+import { useUserStore } from './store/user';
+import Preloader from '@/components/UI/preloader/Preloader.vue';
 export default {
     data() {
-        return {};
+        return {
+            isLoading: true
+        };
+    },
+    components: {
+        Preloader
+    },
+    methods: {
+        ...mapActions(useUserStore, ["getUser"])
+    },
+    mounted() {
+        this.getUser().finally(() => {
+            this.isLoading = false;
+        });
     },
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.preloader {
+    width: 100svw;
+    height: 100svh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+</style>
