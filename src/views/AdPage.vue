@@ -1,5 +1,4 @@
 <script lang="ts">
-import {defineComponent} from 'vue'
 import PageLayout from "@/components/UI/page-layout/PageLayout.vue";
 import Header from "@/components/header/Header.vue";
 import Icon from "@/components/UI/icon/Icon.vue";
@@ -109,15 +108,11 @@ export default {
               </div>
           </div>
           <div class="hero-card card-2">
-<!--            <img src="../assets/images/adpage-image2.png" alt="card image">-->
           </div>
           <div class="hero-card card-3">
-<!--            <img src="../assets/images/adpage-image3.png" alt="card image">-->
           </div>
           <div class="hero-card card-4">
-            <div class="card-4-decor">asd</div>
-
-            <div class="card-4-content">
+            <div class="card-4-content stacked-card stacked-card-1">
               <div class="card-4-header">
                 <div class="card-4-name">
                   <h5 class="card-4-title">Айти словечки</h5>
@@ -139,6 +134,10 @@ export default {
                 </div>
               </div>
               </div>
+            </div>
+            <div class="stacked-card stacked-card-2">
+            </div>
+            <div class="stacked-card stacked-card-3">
             </div>
           </div>
           <div class="hero-card card-5">
@@ -219,13 +218,12 @@ export default {
 
 <style scoped lang="scss">
 .hero{
-
 }
-  .hero-words{
+.hero-words{
     width: 779px;
     margin: auto;
-  }
-  .hero-word{
+}
+.hero-word{
     display: inline-block;
     position: relative;
 
@@ -234,7 +232,7 @@ export default {
     color: $primary-600;
     padding: 12px 20px 12px 20px;
     border-radius: 40px;
-  }
+}
 
 .hero-word:nth-child(1){
   top:40px;
@@ -263,37 +261,29 @@ export default {
 .hero-word:nth-child(6){
   top: 50px;
   transform: rotate(-330deg);
-
 }
-  .hero-word:nth-child(7){
-    top:70px;
-    transform: rotate(-330deg);
-  }
-
-  .hero-word:nth-child(8){
-    top: 43px;
-    transform: rotate(345deg);
-
-  }
-
+.hero-word:nth-child(7){
+  top:70px;
+  transform: rotate(-330deg);
+}
+.hero-word:nth-child(8){
+  top: 43px;
+  transform: rotate(345deg);
+}
 .hero-word:nth-child(9){
   top: 75px;
   transform: rotate(353deg);
 }
-
-
 .hero-word:nth-child(10){
   top: 65px;
   left: 20px;
   transform: rotate(-355deg);
 }
-
 .hero-word:nth-child(11){
   top: 90px;
   left: 40px;
   transform: rotate(355deg);
 }
-
 .hero-title{
   width: 80%;
   margin: auto;
@@ -304,7 +294,6 @@ export default {
   font-weight: 700;
   line-height: 75px;
 }
-
 .hero-subtitle{
   width: 80%;
   margin: auto;
@@ -313,7 +302,6 @@ export default {
   font-size: 20px;
   line-height: 24px;
 }
-
 .hero-cards {
   margin-top: 50px;
   display: grid;
@@ -330,18 +318,15 @@ export default {
 		"card2 card3 card5 card5 card7 card7 card10 "
 		"card2 card3 card5 card5 card7 card7 card10 ";
 }
-
 .hero-card{
   border-radius: 20px;
 }
-
 .card-1 {
   grid-area: card1;
   background-image: url(".././assets/images/adpage-image1.png");
   background-repeat: no-repeat;
   background-size: cover;
   padding: 30px ;
-
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -360,17 +345,7 @@ export default {
 }
 .card-4 {
   grid-area: card4;
-  box-shadow: 0 0 8px 0 rgba(17, 17, 26, 0.1), 0 1px 0 0 rgba(17, 17, 26, 0.05);
-  background-color: $primary-300;
 }
-//.card-4-decor{
-//  box-shadow: 0 0 8px 0 rgba(17, 17, 26, 0.1), 0 1px 0 0 rgba(17, 17, 26, 0.05);
-//  background-color: rgba(92, 119, 210, 0.6);
-//  transform: rotate(-357deg);
-//  height: 100%;
-//  width: 100%;
-//  border-radius: 20px;
-//}
 .card-4-content{
   padding: 25px 20px;
   display: flex;
@@ -385,12 +360,10 @@ export default {
 .card-4-subtitle{
   color: $primary-700;
 }
-
 .card-4-footer{
   display: flex;
   justify-content: space-between;
 }
-
 .card-4-list{
   display: flex;
   flex-direction: column;
@@ -398,7 +371,6 @@ export default {
   gap: 5px 25px;
   max-height: 70px;
 }
-
 .card-4-count{
   display: inline-flex;
   align-items: flex-end;
@@ -409,14 +381,12 @@ export default {
   padding: 8px 7px;
   border-radius: 8px;
 }
-
 .card-5 {
   grid-area: card5;
   background-image: url("../assets/images/adpage-image4.png");
   background-repeat: no-repeat;
   background-size: cover;
   padding: 30px ;
-
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -427,7 +397,6 @@ export default {
   background-color: $primary-100;
   border: 1px solid $primary-500;
   padding: 32px 24px;
-
 }
 .card-6-content{
   display: flex;
@@ -447,7 +416,6 @@ export default {
   background-image: url("../assets/images/adpage-image5.png");
   background-repeat: no-repeat;
   background-size: cover;
-
   padding: 12px;
 }
 .card-7-content{
@@ -477,18 +445,13 @@ export default {
 .card-10 {
   grid-area: card10;
 }
-
 .card-1{
 
 }
-
-
-
 .card-header{
   display: flex;
   justify-content: space-between;
 }
-
 .card-status{
   display: flex;
   align-items: center;
@@ -504,7 +467,6 @@ export default {
   padding: 4px 8px 4px 8px;
   border-radius: 20px;
 }
-
 .card-main{
   background-color: $neutrals-100;
   border:1px solid $neutrals-400;
@@ -537,7 +499,6 @@ export default {
   padding: 6px 12px;
   margin: 22px 0 0 0;
 }
-
 .card-translation{
   display: flex;
   flex-direction: column;
@@ -547,31 +508,26 @@ export default {
   opacity: 0.8;
   padding: 12px 0;
 }
-
 .card-translation-actions{
   display: flex;
   justify-content: space-between;
   width: 80%;
 }
-
 .card-translation-navigation{
   cursor: pointer;
   border: none;
   outline: none;
   background-color: inherit;
 }
-
 .card-translation-word{
   font-size: 16px;
   line-height: 20px;
 }
-
 .card-translation-info{
   font-size: 10px;
   line-height: 12px;
   color: $neutrals-600;
 }
-
 .language-card{
   background-repeat: no-repeat;
   background-size: cover;
@@ -594,18 +550,53 @@ export default {
   align-items: center;
   gap: 4px;
 }
-
 .language-card-activity{
   display: flex;
   align-items: center;
 }
-
 .language-card-title{
   font-size: 20px;
 }
-
 .interactive-icon{
   cursor: pointer;
+}
+.card-4{
+  position: relative;
+}
+.stacked-card{
+  position: absolute;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+.stacked-card-1{
+  top: 0;
+  left: 0;
+  z-index: 3;
+  transform: translateX(0px) translateY(0px);
+  width: 37rem;
+  height: 18rem;
+  background-color: $primary-300;
+}
+.stacked-card-2{
+  left: 10px;
+  z-index: 2;
+  width: 37rem;
+  height: 18rem;
+  background-color: $primary-300;
+  box-shadow: 0 0 8px 0 rgba(17, 17, 26, 0.1), 0 1px 0 0 rgba(17, 17, 26, 0.05);
+  background: rgba(92, 119, 210, 0.6);
+  transform: rotate(-357deg);
+}
+.stacked-card-3 {
+  left: 20px;
+  z-index: 1;
+  width: 36.5rem;
+  height: 18rem;
+  background-color: $primary-300;
+  transform: rotate(-355deg);
+
 }
 
 </style>
