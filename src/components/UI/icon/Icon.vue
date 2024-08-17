@@ -1,25 +1,3 @@
-<!--<script setup lang="ts">-->
-<!--import { defineAsyncComponent, defineProps, type PropType } from "vue";-->
-<!--import type { IconProps } from "@/types/components/icon";-->
-
-
-<!--const props = defineProps({-->
-<!--   name: {-->
-<!--     type: String as PropType<IconProps["type"]>,-->
-<!--     width: Number,-->
-<!--     height: Number,-->
-<!--   },-->
-<!--})-->
-
-<!--const icon = defineAsyncComponent(() =>-->
-<!--  import((`@/assets/icons/${props.name}.svg`))-->
-<!--)-->
-
-<!--</script>-->
-
-<!--<template>-->
-<!--  <component  :is="icon" />-->
-<!--</template>-->
 <script lang="ts">
 import { type PropType } from 'vue';
 import type { IconProps } from '@/types/components/icon';
@@ -34,7 +12,6 @@ export default {
   computed: {
     iconSrc(): string {
       if (!this.name) return ''
-
       try {
         return new URL(`/src/assets/icons/${this.name}.svg`, import.meta.url).href;
       } catch (error) {

@@ -1,15 +1,10 @@
 <script lang="ts">
 import type { PropType } from "vue";
-
-interface ButtonProps {
-  type: "text" | "left-icon" | "right-icon";
-  icon?: "pen" | "add";
-  size: "normal" | "medium" | "small" | "medium-long";
-  variant: "primary" | "secondary" | "success" | "danger";
-  additionalText?: string;
-}
+import type { ButtonProps } from "@/types/components/button";
+import Icon from "@/components/UI/icon/Icon.vue";
 
 export default {
+  components: { Icon },
   props: {
     type: {
       type: String as PropType<ButtonProps["type"]>,
@@ -38,7 +33,6 @@ export default {
         "button--normal": this.size === "normal",
         "button--medium": this.size === "medium",
         "button--small": this.size === "small",
-        "button--medium-long": this.size === "medium-long",
 
         /* Variants */
         "button--primary": this.variant === "primary",
@@ -54,13 +48,13 @@ export default {
 <template>
   <button class="button" :class="buttonClasses">
     <span v-if="type === 'left-icon'" class="icon">
-      {{ icon }}
+      <Icon :name="icon" />
     </span>
     <span>
       <slot />
     </span>
     <span v-if="type === 'right-icon'" class="icon">
-      {{ icon }}
+      <Icon :name="icon" />
     </span>
     <span v-if="additionalText" class="additional">
       {{ additionalText }}
@@ -95,15 +89,6 @@ export default {
     @include padding(1.6, 3.2, 0.1);
 
     border-radius: $radius-sm;
-    column-gap: 0.8rem;
-    font-size: 1.6rem;
-    line-height: 2rem;
-  }
-
-  &--medium-long {
-    @include padding(1.8, 2.4, 0.1);
-
-    border-radius: $radius-md;
     column-gap: 0.8rem;
     font-size: 1.6rem;
     line-height: 2rem;
@@ -223,9 +208,7 @@ export default {
   color: $neutrals-600;
 }
 
-.icon svg {
-  width: 2.4rem;
-  height: 2.4rem;
-  color: $neutrals-900;
+.icon {
+  @include square(2.4rem);
 }
 </style>
