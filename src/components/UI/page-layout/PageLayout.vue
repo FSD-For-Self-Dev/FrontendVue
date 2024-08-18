@@ -1,36 +1,42 @@
 <template>
-  <div class="layout">
-    <Header />
-    <main class="main">
-      <div :class="{ wrapper: !landingPage }">
-        <!-- TODO: выделить компонент для простых кнопок с иконкой -->
-        <button @click="goBack" v-if="!isMainpage" class="button back-button">
-          <img src="#" alt="" />
-        </button>
-        <slot></slot>
-        <Transition>
-          <button
-            @click="scrollToTop"
-            class="button up-button"
-            v-if="!landingPage && y > 50"
-          >
-            <img src="#" alt="" />
-          </button>
-        </Transition>
-      </div>
-    </main>
-    <Footer />
-  </div>
+    <div class="layout">
+        <Header />
+        <main class="main">
+            <div :class="{ wrapper: !landingPage }">
+                <CircleButton
+                    @click="goBack"
+                    v-if="!isMainpage"
+                    class="back-button"
+                    icon="arrow-back-default"
+                >
+                    <span class="visually-hidden">Назад</span>
+                </CircleButton>
+                <slot></slot>
+                <Transition>
+                    <CircleButton
+                        @click="scrollToTop"
+                        v-if="!landingPage && y > 50"
+                        class="up-button"
+                        icon="arrow-expand-up"
+                    >
+                        <span class="visually-hidden">Наверх</span>
+                    </CircleButton>
+                </Transition>
+            </div>
+        </main>
+        <Footer />
+    </div>
 </template>
 
 <script lang="ts">
 import { useWindowScroll } from '@vueuse/core';
 import Header from '@/components/header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
+import CircleButton from '@/components/UI/circle-button/CircleButton.vue';
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
-    components: { Header, Footer },
+    components: { Header, Footer, CircleButton },
     props: {
         landingPage: { type: Boolean, required: false, default: false },
     },
@@ -80,16 +86,7 @@ export default {
     padding: 4rem 10rem 40rem;
     margin: auto;
 }
-.button {
-    width: 5.6rem;
-    height: 5.6rem;
-    border-radius: $radius-full;
-    border: none;
-    outline: none;
-    background-color: $neutrals-100;
-    box-shadow: $regular-shadow;
-    cursor: pointer;
-}
+
 .back-button {
     position: absolute;
     top: 4rem;
@@ -99,9 +96,6 @@ export default {
     position: fixed;
     bottom: 4rem;
     right: 1.6rem;
-}
-.up-svg {
-    transform: rotate(90deg);
 }
 .v-enter-active,
 .v-leave-active {
