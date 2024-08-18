@@ -25,7 +25,7 @@ export default {
 </script>
 
 <template>
-  <img class="icon" :src="iconSrc" :alt="name" />
+  <img class="icon" :src="iconSrc" alt="" />
 </template>
 
 <style lang="scss">
