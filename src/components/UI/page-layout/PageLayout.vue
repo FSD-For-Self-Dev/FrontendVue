@@ -33,10 +33,11 @@ import { useWindowScroll } from '@vueuse/core';
 import Header from '@/components/header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
 import CircleButton from '@/components/UI/circle-button/CircleButton.vue';
+import Button from '@/components/UI/button/Button.vue';
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
-    components: { Header, Footer, CircleButton },
+    components: { Header, Footer, CircleButton, Button },
     props: {
         landingPage: { type: Boolean, required: false, default: false },
     },

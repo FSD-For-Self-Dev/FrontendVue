@@ -6,8 +6,8 @@ import Icon from "@/components/UI/icon/Icon.vue";
 export default {
   components: { Icon },
   props: {
-    type: {
-      type: String as PropType<ButtonProps["type"]>,
+    contentType: {
+      type: String as PropType<ButtonProps["contentType"]>,
       default: "text",
     },
     icon: {
@@ -47,13 +47,13 @@ export default {
 
 <template>
   <button class="button" :class="buttonClasses">
-    <span v-if="type === 'left-icon'" class="icon">
+    <span v-if="contentType === 'left-icon'" class="icon">
       <Icon :name="icon" />
     </span>
     <span>
       <slot />
     </span>
-    <span v-if="type === 'right-icon'" class="icon">
+    <span v-if="contentType === 'right-icon'" class="icon">
       <Icon :name="icon" />
     </span>
     <span v-if="additionalText" class="additional">
@@ -83,6 +83,10 @@ export default {
     column-gap: 0.8rem;
     font-size: 2rem;
     line-height: 2.4rem;
+
+    .icon {
+      @include square(3.2rem);
+    }
   }
 
   &--medium {
@@ -92,6 +96,10 @@ export default {
     column-gap: 0.8rem;
     font-size: 1.6rem;
     line-height: 2rem;
+
+    .icon {
+      @include square(2.4rem);
+    }
   }
 
   &--small {
@@ -101,6 +109,10 @@ export default {
     column-gap: 0.6rem;
     font-size: 1.4rem;
     line-height: 1.6rem;
+
+    .icon {
+      @include square(1.6rem);
+    }
   }
 
   &--primary {
@@ -209,6 +221,8 @@ export default {
 }
 
 .icon {
-  @include square(2.4rem);
+  display: flex;
+  align-items: center;
 }
+
 </style>
