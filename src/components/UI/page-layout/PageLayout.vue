@@ -1,6 +1,9 @@
 <template>
     <div class="layout">
         <Header />
+        <Button size="normal" contentType="right-icon" icon="home">Кнопка</Button>
+        <Button size="medium" contentType="right-icon" icon="home">Кнопка</Button>
+        <Button size="small" contentType="right-icon" icon="home">Кнопка</Button>
         <main class="main">
             <div :class="{ wrapper: !landingPage }">
                 <CircleButton
