@@ -13,6 +13,7 @@ export interface IconProps {
         | 'antonym'
         | 'arrow-back-default'
         | 'arrow-back-inactive'
+        | 'arrow-expand-up'
         | 'arrow-forward-default'
         | 'arrow-forward-inactive'
         | 'associations'
