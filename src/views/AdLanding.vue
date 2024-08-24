@@ -176,114 +176,114 @@ export default {
 <style scoped lang="scss">
 
 icon{
-  width: 5px;
+  width: 0.5rem;
 }
 .icon-streak{
-  width: 16px;
-  height: 20px;
+  width: 1.6rem;
+  height: 2rem;
 }
 .copy-icon{
-  width: 16px;
-  height: 18px;
+  width: 1.6rem;
+  height: 1.8rem;
   cursor: pointer;
 }
 .icon-flag{
-  width: 24px;
-  height: 24px;
+  width: 2.4rem;
+  height: 2.4rem;
 }
 .interactive-icon{
-  width: 24px;
-  height: 26px;
+  width: 2.4rem;
+  height: 2.6rem;
 }
 .hero-words{
-    width: 779px;
+    width: 77.9rem;
     margin: auto;
 }
 .hero-word{
     display: inline-block;
     position: relative;
 
-    height: 44px;
+    height: 4.4rem;
     background-color: $primary-100;
     color: $primary-600;
-    padding: 12px 20px 12px 20px;
-    border-radius: 40px;
+    padding:1.2rem 2rem;
+    border-radius: 4rem;
 }
 
 .hero-word:nth-child(1){
-  top:40px;
-  left: 60px;
+  top:4rem;
+  left: 6rem;
 }
 .hero-word:nth-child(2){
-  top: 11px;
-  left: 70px;
+  top: 1.1rem;
+  left: 7rem;
   transform: rotate(357deg);
 }
 .hero-word:nth-child(3){
-  top: 45px;
-  left: 30px;
+  top: 4.5rem;
+  left: 3rem;
   transform: rotate(345deg);
 }
 .hero-word:nth-child(4){
-  top: 24px;
-  left: 30px;
+  top: 2.4rem;
+  left: 3rem;
   transform: rotate(337deg);
 }
 .hero-word:nth-child(5){
-  top: 58px;
-  left: 15px;
+  top: 5.8rem;
+  left: 1.5rem;
   transform: rotate(-345deg);
 }
 .hero-word:nth-child(6){
-  top: 50px;
+  top: 5rem;
   transform: rotate(-330deg);
 }
 .hero-word:nth-child(7){
-  top:70px;
+  top:7rem;
   transform: rotate(-330deg);
 }
 .hero-word:nth-child(8){
-  top: 43px;
+  top: 4.3rem;
   transform: rotate(345deg);
 }
 .hero-word:nth-child(9){
-  top: 75px;
+  top: 7.5rem;
   transform: rotate(353deg);
 }
 .hero-word:nth-child(10){
-  top: 65px;
-  left: 20px;
+  top: 6.5rem;
+  left: 2rem;
   transform: rotate(-355deg);
 }
 .hero-word:nth-child(11){
-  top: 90px;
-  left: 40px;
+  top: 9rem;
+  left: 4rem;
   transform: rotate(355deg);
 }
 .hero-title{
   width: 80%;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 10rem;
   text-align: center;
   color: $primary-700;
-  font-size: 60px;
+  font-size: 6rem;
   font-weight: 700;
-  line-height: 75px;
+  line-height: 7.5rem;
 }
 .hero-subtitle{
   width: 80%;
   margin: auto;
   text-align: center;
   color: $primary-600;
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 2rem;
+  line-height: 2.4rem;
 }
 .hero-cards {
-  margin-top: 50px;
+  margin-top: 5rem;
   display: grid;
   grid-template-rows: repeat(6, 1fr);
   grid-template-columns: repeat(7, 1fr);
-  gap: 15px;
+  gap: 1.5rem;
   width: 100%;
   height: 100%;
   grid-template-areas:
@@ -295,17 +295,17 @@ icon{
 		"card2 card3 card5 card5 card7 card7 card10 ";
 }
 .hero-card{
-  border-radius: 20px;
+  border-radius: 2rem;
 }
 .card-1 {
   grid-area: card1;
   background-image: url(".././assets/images/adpage-image1.png");
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 30px ;
+  padding: 3rem ;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1.2rem;
 }
 .card-2 {
   grid-area: card2;
@@ -323,10 +323,10 @@ icon{
   grid-area: card4;
 }
 .card-4-content{
-  padding: 25px 20px;
+  padding: 2.5rem 2rem;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1.5rem;
   z-index: 10;
 }
 .card-4-header{
@@ -344,8 +344,8 @@ icon{
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-  gap: 5px 25px;
-  max-height: 70px;
+  gap: 0.5rem 2.5rem;
+  max-height: 7rem;
 }
 .card-4-count{
   display: inline-flex;
@@ -354,25 +354,25 @@ icon{
 .card-4-count-content{
   background-color: $primary-500;
   color: $neutrals-100;
-  padding: 8px 7px;
-  border-radius: 8px;
+  padding: 0.8rem 0.7rem;
+  border-radius: 0.8rem;
 }
 .card-5 {
   grid-area: card5;
   background-image: url("../assets/images/adpage-image4.png");
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 30px ;
+  padding: 3rem ;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 1.2rem;
 
 }
 .card-6 {
   grid-area: card6;
   background-color: $primary-100;
   border: 1px solid $primary-500;
-  padding: 32px 24px;
+  padding: 3.2rem 2.4rem;
 }
 .card-6-content{
   display: flex;
@@ -380,40 +380,40 @@ icon{
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 16px;
-  height: calc(100% - 32px);
+  gap: 1.6rem;
+  height: calc(100% - 3.2rem);
 }
 .card-6-subtitle{
   color: $primary-500;
-  font-size: 20px;
+  font-size: 2rem;
 }
 .card-6-icon{
-  width: 32px;
-  height: 27px;
+  width: 3.2rem;
+  height: 2.7rem;
 }
 .card-7 {
   grid-area: card7;
   background-image: url("../assets/images/adpage-image5.png");
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 12px;
+  padding: 1.2rem;
 }
 .card-7-content{
   display: inline-flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 16px 20px;
-  border-radius: 16px;
+  gap: 1rem;
+  padding: 1.6rem 2rem;
+  border-radius: 1.6rem;
   background-color: $neutrals-100;
   opacity: 0.8;
 }
 .card-7-word{
-  font-size: 16px;
+  font-size: 1.6rem;
   color: $neutrals-900;
   font-weight: 500;
 }
 .card-7-more{
-  font-size: 14px;
+  font-size: 1.4rem;
   color: $neutrals-600;
 }
 .card-8 {
@@ -425,9 +425,6 @@ icon{
 .card-10 {
   grid-area: card10;
 }
-.card-1{
-
-}
 .card-header{
   display: flex;
   justify-content: space-between;
@@ -436,26 +433,26 @@ icon{
   display: flex;
   align-items: center;
   background-color: $neutrals-100;
-  padding: 8px 12px 8px 8px;
-  border-radius: 20px;
-  gap: 5px;
+  padding: 0.8rem 1.2rem 0.8rem 0.8rem;
+  border-radius: 2rem;
+  gap: 0.5rem;
 }
 .card-actions{
   display: flex;
   align-items: center;
   background-color: $neutrals-100;
-  padding: 4px 8px 4px 8px;
-  border-radius: 20px;
+  padding: 0.4rem 0.8rem;
+  border-radius: 2rem;
 }
 .card-main{
   background-color: $neutrals-100;
   border:1px solid $neutrals-400;
   opacity: 0.8;
-  padding: 20px 0;
-  border-radius: 16px;
+  padding: 2rem 0;
+  border-radius: 1.6rem;
 }
 .card-flag{
-  margin-left:12px ;
+  margin-left:1.2rem ;
 }
 .card-content{
   display: flex;
@@ -464,29 +461,29 @@ icon{
 }
 .part-of-speech{
   position: relative;
-  bottom: 18px;
+  bottom: 1.8rem;
 }
 
 .card-tags{
   display: flex;
-  gap: 6px;
+  gap: 0.6rem;
 }
 .card-tag{
   background-color: $secondary-300;
   color: $secondary-700;
   border: 1px solid $secondary-400;
-  border-radius: 8px;
-  padding: 6px 12px;
-  margin: 22px 0 0 0;
+  border-radius: 0.8rem;
+  padding: 0.6rem 1.2rem;
+  margin: 2.2rem 0 0 0;
 }
 .card-translation{
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: $neutrals-100;
-  border-radius: 16px;
+  border-radius: 1.6rem;
   opacity: 0.8;
-  padding: 12px 0;
+  padding: 1.2rem 0;
 }
 .card-translation-actions{
   display: flex;
@@ -504,42 +501,42 @@ icon{
   height: 2rem;
 }
 .card-translation-word{
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 1.6rem;
+  line-height: 2rem;
 }
 .card-translation-info{
-  font-size: 10px;
-  line-height: 12px;
+  font-size: 1rem;
+  line-height: 1.2rem;
   color: $neutrals-600;
 }
 .language-card{
   background-repeat: no-repeat;
   background-size: cover;
-  padding: 24px 14px;
+  padding: 2.4rem 1.4rem;
 }
 .language-card-content{
   background-color: $neutrals-100;
-  border-radius: 20px;
+  border-radius: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
-  gap: 12px;
-  padding: 32px;
+  gap: 1.2rem;
+  padding: 3.2rem;
   opacity: 0.8;
 }
 .language-card-activities{
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 0.4rem;
 }
 .language-card-activity{
   display: flex;
   align-items: center;
 }
 .language-card-title{
-  font-size: 20px;
+  font-size: 2rem;
 }
 .interactive-icon{
   cursor: pointer;
@@ -549,9 +546,9 @@ icon{
 }
 .stacked-card{
   position: absolute;
-  border-radius: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  border-radius: 2rem;
+  box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.1);
+  padding: 2rem;
   transition: transform 0.3s ease;
 }
 .stacked-card-1{
@@ -564,17 +561,17 @@ icon{
   background-color: $primary-300;
 }
 .stacked-card-2{
-  left: 10px;
+  left: 1rem;
   z-index: 2;
   width: 37rem;
   height: 18rem;
   background-color: $primary-300;
-  box-shadow: 0 0 8px 0 rgba(17, 17, 26, 0.1), 0 1px 0 0 rgba(17, 17, 26, 0.05);
+  box-shadow: 0 0 0.8rem 0 rgba(17, 17, 26, 0.1), 0 0.1rem 0 0 rgba(17, 17, 26, 0.05);
   background: rgba(92, 119, 210, 0.6);
   transform: rotate(-357deg);
 }
 .stacked-card-3 {
-  left: 20px;
+  left: 2rem;
   z-index: 1;
   width: 36.5rem;
   height: 18rem;
