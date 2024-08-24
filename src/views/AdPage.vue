@@ -2,58 +2,15 @@
 import PageLayout from "@/components/UI/page-layout/PageLayout.vue";
 import Header from "@/components/header/Header.vue";
 import Icon from "@/components/UI/icon/Icon.vue";
+import {heroWords, itWords, languageCards} from "@/constants/wordsMock";
 
 export default {
   components: {Icon, Header, PageLayout},
   data() {
     return {
-      heroWords:[
-          "Примеры",
-          "Коллекции",
-          "Переводчик",
-          "Упражнения",
-          "Антонимы",
-          "Определения",
-          "Синонимы",
-          "Переводы",
-          "Ассоциации",
-          "Мой словарь",
-          "Избранное"
-      ],
-      itWords:[
-          "Dunder method",
-          "Linter",
-          "Framework",
-          "Agile",
-          "Software",
-          "Database"
-      ],
-      languageCards:[
-        {
-          languageName:"Español",
-          backgroundImage:"src/assets/images/adpage-image6.png",
-          activeStatus:56,
-          inactiveStatus:3,
-          markedStatus:1,
-          class:"card-8"
-        },
-        {
-          languageName:"Italiano",
-          backgroundImage:"src/assets/images/adpage-image7.png",
-          activeStatus:56,
-          inactiveStatus:3,
-          markedStatus:1,
-          class:"card-9"
-        },
-        {
-          languageName:"Deutsch",
-          backgroundImage:"src/assets/images/adpage-image8.png",
-          activeStatus:56,
-          inactiveStatus:3,
-          markedStatus:1,
-          class:"card-10"
-        },
-      ] as Array<{ languageName: string; backgroundImage: string; activeStatus:number; inactiveStatus:number; markedStatus:number; class:string }>
+      heroWords,
+      itWords,
+      languageCards,
     }
   }
 }
@@ -65,7 +22,7 @@ export default {
       <section class="hero">
         <div class="hero-words">
           <div class="hero-word" v-for="word in heroWords">
-            {{word}}
+            {{word.text}}
           </div>
         </div>
         <h1 class="hero-title">
@@ -126,7 +83,7 @@ export default {
               <div class="card-4-footer">
 
                 <ul class="card-4-list">
-                  <li class="card-4-item" v-for="itWord in itWords">{{itWord}}</li>
+                  <li class="card-4-item" v-for="itWord in itWords">{{itWord.text}}</li>
                 </ul>
               <div class="card-4-count">
                 <div class="card-4-count-content">
@@ -596,7 +553,5 @@ export default {
   height: 18rem;
   background-color: $primary-300;
   transform: rotate(-355deg);
-
 }
-
 </style>
