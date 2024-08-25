@@ -22,13 +22,12 @@ export const useUserStore = defineStore('user', {
     },
     actions: {
         async getUser() {
-            const res = await api.user.getUser();
-            console.log(res);
             try {
+                const { data } = await api.user.getUser();
                 this.authStatus = true;
-                this.id = res.data.id;
-                this.username = res.data.username;
-                this.image = res.data.image;
+                this.id = data.id;
+                this.username = data.username;
+                this.image = data.image;
             } catch (e) {
                 this.authStatus = false;
             }
