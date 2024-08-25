@@ -104,6 +104,7 @@ export interface IconProps {
         | 'links'
         | 'loader'
         | 'locker'
+        | 'language-all'  
         | 'mastered-click'
         | 'mastered-default'
         | 'mastered-hover'

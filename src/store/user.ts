@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 
 //Тип не полностью взят с swagger, только самое нужное
 export interface IUserState {
+    token: string;
     authStatus: boolean;
     id: string;
     username: string;
@@ -12,6 +13,7 @@ export interface IUserState {
 export const useUserStore = defineStore('user', {
     state: (): IUserState => {
         return {
+            token: '',
             authStatus: false,
             id: '',
             username: '',
