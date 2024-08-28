@@ -1,9 +1,12 @@
 <template>
-    <RouterView />
+  <AdPage/>
 </template>
 
 <script lang="ts">
+import AdPage from "@/views/AdLanding.vue";
+
 export default {
+  components: {AdPage},
     data() {
         return {};
     },
