@@ -1,9 +1,6 @@
 <template>
     <div class="layout">
         <Header />
-        <Button size="normal" contentType="right-icon" icon="home">Кнопка</Button>
-        <Button size="medium" contentType="right-icon" icon="home">Кнопка</Button>
-        <Button size="small" contentType="right-icon" icon="home">Кнопка</Button>
         <main class="main">
             <div :class="{ wrapper: !landingPage }">
                 <CircleButton
@@ -36,11 +33,10 @@ import { useWindowScroll } from '@vueuse/core';
 import Header from '@/components/header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
 import CircleButton from '@/components/UI/circle-button/CircleButton.vue';
-import Button from '@/components/UI/button/Button.vue';
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
-    components: { Header, Footer, CircleButton, Button },
+    components: { Header, Footer, CircleButton },
     props: {
         landingPage: { type: Boolean, required: false, default: false },
     },

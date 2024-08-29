@@ -11,14 +11,10 @@ import { useUserStore } from './store/user';
 import Preloader from '@/components/UI/preloader/Preloader.vue';
 import { useLanguagesStore } from './store/languages';
 export default {
-  components: {AdPage},
     data() {
         return {
             isLoading: true
         };
-    },
-    components: {
-        Preloader
     },
     methods: {
         ...mapActions(useUserStore, ["getUser"]),

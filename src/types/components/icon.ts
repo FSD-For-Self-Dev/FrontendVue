@@ -128,6 +128,7 @@ export interface IconProps {
         | 'profile-hover'
         | 'profile-disabled'
         | 'question'
+        | 'quotes'
         | 'rating-full'
         | 'ru'
         | 'russian'
