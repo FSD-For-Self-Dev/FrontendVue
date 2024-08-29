@@ -12,7 +12,6 @@ export default {
   computed: {
     iconSrc(): string {
       if (!this.name) return ''
-
       try {
         return new URL(`/src/assets/icons/${this.name}.svg`, import.meta.url).href;
       } catch (error) {
@@ -25,7 +24,7 @@ export default {
 </script>
 
 <template>
-  <img class="icon" :src="iconSrc" :alt="name" />
+  <img class="icon" :src="iconSrc" alt="" />
 </template>
 
 <style lang="scss">
