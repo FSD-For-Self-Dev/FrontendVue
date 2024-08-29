@@ -7,6 +7,8 @@ import Navigation from './Navigation.vue';
 import Search from './Search.vue';
 import Language from './Language.vue';
 import Authentication from '@/components/authentication/Authentication.vue';
+import { mapState } from 'pinia';
+import { useUserStore } from '@/store/user';
 
 export default {
 	components: { Logo, Menu, Button, Icon, Navigation, Search, Language, Authentication },
@@ -14,6 +16,7 @@ export default {
 		authorized() {
 			return this.$route.path !== '/';
 		},
+		...mapState(useUserStore, ['username', 'authStatus']),
 	},
 	data(): {
 		showAuth: boolean,
@@ -48,25 +51,25 @@ export default {
 		</div>
 
 		<div class="header--center">
-			<Navigation v-if="authorized" />
+			<Navigation v-if="authStatus" />
 		</div>
 
 		<div class="header--right">
-			<Button v-if="!authorized" @click="() => openAuth('login')">Войти</Button>
-			<Button v-if="!authorized" variant="secondary"
+			<Button v-if="!authStatus" @click="() => openAuth('login')">Войти</Button>
+			<Button v-if="!authStatus" variant="secondary"
 				@click="() => openAuth('register')">Зарегистрироваться</Button>
 
 			<Authentication :switch-form="switchForm" :close-auth="closeAuth" :show-auth="showAuth"
-				:view-auth="viewAuth" v-if="!authorized" />
+				:view-auth="viewAuth" v-if="!authStatus" />
 
-			<div class="header--tools" v-if="authorized">
+			<div class="header--tools" v-if="authStatus">
 				<Search />
 				<Button variant="primary" view="icon">
 					<Icon name="plus-white" width="25" height="25" />
 				</Button>
 			</div>
 
-			<div class="header--user" v-if="authorized">
+			<div class="header--user" v-if="authStatus">
 				<Button variant="secondary" size="small" view="icon">
 					<Icon name="bell-default" width="18" height="18" />
 				</Button>

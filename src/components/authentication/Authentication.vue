@@ -3,8 +3,9 @@ import { OnClickOutside } from '@vueuse/components';
 import type { PropType } from 'vue';
 import Input from '@/components/UI/input/Input.vue';
 import Button from '@/components/UI/button/Button.vue';
-import { mapActions, mapState, mapWritableState } from 'pinia';
+import { mapActions, mapWritableState } from 'pinia';
 import { useAuthStore } from '@/store/auth';
+import { useUserStore } from '@/store/user';
 
 export default {
   name: "Authentication",
@@ -32,6 +33,7 @@ export default {
   },
   methods: {
     ...mapActions(useAuthStore, ["login", "registration", "clearState"]),
+    ...mapActions(useUserStore, ["getUser"]),
     switchFormHandler(form: 'login' | 'register') {
       this.clearState();
       this.switchForm(form);
@@ -39,15 +41,24 @@ export default {
     closeFormHandler() {
       this.clearState();
       this.closeAuth();
-    }
-  },
+    },
+    async loginSubmitHandler() {
+      await this.login();
+      try {
+        await this.getUser();
+        this.closeFormHandler();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  }
 }
 </script>
 
 <template>
   <OnClickOutside @trigger="closeFormHandler">
     <div class="modal-auth" v-if="showAuth">
-      <form @submit.prevent="login" class="modal-auth--form" v-if="viewAuth === 'login'">
+      <form @submit.prevent="loginSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'login'">
         <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
 
         <Input type="text" label="Логин" :show-label="true" v-model="username" />
