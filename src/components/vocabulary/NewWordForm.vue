@@ -1,7 +1,7 @@
 <template>
     <form class="new-word--form">
         <select v-model="language">
-            <option v-for="language in learning_languages">{{ language.language.name_local }}</option>
+            <option v-for="language in learning_languages">{{ language.language.name }}</option>
         </select>
         <Input v-model="text" placeholder="Введите слово..." />
         <div class="new-word--translates">
@@ -19,7 +19,6 @@
 </template>
 
 <script lang="ts">
-import { toRaw } from 'vue';
 import Input from '@/components/UI/input/Input.vue';
 import Icon from '@/components/UI/icon/Icon.vue';
 import CircleButton from '../UI/circle-button/CircleButton.vue';
@@ -44,6 +43,7 @@ export default {
             this.translations.push(word);
         },
         ...mapActions(useVocabularyStore, ["createWord", "getVocabulary"]),
+        ...mapActions(useLanguagesStore, ["getLearningLanguages"]),
         handleSubmit() {
             this.createWord({
                 text: this.text,
@@ -53,6 +53,7 @@ export default {
                 this.text = '';
                 this.translations = [];
                 this.getVocabulary();
+                this.getLearningLanguages();
                 this.$router.push('/')
             });
         }

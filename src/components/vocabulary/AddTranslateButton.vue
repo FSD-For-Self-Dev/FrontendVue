@@ -52,7 +52,7 @@ export default {
             <div class="add-translate-button--form" v-if="isTranslateFormOpen">
                 <div class="add-translate-button--form-top">
                     <select v-model="translateLanguage">
-                        <option v-for="language in available_languages" :value="language.name">{{ language.name_local }}</option>
+                        <option v-for="language in available_languages">{{ language.name }}</option>
                     </select>
                 </div>
 

@@ -1,13 +1,15 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
 import Icon from '@/components/UI/icon/Icon.vue';
+import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapState } from 'pinia';
 
 export default {
     components: { Button, Icon },
     computed: {
-        ...mapState(useVocabularyStore, ["count", "words"])
+        ...mapState(useVocabularyStore, ["count", "words"]),
+        ...mapState(useLanguagesStore, ["learning_languages"])
     },
     methods: {
         redirectToNewWord() {
@@ -36,6 +38,7 @@ export default {
 
             <div class="vocabulary-main-view--words" v-else>
                 <div class="vocabulary-main-view--word" v-for="word in words">
+                    <img width="16" :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />
                     {{ word.text }}
                 </div>
             </div>
