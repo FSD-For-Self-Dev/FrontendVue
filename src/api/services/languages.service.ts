@@ -3,18 +3,10 @@ import type { IApi } from '@/types/api/api-types';
 export default (api: IApi) => {
     api.languages = {
         getAvailableLanguages() {
-            return api.request.get('/api/languages/learning-available/', {
-                headers: {
-                    Authorization: `Token ${localStorage.getItem('key')}`,
-                },
-            });
+            return api.request.get('/api/languages/learning-available/');
         },
         getLearningLanguages() {
-            return api.request.get('/api/languages/', {
-                headers: {
-                    Authorization: `Token ${localStorage.getItem('key')}`,
-                },
-            });
+            return api.request.get('/api/languages/');
         },
         postLearningLanguage(languages) {
             const data = languages.map((language) => {
@@ -23,15 +15,7 @@ export default (api: IApi) => {
                 };
             });
 
-            return api.request.post(
-                '/api/languages/',
-                    data,
-                {
-                    headers: {
-                        Authorization: `Token ${localStorage.getItem('key')}`,
-                    },
-                },
-            );
+            return api.request.post('/api/languages/', data);
         },
     };
 };

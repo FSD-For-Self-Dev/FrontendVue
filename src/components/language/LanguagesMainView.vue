@@ -36,7 +36,8 @@ export default {
         <div class="languages-main-view--header">
 
             <h2 class="languages-main-view--title">
-                <Icon name="language-all" width="32" height="32" />Изучаемые языки <span style="color: #737782">{{count}}</span>
+                <Icon name="language-all" width="32" height="32" />Изучаемые языки <span
+                    style="color: #737782">{{ count }}</span>
             </h2>
 
             <Icon name="arrow-forward-default" width="32" height="32" />
@@ -65,7 +66,8 @@ export default {
                                     <Icon name="inactive-click" width="24" height="24" />{{ lang.inactive_words_count }}
                                 </li>
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <Icon name="mastered-default" width="18" height="18" />{{ lang.mastered_words_count }}
+                                    <Icon name="mastered-default" width="18" height="18" />{{ lang.mastered_words_count
+                                    }}
                                 </li>
                             </ul>
                         </div>
@@ -88,6 +90,7 @@ export default {
     box-shadow: $regular-shadow;
     border: 1px solid transparent;
     cursor: pointer;
+    width: 100%;
 
     @include hover {
         border: 1px solid $primary-300;

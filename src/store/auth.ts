@@ -27,6 +27,7 @@ export const useAuthStore = defineStore('auth', {
                 username: this.username,
                 password: this.password,
             });
+            api.updateToken(res.data.key);
             localStorage.setItem('key', res.data.key);
             return res;
         },

@@ -4,10 +4,15 @@ import type { IApi, Module } from '@/types/api/api-types';
 import type { Auth } from '@/types/api/services';
 import type { User } from '@/types/api/services';
 import type { Languages } from '@/types/api/services';
+import type { Vocabulary } from '@/types/api/services/vocabulary-types';
+
+const key = localStorage.getItem('key');
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
+    ...(key && { headers: { Authorization: `Token ${key}` } })
 });
+
 
 const registerApi = (api: IApi) => {
     const services = import.meta.glob<Module>('./services/*.service.ts', {
@@ -27,7 +32,12 @@ export class Api implements IApi {
     auth = <Auth>{};
     user = <User>{};
     languages = <Languages>{};
+    vocabulary = <Vocabulary>{};
     request = instance;
+
+    updateToken = (key: string) => {
+        this.request.defaults.headers.common['Authorization'] = `Token ${key}`;
+    };
 }
 
 export default new Api();
