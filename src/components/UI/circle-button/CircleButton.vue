@@ -39,7 +39,7 @@ export default {
 <template>
   <button class="button" :class="buttonClasses">
     <span class="icon">
-      <Icon :name="icon" />
+      <Icon width="32" height="32" :name="icon" />
     </span>
   </button>
 </template>

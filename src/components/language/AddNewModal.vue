@@ -56,7 +56,7 @@ export default {
                     <div @click="() => toggleActiveLanguage(lang)" class="modal-add-new--list-item"
                         :class="activeLanguage.includes(lang) && 'active'" v-for="lang in available_languages"
                         :key="lang.id">
-                        <img :src="lang.flag_icon" alt="lang.name" class="modal-add-new--list-item-img">
+                        <img :src="lang.flag_icon" :alt="lang.name" class="modal-add-new--list-item-img">
                         <span class="modal-add-new--list-item-name">{{ lang.name_local }}</span>
                     </div>
                 </div>

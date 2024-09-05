@@ -33,6 +33,7 @@ export interface IconProps {
         | 'chosen-default'
         | 'chosen-hover'
         | 'close'
+        | 'confirm'
         | 'collections'
         | 'copy-click'
         | 'copy-default'

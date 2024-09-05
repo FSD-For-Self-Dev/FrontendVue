@@ -44,8 +44,8 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .button {
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 2rem;
+  line-height: 2.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,22 +57,22 @@ export default defineComponent({
 
   &--normal {
     &.button--icon {
-      width: 44px;
-      height: 44px;
+      width: 4.4rem;
+      height: 4.4rem;
     }
 
     &.button--text {
-      padding: 17px 40px;
-      border-radius: 40px;
+      padding: 1.7rem 4rem;
+      border-radius: 4rem;
     }
   }
 
-  &--small  {
+  &--small {
     &.button--icon {
-      width: 32px;
-      height: 32px;
+      width: 3.2rem;
+      height: 3.2rem;
     }
-    
+
     &.button--text {
       padding: 0;
       background-color: transparent;
@@ -80,9 +80,22 @@ export default defineComponent({
     }
   }
 
+  &--medium {
+    &.button--icon {
+      width: 5.6rem;
+      height: 5.6rem;
+    }
+
+    &.button--text {
+      padding: 1.7rem 4rem;
+      border-radius: 4rem;
+    }
+  }
+
+
   &--primary {
     background-color: $primary-300;
-    border: 1px solid transparent;
+    border: 0.1rem solid transparent;
     color: #272932;
 
     @include hover {
@@ -93,14 +106,14 @@ export default defineComponent({
       background-color: $primary-700;
     }
   }
-  
+
   &--secondary {
     background-color: $neutrals-100;
-    border: 1px solid $neutrals-400;
+    border: 0.1rem solid $neutrals-400;
 
     @include hover {
       background-color: $primary-300;
-      border: 1px solid transparent;
+      border: 0.1rem solid transparent;
     }
 
     @include active {

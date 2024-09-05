@@ -79,7 +79,6 @@ export default {
 .wrapper {
     max-width: 1600px;
     min-height: 100%;
-    position: relative;
     display: flex;
     flex-direction: column;
     gap: 4rem;

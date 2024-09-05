@@ -1,6 +1,6 @@
 <template>
     <PageLayout>
-        <h1>СЛОВАРЬ</h1>
+        <h1>ЯЗЫКИ</h1>
     </PageLayout>
 </template>
 
