@@ -1,7 +1,6 @@
 <template>
     <RouterView v-if="!isLoading" />
     <RouterView name="helper" v-if="!isLoading" />
-
     <div v-else class="preloader">
         <Preloader />
     </div>
@@ -13,11 +12,13 @@ import { useUserStore } from './store/user';
 import Preloader from '@/components/UI/preloader/Preloader.vue';
 import { useLanguagesStore } from './store/languages';
 import { useVocabularyStore } from './store/vocabulary';
+import HomePage from "@/views/HomePage.vue";
 export default {
-    components: { Preloader },
+    components: {HomePage, Preloader },
     data() {
         return {
-            isLoading: true
+          // isLoading: true
+          isLoading: false
         };
     },
     methods: {
