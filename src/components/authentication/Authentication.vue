@@ -56,53 +56,56 @@ export default {
 </script>
 
 <template>
-  <OnClickOutside @trigger="closeFormHandler">
-    <div class="modal-auth" v-if="showAuth">
-      <form @submit.prevent="loginSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'login'">
-        <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
+  <Teleport to="body">
+    <OnClickOutside @trigger="closeFormHandler">
 
-        <Input type="text" label="Логин" :show-label="true" v-model="username" />
-        <Input type="password" label="Пароль" :show-label="true" v-model="password" />
+      <div class="modal-auth" v-if="showAuth">
+        <form @submit.prevent="loginSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'login'">
+          <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
 
-        <div class="modal-auth--tools">
-          <div>
-            <input class="custom-checkbox" type="checkbox" id="remember" v-model="remember" />
-            <label class="custom-label" for="remember">
-              Запомнить меня
-            </label>
+          <Input type="text" label="Логин" :show-label="true" v-model="username" />
+          <Input type="password" label="Пароль" :show-label="true" v-model="password" />
+
+          <div class="modal-auth--tools">
+            <div>
+              <input class="custom-checkbox" type="checkbox" id="remember" v-model="remember" />
+              <label class="custom-label" for="remember">
+                Запомнить меня
+              </label>
+            </div>
+
+            <a class="modal-auth--link">Забыли пароль?</a>
           </div>
 
-          <a class="modal-auth--link">Забыли пароль?</a>
-        </div>
+          <Button style="width: 100%; display: flex; justify-content: center" variant="primary" size="medium"
+            view="icon">Войти</Button>
 
-        <Button style="width: 100%; display: flex; justify-content: center" variant="primary" size="medium"
-          view="icon">Войти</Button>
+          <div>Нет аккаунта? <a class="modal-auth--link"
+              @click="() => switchFormHandler('register')">Зарегистрироваться</a>
+          </div>
+        </form>
 
-        <div>Нет аккаунта? <a class="modal-auth--link"
-            @click="() => switchFormHandler('register')">Зарегистрироваться</a>
-        </div>
-      </form>
+        <form @submit.prevent="registration" class="modal-auth--form" v-if="viewAuth === 'register'">
+          <h2 class="modal-auth--title">Добро пожаловать!</h2>
 
-      <form @submit.prevent="registration" class="modal-auth--form" v-if="viewAuth === 'register'">
-        <h2 class="modal-auth--title">Добро пожаловать!</h2>
+          <Input type="text" label="Логин" :show-label="true" v-model="username" />
+          <Input type="email" label="Email" :show-label="true" v-model="email" />
+          <Input type="password" label="Пароль" :show-label="true" v-model="password1" />
+          <Input type="password" label="Подтверждение пароля" :show-label="true" v-model="password2" />
 
-        <Input type="text" label="Логин" :show-label="true" v-model="username" />
-        <Input type="email" label="Email" :show-label="true" v-model="email" />
-        <Input type="password" label="Пароль" :show-label="true" v-model="password1" />
-        <Input type="password" label="Подтверждение пароля" :show-label="true" v-model="password2" />
+          <Button style="width: 100%; display: flex; justify-content: center" variant="primary" size="medium"
+            view="icon">Создать аккаунт</Button>
 
-        <Button style="width: 100%; display: flex; justify-content: center" variant="primary" size="medium"
-          view="icon">Создать аккаунт</Button>
+          <div>Уже есть аккаунт? <a class="modal-auth--link" @click="() => switchFormHandler('login')">Войти</a>
+          </div>
+        </form>
 
-        <div>Уже есть аккаунт? <a class="modal-auth--link" @click="() => switchFormHandler('login')">Войти</a>
-        </div>
-      </form>
+        <div class="modal-auth--image" />
 
-      <div class="modal-auth--image" />
-
-      <button class="modal-auth--close" @click="closeFormHandler" />
-    </div>
-  </OnClickOutside>
+        <button class="modal-auth--close" @click="closeFormHandler" />
+      </div>
+    </OnClickOutside>
+  </Teleport>
 </template>
 
 <style lang="scss">
@@ -113,8 +116,10 @@ export default {
 
 .modal-auth {
   position: fixed;
-  top: 140%;
-  left: 25%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
   width: 880px;
   height: 620px;
   background-color: $neutrals-100;

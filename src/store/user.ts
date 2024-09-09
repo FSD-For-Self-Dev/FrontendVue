@@ -32,5 +32,13 @@ export const useUserStore = defineStore('user', {
                 this.authStatus = false;
             }
         },
+        logout() {
+            this.authStatus = false;
+            this.id = '';
+            this.username = '';
+            this.image = '';
+            this.token = '';
+            localStorage.removeItem('key');
+        }
     },
 });

@@ -9,9 +9,10 @@ import Language from './Language.vue';
 import Authentication from '@/components/authentication/Authentication.vue';
 import { mapState } from 'pinia';
 import { useUserStore } from '@/store/user';
+import ProfileTools from './ProfileTools.vue';
 
 export default {
-	components: { Logo, Menu, Button, Icon, Navigation, Search, Language, Authentication },
+	components: { Logo, Menu, Button, Icon, Navigation, Search, Language, Authentication, ProfileTools },
 	computed: {
 		authorized() {
 			return this.$route.path !== '/';
@@ -21,10 +22,12 @@ export default {
 	data(): {
 		showAuth: boolean,
 		viewAuth: 'login' | 'register',
+		showProfileTools: boolean,
 	} {
 		return {
 			showAuth: false,
 			viewAuth: 'login',
+			showProfileTools: false,
 		};
 	},
 	methods: {
@@ -73,7 +76,8 @@ export default {
 				<Button variant="secondary" size="small" view="icon">
 					<Icon name="bell-default" width="18" height="18" />
 				</Button>
-				<Button variant="secondary" size="small" view="icon">
+				<Button variant="secondary" size="small" view="icon"
+					@click.stop="() => showProfileTools = !showProfileTools">
 					<Icon name="profile" width="18" height="18" />
 				</Button>
 			</div>
@@ -81,6 +85,10 @@ export default {
 			<div class="header--language">
 				<Language />
 			</div>
+
+			<Teleport to="body">
+				<ProfileTools :handleClose="() => showProfileTools = false" v-if="showProfileTools" />
+			</Teleport>
 		</div>
 	</header>
 </template>
