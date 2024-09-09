@@ -91,6 +91,12 @@ export default {
     border: 1px solid transparent;
     cursor: pointer;
     width: 100%;
+    min-height: 36.5rem;
+    max-height: max-content;
+
+    display: flex;
+    flex-direction: column;
+
 
     @include hover {
         border: 1px solid $primary-300;
@@ -106,7 +112,9 @@ export default {
         border-bottom: 0.1rem solid $neutrals-400;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+
+        width: 100%;
+
 
         .languages-main-view--title {
             font-family: 'Inter';
@@ -116,12 +124,14 @@ export default {
             display: flex;
             gap: 0.8rem;
             align-items: center;
+
+
         }
     }
 
     .languages-main-view--content {
         padding-top: 2rem;
-
+        width: 100%;
         .languages-main-view--not-found-learning-languages {
             font-style: 'Inter';
             font-size: 1.6rem;
