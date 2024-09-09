@@ -36,8 +36,8 @@ export default {
         <div class="languages-main-view--header">
 
             <h2 class="languages-main-view--title">
-                <Icon name="language-all" width="32" height="32" />Изучаемые языки <span
-                    style="color: #737782">{{ count }}</span>
+                <Icon name="language-all" width="32" height="32" />Изучаемые языки <span style="color: #737782">{{ count
+                    }}</span>
             </h2>
 
             <Icon name="arrow-forward-default" width="32" height="32" />
@@ -79,7 +79,9 @@ export default {
         </div>
 
     </button>
-    <AddNewLanguageModal :close-handler="closeModal" v-if="isLanguageModalOpen" />
+    <Teleport to="body">
+        <AddNewLanguageModal :close-handler="closeModal" v-if="isLanguageModalOpen" />
+    </Teleport>
 </template>
 
 <style lang="scss">
@@ -132,6 +134,7 @@ export default {
     .languages-main-view--content {
         padding-top: 2rem;
         width: 100%;
+
         .languages-main-view--not-found-learning-languages {
             font-style: 'Inter';
             font-size: 1.6rem;
