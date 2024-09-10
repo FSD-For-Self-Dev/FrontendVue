@@ -9,10 +9,15 @@ jobs:
     name: Pull latest updates
     runs-on: ubuntu-latest
     steps:
-    - name: executing remote ssh commands to deploy
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-    - uses: appleboy/ssh-action@master
+
+    - name: Use Node.js 22.4.1
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.4.1
+
+    - name: executing remote ssh commands to deploy
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
@@ -23,6 +28,7 @@ jobs:
           cd FrontendVue
           sudo git stash
           sudo git pull
+          sudo n 22.4.1
           sudo chmod +x build.sh
           sudo ./build.sh
           sudo systemctl daemon-reload
