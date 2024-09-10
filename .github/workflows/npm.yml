@@ -8,16 +8,13 @@ jobs:
   deploy:
     name: Pull latest updates
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [22.x]
     steps:
     - uses: actions/checkout@v4
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 22.4.1
 
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
@@ -30,8 +27,8 @@ jobs:
           cd FrontendVue
           sudo git stash
           sudo git pull
-          npm install
-          npm run build
+          sudo chmod +x build.sh
+          sudo ./build.sh
           sudo systemctl daemon-reload
           sudo systemctl reload nginx
 
