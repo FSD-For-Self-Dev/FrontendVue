@@ -9,15 +9,16 @@ jobs:
     name: Pull latest updates
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout
     - uses: actions/checkout@v4
 
     - name: Use Node.js 22.4.1
       uses: actions/setup-node@v4
       with:
-        node-version: 22.4.1
+        node-version: '22.4.1'
         cache: 'npm'
 
-    - name: executing remote ssh commands to deploy
+    - name: Executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
