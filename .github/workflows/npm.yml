@@ -28,7 +28,6 @@ jobs:
           cd FrontendVue
           sudo git stash
           sudo git pull
-          sudo n 22.4.1
           sudo chmod +x build.sh
           sudo ./build.sh
           sudo systemctl daemon-reload
