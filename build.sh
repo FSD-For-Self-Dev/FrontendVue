@@ -3,5 +3,5 @@
 set -o errexit
 
 node -v
-npm install
+npm ci
 npm run build
