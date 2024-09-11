@@ -1,6 +1,11 @@
+#!/bin/bash
 # exit on error
 set -o errexit
 
 node -v
-npm ci
-npm run build
+sudo npm install -g n
+sudo n latest
+sudo n prune
+node -v
+sudo npm ci
+sudo npm run build
