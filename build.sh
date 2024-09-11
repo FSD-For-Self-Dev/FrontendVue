@@ -7,5 +7,5 @@ source ~/.nvm/nvm.sh
 nvm use 22.4.1
 node -v
 
-sudo npm install
-sudo npm run build
+npm install
+npm run build
