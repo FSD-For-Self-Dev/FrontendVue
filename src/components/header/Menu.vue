@@ -1,12 +1,22 @@
 <script lang="ts">
 import Icon from '@/components/UI/icon/Icon.vue';
 import { OnClickOutside } from '@vueuse/components';
+import Button from "@/components/UI/button/Button.vue";
 export default {
   name: 'Menu',
-  components: { Icon, OnClickOutside },
+  components: {Button, Icon, OnClickOutside },
   data() {
     return {
-      showMenu: false
+      showMenu: false,
+      menuItems:[
+        {name:'Главная',link:'',icon:'home'},
+        {name:'Изучаемые языки',link:'',icon:'translation'},
+        {name:'Мой словарь',link:'',icon:'vocabulary'},
+        {name:'Коллекции',link:'',icon:'collections'},
+        {name:'Избранное',link:'',icon:'favourite-default'},
+        {name:'Упражнения',link:'',icon:'exercises'},
+        {name:'О платформе',link:'',icon:'info'},
+      ]
     }
   },
   methods: {
@@ -29,7 +39,16 @@ export default {
   </button>
   <div class="menu" :class="{ show: showMenu }">
     <OnClickOutside @trigger="closeMenu">
-      <div></div>
+      <ul class="menu__list">
+        <li v-for="menuItem in menuItems"  class="menu__item">
+          <button :to="menuItem.link" class="menu__item-content" @click="closeMenu">
+            <Icon :name="menuItem.icon" width="32" height="32" class="menu__item-icon"/>
+            <span class="menu__item-name">
+              {{menuItem.name}}
+            </span>
+          </button>
+        </li>
+      </ul>
     </OnClickOutside>
   </div>
 </template>
@@ -67,6 +86,52 @@ export default {
     height: 100%;
     width: 100%;
     backdrop-filter: blur(4px);
+  }
+}
+.menu__list{
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.menu__item{
+  padding: 8px 24px 8px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+
+  .menu__item-content{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    background-color: $neutrals-100;
+    border: 1px solid transparent;
+    cursor: pointer;
+
+
+    .menu__item-name{
+      font-family: 'Inter';
+      font-size: 1.6rem;
+      line-height: 2rem;
+      font-weight: 400;
+    }
+  }
+}
+
+.menu__item:nth-child(6){
+  border-top: 0.8px solid $neutrals-400;
+  border-bottom: 0.8px solid $neutrals-400;
+  padding: 18px 24px 18px 12px;
+}
+
+.menu__item:hover{
+  background-color: $primary-500;
+
+  .menu__item-content{
+    background-color: $primary-500;
+    color: $neutrals-100;
+
+
   }
 }
 </style>
