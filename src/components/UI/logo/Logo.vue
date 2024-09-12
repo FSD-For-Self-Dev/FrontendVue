@@ -1,10 +1,11 @@
 <script lang="ts">
-export default {};
+export default {
+};
 </script>
 
 <template>
     <a class="logo" href="/">
-        <img class="logo" src="../../../../public/logo.svg" alt="logo" />
+        <img class="logo" src="../../../assets/images/logo.svg" alt="logo" />
         <div class="logo-name">
             <h3 class="logo-title">Linguista</h3>
             <p class="logo-subtitle text">Control & Repeat</p>
