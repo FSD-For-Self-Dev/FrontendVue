@@ -3,9 +3,9 @@
     font-weight: 400;
     src:
         local('Fredoka-Regular'),
-        url('src/assets/fonts/fredoka/fredoka-regular.woff2') format('woff2'),
+        url('@/assets/fonts/fredoka/fredoka-regular.woff2') format('woff2'),
         local('Fredoka-Regular'),
-        url('src/assets/fonts/fredoka/fredoka-regular.woff') format('woff');
+        url('@/assets/fonts/fredoka/fredoka-regular.woff') format('woff');
 }
 
 @font-face {
@@ -13,9 +13,9 @@
     font-weight: 500;
     src:
         local('Fredoka-Medium'),
-        url('src/assets/fonts/fredoka/fredoka-medium.woff2') format('woff2'),
+        url('@/assets/fonts/fredoka/fredoka-medium.woff2') format('woff2'),
         local('Fredoka-Medium'),
-        url('src/assets/fonts/fredoka/fredoka-medium.woff') format('woff');
+        url('@/assets/fonts/fredoka/fredoka-medium.woff') format('woff');
 }
 
 @font-face {
@@ -23,9 +23,9 @@
     font-weight: 400;
     src:
         local('Inter-Regular'),
-        url('src/assets/fonts/inter/inter-regular.woff2') format('woff2'),
+        url('@/assets/fonts/inter/inter-regular.woff2') format('woff2'),
         local('Inter-Regular'),
-        url('src/assets/fonts/inter/inter-regular.woff') format('woff');
+        url('@/assets/fonts/inter/inter-regular.woff') format('woff');
 }
 
 @font-face {
@@ -33,9 +33,9 @@
     font-weight: 500;
     src:
         local('Inter-Medium'),
-        url('src/assets/fonts/inter/inter-medium.woff2') format('woff2'),
+        url('@/assets/fonts/inter/inter-medium.woff2') format('woff2'),
         local('Inter-Medium'),
-        url('src/assets/fonts/inter/inter-medium.woff') format('woff');
+        url('@/assets/fonts/inter/inter-medium.woff') format('woff');
 }
 
 @font-face {
@@ -43,7 +43,7 @@
     font-weight: 600;
     src:
         local('Inter-SemiBold'),
-        url('src/assets/fonts/inter/inter-semi-bold.woff2') format('woff2'),
+        url('@/assets/fonts/inter/inter-semi-bold.woff2') format('woff2'),
         local('Inter-SemiBold'),
-        url('src/assets/fonts/inter/inter-semi-bold.woff') format('woff');
+        url('@/assets/fonts/inter/inter-semi-bold.woff') format('woff');
 }
