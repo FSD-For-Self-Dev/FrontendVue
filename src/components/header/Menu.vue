@@ -89,13 +89,13 @@ export default {
 
 .menu__item{
   padding: 0.8rem 2.4rem 0.8rem 1.2rem;
-  border-radius: 16px;
+  border-radius: 1.6rem;
   cursor: pointer;
 
   .menu__item-content{
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 1.5rem;
 
     background-color: $neutrals-100;
     border: 1px solid transparent;
