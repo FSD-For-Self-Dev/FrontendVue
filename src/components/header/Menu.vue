@@ -2,21 +2,14 @@
 import Icon from '@/components/UI/icon/Icon.vue';
 import { OnClickOutside } from '@vueuse/components';
 import Button from "@/components/UI/button/Button.vue";
+import { menuItems } from '@/constants/wordsMock';
 export default {
   name: 'Menu',
   components: {Button, Icon, OnClickOutside },
   data() {
     return {
       showMenu: false,
-      menuItems:[
-        {name:'Главная',link:'',icon:'home'},
-        {name:'Изучаемые языки',link:'',icon:'translation'},
-        {name:'Мой словарь',link:'',icon:'vocabulary'},
-        {name:'Коллекции',link:'',icon:'collections'},
-        {name:'Избранное',link:'',icon:'favourite-default'},
-        {name:'Упражнения',link:'',icon:'exercises'},
-        {name:'О платформе',link:'',icon:'info'},
-      ]
+      menuItems
     }
   },
   methods: {
@@ -95,7 +88,7 @@ export default {
 }
 
 .menu__item{
-  padding: 8px 24px 8px 12px;
+  padding: 0.8rem 2.4rem 0.8rem 1.2rem;
   border-radius: 16px;
   cursor: pointer;
 
@@ -121,7 +114,7 @@ export default {
 .menu__item:nth-child(6){
   border-top: 0.8px solid $neutrals-400;
   border-bottom: 0.8px solid $neutrals-400;
-  padding: 18px 24px 18px 12px;
+  padding: 1.8rem 2.4rem 1.8rem 1.2rem;
 }
 
 .menu__item:hover{
@@ -130,8 +123,6 @@ export default {
   .menu__item-content{
     background-color: $primary-500;
     color: $neutrals-100;
-
-
   }
 }
 </style>
