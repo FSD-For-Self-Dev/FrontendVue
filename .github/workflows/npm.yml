@@ -24,8 +24,6 @@ jobs:
           sudo git pull
           sudo chmod +x build.sh
           sudo ./build.sh
-          sudo systemctl daemon-reload
-          sudo systemctl restart gunicorn
           sudo systemctl reload nginx
 
   send_message:
