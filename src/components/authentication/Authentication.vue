@@ -6,12 +6,13 @@ import Button from '@/components/UI/button/Button.vue';
 import { mapActions, mapWritableState } from 'pinia';
 import { useAuthStore } from '@/store/auth';
 import { useUserStore } from '@/store/user';
+import { isAxiosError } from 'axios';
 
 export default {
   name: "Authentication",
   components: { OnClickOutside, Input, Button },
   computed: {
-    ...mapWritableState(useAuthStore, ["email", "password", "password1", "password2", "username", "remember"]),
+    ...mapWritableState(useAuthStore, ["email", "password", "password1", "password2", "username", "remember", "errors"]),
   },
   props: {
     showAuth: {
@@ -42,14 +43,21 @@ export default {
       this.clearState();
       this.closeAuth();
     },
+    async registrationSubmitHandler() {
+      await this.registration().then(res => {
+        if (!isAxiosError(res)) {
+          this.password = this.password1;
+          this.loginSubmitHandler();
+        }
+      });
+    },
     async loginSubmitHandler() {
-      await this.login();
-      try {
-        await this.getUser();
-        this.closeFormHandler();
-      } catch (error) {
-        console.log(error);
-      }
+      await this.login().then(res => {
+        if (!isAxiosError(res)) {
+          this.getUser();
+          this.closeFormHandler();
+        }
+      });
     },
   }
 }
@@ -57,14 +65,16 @@ export default {
 
 <template>
   <Teleport to="body">
-    <OnClickOutside @trigger="closeFormHandler">
+    <OnClickOutside :options="{ ignore: ['#info-messages'] }" @trigger="closeFormHandler">
 
       <div class="modal-auth" v-if="showAuth">
         <form @submit.prevent="loginSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'login'">
           <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
 
-          <Input type="text" label="Логин" :show-label="true" v-model="username" />
-          <Input type="password" label="Пароль" :show-label="true" v-model="password" />
+          <Input type="text" label="Логин" :show-label="true" v-model="username"
+            :server-error="errors.username ? errors.username.toString() : undefined" />
+          <Input type="password" label="Пароль" :show-label="true" v-model="password"
+            :server-error="errors.password ? errors.password.toString() : undefined" />
 
           <div class="modal-auth--tools">
             <div>
@@ -85,13 +95,17 @@ export default {
           </div>
         </form>
 
-        <form @submit.prevent="registration" class="modal-auth--form" v-if="viewAuth === 'register'">
+        <form @submit.prevent="registrationSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'register'">
           <h2 class="modal-auth--title">Добро пожаловать!</h2>
 
-          <Input type="text" label="Логин" :show-label="true" v-model="username" />
-          <Input type="email" label="Email" :show-label="true" v-model="email" />
-          <Input type="password" label="Пароль" :show-label="true" v-model="password1" />
-          <Input type="password" label="Подтверждение пароля" :show-label="true" v-model="password2" />
+          <Input type="text" label="Логин" :show-label="true" v-model="username"
+            :server-error="errors.username ? errors.username.toString() : undefined" />
+          <Input type="email" label="Email" :show-label="true" v-model="email"
+            :server-error="errors.email ? errors.email.toString() : undefined" />
+          <Input type="password" label="Пароль" :show-label="true" v-model="password1"
+            :server-error="errors.password1 ? errors.password1.toString() : undefined" />
+          <Input type="password" label="Подтверждение пароля" :show-label="true" v-model="password2"
+            :server-error="errors.password2 ? errors.password2.toString() : undefined" />
 
           <Button style="width: 100%; display: flex; justify-content: center" variant="primary" size="medium"
             view="icon">Создать аккаунт</Button>
@@ -171,7 +185,6 @@ export default {
     padding: 48px 48px 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
 
   .modal-auth--tools {
