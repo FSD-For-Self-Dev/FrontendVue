@@ -20,11 +20,11 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         script: |
           cd /home/linguista_user/FrontendVue
-          sudo git stash
-          sudo git pull
-          sudo chmod +x build.sh
-          sudo ./build.sh
-          sudo systemctl reload nginx
+          echo ${{ secrets.PASSWORD }} | sudo -S git stash
+          echo ${{ secrets.PASSWORD }} | sudo -S git pull
+          echo ${{ secrets.PASSWORD }} | sudo -S chmod +x build.sh
+          echo ${{ secrets.PASSWORD }} | sudo -S ./build.sh
+          echo ${{ secrets.PASSWORD }} | sudo -S systemctl reload nginx
 
   send_message:
     name: Send success message
