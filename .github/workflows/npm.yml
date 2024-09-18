@@ -23,7 +23,7 @@ jobs:
           echo ${{ secrets.PASSWORD }} | sudo -S git stash
           echo ${{ secrets.PASSWORD }} | sudo -S git pull
           echo ${{ secrets.PASSWORD }} | sudo -S chmod +x build.sh
-          echo ${{ secrets.PASSWORD }} | sudo -S ./build.sh
+          echo ${{ secrets.PASSWORD }} | sudo -S su -c ./build.sh ${{ secrets.USER }}
           echo ${{ secrets.PASSWORD }} | sudo -S systemctl reload nginx
 
   send_message:
