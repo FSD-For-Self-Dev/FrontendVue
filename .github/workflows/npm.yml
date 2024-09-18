@@ -19,7 +19,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          cd FrontendVue
+          cd /home/linguista_user/FrontendVue
           sudo git stash
           sudo git pull
           sudo chmod +x build.sh
