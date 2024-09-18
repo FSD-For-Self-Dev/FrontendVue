@@ -19,12 +19,12 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          cd /home/${{ secrets.USER }}/FrontendVue
-          echo ${{ secrets.PASSWORD }} | sudo -S git stash
-          echo ${{ secrets.PASSWORD }} | sudo -S git pull
-          echo ${{ secrets.PASSWORD }} | sudo -S chmod +x build.sh
-          echo ${{ secrets.PASSWORD }} | sudo -S su -c ./build.sh ${{ secrets.USER }}
-          echo ${{ secrets.PASSWORD }} | sudo -S systemctl reload nginx
+          cd ${{ secrets.HOME_PATH }}/FrontendVue
+          sudo git stash
+          sudo git pull
+          sudo chmod +x build.sh
+          sudo ./build.sh
+          sudo systemctl reload nginx
 
   send_message:
     name: Send success message
