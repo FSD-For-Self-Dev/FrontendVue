@@ -27,7 +27,7 @@ import { useUserStore } from '@/store/user';
 import FriendsMainView from "@/components/friends/FriendsMainView.vue";
 import TeachersMainView from "@/components/teachers/TeachersMainView.vue";
 export default {
-    components: {TeachersMainView, FriendsMainView, PageLayout, LanguagesMainView, VocabularyMainView, Landing },
+    components: {TeachersMainView, FriendsMainView, PageLayout, LanguagesMainView, VocabularyMainView, Landing  },
     computed: {
         ...mapState(useUserStore, ['authStatus', 'username']),
     }

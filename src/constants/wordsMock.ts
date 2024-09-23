@@ -1,5 +1,6 @@
 import type { IWordCard } from "@/types/components/word-card";
 import type {IHeroWords, IItWords,ILanguageCards} from "@/types/components/ad-landing";
+import type {IVocabularyWords} from "@/types/components/vocabulary";
 
 export const words: IWordCard[] = [
   { text: "break a leg" },
@@ -71,3 +72,47 @@ export const languageCards: ILanguageCards[] = [
   },
 ]
 
+
+
+export const vocabularyWords: IVocabularyWords[] = [
+  {
+    translation:"la casa de papel",
+    language:"spain"
+  },
+  {
+    translation:"money heist",
+    language:"spain"
+  },
+  {
+    translation:"ronaldo played for juventus 1 season",
+    language:"italy"
+
+  },
+  {
+    translation:"arsenal doesnt win ucl",
+    language:"english"
+  },
+  {
+    translation:"real madrid doesnt have trebl",
+    language:"spain"
+  },
+  {
+    translation:"messi best player in the world",
+    language:"english"
+  },
+  {
+    translation:"rodri deverse ballon dor",
+    language:"spain"
+
+  },
+  {
+    translation:"bayern won 6 trophies in 1 season ",
+    language:"german"
+  },
+  {
+    translation:"flash its best movie i have ever been watched",
+    language:"usa"
+  },
+
+
+]

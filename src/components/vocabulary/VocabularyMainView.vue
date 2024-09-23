@@ -4,9 +4,15 @@ import Icon from '@/components/UI/icon/Icon.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapState } from 'pinia';
+import {languageCards} from "@/constants/wordsMock";
 
 export default {
     components: { Button, Icon },
+    data() {
+      return {
+        languageCards
+      }
+    },
     computed: {
         ...mapState(useVocabularyStore, ["count", "words"]),
         ...mapState(useLanguagesStore, ["learning_languages"])

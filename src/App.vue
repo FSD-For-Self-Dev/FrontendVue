@@ -13,8 +13,9 @@ import Preloader from '@/components/UI/preloader/Preloader.vue';
 import { useLanguagesStore } from './store/languages';
 import { useVocabularyStore } from './store/vocabulary';
 import HomePage from "@/views/HomePage.vue";
+import Vocabulary from "@/views/Vocabulary.vue";
 export default {
-    components: {HomePage, Preloader },
+    components: {Vocabulary, HomePage, Preloader },
     data() {
         return {
           // isLoading: true
