@@ -1,5 +1,6 @@
 import type { IWordCard } from "@/types/components/word-card";
 import type {IHeroWords, IItWords,ILanguageCards} from "@/types/components/ad-landing";
+import type {IMenuItems} from "@/types/components/menu";
 
 export const words: IWordCard[] = [
   { text: "break a leg" },
@@ -71,3 +72,13 @@ export const languageCards: ILanguageCards[] = [
   },
 ]
 
+
+export const menuItems: IMenuItems[] = [
+  {name:'Главная',link:'',icon:'home'},
+  {name:'Изучаемые языки',link:'',icon:'translation'},
+  {name:'Мой словарь',link:'',icon:'vocabulary'},
+  {name:'Коллекции',link:'',icon:'collections'},
+  {name:'Избранное',link:'',icon:'favourite-default'},
+  {name:'Упражнения',link:'',icon:'exercises'},
+  {name:'О платформе',link:'',icon:'info'},
+]

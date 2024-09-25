@@ -97,12 +97,12 @@ export default {
         <label :id="`${name}-label`" :class="labelClasses" :for="name">
             {{ label }}
         </label>
-        <p v-if="validationError" :id="`${name}-error`" class="validation-error">
+        <span v-if="validationError" :id="`${name}-error`" class="validation-error">
             {{ validationError }}
-        </p>
-        <p v-if="serverError" :id="`${name}-error`" class="server-error">
+        </span>
+        <span v-if="serverError" :id="`${name}-error`" class="server-error">
             {{ serverError }}
-        </p>
+        </span>
     </div>
 </template>
 
