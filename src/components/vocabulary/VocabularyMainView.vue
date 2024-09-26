@@ -4,13 +4,13 @@ import Icon from '@/components/UI/icon/Icon.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapState } from 'pinia';
-import {languageCards} from "@/constants/wordsMock";
+import {vocabularyWords} from "@/constants/wordsMock";
 
 export default {
     components: { Button, Icon },
     data() {
       return {
-        languageCards
+        vocabularyWords
       }
     },
     computed: {
@@ -36,16 +36,16 @@ export default {
             <Icon name="arrow-forward-default" width="32" height="32" />
         </div>
         <div class="vocabulary-main-view--content">
-            <div class="vocabulary-main-view--not-found" v-if="!words.length">
+            <div class="vocabulary-main-view--not-found" v-if="!vocabularyWords.length">
                 В словаре пока нет слов или фраз
 
                 <Button @click="redirectToNewWord" size="small" icon="plus">Добавить первые слова</Button>
             </div>
 
             <div class="vocabulary-main-view--words" v-else>
-                <div class="vocabulary-main-view--word" v-for="word in words">
-                    <img width="16" :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />
-                    {{ word.text }}
+                <div class="vocabulary-main-view--word" v-for="word in vocabularyWords">
+<!--                    <img width="16" :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />-->
+                    {{ word }}
                 </div>
             </div>
         </div>
