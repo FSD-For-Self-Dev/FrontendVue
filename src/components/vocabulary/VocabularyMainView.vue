@@ -44,8 +44,9 @@ export default {
 
             <div class="vocabulary-main-view--words" v-else>
                 <div class="vocabulary-main-view--word" v-for="word in vocabularyWords">
+<!--                  <Icon :name="word.language" width="32"/>-->
 <!--                    <img width="16" :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />-->
-                    {{ word }}
+                    {{ word.text }}
                 </div>
             </div>
         </div>
@@ -91,6 +92,7 @@ export default {
 
     .vocabulary-main-view--content {
         padding-top: 2rem;
+        overflow-x: scroll;
 
 
         .vocabulary-main-view--not-found {

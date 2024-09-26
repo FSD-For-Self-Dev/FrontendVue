@@ -76,41 +76,41 @@ export const languageCards: ILanguageCards[] = [
 
 export const vocabularyWords: IVocabularyWords[] = [
   {
-    translation:"la casa de papel",
+    text:"la casa de papel",
     language:"spain"
   },
   {
-    translation:"money heist",
+    text:"money heist",
     language:"spain"
   },
   {
-    translation:"ronaldo played for juventus 1 season",
+    text:"ronaldo played for juventus 1 season",
     language:"italy"
 
   },
   {
-    translation:"arsenal doesnt win ucl",
+    text:"arsenal doesnt win ucl",
     language:"english"
   },
   {
-    translation:"real madrid doesnt have trebl",
+    text:"real madrid doesnt have trebl",
     language:"spain"
   },
   {
-    translation:"messi best player in the world",
+    text:"messi best player in the world",
     language:"english"
   },
   {
-    translation:"rodri deverse ballon dor",
+    text:"rodri deverse ballon dor",
     language:"spain"
 
   },
   {
-    translation:"bayern won 6 trophies in 1 season ",
+    text:"bayern won 6 trophies in 1 season ",
     language:"german"
   },
   {
-    translation:"flash its best movie i have ever been watched",
+    text:"flash its best movie i have ever been watched",
     language:"usa"
   },
 

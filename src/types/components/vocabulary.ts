@@ -1,4 +1,4 @@
-export interface IVocabularyWords{
-    translation:string,
+export interface IVocabularyWords {
+    text:string,
     language:string
 }
