@@ -3,7 +3,7 @@
         <select v-model="language">
             <option v-for="language in learning_languages">{{ language.language.name }}</option>
         </select>
-        <Input v-model="text" placeholder="Введите слово..." />
+        <Input v-model="text" placeholder="Введите слово..." :serverError="errors.text[0]" />
         <div class="new-word--translates">
             <AddTranslateButton :addNewTranslate="addNewTranslate" />
             <div class="new-word--translate" v-for="translate in translations"><img width="16"
@@ -28,6 +28,7 @@ import Button from '../UI/button/Button.vue';
 import AddTranslateButton from './AddTranslateButton.vue';
 import type { WordTranslationDto } from '@/dto/vocabulary.dto';
 import { useVocabularyStore } from '@/store/vocabulary';
+import { isAxiosError } from 'axios';
 
 export default {
     components: { Input, Icon, CircleButton, Button, AddTranslateButton },
@@ -49,17 +50,20 @@ export default {
                 text: this.text,
                 language: this.language,
                 translations: this.translations
-            }).finally(() => {
-                this.text = '';
-                this.translations = [];
-                this.getVocabulary();
-                this.getLearningLanguages();
-                this.$router.push('/')
+            }).then((res) => {
+                if (!isAxiosError(res)) {
+                    this.text = '';
+                    this.translations = [];
+                    this.getVocabulary();
+                    this.getLearningLanguages();
+                    this.$router.push('/');
+                }
             });
         }
     },
     computed: {
-        ...mapState(useLanguagesStore, ["learning_languages", "available_languages"])
+        ...mapState(useLanguagesStore, ["learning_languages", "available_languages"]),
+        ...mapState(useVocabularyStore, ["errors"])
     },
 }
 </script>
