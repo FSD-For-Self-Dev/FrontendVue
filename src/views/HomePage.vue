@@ -6,10 +6,6 @@
             <div class="home-page-top--left-section">
               <LanguagesMainView />
             </div>
-            <div class="home-page-top--right-section">
-              <FriendsMainView/>
-              <TeachersMainView/>
-            </div>
           </div>
             <VocabularyMainView />
         </div>

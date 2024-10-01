@@ -19,6 +19,7 @@ export interface IAuthState {
     password2: string;
     remember: boolean;
     errors: authErrors;
+    info: string;
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -38,6 +39,7 @@ export const useAuthStore = defineStore('auth', {
                 password2: [],
                 non_field_errors: [],
             },
+            info: '',
         };
     },
     actions: {

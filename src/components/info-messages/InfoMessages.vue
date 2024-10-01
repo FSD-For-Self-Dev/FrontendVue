@@ -16,7 +16,7 @@ export default {
 <template>
     <Teleport to="body">
         <div class="info-messages" id="info-messages">
-            <Item v-for="(error, index) in errors.non_field_errors.slice(0, 3)" :key="`message-${index}`" :message="error"
+            <Item type="error" v-for="(error, index) in errors.non_field_errors.slice(0, 3)" :key="`message-${index}`" :message="error"
                 :index="index" />
         </div>
     </Teleport>

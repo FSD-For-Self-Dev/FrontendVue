@@ -7,6 +7,8 @@ import { mapActions, mapWritableState } from 'pinia';
 import { useAuthStore } from '@/store/auth';
 import { useUserStore } from '@/store/user';
 import { isAxiosError } from 'axios';
+import { useLanguagesStore } from '@/store/languages';
+import { useVocabularyStore } from '@/store/vocabulary';
 
 export default {
   name: "Authentication",
@@ -35,6 +37,8 @@ export default {
   methods: {
     ...mapActions(useAuthStore, ["login", "registration", "clearState"]),
     ...mapActions(useUserStore, ["getUser"]),
+    ...mapActions(useLanguagesStore, ["getAvailableLanguages", "getLearningLanguages"]),
+    ...mapActions(useVocabularyStore, ["getVocabulary"]),
     switchFormHandler(form: 'login' | 'register') {
       this.clearState();
       this.switchForm(form);
@@ -54,7 +58,12 @@ export default {
     async loginSubmitHandler() {
       await this.login().then(res => {
         if (!isAxiosError(res)) {
-          this.getUser();
+          Promise.all([
+            this.getUser(),
+            this.getAvailableLanguages(),
+            this.getLearningLanguages(),
+            this.getVocabulary()
+          ]);
           this.closeFormHandler();
         }
       });
