@@ -2,6 +2,7 @@
 import { useAuthStore } from '@/store/auth';
 import { mapActions } from 'pinia';
 import Icon from '@/components/UI/icon/Icon.vue';
+import type { PropType } from 'vue';
 
 export default {
     props: {
@@ -12,6 +13,10 @@ export default {
         message: {
             type: String,
             required: true
+        },
+        type: {
+            type: String as PropType<'error' | 'info'>,
+            default: 'error'
         }
     },
     data() {
@@ -47,7 +52,7 @@ export default {
 <template>
     <div class="info-messages--item">
         <div class="info-messages--item__left">
-            <Icon name="error" width="20" />
+            <Icon :name="type" width="24" />
             {{ message }}
         </div>
         <button @click.stop="() => closeMessage(index)" class="info-message__close">
