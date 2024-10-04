@@ -109,7 +109,7 @@ export default {
 <style lang="scss" scoped>
 .input {
     min-height: 5.9rem;
-    min-width: 32rem;
+    width: 100%;
     border-radius: $radius-md;
     padding-inline: 2rem;
     border: 0.1rem solid $neutrals-400;
@@ -153,6 +153,7 @@ export default {
 }
 
 .form-row {
+    max-width: 32rem;
     position: relative;
     display: flex;
     flex-direction: column;

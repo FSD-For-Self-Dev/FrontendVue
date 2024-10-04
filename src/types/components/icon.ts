@@ -179,5 +179,9 @@ export interface IconProps {
         | 'word-forms'
         | 'words'
         | 'youtube-default'
-        | 'youtube-hover';
+        | 'youtube-hover'
+        | 'flag-ru'
+        | 'flag-gb'
+        | 'flag-de'
+        | 'flag-it';
 }
