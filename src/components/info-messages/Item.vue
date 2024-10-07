@@ -2,22 +2,14 @@
 import { useAuthStore } from '@/store/auth';
 import { mapActions } from 'pinia';
 import Icon from '@/components/UI/icon/Icon.vue';
-import type { PropType } from 'vue';
+import { useInfoMessagesStore } from '@/store/info-message';
 
 export default {
     props: {
-        index: {
-            type: Number,
-            required: true
-        },
         message: {
-            type: String,
+            type: Object,
             required: true
         },
-        type: {
-            type: String as PropType<'error' | 'info'>,
-            default: 'error'
-        }
     },
     data() {
         return {
@@ -29,7 +21,7 @@ export default {
         this.interval = setInterval(() => {
             this.timerTik++;
             if (this.timerTik > 10) {
-                this.closeMessage(this.index)
+                this.deleteMessageById(this.message.id)
             }
         }, 1000)
     },
@@ -38,10 +30,7 @@ export default {
         this.timerTik = 0;
     },
     methods: {
-        ...mapActions(useAuthStore, ['removeNonFieldError']),
-        closeMessage(index: number) {
-            this.removeNonFieldError(index);
-        },
+        ...mapActions(useInfoMessagesStore, ['deleteMessageById']),
     },
     components: {
         Icon
@@ -52,10 +41,10 @@ export default {
 <template>
     <div class="info-messages--item">
         <div class="info-messages--item__left">
-            <Icon :name="type" width="24" />
-            {{ message }}
+            <Icon :name="message.type" width="24" />
+            {{ message.text }}
         </div>
-        <button @click.stop="() => closeMessage(index)" class="info-message__close">
+        <button @click.stop="() => deleteMessageById(message.id)" class="info-message__close">
             <Icon name="close" width="18" />
         </button>
     </div>

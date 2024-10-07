@@ -29,20 +29,17 @@ export const useLanguagesStore = defineStore('languages', {
     actions: {
         async getAvailableLanguages() {
             const res = await api.languages.getAvailableLanguages();
-            console.log(res);
             this.available_languages = res.data
                 .results as unknown as LanguageDto[];
         },
         async getLearningLanguages() {
             const res = await api.languages.getLearningLanguages();
-            console.log(res);
             this.count = res.data.count as unknown as number; 
             this.learning_languages = res.data
                 .results as unknown as LearningLanguageDto[];
         },
         async postLearningLanguage(languages: LanguageDto[]) {
             const res = await api.languages.postLearningLanguage(languages);
-            console.log(res);
             this.count = res.data.count as unknown as number; 
             this.learning_languages = res.data
                 .results as unknown as LearningLanguageDto[];

@@ -2,13 +2,12 @@ import api from '@/api';
 import { AxiosError, isAxiosError } from 'axios';
 import { defineStore } from 'pinia';
 
-export type authErrors = {
+export type authFormErrors = {
     username: string[];
     email: string[];
     password: string[];
     password1: string[];
     password2: string[];
-    non_field_errors: string[];
 };
 
 export interface IAuthState {
@@ -18,8 +17,7 @@ export interface IAuthState {
     password1: string;
     password2: string;
     remember: boolean;
-    errors: authErrors;
-    info: string;
+    errors: authFormErrors;
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -37,9 +35,7 @@ export const useAuthStore = defineStore('auth', {
                 password: [],
                 password1: [],
                 password2: [],
-                non_field_errors: [],
             },
-            info: '',
         };
     },
     actions: {
@@ -47,20 +43,14 @@ export const useAuthStore = defineStore('auth', {
             try {
                 const res = await api.auth.login({
                     username: this.username,
-                    password: this.password
+                    password: this.password,
                 });
                 api.updateToken(res.data.key);
                 localStorage.setItem('key', res.data.key);
                 return res;
             } catch (error) {
                 if (isAxiosError(error)) {
-                    const newErrors = error.response?.data;
-                    if (newErrors) {
-                        this.errors = {
-                            ...newErrors,
-                            non_field_errors: [...(newErrors.non_field_errors || []), ...this.errors.non_field_errors ],
-                        };
-                    }
+                    this.errors = error.response?.data;
                     return error;
                 }
             }
@@ -76,15 +66,9 @@ export const useAuthStore = defineStore('auth', {
                 return res;
             } catch (error) {
                 if (isAxiosError(error)) {
-                    const newErrors = error.response?.data;
-                    if (newErrors) {
-                        this.errors = {
-                            ...newErrors,
-                            non_field_errors: [...(newErrors.non_field_errors || []), ...this.errors.non_field_errors ],
-                        };
-                    }
-                    return error;
+                    this.errors = error.response?.data;
                 }
+                return error;
             }
         },
         clearState() {
@@ -100,11 +84,7 @@ export const useAuthStore = defineStore('auth', {
                 password: [],
                 password1: [],
                 password2: [],
-                non_field_errors: this.errors.non_field_errors,
             };
-        },
-        removeNonFieldError(index: number) {
-            this.errors.non_field_errors.splice(index, 1);
         },
     },
 });

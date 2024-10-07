@@ -5,6 +5,8 @@ import type { LanguageDto } from '@/dto/languages.dto';
 import Icon from '@/components/UI/icon/Icon.vue';
 import Button from '@/components/UI/button/Button.vue';
 import { OnClickOutside } from '@vueuse/components';
+import { useInfoMessagesStore } from '@/store/info-message';
+import { numWord } from '@/utils/numWord';
 
 export default {
     components: { Icon, Button, OnClickOutside },
@@ -24,6 +26,7 @@ export default {
     },
     methods: {
         ...mapActions(useLanguagesStore, ["postLearningLanguage", "getAvailableLanguages"]),
+        ...mapActions(useInfoMessagesStore, ["addNewMessage"]),
         toggleActiveLanguage(lang: LanguageDto) {
             if (this.activeLanguage.includes(lang)) {
                 this.activeLanguage = this.activeLanguage.filter((item) => item.id !== lang.id);
@@ -33,6 +36,13 @@ export default {
         },
         async handleSave() {
             await this.postLearningLanguage(this.activeLanguage);
+
+            const lenWords = this.activeLanguage.length;
+            const addWord = numWord(lenWords, ['Добавлен', 'Добавлено', 'Добавлено'])
+            const newWord = numWord(lenWords, ['новый', 'новых', 'новых']);
+            const langWord = numWord(lenWords, ['язык', 'языка', 'языков']);
+            this.addNewMessage({ type: 'info', text: `${addWord} ${lenWords} ${newWord} ${langWord}` })
+
             await this.getAvailableLanguages();
             this.closeHandler();
         }
