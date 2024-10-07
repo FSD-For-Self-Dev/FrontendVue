@@ -92,7 +92,7 @@ export default {
   &--medium {
     @include padding(1.6, 3.2, 0.1);
 
-    border-radius: $radius-sm;
+    border-radius: $radius-2xl;
     column-gap: 0.8rem;
     font-size: 1.6rem;
     line-height: 2rem;
