@@ -149,8 +149,8 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
-  width: 880px;
-  height: 620px;
+  width: 88rem;
+  height: 62rem;
   background-color: $neutrals-100;
   box-shadow: $regular-shadow;
   border-radius: $radius-md;
@@ -160,26 +160,26 @@ export default {
   .modal-auth--image {
     background-image: url("../../assets/images/modal-auth-image.jpg");
     background-size: cover;
-    width: 440px;
-    height: 620px;
+    min-width: 44rem;
+    height: 62rem;
     border-radius: 0 $radius-md $radius-md 0;
   }
 
   .modal-auth--title {
     font-family: 'Inter';
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: 600;
-    line-height: 24px;
+    line-height: 2.4rem;
     align-self: start;
-    margin-bottom: 12px;
+    margin-bottom: 1.2rem;
   }
 
   .modal-auth--close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 44px;
-    height: 44px;
+    top: 2rem;
+    right: 2rem;
+    width: 4.4rem;
+    height: 4.4rem;
     background-color: transparent;
     border: none;
     font-size: 1.6rem;
@@ -189,16 +189,17 @@ export default {
     background-color: $neutrals-100;
     border-radius: $radius-full;
     background-image: url("../../assets/icons/close.svg");
-    background-size: 20px 20px;
+    background-size: 2rem 2rem;
     background-repeat: no-repeat;
     background-position: center;
     box-shadow: $regular-shadow;
   }
 
   .modal-auth--form {
-    gap: 12px;
-    padding: 48px 48px 0;
+    gap: 1.2rem;
+    padding: 4.8rem 4.8rem 0;
     display: flex;
+    width: 100%;
     flex-direction: column;
   }
 
@@ -253,11 +254,11 @@ export default {
     flex-shrink: 0;
     flex-grow: 0;
     border: 0.1rem solid $neutrals-400;
-    border-radius: 6px;
+    border-radius: 0.6rem;
     margin-right: 0.5rem;
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: 16px 16px;
+    background-size: 1.6rem 1.6rem;
   }
 }
 </style>
