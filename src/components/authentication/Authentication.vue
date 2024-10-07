@@ -9,6 +9,7 @@ import { useUserStore } from '@/store/user';
 import { isAxiosError } from 'axios';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
+import { useInfoMessagesStore } from '@/store/info-message';
 
 export default {
   name: "Authentication",
@@ -39,6 +40,7 @@ export default {
     ...mapActions(useUserStore, ["getUser"]),
     ...mapActions(useLanguagesStore, ["getAvailableLanguages", "getLearningLanguages"]),
     ...mapActions(useVocabularyStore, ["getVocabulary"]),
+    ...mapActions(useInfoMessagesStore, ["addNewMessage"]),
     switchFormHandler(form: 'login' | 'register') {
       this.clearState();
       this.switchForm(form);
@@ -52,6 +54,8 @@ export default {
         if (!isAxiosError(res)) {
           this.password = this.password1;
           this.loginSubmitHandler();
+        } else {
+          this.addNewMessage({ type: 'error', text: res.response?.data['non_field_errors'][0] })
         }
       });
     },
@@ -65,6 +69,8 @@ export default {
             this.getVocabulary()
           ]);
           this.closeFormHandler();
+        } else {
+          this.addNewMessage({ type: 'error', text: res.response?.data['non_field_errors'][0] })
         }
       });
     },
