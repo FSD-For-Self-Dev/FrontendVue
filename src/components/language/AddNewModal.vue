@@ -39,9 +39,9 @@ export default {
 
             const lenWords = this.activeLanguage.length;
             const addWord = numWord(lenWords, ['Добавлен', 'Добавлено', 'Добавлено'])
-            const newWord = numWord(lenWords, ['новый', 'новых', 'новых']);
+            const learnWord = numWord(lenWords, ['изучаемый', 'изучаемых', 'изучаемых']);
             const langWord = numWord(lenWords, ['язык', 'языка', 'языков']);
-            this.addNewMessage({ type: 'info', text: `${addWord} ${lenWords} ${newWord} ${langWord}` })
+            this.addNewMessage({ type: 'info', text: `${addWord} ${lenWords} ${learnWord} ${langWord}` })
 
             await this.getAvailableLanguages();
             this.closeHandler();
