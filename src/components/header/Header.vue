@@ -68,7 +68,7 @@ export default {
 			<div class="header--tools" v-if="authStatus">
 				<Search />
 				<Button variant="primary" view="icon">
-					<Icon name="plus-white" width="25" height="25" />
+					<Icon name="plus-white" width="32" height="32" color="#fff" />
 				</Button>
 			</div>
 

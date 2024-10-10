@@ -27,7 +27,6 @@ export default {
     position: fixed;
     top: 12rem;
     right: 2rem;
-    width: 46.4rem;
     z-index: 10000;
     display: flex;
     flex-direction: column;

@@ -48,18 +48,18 @@ export default {
 <template>
   <button class="button" :class="buttonClasses">
     <span v-if="contentType === 'left-icon'" class="icon">
-      <Icon :name="icon" />
+      <Icon :name="icon" v-if="icon" />
     </span>
     <span>
       <slot />
     </span>
     <span v-if="contentType === 'right-icon'" class="icon">
-      <Icon :name="icon" />
+      <Icon :name="icon" v-if="icon" width="1.6" height="1.6" />
     </span>
     <span v-if="additionalText" class="additional">
       {{ additionalText }}
     </span>
-  </button>
+  </button> 
 </template>
 
 <style lang="scss" scoped>

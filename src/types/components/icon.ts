@@ -172,6 +172,7 @@ export interface IconProps {
         | 'transfer-right'
         | 'transfer-up'
         | 'trashbin'
+        | 'translation'
         | 'trophy'
         | 'vk-default'
         | 'vk-hover'

@@ -12,18 +12,18 @@ export default {
         <ul class="navigation--list">
             <li>
                 <a class="navigation--item">
-                    <Icon name="vocabulary" width="24" />Мой словарь
+                    <Icon name="vocabulary" width="24" height="24" />Мой словарь
                 </a>
             </li>
             <li>
                 <a class="navigation--item">
-                    <Icon name="collections" width="24" />Коллекции
+                    <Icon name="collections" width="24" height="24" />Коллекции
                 </a>
 
             </li>
             <li>
                 <a class="navigation--item">
-                    <Icon name="exercises" width="24" />Упражнения
+                    <Icon name="exercises" width="24" height="24" />Упражнения
                 </a>
             </li>
         </ul>

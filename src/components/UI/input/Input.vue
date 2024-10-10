@@ -91,8 +91,8 @@ export default {
         <button v-if="$attrs.type === 'password'"
             :aria-label="inputType === 'password' ? 'Show password' : 'Hide password'" class="password-toggle"
             @click="togglePassword" type="button">
-            <Icon aria-hidden="true" v-if="inputType === 'password'" name="eye-on" />
-            <Icon aria-hidden="true" v-else name="eye-off" />
+            <Icon width="24" height="24" aria-hidden="true" v-if="inputType === 'password'" name="eye-on" />
+            <Icon width="24" height="24" aria-hidden="true" v-else name="eye-off" />
         </button>
         <label :id="`${name}-label`" :class="labelClasses" :for="name">
             {{ label }}

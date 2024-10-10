@@ -2,7 +2,7 @@
     <OnClickOutside @trigger.stop="() => handleClose()">
         <div class="profile-tools">
             <button @click="handleExit" class="profile-tools__button">
-                <Icon name="exit" width="24" /> Выйти
+                <Icon name="exit" width="24" height="24"/> Выйти
             </button>
         </div>
     </OnClickOutside>

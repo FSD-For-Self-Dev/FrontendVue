@@ -1,35 +1,48 @@
 <script lang="ts">
-import { type PropType } from 'vue';
-import type { IconProps } from '@/types/components/icon';
+import { type PropType, defineComponent, shallowRef, onMounted, markRaw } from 'vue';
 
-export default {
-  name: 'Icon',
+export default defineComponent({
   props: {
     name: {
-      type: String as PropType<IconProps['type']>
+      type: String,
+      required: true
+    },
+    width: {
+      type: [Number, String],
+      default: 100
+    },
+    height: {
+      type: [Number, String],
+      default: 100
+    },
+    color: {
+      type: String,
+      default: '#000'
     }
   },
-  computed: {
-    iconSrc(): string {
-      if (!this.name) return ''
+  setup(props) {
+    const IconComponent = shallowRef<any>(null);
+
+    onMounted(async () => {
       try {
-        return new URL(`/src/assets/icons/${this.name}.svg`, import.meta.url).href;
+        const importedIcon = (await import(`@/assets/icons/${props.name}.svg?component`)).default;
+        IconComponent.value = markRaw(importedIcon);
       } catch (error) {
-        console.error(`Icon "${this.name}" not found!`, error)
-        return '';
+        console.error(`Failed to load icon: ${props.name}`, error);
       }
-    }
+    });
+
+    return { IconComponent };
   }
-}
+});
 </script>
 
 <template>
-  <img class="icon" :src="iconSrc" alt="" />
+  <component class="icon" v-if="IconComponent" :is="IconComponent" :width="width" :height="height" :color="color" />
 </template>
 
 <style lang="scss">
 .icon {
-  margin: 0;
-  padding: 0;
+  display: inline;
 }
 </style>
