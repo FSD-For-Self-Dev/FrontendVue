@@ -2,10 +2,12 @@
 import type { InputTypeHTMLAttribute, PropType } from "vue";
 import Icon from "@/components/UI/icon/Icon.vue";
 import type { InputProps } from "@/types/components/input";
+import EyeOnIcon from "@/assets/icons/EyeOnIcon.vue";
+import EyeOffIcon from "@/assets/icons/EyeOffIcon.vue";
 
 
 export default {
-    components: { Icon },
+    components: { Icon, EyeOnIcon, EyeOffIcon },
     inheritAttrs: false,
     props: {
         label: {
@@ -91,8 +93,8 @@ export default {
         <button v-if="$attrs.type === 'password'"
             :aria-label="inputType === 'password' ? 'Show password' : 'Hide password'" class="password-toggle"
             @click="togglePassword" type="button">
-            <Icon width="24" height="24" aria-hidden="true" v-if="inputType === 'password'" name="eye-on" />
-            <Icon width="24" height="24" aria-hidden="true" v-else name="eye-off" />
+            <EyeOnIcon size="24" v-if="inputType === 'password'" />
+            <EyeOffIcon size="24" v-else />
         </button>
         <label :id="`${name}-label`" :class="labelClasses" :for="name">
             {{ label }}
