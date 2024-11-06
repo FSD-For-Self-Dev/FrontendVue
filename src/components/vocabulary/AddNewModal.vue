@@ -1,24 +1,21 @@
 <script lang="ts">
-import { useLanguagesStore } from '@/store/languages';
-import { mapState, mapActions } from 'pinia';
-import type { LanguageDto } from '@/dto/languages.dto';
 import Button from '@/components/UI/button/Button.vue';
 import { OnClickOutside } from '@vueuse/components';
-import { useInfoMessagesStore } from '@/store/info-message';
-import { numWord } from '@/utils/numWord';
-import ExercisesIcon from '@/assets/icons/ExercisesIcon.vue';
+import AddIcon from '@/assets/icons/AddIcon.vue';
 import CloseIcon from '@/assets/icons/CloseIcon.vue';
+import Dropdown from '../UI/dropdown/Dropdown.vue';
+import { mapState } from 'pinia';
+import { useLanguagesStore } from '@/store/languages';
 
 export default {
-    components: { CloseIcon, Button, OnClickOutside, ExercisesIcon },
-    computed: {
-        ...mapState(useLanguagesStore, ["available_languages"])
-    },
+    components: { AddIcon, Button, OnClickOutside, CloseIcon, Dropdown },
     data() {
         return {
-            activeLanguage: [] as LanguageDto[],
-            langWord: ''
+            language: ''
         }
+    },
+    computed: {
+        ...mapState(useLanguagesStore, ["available_languages"])
     },
     props: {
         closeHandler: {
@@ -27,26 +24,8 @@ export default {
         },
     },
     methods: {
-        ...mapActions(useLanguagesStore, ["postLearningLanguage", "getAvailableLanguages"]),
-        ...mapActions(useInfoMessagesStore, ["addNewMessage"]),
-        toggleActiveLanguage(lang: LanguageDto) {
-            if (this.activeLanguage.includes(lang)) {
-                this.activeLanguage = this.activeLanguage.filter((item) => item.id !== lang.id);
-            } else {
-                this.activeLanguage.push(lang);
-            }
-        },
         async handleSave() {
-            await this.postLearningLanguage(this.activeLanguage);
 
-            const lenWords = this.activeLanguage.length;
-            const addWord = numWord(lenWords, ['Добавлен', 'Добавлено', 'Добавлено'])
-            const learnWord = numWord(lenWords, ['изучаемый', 'изучаемых', 'изучаемых']);
-            const langWord = numWord(lenWords, ['язык', 'языка', 'языков']);
-            this.addNewMessage({ type: 'info', text: `${addWord} ${lenWords} ${learnWord} ${langWord}` })
-
-            await this.getAvailableLanguages();
-            this.closeHandler();
         }
     }
 }
@@ -57,27 +36,26 @@ export default {
         <div class="modal-add-new">
             <div class="modal-add-new--header">
                 <h2 class="modal-add-new--title">
-                    <ExercisesIcon size="32" />Добавить изучаемые языки
+                    <AddIcon size="32" /> Новое слово
                 </h2>
                 <button class="modal-add-new--close" @click="() => closeHandler()">
                     <CloseIcon size="44" />
                 </button>
             </div>
             <div class="modal-add-new--content">
-                <div class="modal-add-new--list">
-                    <div @click="() => toggleActiveLanguage(lang)" class="modal-add-new--list-item"
-                        :class="activeLanguage.includes(lang) && 'active'" v-for="lang in available_languages"
-                        :key="lang.id">
-                        <img :src="lang.flag_icon" :alt="lang.name" class="modal-add-new--list-item-img">
-                        <span class="modal-add-new--list-item-name">{{ lang.name_local }}</span>
-                    </div>
-                </div>
+                <Dropdown placeholder="Выберите язык" :model-value="language" :items="available_languages.map((item) => {
+                    return {
+                        label: item.name_local,
+                        value: item.name,
+                        icon: item.flag_icon
+                    }
+                })" />
                 <div class="modal-add-new--buttons">
                     <Button variant="secondary" size="medium" @click="() => closeHandler()">
                         Отмена
                     </Button>
                     <Button variant="primary" size="medium" @click="() => handleSave()">
-                        Добавить
+                        Сохранить
                     </Button>
                 </div>
             </div>

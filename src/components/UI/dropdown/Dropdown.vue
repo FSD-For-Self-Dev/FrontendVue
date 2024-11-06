@@ -19,7 +19,7 @@
                     @click.stop="handleItemClick(item)"
                 >
                     <span v-if="item.icon" class="icon">
-                        <Icon :name="item.icon" />
+                        <img :src="item.icon" alt="Icon" />
                     </span>
                     <span>{{ item.label }}</span>
                 </div>

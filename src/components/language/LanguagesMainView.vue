@@ -4,6 +4,7 @@ import Button from '@/components/UI/button/Button.vue';
 import Icon from '@/components/UI/icon/Icon.vue';
 import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
+import AddIcon from '@/assets/icons/AddIcon.vue';
 
 export default {
     data() {
@@ -11,7 +12,7 @@ export default {
             isLanguageModalOpen: false,
         };
     },
-    components: { Button, AddNewLanguageModal, Icon },
+    components: { Button, AddNewLanguageModal, Icon, AddIcon },
     computed: {
         ...mapState(useLanguagesStore, ['learning_languages', 'count'])
     },
@@ -45,7 +46,7 @@ export default {
         <div class="languages-main-view--content">
             <div class="languages-main-view--not-found-learning-languages" v-if="learning_languages.length === 0">
                 Нет изучаемых языков
-                <Button @click="openLanguageModal" size="small" icon="plus">Добавить
+                <Button content-type="right-icon" @click="openLanguageModal" size="small">Добавить
                     изучаемый язык
                 </Button>
 

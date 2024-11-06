@@ -1,28 +1,41 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
 import Icon from '@/components/UI/icon/Icon.vue';
+import AddNewModal from './AddNewModal.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapState } from 'pinia';
 
 export default {
-    components: { Button, Icon },
+    components: { Button, Icon, AddNewModal },
+    data() {
+        return {
+            isVocabularyOpen: false,
+        };
+    },
     computed: {
         ...mapState(useVocabularyStore, ["count", "words"]),
         ...mapState(useLanguagesStore, ["learning_languages"])
     },
     methods: {
-        redirectToNewWord() {
-            this.$router.push('/new-word');
+        openVocabularyModal(event: Event) {
+            event.stopPropagation();
+            this.isVocabularyOpen = true;
+        },
+        toggleVocabularyModal(event: Event) {
+            event.stopPropagation();
+            this.isVocabularyOpen = !this.isVocabularyOpen;
+        },
+        closeModal() {
+            this.isVocabularyOpen = false;
         }
-    }
+    },
 }
 </script>
 
 <template>
-    <button class="vocabulary-main-view" @click="redirectToNewWord">
+    <button class="vocabulary-main-view" @click="toggleVocabularyModal">
         <div class="vocabulary-main-view--header">
-
             <h2 class="vocabulary-main-view--title">
                 <Icon name="vocabulary" width="32" height="32" />Словарь <span style="color: #737782">{{ count }}</span>
             </h2>
@@ -33,17 +46,22 @@ export default {
             <div class="vocabulary-main-view--not-found" v-if="!words.length">
                 В словаре пока нет слов или фраз
 
-                <Button @click="redirectToNewWord" size="small" icon="plus">Добавить первые слова</Button>
+                <Button @click="toggleVocabularyModal" size="small">Добавить первые слова</Button>
             </div>
 
             <div class="vocabulary-main-view--words" v-else>
                 <div class="vocabulary-main-view--word" v-for="word in words">
-                    <img width="16" :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />
+                    <img width="16"
+                        :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />
                     {{ word.text }}
                 </div>
             </div>
         </div>
     </button>
+
+    <Teleport to="body">
+        <AddNewModal :close-handler="closeModal" v-if="isVocabularyOpen" />
+    </Teleport>
 </template>
 
 <style lang="scss">
