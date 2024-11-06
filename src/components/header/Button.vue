@@ -37,7 +37,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <button class="button" style="padding: 1rem" :class="buttonClasses">
+  <button class="button" :class="buttonClasses">
     <slot />
   </button>
 </template>
