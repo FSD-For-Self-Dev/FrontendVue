@@ -1,9 +1,12 @@
 <script lang="ts">
-import Icon from '@/components/UI/icon/Icon.vue';
+import CollectionsIcon from '@/assets/icons/CollectionsIcon.vue';
+import ExercisesIcon from '@/assets/icons/ExercisesIcon.vue';
+import VocabularyIcon from '@/assets/icons/VocabularyIcon.vue';
+
 
 export default {
     name: 'Button',
-    components: { Icon },
+    components: { VocabularyIcon, CollectionsIcon, ExercisesIcon },
 }
 </script>
 
@@ -12,18 +15,18 @@ export default {
         <ul class="navigation--list">
             <li>
                 <a class="navigation--item">
-                    <Icon name="vocabulary" width="24" height="24" />Мой словарь
+                    <VocabularyIcon size="20" />Мой словарь
                 </a>
             </li>
             <li>
                 <a class="navigation--item">
-                    <Icon name="collections" width="24" height="24" />Коллекции
+                    <CollectionsIcon size="20" />Коллекции
                 </a>
 
             </li>
             <li>
                 <a class="navigation--item">
-                    <Icon name="exercises" width="24" height="24" />Упражнения
+                    <ExercisesIcon size="20" />Упражнения
                 </a>
             </li>
         </ul>
@@ -53,6 +56,7 @@ export default {
         font-size: 16px;
         line-height: 20px;
         background-color: $neutrals-100;
+        gap: 0.8rem;
 
         &:hover {
             background-color: $primary-300;

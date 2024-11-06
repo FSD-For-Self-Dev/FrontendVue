@@ -5,6 +5,7 @@ import Vocabulary from '@/views/Vocabulary.vue';
 import Languages from '@/views/Languages.vue';
 import NewWord from '@/views/NewWord.vue';
 import Error404 from '@/views/Error404.vue';
+import Test from '@/views/Test.vue';
 
 const routes = [
     {
@@ -22,6 +23,10 @@ const routes = [
     {
         path: '/languages',
         component: Languages,
+    },
+    {
+        path: '/test',
+        component: Test,
     },
     {
         path: '/:catchAll(.*)',

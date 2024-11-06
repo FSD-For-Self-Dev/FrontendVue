@@ -1,11 +1,12 @@
 <script lang="ts">
-import Icon from '@/components/UI/icon/Icon.vue';
 import { OnClickOutside } from '@vueuse/components';
 import Button from "@/components/UI/button/Button.vue";
 import { menuItems } from '@/constants/wordsMock';
+import BurgerMenuIcon from '@/assets/icons/BurgerMenuIcon.vue';
+import CloseIcon from '@/assets/icons/CloseIcon.vue';
 export default {
   name: 'Menu',
-  components: {Button, Icon, OnClickOutside },
+  components: { Button, OnClickOutside, BurgerMenuIcon, CloseIcon },
   data() {
     return {
       showMenu: false,
@@ -25,19 +26,18 @@ export default {
 
 <template>
   <button class="button" @click="openMenu" v-if="!showMenu">
-    <Icon name="burger-menu" width="32" height="32" />
+    <BurgerMenuIcon size="32" />
   </button>
   <button class="button" @click="closeMenu" v-if="showMenu">
-    <Icon name="close" width="32" height="32" />
+    <CloseIcon size="32" />
   </button>
   <div class="menu" :class="{ show: showMenu }">
     <OnClickOutside @trigger="closeMenu">
       <ul class="menu__list">
-        <li v-for="menuItem in menuItems"  class="menu__item">
+        <li v-for="menuItem in menuItems" class="menu__item">
           <button :to="menuItem.link" class="menu__item-content" @click="closeMenu">
-            <Icon :name="menuItem.icon" width="32" height="32" class="menu__item-icon"/>
             <span class="menu__item-name">
-              {{menuItem.name}}
+              {{ menuItem.name }}
             </span>
           </button>
         </li>
@@ -81,18 +81,19 @@ export default {
     backdrop-filter: blur(4px);
   }
 }
-.menu__list{
+
+.menu__list {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.menu__item{
+.menu__item {
   padding: 0.8rem 2.4rem 0.8rem 1.2rem;
   border-radius: 1.6rem;
   cursor: pointer;
 
-  .menu__item-content{
+  .menu__item-content {
     display: flex;
     align-items: center;
     gap: 1.5rem;
@@ -102,7 +103,7 @@ export default {
     cursor: pointer;
 
 
-    .menu__item-name{
+    .menu__item-name {
       font-family: 'Inter';
       font-size: 1.6rem;
       line-height: 2rem;
@@ -111,16 +112,16 @@ export default {
   }
 }
 
-.menu__item:nth-child(6){
+.menu__item:nth-child(6) {
   border-top: 0.8px solid $neutrals-400;
   border-bottom: 0.8px solid $neutrals-400;
   padding: 1.8rem 2.4rem 1.8rem 1.2rem;
 }
 
-.menu__item:hover{
+.menu__item:hover {
   background-color: $primary-500;
 
-  .menu__item-content{
+  .menu__item-content {
     background-color: $primary-500;
     color: $neutrals-100;
   }

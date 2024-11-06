@@ -71,6 +71,7 @@ export default defineComponent({
     &.button--icon {
       width: 3.2rem;
       height: 3.2rem;
+
     }
 
     &.button--text {

@@ -11,7 +11,8 @@ export default {
       default: "text",
     },
     icon: {
-      type: String as PropType<ButtonProps["icon"]>,
+      type: [Object, Function],
+      required: false,
     },
     size: {
       type: String as PropType<ButtonProps["size"]>,
@@ -48,13 +49,13 @@ export default {
 <template>
   <button class="button" :class="buttonClasses">
     <span v-if="contentType === 'left-icon'" class="icon">
-      <Icon :name="icon" v-if="icon" />
+      <component />
     </span>
     <span>
       <slot />
     </span>
     <span v-if="contentType === 'right-icon'" class="icon">
-      <Icon :name="icon" v-if="icon" width="1.6" height="1.6" />
+      <component />
     </span>
     <span v-if="additionalText" class="additional">
       {{ additionalText }}
