@@ -2,7 +2,6 @@
 import Logo from '@/components/UI/logo/Logo.vue'
 import Menu from './Menu.vue';
 import Button from './Button.vue';
-import Icon from '../UI/icon/Icon.vue';
 import Navigation from './Navigation.vue';
 import Search from './Search.vue';
 import Language from './Language.vue';
@@ -10,9 +9,12 @@ import Authentication from '@/components/authentication/Authentication.vue';
 import { mapState } from 'pinia';
 import { useUserStore } from '@/store/user';
 import ProfileTools from './ProfileTools.vue';
+import BellIcon from '@/assets/icons/BellIcon.vue';
+import ProfileIcon from '@/assets/icons/ProfileIcon.vue';
+import AddIcon from '@/assets/icons/AddIcon.vue';
 
 export default {
-	components: { Logo, Menu, Button, Icon, Navigation, Search, Language, Authentication, ProfileTools },
+	components: { Logo, Menu, Button, BellIcon, Navigation, Search, Language, Authentication, ProfileTools, ProfileIcon, AddIcon },
 	computed: {
 		authorized() {
 			return this.$route.path !== '/';
@@ -68,17 +70,17 @@ export default {
 			<div class="header--tools" v-if="authStatus">
 				<Search />
 				<Button variant="primary" view="icon">
-					<Icon name="plus-white" width="32" height="32" color="#fff" />
+					<AddIcon size="32" custom-color="#fff" />
 				</Button>
 			</div>
 
 			<div class="header--user" v-if="authStatus">
 				<Button variant="secondary" size="small" view="icon">
-					<Icon name="bell-default" width="18" height="18" />
+					<BellIcon size="24" />
 				</Button>
 				<Button variant="secondary" size="small" view="icon"
 					@click.stop="() => showProfileTools = !showProfileTools">
-					<Icon name="profile" width="18" height="18" />
+					<ProfileIcon size="24" />
 				</Button>
 			</div>
 

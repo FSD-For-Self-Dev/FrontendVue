@@ -2,9 +2,10 @@
 import { OnClickOutside } from '@vueuse/components';
 import Icon from '../UI/icon/Icon.vue';
 import Button from './Button.vue';
+import SearchIcon from '@/assets/icons/SearchIcon.vue';
 
 export default {
-    components: { Icon, Button, OnClickOutside },
+    components: { SearchIcon, Button, OnClickOutside },
     data() {
         return {
             shownBar: false,
@@ -23,7 +24,7 @@ export default {
 
 <template>
     <Button variant="secondary" view="icon" @click="showSearchBar">
-        <Icon name="search" width="25" height="25" />
+        <SearchIcon size="32" />
     </Button>
     <div class="search">
         <OnClickOutside @trigger="hideSearchBar">
