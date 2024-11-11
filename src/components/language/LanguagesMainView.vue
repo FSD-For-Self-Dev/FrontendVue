@@ -69,13 +69,13 @@ export default {
                                 lang.language.name_local }}</span>
                             <ul class="languages-main-view--learning-languages-list-info">
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <ActiveStatusIcon size="16"/>{{ lang.active_words_count }}
+                                    <ActiveStatusIcon size="16" custom-color="#6C8DFF"/>{{ lang.active_words_count }}
                                 </li>
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <Inactive2StatusIcon size="16"/>{{ lang.inactive_words_count }}
+                                    <Inactive2StatusIcon size="16" custom-color="#737782"/>{{ lang.inactive_words_count }}
                                 </li>
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <MasteredStatusIcon size="16"/>{{ lang.mastered_words_count
+                                    <MasteredStatusIcon size="16" custom-color="#2FBC48"/>{{ lang.mastered_words_count
                                     }}
                                 </li>
                             </ul>
