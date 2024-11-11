@@ -20,7 +20,6 @@
 
 <script lang="ts">
 import Input from '@/components/UI/input/Input.vue';
-import Icon from '@/components/UI/icon/Icon.vue';
 import CircleButton from '../UI/circle-button/CircleButton.vue';
 import { mapActions, mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
@@ -31,7 +30,7 @@ import { useVocabularyStore } from '@/store/vocabulary';
 import { isAxiosError } from 'axios';
 
 export default {
-    components: { Input, Icon, CircleButton, Button, AddTranslateButton },
+    components: { Input, CircleButton, Button, AddTranslateButton },
     data() {
         return {
             translations: [] as WordTranslationDto[],

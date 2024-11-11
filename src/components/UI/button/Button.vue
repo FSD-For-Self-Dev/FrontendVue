@@ -1,19 +1,13 @@
 <script lang="ts">
 import type { PropType } from "vue";
 import type { ButtonProps } from "@/types/components/button";
-import Icon from "@/components/UI/icon/Icon.vue";
 
 export default {
-  components: { Icon },
   props: {
     contentType: {
       type: String as PropType<ButtonProps["contentType"]>,
       default: "text",
     },
-    // icon: {
-    //   type: [Object, Function],
-    //   required: false,
-    // },
     size: {
       type: String as PropType<ButtonProps["size"]>,
       default: "normal",

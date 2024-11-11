@@ -1,16 +1,10 @@
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
 import type { CircleButtonProps } from "@/types/components/circle-button";
-import Icon from "@/components/UI/icon/Icon.vue";
 
 export default {
   name: "CircleButton",
-  components: { Icon },
   props: {
-    // icon: {
-    //   type: [Object, Function],
-    //   required: true,
-    // },
     size: {
       type: String as PropType<CircleButtonProps["size"]>,
       default: "normal",
@@ -39,10 +33,7 @@ export default {
 
 <template>
   <button class="button" :class="buttonClasses">
-    <!-- <span class="icon"> -->
       <slot />
-      <!-- <Icon width="32" height="32" :name="icon" /> -->
-    <!-- </span> -->
   </button>
 </template>
 

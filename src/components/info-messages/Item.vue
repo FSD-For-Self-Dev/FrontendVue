@@ -1,6 +1,7 @@
 <script lang="ts">
 import { mapActions } from 'pinia';
 import Icon from '@/components/UI/icon/Icon.vue';
+import CloseIcon from '@/assets/icons/actions/CloseIcon.vue';
 import { useInfoMessagesStore } from '@/store/info-message';
 
 export default {
@@ -34,7 +35,8 @@ export default {
         ...mapActions(useInfoMessagesStore, ['deleteMessageById']),
     },
     components: {
-        Icon
+        Icon,
+        CloseIcon,
     }
 }
 </script>
@@ -48,7 +50,7 @@ export default {
 
         </div>
         <button @click.stop="() => deleteMessageById(message.id)" class="info-message__close">
-            <Icon name="close" width="18" height="18" />
+            <CloseIcon size="20"/>
         </button>
     </div>
 </template>
