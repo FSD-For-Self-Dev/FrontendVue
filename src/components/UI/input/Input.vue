@@ -2,8 +2,8 @@
 import type { InputTypeHTMLAttribute, PropType } from "vue";
 import Icon from "@/components/UI/icon/Icon.vue";
 import type { InputProps } from "@/types/components/input";
-import EyeOnIcon from "@/assets/icons/EyeOnIcon.vue";
-import EyeOffIcon from "@/assets/icons/EyeOffIcon.vue";
+import EyeOnIcon from "@/assets/icons/common/EyeOnIcon.vue";
+import EyeOffIcon from "@/assets/icons/common/EyeOffIcon.vue";
 
 
 export default {

@@ -1,11 +1,12 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
-import Icon from "@/components/UI/icon/Icon.vue";
 import Button from "@/components/UI/button/Button.vue";
+import ArrowForwardIcon from '@/assets/icons/arrows/ArrowForwardIcon.vue';
+import ChatIcon from '@/assets/icons/common/ChatIcon.vue';
 
 export default defineComponent({
   name: "FriendsMainView",
-  components: {Button, Icon},
+  components: {Button, ChatIcon, ArrowForwardIcon},
   data() {
       return{
         friendsCount:5,
@@ -19,10 +20,10 @@ export default defineComponent({
     <div class="friends-main-view--header">
         <h2 class="friends-main-view--title">
 
-          <Icon name="group-chat" width="32" height="32"/>Друзья
+          <ChatIcon size="32"/>Друзья
           <span v-show="friendsCount" class="friends-main-view--friends-count">{{friendsCount}}</span>
         </h2>
-      <Icon name="arrow-forward-default" width="32" height="32" />
+      <ArrowForwardIcon width="32" height="32" />
     </div>
     <div class="friends-main-view--content">
 

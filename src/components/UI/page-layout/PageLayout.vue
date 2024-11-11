@@ -7,8 +7,8 @@
                     @click="goBack"
                     v-if="!isMainpage"
                     class="back-button"
-                    icon="arrow-back-default"
                 >
+                    <ArrowBackwardIcon size="24"/>
                     <span class="visually-hidden">Назад</span>
                 </CircleButton>
                 <slot></slot>
@@ -17,8 +17,8 @@
                         @click="scrollToTop"
                         v-if="!landingPage && y > 50"
                         class="up-button"
-                        icon="arrow-expand-up"
                     >
+                        <ArrowUpIcon size="24"/>
                         <span class="visually-hidden">Наверх</span>
                     </CircleButton>
                 </Transition>
@@ -35,11 +35,13 @@ import { useWindowScroll } from '@vueuse/core';
 import Header from '@/components/header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
 import CircleButton from '@/components/UI/circle-button/CircleButton.vue';
+import ArrowUpIcon from '@/assets/icons/arrows/ArrowUpIcon.vue';
+import ArrowBackwardIcon from '@/assets/icons/arrows/ArrowBackwardIcon.vue';
 import InfoMessages from '@/components/info-messages/InfoMessages.vue';
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
-    components: { Header, Footer, CircleButton, InfoMessages },
+    components: { Header, Footer, CircleButton, InfoMessages, ArrowUpIcon, ArrowBackwardIcon },
     props: {
         landingPage: { type: Boolean, required: false, default: false },
     },

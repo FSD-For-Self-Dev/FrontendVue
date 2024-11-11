@@ -1,14 +1,14 @@
 <script lang="ts">
-import Icon from '@/components/UI/icon/Icon.vue';
+import RuIcon from '@/assets/icons/languages/codes/RuIcon.vue';
 
 export default {
-    components: { Icon },
+    components: { RuIcon },
 };
 </script>
 
 <template>
     <button class="language--button">
-        <Icon name="ru" width="32" height="32" />
+        <RuIcon size="32"/>
     </button>
 </template>
 

@@ -7,9 +7,10 @@ export default {
   name: "CircleButton",
   components: { Icon },
   props: {
-    icon: {
-      type: String as PropType<CircleButtonProps["icon"]>,
-    },
+    // icon: {
+    //   type: [Object, Function],
+    //   required: true,
+    // },
     size: {
       type: String as PropType<CircleButtonProps["size"]>,
       default: "normal",
@@ -38,9 +39,10 @@ export default {
 
 <template>
   <button class="button" :class="buttonClasses">
-    <span class="icon">
-      <Icon width="32" height="32" :name="icon" />
-    </span>
+    <!-- <span class="icon"> -->
+      <slot />
+      <!-- <Icon width="32" height="32" :name="icon" /> -->
+    <!-- </span> -->
   </button>
 </template>
 
