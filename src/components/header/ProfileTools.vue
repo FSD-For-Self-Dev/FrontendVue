@@ -9,15 +9,13 @@
 </template>
 
 <script lang="ts">
-import ExitIcon from '@/assets/icons/ExitIcon.vue';
-import Icon from '@/components/UI/icon/Icon.vue';
+import ExitIcon from '@/assets/icons/actions/ExitIcon.vue';
 import { useUserStore } from '@/store/user';
 import { OnClickOutside } from '@vueuse/components';
 import { mapActions } from 'pinia';
 
 export default {
     components: {
-        Icon,
         OnClickOutside,
         ExitIcon
     },

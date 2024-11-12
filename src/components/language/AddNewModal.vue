@@ -2,14 +2,15 @@
 import { useLanguagesStore } from '@/store/languages';
 import { mapState, mapActions } from 'pinia';
 import type { LanguageDto } from '@/dto/languages.dto';
-import Icon from '@/components/UI/icon/Icon.vue';
 import Button from '@/components/UI/button/Button.vue';
+import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
+import CloseIcon from '@/assets/icons/actions/CloseIcon.vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useInfoMessagesStore } from '@/store/info-message';
 import { numWord } from '@/utils/numWord';
 
 export default {
-    components: { Icon, Button, OnClickOutside },
+    components: { Button, OnClickOutside, LanguageIcon, CloseIcon },
     computed: {
         ...mapState(useLanguagesStore, ["available_languages"])
     },
@@ -55,10 +56,10 @@ export default {
         <div class="modal-add-new">
             <div class="modal-add-new--header">
                 <h2 class="modal-add-new--title">
-                    <Icon name="exercises" width="32" height="32" />Добавить изучаемые языки
+                    <LanguageIcon size="32"/>Добавить изучаемые языки
                 </h2>
                 <button class="modal-add-new--close" @click="() => closeHandler()">
-                    <Icon name="close" width="32" height="32" />
+                    <CloseIcon size="32"/>
                 </button>
             </div>
             <div class="modal-add-new--content">
@@ -128,6 +129,14 @@ export default {
             height: 3.2rem;
             border-radius: 50%;
             transition: all 0.2s ease-in-out;
+
+            @include hover {
+                color: #{$primary-500};
+            }
+
+            @include active {
+                color: #{$primary-700};
+            }
         }
 
     }

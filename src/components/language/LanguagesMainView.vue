@@ -1,9 +1,16 @@
 <script lang="ts">
 import AddNewLanguageModal from '@/components/language/AddNewModal.vue';
 import Button from '@/components/UI/button/Button.vue';
-import Icon from '@/components/UI/icon/Icon.vue';
+import ArrowForwardIcon from '@/assets/icons/arrows/ArrowForwardIcon.vue';
+import LineArrowForwardIcon from '@/assets/icons/arrows/LineArrowForwardIcon.vue';
+import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
+import AddIcon from '@/assets/icons/actions/AddIcon.vue';
+import TrophyStatusIcon from '@/assets/icons/vocabulary/status/TrophyStatusIcon.vue';
 import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
+import Inactive2StatusIcon from '@/assets/icons/vocabulary/status/Inactive2StatusIcon.vue';
+import ActiveStatusIcon from '@/assets/icons/vocabulary/status/ActiveStatusIcon.vue';
+import MasteredStatusIcon from '@/assets/icons/vocabulary/status/MasteredStatusIcon.vue';
 
 export default {
     data() {
@@ -11,7 +18,7 @@ export default {
             isLanguageModalOpen: false,
         };
     },
-    components: { Button, AddNewLanguageModal, Icon },
+    components: { Button, AddNewLanguageModal, ArrowForwardIcon, LineArrowForwardIcon, LanguageIcon, AddIcon, TrophyStatusIcon, ActiveStatusIcon, MasteredStatusIcon, Inactive2StatusIcon },
     computed: {
         ...mapState(useLanguagesStore, ['learning_languages', 'count'])
     },
@@ -36,17 +43,19 @@ export default {
         <div class="languages-main-view--header">
 
             <h2 class="languages-main-view--title">
-                <Icon name="language-all" width="32" height="32" />Изучаемые языки <span style="color: #737782">{{ count
+                <LanguageIcon size="32"/>Изучаемые языки <span style="color: #737782">{{ count
                     }}</span>
             </h2>
 
-            <Icon name="arrow-forward-default" width="32" height="32" />
+            <div id="forward-arrow">
+                <LineArrowForwardIcon size="32"/>
+            </div>
         </div>
         <div class="languages-main-view--content">
             <div class="languages-main-view--not-found-learning-languages" v-if="learning_languages.length === 0">
                 Нет изучаемых языков
-                <Button @click="openLanguageModal" size="small" icon="plus">Добавить
-                    изучаемый язык
+                <Button @click="openLanguageModal" size="small" text="Добавить изучаемый язык">
+                    <AddIcon size="16"/>
                 </Button>
 
             </div>
@@ -60,13 +69,13 @@ export default {
                                 lang.language.name_local }}</span>
                             <ul class="languages-main-view--learning-languages-list-info">
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <Icon name="active-click" width="24" height="24" />{{ lang.active_words_count }}
+                                    <ActiveStatusIcon size="16" custom-color="#6C8DFF"/>{{ lang.active_words_count }}
                                 </li>
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <Icon name="inactive-click" width="24" height="24" />{{ lang.inactive_words_count }}
+                                    <Inactive2StatusIcon size="16" custom-color="#737782"/>{{ lang.inactive_words_count }}
                                 </li>
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <Icon name="mastered-default" width="18" height="18" />{{ lang.mastered_words_count
+                                    <MasteredStatusIcon size="16" custom-color="#2FBC48"/>{{ lang.mastered_words_count
                                     }}
                                 </li>
                             </ul>
@@ -88,7 +97,7 @@ export default {
 .languages-main-view {
     background-color: $neutrals-100;
     padding: 40px;
-    border-radius: 2rem;
+    border-radius: 4rem;
     box-shadow: $regular-shadow;
     border: 1px solid transparent;
     cursor: pointer;
@@ -99,13 +108,24 @@ export default {
     display: flex;
     flex-direction: column;
 
-
     @include hover {
         border: 1px solid $primary-300;
+
+        .languages-main-view--header {
+            #forward-arrow {
+                color: $primary-300;
+            }
+        }
     }
 
     @include active {
         border: 1px solid $primary-500;
+
+        .languages-main-view--header {
+            #forward-arrow {
+                color: $primary-500;
+            }
+        }
     }
 
 
@@ -127,7 +147,6 @@ export default {
             gap: 0.8rem;
             align-items: center;
 
-
         }
     }
 
@@ -140,6 +159,7 @@ export default {
             font-size: 1.6rem;
             line-height: 2rem;
             font-weight: 400;
+            text-align: left;
 
             display: flex;
             justify-content: space-between;

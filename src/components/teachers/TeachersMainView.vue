@@ -1,11 +1,12 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
-import Icon from "@/components/UI/icon/Icon.vue";
 import Button from "@/components/UI/button/Button.vue";
+import ExercisesIcon from '@/assets/icons/exercises/ExercisesIcon.vue';
+import LineArrowForwardIcon from '@/assets/icons/arrows/LineArrowForwardIcon.vue';
 
 export default defineComponent({
   name: "teachersMainView",
-  components: {Button, Icon},
+  components: {Button, ExercisesIcon, LineArrowForwardIcon},
   data() {
     return{
       teachersCount:5,
@@ -19,10 +20,10 @@ export default defineComponent({
     <div class="teachers-main-view--header">
       <h2 class="teachers-main-view--title">
 
-        <Icon name="exercises" width="32" height="32"/>Преподаватели
+        <ExercisesIcon size="32"/>Преподаватели
         <span v-show="teachersCount" class="teachers-main-view--teachers-count">{{teachersCount}}</span>
       </h2>
-      <Icon name="arrow-forward-default" width="32" height="32" />
+      <LineArrowForwardIcon size="32"/>
     </div>
     <div class="teachers-main-view--content">
 

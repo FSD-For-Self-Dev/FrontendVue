@@ -1,13 +1,15 @@
 <script lang="ts">
 import Input from '@/components/UI/input/Input.vue';
-import Icon from '@/components/UI/icon/Icon.vue';
 import Button from '@/components/header/Button.vue';
+import AddIcon from '@/assets/icons/actions/AddIcon.vue';
+import ConfirmIcon from '@/assets/icons/actions/ConfirmIcon.vue';
+import CloseIcon from '@/assets/icons/actions/CloseIcon.vue';
 import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
 import { OnClickOutside } from '@vueuse/components';
 
 export default {
-    components: { Input, Icon, Button, OnClickOutside },
+    components: { Input, Button, OnClickOutside, AddIcon, ConfirmIcon, CloseIcon },
     data() {
         return {
             isTranslateFormOpen: false,
@@ -46,7 +48,7 @@ export default {
         <button @click="() => handleTranslateForm(true)" type="button" class="add-translate-button"
             :class="isTranslateFormOpen && 'active'">
             <div class="add-translate-button--not-active" v-if="!isTranslateFormOpen">
-                <Icon name="plus" width="16" />Добавить
+                <AddIcon size="16"/>Добавить
             </div>
 
             <div class="add-translate-button--form" v-if="isTranslateFormOpen">
@@ -60,11 +62,11 @@ export default {
                     <Input v-model="wordLanguage" placeholder="Введите перевод..." />
                     <Button type="button" view="icon" size="medium" variant="secondary"
                         @click.stop="handleAddTranslate">
-                        <Icon name="confirm" />
+                        <ConfirmIcon size="24"/>
                     </Button>
                     <Button type="button" view="icon" size="medium" variant="secondary"
                         @click.stop="() => handleTranslateForm(false)">
-                        <Icon name="close" />
+                        <CloseIcon size="24"/>
                     </Button>
                 </div>
             </div>

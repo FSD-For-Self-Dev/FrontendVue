@@ -1,9 +1,13 @@
 <script lang="ts">
+import DiscordIcon from '@/assets/icons/socials/DiscordIcon.vue';
+import GithubIcon from '@/assets/icons/socials/GithubIcon.vue';
+import TelegramIcon from '@/assets/icons/socials/TelegramIcon.vue';
+import VkIcon from '@/assets/icons/socials/VkIcon.vue';
+import YoutubeIcon from '@/assets/icons/socials/YoutubeIcon.vue';
 import Logo from '@/components/UI/logo/Logo.vue';
-import Icon from '@/components/UI/icon/Icon.vue';
 
 export default {
-    components: { Logo, Icon },
+    components: { Logo, DiscordIcon, GithubIcon, TelegramIcon, VkIcon, YoutubeIcon },
     data() {
         return {
             privacyPolicies: [
@@ -20,11 +24,10 @@ export default {
                 { name: 'Отзывы', link: '#' },
             ] as Array<{ name: string; link: string }>,
             socialLinks: [
-                { name: 'YouTube', icon: 'youtube-default', link: '#' },
-                { name: 'Telegram', icon: 'telegram-default', link: '#' },
-                { name: 'VK', icon: 'vk-default', link: '#' },
-                { name: 'Discord', icon: 'discord-default', link: '#' },
-                { name: 'GitHub', icon: 'github-default', link: '#' },
+                { name: 'YouTube', icon: 'youtube', link: '#' },
+                { name: 'Telegram', icon: 'telegram', link: '#' },
+                { name: 'VK', icon: 'vk', link: '#' },
+                { name: 'GitHub', icon: 'github', link: '#' },
             ] as Array<{ name: string; icon: string; link: string }>,
             year: new Date().getFullYear(),
         };
@@ -70,7 +73,12 @@ export default {
                             tabindex="0"
                             rel="noopener noreferrer"
                         >
-                            <Icon :name="socialLink.icon" />
+                            <YoutubeIcon size="32" custom-color="#9EB4FF" v-if="socialLink.icon === 'youtube'" />
+                            <TelegramIcon size="32" custom-color="#9EB4FF" v-else-if="socialLink.icon === 'telegram'" />
+                            <VkIcon size="32" custom-color="#9EB4FF" v-else-if="socialLink.icon === 'vk'" />
+                            <GithubIcon size="32" custom-color="#9EB4FF" v-else-if="socialLink.icon === 'github'" />
+
+
                             <span class="visually-hidden">
                                 {{ socialLink.name }}
                             </span>
