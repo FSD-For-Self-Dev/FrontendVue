@@ -1,11 +1,20 @@
 <script lang="ts">
-import PageLayout from "@/components/UI/page-layout/PageLayout.vue";
-import Header from "@/components/header/Header.vue";
-import Icon from "@/components/UI/icon/Icon.vue";
+import ArrowBackwardIcon from "@/assets/icons/arrows/ArrowBackwardIcon.vue";
+import ArrowForwardIcon from "@/assets/icons/arrows/ArrowForwardIcon.vue";
+import CopyIcon from "@/assets/icons/actions/CopyIcon.vue";
+import MoreIcon from "@/assets/icons/common/MoreIcon.vue";
+import FavouriteIcon from "@/assets/icons/common/FavouriteIcon.vue";
+import EnglishIcon from "@/assets/icons/languages/EnglishIcon.vue";
+import Inactive2StatusIcon from "@/assets/icons/vocabulary/status/Inactive2StatusIcon.vue";
+import Inactive3StatusIcon from "@/assets/icons/vocabulary/status/Inactive3StatusIcon.vue";
+import ActiveStatusIcon from "@/assets/icons/vocabulary/status/ActiveStatusIcon.vue";
+import MasteredStatusIcon from "@/assets/icons/vocabulary/status/MasteredStatusIcon.vue";
+import QuoteLeftIcon from "@/assets/icons/vocabulary/QuoteLeftIcon.vue";
+import ItalianIcon from "@/assets/icons/languages/ItalianIcon.vue";
 import { heroWords, itWords, languageCards } from "@/constants/wordsMock";
 
 export default {
-  components: { Icon },
+  components: { ArrowBackwardIcon, ArrowForwardIcon, CopyIcon, MoreIcon, FavouriteIcon, EnglishIcon, ActiveStatusIcon, MasteredStatusIcon, Inactive2StatusIcon, Inactive3StatusIcon, QuoteLeftIcon, ItalianIcon },
   data() {
     return {
       heroWords,
@@ -35,21 +44,21 @@ export default {
         <div class="hero-card card-1">
           <div class="card-header">
             <span class="card-status">
-              <Icon name="active-click" class="icon-streak" />Активное
+              <ActiveStatusIcon size="16"/>Активное
             </span>
             <span class="card-actions">
-              <Icon name="favourite-default" class="interactive-icon" />
-              <Icon name="more-default" class="interactive-icon" />
+              <FavouriteIcon size="24"/>
+              <MoreIcon size="24"/>
             </span>
           </div>
           <div class="card-main">
             <span class="card-flag">
-              <Icon name="italian" class="icon-flag" />
+              <ItalianIcon size="24"/>
             </span>
             <div class="card-content">
               <span class="part-of-speech">СУЩЕСТВИТЕЛЬНОЕ</span>
               <h2 class="card-word">Spiaggia
-                <Icon name="copy-default" class="copy-icon" />
+                <CopyIcon size="16"/>
               </h2>
               <div class="card-tags">
                 <span class="card-tag">
@@ -78,8 +87,8 @@ export default {
                 <span class="card-4-subtitle">Часто используются в IT сфере</span>
               </div>
               <div class="card-4-actions">
-                <Icon name="favourite-default" class="interactive-icon" />
-                <Icon name="more-default" class="interactive-icon" />
+                <FavouriteIcon size="24"/>
+                <MoreIcon size="24"/>
               </div>
             </div>
             <div class="card-4-footer">
@@ -102,21 +111,21 @@ export default {
         <div class="hero-card card-5">
           <div class="card-header">
             <span class="card-status">
-              <Icon name="time" class="icon-streak" />Почти активное
+              <Inactive3StatusIcon size="16"/>Почти активное
             </span>
             <span class="card-actions">
-              <Icon name="favourite-default" class="interactive-icon" />
-              <Icon name="more-default" class="interactive-icon" />
+              <FavouriteIcon size="24"/>
+              <MoreIcon size="24"/>
             </span>
           </div>
           <div class="card-main">
             <span class="card-flag">
-              <Icon name="english (UK)" class="icon-flag" />
+              <EnglishIcon size="24"/>
             </span>
             <div class="card-content">
               <span class="part-of-speech">ГЛАГОЛ</span>
               <h2 class="card-word">Develop
-                <Icon name="copy-default" class="copy-icon" />
+                <CopyIcon size="16"/>
               </h2>
               <div class="card-tags">
                 <span class="card-tag">
@@ -131,18 +140,18 @@ export default {
           <div class="card-translation">
             <div class="card-translation-actions">
               <button class="card-translation-navigation">
-                <Icon name="arrow-back-default" class="card-translation-navigation-icon" />
+                <ArrowBackwardIcon size="24" class="card-translation-navigation-icon" />
               </button>
               <p class="card-translation-word">Разрабатывать</p>
               <button class="card-translation-navigation">
-                <Icon name="arrow-forward-default" class="card-translation-navigation-icon" />
+                <ArrowForwardIcon size="24" class="card-translation-navigation-icon" />
               </button>
             </div>
             <p class="card-translation-info">1/1</p>
           </div>
         </div>
         <div class="hero-card card-6">
-          <Icon name="quotes" class="card-6-icon" />
+          <QuoteLeftIcon size="32"/>
           <div class="card-6-content">
             <h2 class="card-6-title">I need a vacation</h2>
             <p class="card-6-subtitle">by no author</p>
@@ -161,13 +170,13 @@ export default {
             <h3 class="language-card-title">{{ languageCard.languageName }}</h3>
             <div class="language-card-activities">
               <div class="language-card-activity">
-                <Icon name="active-click" class="icon-streak" />{{ languageCard.activeStatus }}
+                <ActiveStatusIcon size="16"/>{{ languageCard.activeStatus }}
               </div>
               <div class="language-card-activity">
-                <Icon name="inactive-click" class="icon-streak" />{{ languageCard.inactiveStatus }}
+                <Inactive2StatusIcon size="16"/>{{ languageCard.inactiveStatus }}
               </div>
               <div class="language-card-activity">
-                <Icon name="mastered-click" class="icon-streak" />{{ languageCard.markedStatus }}
+                <MasteredStatusIcon size="16"/>{{ languageCard.markedStatus }}
               </div>
             </div>
           </div>
@@ -180,27 +189,6 @@ export default {
 <style scoped lang="scss">
 icon {
   width: 0.5rem;
-}
-
-.icon-streak {
-  width: 1.6rem;
-  height: 2rem;
-}
-
-.copy-icon {
-  width: 1.6rem;
-  height: 1.8rem;
-  cursor: pointer;
-}
-
-.icon-flag {
-  width: 2.4rem;
-  height: 2.4rem;
-}
-
-.interactive-icon {
-  width: 2.4rem;
-  height: 2.6rem;
 }
 
 .hero-words {
@@ -426,11 +414,6 @@ icon {
   font-size: 2rem;
 }
 
-.card-6-icon {
-  width: 3.2rem;
-  height: 2.7rem;
-}
-
 .card-7 {
   grid-area: card7;
   background-image: url("../assets/images/adpage-image5.png");
@@ -602,10 +585,6 @@ icon {
 
 .language-card-title {
   font-size: 2rem;
-}
-
-.interactive-icon {
-  cursor: pointer;
 }
 
 .card-4 {

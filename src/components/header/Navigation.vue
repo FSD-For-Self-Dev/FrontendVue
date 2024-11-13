@@ -1,7 +1,7 @@
 <script lang="ts">
-import CollectionsIcon from '@/assets/icons/CollectionsIcon.vue';
-import ExercisesIcon from '@/assets/icons/ExercisesIcon.vue';
-import VocabularyIcon from '@/assets/icons/VocabularyIcon.vue';
+import CollectionsIcon from '@/assets/icons/collections/CollectionsIcon.vue';
+import ExercisesIcon from '@/assets/icons/exercises/ExercisesIcon.vue';
+import VocabularyIcon from '@/assets/icons/vocabulary/VocabularyIcon.vue';
 
 
 export default {

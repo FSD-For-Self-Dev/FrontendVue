@@ -3,6 +3,7 @@ import { OnClickOutside } from '@vueuse/components';
 import type { PropType } from 'vue';
 import Input from '@/components/UI/input/Input.vue';
 import Button from '@/components/UI/button/Button.vue';
+import CloseIcon from '@/assets/icons/actions/CloseIcon.vue';
 import { mapActions, mapWritableState } from 'pinia';
 import { useAuthStore } from '@/store/auth';
 import { useUserStore } from '@/store/user';
@@ -10,7 +11,6 @@ import { isAxiosError } from 'axios';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { useInfoMessagesStore } from '@/store/info-message';
-import CloseIcon from '@/assets/icons/CloseIcon.vue';
 
 export default {
   components: { OnClickOutside, Input, Button, CloseIcon },

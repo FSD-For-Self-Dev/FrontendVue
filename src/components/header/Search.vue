@@ -1,8 +1,7 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
-import Icon from '../UI/icon/Icon.vue';
 import Button from './Button.vue';
-import SearchIcon from '@/assets/icons/SearchIcon.vue';
+import SearchIcon from '@/assets/icons/common/SearchIcon.vue';
 
 export default {
     components: { SearchIcon, Button, OnClickOutside },

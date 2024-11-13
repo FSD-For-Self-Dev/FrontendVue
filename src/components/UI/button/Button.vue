@@ -1,18 +1,12 @@
 <script lang="ts">
 import type { PropType } from "vue";
 import type { ButtonProps } from "@/types/components/button";
-import Icon from "@/components/UI/icon/Icon.vue";
 
 export default {
-  components: { Icon },
   props: {
     contentType: {
       type: String as PropType<ButtonProps["contentType"]>,
       default: "text",
-    },
-    icon: {
-      type: [Object, Function],
-      required: false,
     },
     size: {
       type: String as PropType<ButtonProps["size"]>,
@@ -24,6 +18,10 @@ export default {
     },
     additionalText: {
       type: String as PropType<ButtonProps["additionalText"]>,
+      required: false,
+    },
+    text: {
+      type: String as PropType<ButtonProps["text"]>,
       required: false,
     },
   },
@@ -48,14 +46,14 @@ export default {
 
 <template>
   <button class="button" :class="buttonClasses">
-    <span v-if="contentType === 'left-icon'" class="icon">
-      <component />
-    </span>
-    <span>
+    <span style="float: left;">
       <slot />
     </span>
-    <span v-if="contentType === 'right-icon'" class="icon">
-      <component />
+    <span v-if="text" style="float: left; text-align: left;">
+      {{ text }}
+    </span>
+    <span v-if="contentType === 'right-icon'">
+      <slot />
     </span>
     <span v-if="additionalText" class="additional">
       {{ additionalText }}
@@ -148,7 +146,6 @@ export default {
 
     @include hover {
       border-color: $primary-300;
-      box-shadow: 0 0 0 0.1rem $primary-300;
     }
 
     @include active {
