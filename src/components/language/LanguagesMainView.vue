@@ -54,8 +54,8 @@ export default {
         <div class="languages-main-view--content">
             <div class="languages-main-view--not-found-learning-languages" v-if="learning_languages.length === 0">
                 Нет изучаемых языков
-                <Button @click="openLanguageModal" size="small" icon="plus">Добавить
-                    изучаемый язык
+                <Button @click="openLanguageModal" size="small" text="Добавить изучаемый язык">
+                    <AddIcon size="16"/>
                 </Button>
 
             </div>
