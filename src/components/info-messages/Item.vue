@@ -1,8 +1,9 @@
 <script lang="ts">
 import { mapActions } from 'pinia';
-import Icon from '@/components/UI/icon/Icon.vue';
 import CloseIcon from '@/assets/icons/actions/CloseIcon.vue';
 import { useInfoMessagesStore } from '@/store/info-message';
+import ErrorIcon from '@/assets/icons/common/ErrorIcon.vue';
+import InfoIcon from '@/assets/icons/common/InfoIcon.vue';
 
 export default {
     props: {
@@ -20,10 +21,10 @@ export default {
     mounted() {
         this.interval = window.setInterval(() => {
             this.timerTik++;
-            if (this.timerTik > 10) {
+            if (this.timerTik > 5) {
                 this.deleteMessageById(this.message.id)
             }
-        }, 10000)
+        }, 1000)
     },
     unmounted() {
         if (this.interval !== null) {
@@ -35,7 +36,8 @@ export default {
         ...mapActions(useInfoMessagesStore, ['deleteMessageById']),
     },
     components: {
-        Icon,
+        ErrorIcon,
+        InfoIcon,
         CloseIcon,
     }
 }
@@ -44,13 +46,12 @@ export default {
 <template>
     <div class="info-messages--item">
         <div class="info-messages--item__left">
-            <Icon :name="message.type" :width="21" :height="21"
-                :color="message.type === 'error' ? '#FF384F' : '#41DB4E'" />
-                <span class="info-messages--text">{{ message.text }}</span>
-
+            <ErrorIcon size="24" custom-color="#CA2744" v-if="message.type === 'error'" />
+            <InfoIcon size="24" custom-color="#41DB4E" v-else-if="message.type === 'info'" />
+            <span class="info-messages--text">{{ message.text }}</span>
         </div>
         <button @click.stop="() => deleteMessageById(message.id)" class="info-message__close">
-            <CloseIcon size="20"/>
+            <CloseIcon custom-color="#272932" size="20" />
         </button>
     </div>
 </template>
@@ -67,6 +68,7 @@ export default {
     min-width: 100%;
     justify-content: space-between;
 }
+
 .info-messages--text {
     font-size: 1.6rem;
     line-height: 2rem;
@@ -78,8 +80,6 @@ export default {
     background-color: transparent;
     border: none;
     cursor: pointer;
-    width: 3.2rem;
-    height: 3.2rem;
     display: flex;
     align-items: center;
     justify-content: center;

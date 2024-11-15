@@ -93,7 +93,7 @@ export default {
 
 .back-button {
     position: absolute;
-    top: 4rem;
+    top: 13.7rem;
     left: 1.6rem;
 }
 .up-button {

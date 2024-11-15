@@ -6,46 +6,46 @@ import AddIcon from '@/assets/icons/actions/AddIcon.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapState } from 'pinia';
+import Modal from '@/components/UI/modal/Modal.vue';
+import VocabularyForm from './VocabularyForm.vue';
 
 export default {
-    components: { Button, Icon },
+    data() {
+        return {
+            showModal: false,
+            iconModal: AddIcon,
+            formModal: VocabularyForm
+        };
+    },
+    components: { Button, Modal, VocabularyIcon, LineArrowForwardIcon },
     computed: {
         ...mapState(useVocabularyStore, ["count", "words"]),
         ...mapState(useLanguagesStore, ["learning_languages"])
     },
     methods: {
-        openVocabularyModal(event: Event) {
-            event.stopPropagation();
-            this.isVocabularyOpen = true;
-        },
-        toggleVocabularyModal(event: Event) {
-            event.stopPropagation();
-            this.isVocabularyOpen = !this.isVocabularyOpen;
-        },
-        closeModal() {
-            this.isVocabularyOpen = false;
+        handleSubmit(data: any) {
         }
     },
 }
 </script>
 
 <template>
-    <button class="vocabulary-main-view" @click="toggleVocabularyModal">
+    <button class="vocabulary-main-view" @click="showModal = true">
         <div class="vocabulary-main-view--header">
             <h2 class="vocabulary-main-view--title">
-                <VocabularyIcon size="32"/>Словарь <span style="color: #737782">{{ count }}</span>
+                <VocabularyIcon size="32" />Словарь <span style="color: #737782">{{ count }}</span>
             </h2>
 
             <div id="forward-arrow">
-                <LineArrowForwardIcon size="32"/>
+                <LineArrowForwardIcon size="32" />
             </div>
         </div>
         <div class="vocabulary-main-view--content">
             <div class="vocabulary-main-view--not-found" v-if="!words.length">
                 В словаре пока нет слов или фраз
 
-                <Button @click="redirectToNewWord" size="small" text="Добавить первые слова">
-                    <AddIcon size="16"/>
+                <Button @click="() => { }" size="small" text="Добавить первые слова">
+                    <AddIcon size="16" />
                 </Button>
             </div>
 
@@ -59,9 +59,8 @@ export default {
         </div>
     </button>
 
-    <Teleport to="body">
-        <AddNewModal :close-handler="closeModal" v-if="isVocabularyOpen" />
-    </Teleport>
+    <Modal size="lg" v-if="showModal" :close-modal="() => showModal = false" title-modal="Новое слово" :icon-modal="iconModal"
+        :submit-modal="handleSubmit" :form="formModal" />
 </template>
 
 <style lang="scss">

@@ -1,61 +1,66 @@
 <script lang="ts">
-import AddNewLanguageModal from '@/components/language/AddNewModal.vue';
 import Button from '@/components/UI/button/Button.vue';
 import ArrowForwardIcon from '@/assets/icons/arrows/ArrowForwardIcon.vue';
 import LineArrowForwardIcon from '@/assets/icons/arrows/LineArrowForwardIcon.vue';
 import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
 import AddIcon from '@/assets/icons/actions/AddIcon.vue';
 import TrophyStatusIcon from '@/assets/icons/vocabulary/status/TrophyStatusIcon.vue';
+import ExercisesIcon from '@/assets/icons/exercises/ExercisesIcon.vue';
 import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
 import Inactive2StatusIcon from '@/assets/icons/vocabulary/status/Inactive2StatusIcon.vue';
 import ActiveStatusIcon from '@/assets/icons/vocabulary/status/ActiveStatusIcon.vue';
 import MasteredStatusIcon from '@/assets/icons/vocabulary/status/MasteredStatusIcon.vue';
+import Modal from '@/components/UI/modal/Modal.vue';
+import type { LanguageDto } from '@/dto/languages.dto';
+import LanguagesForm from './LanguagesForm.vue';
+
 
 export default {
     data() {
         return {
-            isLanguageModalOpen: false,
+            showModal: false,
+            iconModal: ExercisesIcon,
+            modalForm: LanguagesForm,
         };
     },
-    components: { Button, AddNewLanguageModal, ArrowForwardIcon, LineArrowForwardIcon, LanguageIcon, AddIcon, TrophyStatusIcon, ActiveStatusIcon, MasteredStatusIcon, Inactive2StatusIcon },
+    components: { Modal, Button, ArrowForwardIcon, LineArrowForwardIcon, LanguageIcon, AddIcon, TrophyStatusIcon, ActiveStatusIcon, MasteredStatusIcon, Inactive2StatusIcon },
     computed: {
         ...mapState(useLanguagesStore, ['learning_languages', 'count'])
     },
     methods: {
-        openLanguageModal(event: Event) {
-            event.stopPropagation();
-            this.isLanguageModalOpen = true;
+        handleView() {
+            if (this.count > 0) {
+                this.$router.push('/languages');
+            } else {
+                this.showModal = true;
+            }
         },
-        toggleLanguageModal(event: Event) {
-            event.stopPropagation();
-            this.isLanguageModalOpen = !this.isLanguageModalOpen;
-        },
-        closeModal() {
-            this.isLanguageModalOpen = false;
+        handleSubmit(data: LanguageDto) {
+
         }
     },
 }
 </script>
 
 <template>
-    <button class="languages-main-view" @click="toggleLanguageModal">
+    <button class="languages-main-view" @click="handleView">
         <div class="languages-main-view--header">
 
             <h2 class="languages-main-view--title">
-                <LanguageIcon size="32"/>Изучаемые языки <span style="color: #737782">{{ count
+                <LanguageIcon size="32" />Изучаемые языки <span style="color: #737782">{{ count
                     }}</span>
             </h2>
 
             <div id="forward-arrow">
-                <LineArrowForwardIcon size="32"/>
+                <LineArrowForwardIcon size="32" />
             </div>
         </div>
         <div class="languages-main-view--content">
             <div class="languages-main-view--not-found-learning-languages" v-if="learning_languages.length === 0">
                 Нет изучаемых языков
-                <Button @click="openLanguageModal" size="small" text="Добавить изучаемый язык">
-                    <AddIcon size="16"/>
+                <Button @click="showModal = true" size="small" text="Добавить изучаемый язык">
+                    <AddIcon size="16" />
                 </Button>
 
             </div>
@@ -69,13 +74,14 @@ export default {
                                 lang.language.name_local }}</span>
                             <ul class="languages-main-view--learning-languages-list-info">
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <ActiveStatusIcon size="16" custom-color="#6C8DFF"/>{{ lang.active_words_count }}
+                                    <ActiveStatusIcon size="16" custom-color="#6C8DFF" />{{ lang.active_words_count }}
                                 </li>
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <Inactive2StatusIcon size="16" custom-color="#737782"/>{{ lang.inactive_words_count }}
+                                    <Inactive2StatusIcon size="16" custom-color="#737782" />{{ lang.inactive_words_count
+                                    }}
                                 </li>
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <MasteredStatusIcon size="16" custom-color="#2FBC48"/>{{ lang.mastered_words_count
+                                    <MasteredStatusIcon size="16" custom-color="#2FBC48" />{{ lang.mastered_words_count
                                     }}
                                 </li>
                             </ul>
@@ -83,14 +89,10 @@ export default {
                     </div>
                 </div>
             </div>
-
-
         </div>
-
     </button>
-    <Teleport to="body">
-        <AddNewLanguageModal :close-handler="closeModal" v-if="isLanguageModalOpen" />
-    </Teleport>
+    <Modal :icon-modal="iconModal" :form="modalForm" v-if="showModal" :close-modal="() => showModal = false"
+        title-modal="Добавить изучаемые языки" />
 </template>
 
 <style lang="scss">

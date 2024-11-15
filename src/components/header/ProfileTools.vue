@@ -1,6 +1,7 @@
 <template>
     <OnClickOutside @trigger.stop="() => handleClose()">
         <div class="profile-tools">
+            <div class="username">{{ username }}</div>
             <button @click="handleExit" class="profile-tools__button">
                 <ExitIcon size="24" /> Выйти
             </button>
@@ -12,7 +13,7 @@
 import ExitIcon from '@/assets/icons/actions/ExitIcon.vue';
 import { useUserStore } from '@/store/user';
 import { OnClickOutside } from '@vueuse/components';
-import { mapActions } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 
 export default {
     components: {
@@ -24,6 +25,9 @@ export default {
             type: Function,
             required: true
         }
+    },
+    computed: {
+        ...mapState(useUserStore, ["username"])
     },
     methods: {
         ...mapActions(useUserStore, ["logout"]),
@@ -46,6 +50,15 @@ export default {
     background-color: $neutrals-100;
     min-width: 30.2rem;
     border-radius: 2rem;
+
+    .username {
+        font-family: 'Inter';
+        font-size: 1.6rem;
+        font-weight: 400;
+        line-height: 2rem;
+        margin-bottom: 1.6rem;
+        text-align: right;
+    }
 
     .profile-tools__button {
         background-color: transparent;

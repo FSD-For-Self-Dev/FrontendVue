@@ -2,13 +2,13 @@
     <div class="dropdown" :class="dropdownClasses" @click="handleDropdownClick">
         <div class="selected-item">
             <span v-if="selected && selected.icon" class="icon">
-                <Icon :name="selected.icon" />
+                <img :src="selected.icon" alt="Icon" />
             </span>
             <span>
                 {{ selected ? selected.label : placeholder }}
             </span>
         </div>
-        <Icon class="chevron" :class="chevronClasses" name="arrow-expand-up" />
+        <ArrowDownIcon class="chevron" :class="chevronClasses" size="24" />
         <div v-if="isOpen" class="dropdown-menu">
             <div class="dropdown-content">
                 <div
@@ -30,11 +30,11 @@
 
 <script lang="ts">
 import { ref, computed, type PropType } from 'vue';
-import Icon from '@/components/UI/icon/Icon.vue';
 import type { DropdownItem } from '@/types/components/dropdown';
+import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue';
 
 export default {
-    components: { Icon },
+    components: { ArrowDownIcon },
     props: {
         items: {
             type: Array as PropType<DropdownItem[]>,
@@ -115,7 +115,7 @@ export default {
     gap: 1.6rem;
     align-items: center;
     min-height: 5.9rem;
-    max-width: 34rem;
+    max-width: 30rem;
     border-radius: $radius-md;
     padding-inline: 2rem;
     border: 0.1rem solid $neutrals-400;
@@ -124,6 +124,7 @@ export default {
     font-weight: 500;
     color: $neutrals-900;
     background-color: $neutrals-100;
+    box-sizing: border-box;
 
     @include hover {
         border-color: $primary-300;
@@ -168,6 +169,7 @@ export default {
     border-radius: $radius-md;
     max-height: 35rem;
     overflow-y: auto;
+    z-index: 1000;
 }
 
 .dropdown-item {
@@ -197,7 +199,7 @@ export default {
 .chevron {
     @include square(2.4rem);
     transition: all 0.3s ease;
-
+    
     &--down {
         transform: rotateX(180deg);
     }
