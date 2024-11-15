@@ -26,7 +26,6 @@ export const useVocabularyStore = defineStore('vocabulary', {
             try {
                 await api.vocabulary.createWord(word);
             } catch (error) {
-                console.log('Словарь ошибка в сторе', error);
                 if(isAxiosError(error)) {
                     this.errors = error.response?.data;
                 }

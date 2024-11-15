@@ -35,6 +35,7 @@ export default {
 .logo-title {
     font-family: 'Fredoka';
     font-size: 2.4rem;
+    font-weight: 500;
 }
 
 .logo-subtitle {
