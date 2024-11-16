@@ -14,7 +14,7 @@ export default {
     <nav class="navigation">
         <ul class="navigation--list">
             <li>
-                <a class="navigation--item">
+                <a class="navigation--item" href="/vocabulary">
                     <VocabularyIcon size="20" />Мой словарь
                 </a>
             </li>

@@ -5,26 +5,21 @@ import LineArrowForwardIcon from '@/assets/icons/arrows/LineArrowForwardIcon.vue
 import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
 import AddIcon from '@/assets/icons/actions/AddIcon.vue';
 import TrophyStatusIcon from '@/assets/icons/vocabulary/status/TrophyStatusIcon.vue';
-import ExercisesIcon from '@/assets/icons/exercises/ExercisesIcon.vue';
 import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
 import Inactive2StatusIcon from '@/assets/icons/vocabulary/status/Inactive2StatusIcon.vue';
 import ActiveStatusIcon from '@/assets/icons/vocabulary/status/ActiveStatusIcon.vue';
+import LanguageButtonForModal from './LanguageButtonForModal.vue';
 import MasteredStatusIcon from '@/assets/icons/vocabulary/status/MasteredStatusIcon.vue';
-import Modal from '@/components/UI/modal/Modal.vue';
-import type { LanguageDto } from '@/dto/languages.dto';
-import LanguagesForm from './LanguagesForm.vue';
 
 
 export default {
     data() {
         return {
-            showModal: false,
-            iconModal: ExercisesIcon,
-            modalForm: LanguagesForm,
+            showModal: false
         };
     },
-    components: { Modal, Button, ArrowForwardIcon, LineArrowForwardIcon, LanguageIcon, AddIcon, TrophyStatusIcon, ActiveStatusIcon, MasteredStatusIcon, Inactive2StatusIcon },
+    components: { LanguageButtonForModal, Button, ArrowForwardIcon, LineArrowForwardIcon, LanguageIcon, AddIcon, TrophyStatusIcon, ActiveStatusIcon, MasteredStatusIcon, Inactive2StatusIcon },
     computed: {
         ...mapState(useLanguagesStore, ['learning_languages', 'count'])
     },
@@ -33,11 +28,11 @@ export default {
             if (this.count > 0) {
                 this.$router.push('/languages');
             } else {
-                this.showModal = true;
+                this.handleToggleModal(!this.showModal);
             }
         },
-        handleSubmit(data: LanguageDto) {
-
+        handleToggleModal(state: boolean) {
+            this.showModal = state;
         }
     },
 }
@@ -59,9 +54,9 @@ export default {
         <div class="languages-main-view--content">
             <div class="languages-main-view--not-found-learning-languages" v-if="learning_languages.length === 0">
                 Нет изучаемых языков
-                <Button @click="showModal = true" size="small" text="Добавить изучаемый язык">
-                    <AddIcon size="16" />
-                </Button>
+
+                <LanguageButtonForModal :extra-toggle-modal="handleToggleModal" :extra-show-modal="showModal"
+                    text-button="Добавить первый язык" />
 
             </div>
 
@@ -91,8 +86,6 @@ export default {
             </div>
         </div>
     </button>
-    <Modal :icon-modal="iconModal" :form="modalForm" v-if="showModal" :close-modal="() => showModal = false"
-        title-modal="Добавить изучаемые языки" />
 </template>
 
 <style lang="scss">

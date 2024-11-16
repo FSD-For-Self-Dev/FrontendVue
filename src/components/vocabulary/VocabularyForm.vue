@@ -193,8 +193,6 @@ export default {
         <Button v-if="step === 2" size="medium" type="submit">Сохранить</Button>
       </div>
     </form>
-
-
   </div>
 </template>
 

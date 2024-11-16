@@ -1,14 +1,15 @@
 <template>
     <PageLayout>
-        <h1>СЛОВАРЬ</h1>
+        <VocabularyButtonForModal text-button="Новое слово или фраза" />
     </PageLayout>
 </template>
 
 <script lang="ts">
 import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
+import VocabularyButtonForModal from '@/components/vocabulary/VocabularyButtonForModal.vue';
 
 export default {
-    components: { PageLayout },
+    components: { PageLayout, VocabularyButtonForModal },
 };
 </script>
 
