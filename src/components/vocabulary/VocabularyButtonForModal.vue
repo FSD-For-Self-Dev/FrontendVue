@@ -26,6 +26,10 @@ export default {
     extraShowModal: {
       type: Boolean as PropType<boolean | null>,
       default: null
+    },
+    sizeButton: {
+      type: String as PropType<'normal' | 'medium' | 'small'>,
+      default: 'small'
     }
   },
   methods: {
@@ -48,9 +52,9 @@ export default {
 </script>
 
 <template>
-  <Button @click.stop="handleOpen" size="small" :text="textButton">
+  <Button @click.stop="handleOpen" :size="sizeButton" :text="textButton">
     <AddIcon size="16" />
   </Button>
-  <Modal size="lg" v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Новое слово"
+  <Modal size="md" v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Новое слово"
     :icon-modal="iconModal" :form="formModal" />
 </template>

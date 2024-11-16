@@ -1,16 +1,24 @@
 <template>
-    <PageLayout>
-        <VocabularyButtonForModal text-button="Новое слово или фраза" />
-    </PageLayout>
+	<PageLayout>
+		<HeaderPage text="словарь" :icon="vocabIcon" />
+		<VocabularyPageTools />
+		<VocabularyPageContent />
+	</PageLayout>
 </template>
 
 <script lang="ts">
 import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
-import VocabularyButtonForModal from '@/components/vocabulary/VocabularyButtonForModal.vue';
+import HeaderPage from '@/components/UI/header-page/HeaderPage.vue';
+import VocabularyIcon from '@/assets/icons/vocabulary/VocabularyIcon.vue';
+import VocabularyPageTools from '@/components/vocabulary/VocabularyPageTools.vue';
+import VocabularyPageContent from '@/components/vocabulary/VocabularyPageContent.vue';
 
 export default {
-    components: { PageLayout, VocabularyButtonForModal },
+	components: { PageLayout, HeaderPage, VocabularyPageTools, VocabularyPageContent },
+	data() {
+		return {
+			vocabIcon: VocabularyIcon
+		}
+	}
 };
 </script>
-
-<style lang="scss" scoped></style>

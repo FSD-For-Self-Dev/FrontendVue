@@ -27,7 +27,7 @@ export default {
 
 <template>
     <button class="vocabulary-main-view"
-        @click="count > 0 ? $router.push('vocabulary') : () => handleToggleModal(!showModal)">
+        @click="count > 0 ? $router.push('vocabulary') : handleToggleModal(!showModal)">
         <div class="vocabulary-main-view--header">
             <h2 class="vocabulary-main-view--title">
                 <VocabularyIcon size="32" />Словарь <span style="color: #737782">{{ count }}</span>
@@ -47,8 +47,7 @@ export default {
 
             <div class="vocabulary-main-view--words" v-else>
                 <div class="vocabulary-main-view--word" v-for="word in words">
-                    <img width="16"
-                        :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />
+                    <img width="16" :src="word.language.flag_icon" />
                     {{ word.text }}
                 </div>
             </div>

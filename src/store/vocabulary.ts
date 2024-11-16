@@ -10,23 +10,41 @@ export interface VocabularyStore {
         language: string[];
         text: string[];
     };
+    filterOptions: {
+        language: string;
+        text: string;
+        status: string;
+    };
 }
 
 export const useVocabularyStore = defineStore('vocabulary', {
     state: (): VocabularyStore => {
-        return { count: 0, words: [], errors: { language: [], text: [] } };
+        return {
+            count: 0,
+            words: [],
+            errors: { language: [], text: [] },
+            filterOptions: { language: '', text: '', status: '' },
+        };
     },
     actions: {
         async getVocabulary() {
-            const { data } = await api.vocabulary.getVocabulary();
-            this.words = data.results as unknown as WordDto[];
-            this.count = data.count as unknown as number;
+            try {
+                const { data } = await api.vocabulary.getVocabulary();
+                if (data && data.results) {
+                    this.words = data.results as unknown as WordDto[];
+                    this.count = data.count as unknown as number;
+                }
+            } catch (error) {
+                console.error('Error fetching vocabulary:', error);
+                this.words = [];
+                this.count = 0;
+            }
         },
         async createWord(word: WordDto) {
             try {
                 await api.vocabulary.createWord(word);
             } catch (error) {
-                if(isAxiosError(error)) {
+                if (isAxiosError(error)) {
                     this.errors = error.response?.data;
                 }
                 return error;

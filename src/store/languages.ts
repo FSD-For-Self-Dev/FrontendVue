@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import type { LanguageDto, LearningLanguageDto } from '@/dto/languages.dto';
 import api from '@/api';
+import { isAxiosError } from 'axios';
 
 export interface ILanguagesState {
     available_languages: LanguageDto[];
@@ -34,15 +35,22 @@ export const useLanguagesStore = defineStore('languages', {
         },
         async getLearningLanguages() {
             const res = await api.languages.getLearningLanguages();
-            this.count = res.data.count as unknown as number; 
+            this.count = res.data.count as unknown as number;
             this.learning_languages = res.data
                 .results as unknown as LearningLanguageDto[];
         },
         async postLearningLanguage(languages: LanguageDto[]) {
-            const res = await api.languages.postLearningLanguage(languages);
-            this.count = res.data.count as unknown as number; 
-            this.learning_languages = res.data
-                .results as unknown as LearningLanguageDto[];
-        }
+            try {
+                const res = await api.languages.postLearningLanguage(languages);
+                this.count = res.data.count as unknown as number;
+                this.learning_languages = res.data
+                    .results as unknown as LearningLanguageDto[];
+                return res;
+            } catch (error) {
+              if(isAxiosError(error)) {
+                return error
+              }
+            }
+        },
     },
 });

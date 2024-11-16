@@ -14,7 +14,7 @@ export default {
     <nav class="navigation">
         <ul class="navigation--list">
             <li>
-                <a class="navigation--item" href="/vocabulary">
+                <a class="navigation--item" @click="$router.push('vocabulary')">
                     <VocabularyIcon size="20" />Мой словарь
                 </a>
             </li>
