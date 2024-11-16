@@ -6,6 +6,7 @@ import { numWord } from '@/utils/numWord';
 import type { LanguageDto } from '@/dto/languages.dto';
 import { useInfoMessagesStore } from '@/store/info-message';
 import Button from '@/components/UI/button/Button.vue';
+import { isAxiosError } from 'axios';
 
 export default {
   props: {
@@ -47,8 +48,14 @@ export default {
       }
     },
     async handleSave() {
-      await this.postLearningLanguage(this.activeLanguage);
+      const res = await this.postLearningLanguage(this.activeLanguage);
+      if (isAxiosError(res)) {
+        if (res.response?.status === 409) {
+          this.addNewMessage({ type: 'error', text: 'Максимальное количество изучаемых языков' });
+        }
 
+        return;
+      }
       const lenWords = this.activeLanguage.length;
       const addWord = numWord(lenWords, ['Добавлен', 'Добавлено', 'Добавлено'])
       const learnWord = numWord(lenWords, ['изучаемый', 'изучаемых', 'изучаемых']);

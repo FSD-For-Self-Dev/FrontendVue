@@ -1,28 +1,22 @@
 <template>
-    <PageLayout>
-        <h1>ЯЗЫКИ</h1>
-        <Button @click="showModal = true">Добавить языки</Button>
-        <Modal :icon-modal="iconModal" :form="modalForm" v-if="showModal" :close-modal="() => showModal = false"
-            title-modal="Добавить изучаемые языки" />
-    </PageLayout>
+	<PageLayout>
+		<HeaderPage text="Языки" :icon="LangIcon" />
+		<LanguageButtonForModal size-button="medium" text-button="Добавить язык" />
+	</PageLayout>
 </template>
 
 <script lang="ts">
-import Button from '@/components/UI/button/Button.vue';
-import Modal from '@/components/UI/modal/Modal.vue';
 import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
-import LanguagesForm from '@/components/language/LanguagesForm.vue';
-import ExercisesIcon from '@/assets/icons/exercises/ExercisesIcon.vue';
-
+import LanguageButtonForModal from '@/components/language/LanguageButtonForModal.vue';
+import HeaderPage from '@/components/UI/header-page/HeaderPage.vue';
+import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
 export default {
-    data() {
-        return {
-            iconModal: ExercisesIcon,
-            modalForm: LanguagesForm,
-            showModal: false
-        }
-    },
-    components: { PageLayout, Button, Modal },
+	components: { PageLayout, HeaderPage, LanguageButtonForModal },
+	data() {
+		return {
+			LangIcon: LanguageIcon
+		}
+	}
 };
 </script>
 

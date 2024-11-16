@@ -1,36 +1,33 @@
 <script lang="ts">
-import Button from '@/components/UI/button/Button.vue';
-import LineArrowForwardIcon from '@/assets/icons/arrows/LineArrowForwardIcon.vue';
-import VocabularyIcon from '@/assets/icons/vocabulary/VocabularyIcon.vue';
-import AddIcon from '@/assets/icons/actions/AddIcon.vue';
+import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
-import { mapState } from 'pinia';
-import Modal from '@/components/UI/modal/Modal.vue';
-import VocabularyForm from './VocabularyForm.vue';
+import LineArrowForwardIcon from '@/assets/icons/arrows/LineArrowForwardIcon.vue';
+import VocabularyIcon from '@/assets/icons/vocabulary/VocabularyIcon.vue';
+import VocabularyButtonForModal from './VocabularyButtonForModal.vue';
 
 export default {
     data() {
         return {
-            showModal: false,
-            iconModal: AddIcon,
-            formModal: VocabularyForm
-        };
+            showModal: false
+        }
     },
-    components: { Button, Modal, VocabularyIcon, LineArrowForwardIcon },
+    components: { VocabularyIcon, LineArrowForwardIcon, VocabularyButtonForModal },
     computed: {
         ...mapState(useVocabularyStore, ["count", "words"]),
         ...mapState(useLanguagesStore, ["learning_languages"])
     },
     methods: {
-        handleSubmit(data: any) {
+        handleToggleModal(state: boolean) {
+            this.showModal = state;
         }
-    },
+    }
 }
 </script>
 
 <template>
-    <button class="vocabulary-main-view" @click="showModal = true">
+    <button class="vocabulary-main-view"
+        @click="count > 0 ? $router.push('vocabulary') : handleToggleModal(!showModal)">
         <div class="vocabulary-main-view--header">
             <h2 class="vocabulary-main-view--title">
                 <VocabularyIcon size="32" />Словарь <span style="color: #737782">{{ count }}</span>
@@ -44,23 +41,18 @@ export default {
             <div class="vocabulary-main-view--not-found" v-if="!words.length">
                 В словаре пока нет слов или фраз
 
-                <Button @click="() => { }" size="small" text="Добавить первые слова">
-                    <AddIcon size="16" />
-                </Button>
+                <VocabularyButtonForModal :extra-toggle-modal="handleToggleModal" :extra-show-modal="showModal"
+                    text-button="Добавить первые слова" />
             </div>
 
             <div class="vocabulary-main-view--words" v-else>
                 <div class="vocabulary-main-view--word" v-for="word in words">
-                    <img width="16"
-                        :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />
+                    <img width="16" :src="word.language.flag_icon" />
                     {{ word.text }}
                 </div>
             </div>
         </div>
     </button>
-
-    <Modal size="lg" v-if="showModal" :close-modal="() => showModal = false" title-modal="Новое слово" :icon-modal="iconModal"
-        :submit-modal="handleSubmit" :form="formModal" />
 </template>
 
 <style lang="scss">

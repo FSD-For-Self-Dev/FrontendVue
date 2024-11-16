@@ -9,7 +9,7 @@ export default {
 </script>
 
 <template>
-    <a class="logo" href="/">
+    <a class="logo" @click="$router.push('/')">
         <img class="logo" :src="logo" alt="logo" />
         <div class="logo-name">
             <h3 class="logo-title">Linguista</h3>
