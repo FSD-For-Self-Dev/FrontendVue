@@ -1,6 +1,7 @@
 <script lang="ts">
 import FilterIcon from '@/assets/icons/common/FilterIcon.vue';
 import { useVocabularyStore } from '@/store/vocabulary';
+import { useLanguagesStore } from '@/store/languages';
 import { numWord } from '@/utils/numWord';
 import { mapState } from 'pinia';
 
@@ -8,6 +9,7 @@ export default {
   components: { FilterIcon },
   computed: {
     ...mapState(useVocabularyStore, ["words", "count", "filterOptions"]),
+    ...mapState(useLanguagesStore, ["learning_languages"]),
     textInfo() {
       return `Найдено ${this.count} ${numWord(this.count, ['слово', 'слова', 'слов'])} или ${numWord(this.count, ['фраза', 'фразы', 'фраз'])}`;
     }
@@ -26,10 +28,10 @@ export default {
     <div class="vocabulary-content--cards">
       <div v-for="word in words
         .filter(word => word.text.toLocaleLowerCase().includes(filterOptions.text.toLocaleLowerCase()))
-        .filter(word => filterOptions.language ? word.language.name === filterOptions.language : word)"
+        .filter(word => filterOptions.language ? word.language === filterOptions.language : word)"
         class="word-card-mock">
         <span class="word-card-mock--text">
-          <img :src="word.language.flag_icon" /> {{ word.text }}
+          <img :src="learning_languages.find(lang => lang.language.name === word.language).language.flag_icon" /> {{ word.text }}
         </span>
         <div class="word-card-mock--translations">
           <span class="word-card-mock--translation" v-for="translation in word.translations">

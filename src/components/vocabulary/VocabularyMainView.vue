@@ -47,7 +47,7 @@ export default {
 
             <div class="vocabulary-main-view--words" v-else>
                 <div class="vocabulary-main-view--word" v-for="word in words">
-                    <img width="16" :src="word.language.flag_icon" />
+                    <img :src="learning_languages.find(lang => lang.language.name === word.language).language.flag_icon" />
                     {{ word.text }}
                 </div>
             </div>
