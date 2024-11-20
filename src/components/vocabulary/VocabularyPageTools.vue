@@ -17,15 +17,15 @@ export default {
       statusWordOptions: [
         {
           value: 'inactive',
-          label: 'Неактивное',
+          label: 'Неактивные',
         },
         {
           value: 'active',
-          label: 'Активное',
+          label: 'Активные',
         },
         {
           value: 'mastered',
-          label: 'Изучено',
+          label: 'Усвоенные',
         }
       ]
     }
