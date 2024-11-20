@@ -53,7 +53,7 @@ export default {
 
 <template>
   <Button @click.stop="handleOpen" :size="sizeButton" :text="textButton">
-    <AddIcon size="16" />
+    <AddIcon size="24" />
   </Button>
   <Modal size="md" v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Новое слово"
     :icon-modal="iconModal" :form="formModal" />
