@@ -124,6 +124,7 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown {
+    cursor: pointer;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -161,7 +162,6 @@ export default {
 }
 
 .selected-item {
-    cursor: pointer;
     font-size: 1.6rem;
     font-weight: 400;
     line-height: 2rem;
