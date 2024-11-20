@@ -130,10 +130,15 @@ export default {
             display: flex;
             gap: 1.6rem;
             overflow-x: auto;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+
             &::-webkit-scrollbar {
-                display: none;
+                height: .4rem;
+                background-color: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: $radius-lg;
+                background-color: $neutrals-400;
             }
 
             .vocabulary-main-view--word {
