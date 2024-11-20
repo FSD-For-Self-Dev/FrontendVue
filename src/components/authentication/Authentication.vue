@@ -265,7 +265,7 @@ export default {
   &:checked+.custom-label::before {
     border-color: $primary-500;
     background-color: $primary-500;
-    background-image: url("../../assets/icons/tick.svg");
+    background-image: url("../../assets/icons/svg/tick.svg");
   }
 }
 
