@@ -5,6 +5,11 @@ import VocabularyButtonForModal from './VocabularyButtonForModal.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { mapState, mapWritableState } from 'pinia';
 import { useVocabularyStore } from '@/store/vocabulary';
+import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
+import WordsIcon from '@/assets/icons/vocabulary/WordsIcon.vue';
+import MasteredStatusIcon from '@/assets/icons/vocabulary/status/MasteredStatusIcon.vue';
+import Inactive1StatusIcon from '@/assets/icons/vocabulary/status/Inactive1StatusIcon.vue';
+import ActiveStatusIcon from '@/assets/icons/vocabulary/status/ActiveStatusIcon.vue';
 
 
 export default {
@@ -18,34 +23,49 @@ export default {
         {
           value: 'inactive',
           label: 'Неактивные',
+          icon_component: 'inactive1-status-icon',
         },
         {
           value: 'active',
           label: 'Активные',
+          icon_component: 'active-status-icon',
         },
         {
           value: 'mastered',
           label: 'Усвоенные',
-        }
+          icon_component: 'mastered-status-icon',
+        },
+        {
+          value: '',
+          label: 'Все слова',
+          icon_component: 'words-icon',
+        },
       ]
     }
   },
-  components: { VocabularyButtonForModal, Input, Dropdown },
-}
+  components: { VocabularyButtonForModal, Input, Dropdown, LanguageIcon, WordsIcon, Inactive1StatusIcon, ActiveStatusIcon, MasteredStatusIcon },
+};
 </script>
 
 <template>
   <div class="vocabulary-tools">
     <div class="vocabulary-tools--top">
       <div class="vocabulary-tools--top-left">
-        <Dropdown placeholder="Язык слов" v-model="filterOptions.language" :items="learning_languages.map(({ language }) => {
+        <Dropdown
+          placeholder="Все языки"
+          :default_item="{value: '', label: 'Все языки', icon_component: 'language-icon', is_default_item: true}"
+          v-model="filterOptions.language" :items="learning_languages.map(({ language }) => {
           return {
             value: language.name,
             label: language.name_local,
-            icon: language.flag_icon
+            icon: language.flag_icon,
+            is_default_item: false
           }
         })" />
-        <Dropdown placeholder="Статус слов" v-model="filterOptions.status" :items="statusWordOptions" />
+        <Dropdown
+          placeholder="Все слова"
+          v-model="filterOptions.status" :items="statusWordOptions"
+        />
       </div>
       <VocabularyButtonForModal size-button="medium" text-button="Новое слово или фраза" />
     </div>
