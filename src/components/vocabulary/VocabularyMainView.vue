@@ -20,6 +20,11 @@ export default {
     methods: {
         handleToggleModal(state: boolean) {
             this.showModal = state;
+        },
+        handleWheel(event: WheelEvent) {
+            const container = event.currentTarget as HTMLElement;
+            event.preventDefault();
+            container.scrollLeft += event.deltaY;
         }
     }
 }
@@ -45,9 +50,10 @@ export default {
                     text-button="Добавить первые слова" />
             </div>
 
-            <div class="vocabulary-main-view--words" v-else>
+            <div class="vocabulary-main-view--words" v-else @wheel.prevent="handleWheel">
                 <div class="vocabulary-main-view--word" v-for="word in words">
-                    <img width="16" :src="word.language.flag_icon" />
+                    <img
+                        :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />
                     {{ word.text }}
                 </div>
             </div>
@@ -123,12 +129,19 @@ export default {
         .vocabulary-main-view--words {
             display: flex;
             gap: 1.6rem;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            &::-webkit-scrollbar {
+                display: none;
+            }
 
             .vocabulary-main-view--word {
                 padding: 1.6rem 2rem;
                 background-color: $neutrals-100;
                 border-radius: 2rem;
                 border: .1rem solid $neutrals-300;
+                flex-shrink: 0;
 
                 display: flex;
                 align-items: center;

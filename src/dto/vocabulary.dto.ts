@@ -1,6 +1,6 @@
 export interface WordDto {
     text: string;
-    language: LanguageDto;
+    language: string;
     translations: WordTranslationDto[];
     note: string;
     status: string;
@@ -9,11 +9,4 @@ export interface WordDto {
 export interface WordTranslationDto {
     text: string;
     language: string;
-}
-
-export interface LanguageDto {
-    flag_icon: string;
-    isocode: string;
-    name: string;
-    name_local: string;
 }
