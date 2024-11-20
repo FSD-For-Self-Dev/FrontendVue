@@ -5,7 +5,7 @@
                 <img :src="selected.icon" alt="Icon" />
             </span>
             <span v-if="selected && selected.icon_component" class="icon-component">
-                <component :is=selected.icon_component size="32"></component>
+                <component :is=selected.icon_component v-bind:size="'32'":custom-color="selected.icon_component_custom_color"></component>
             </span>
             <span>
                 {{ selected ? selected.label : placeholder }}
@@ -25,7 +25,7 @@
                         <img :src="item.icon" alt="Icon" />
                     </span>
                     <span v-if="item.icon_component" class="icon-component">
-                        <component :is="item.icon_component" size="32"></component>
+                        <component :is="item.icon_component" v-bind:size="'32'":custom-color="item.icon_component_custom_color"></component>
                     </span>
                     <span>{{ item.label }}</span>
                 </div>

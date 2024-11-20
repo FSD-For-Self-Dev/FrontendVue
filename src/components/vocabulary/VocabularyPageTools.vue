@@ -24,16 +24,19 @@ export default {
           value: 'inactive',
           label: 'Неактивные',
           icon_component: 'inactive1-status-icon',
+          icon_component_custom_color: '#737782',
         },
         {
           value: 'active',
           label: 'Активные',
           icon_component: 'active-status-icon',
+          icon_component_custom_color: '#6C8DFF',
         },
         {
           value: 'mastered',
           label: 'Усвоенные',
           icon_component: 'mastered-status-icon',
+          icon_component_custom_color: '#2FBC48',
         },
         {
           value: '',
