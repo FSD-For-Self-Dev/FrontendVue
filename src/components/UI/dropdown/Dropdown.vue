@@ -4,6 +4,9 @@
             <span v-if="selected && selected.icon" class="icon">
                 <img :src="selected.icon" alt="Icon" />
             </span>
+            <span v-if="selected && selected.icon_component" class="icon-component">
+                <component :is=selected.icon_component v-bind:size="'32'":custom-color="selected.icon_component_custom_color"></component>
+            </span>
             <span>
                 {{ selected ? selected.label : placeholder }}
             </span>
@@ -21,6 +24,9 @@
                     <span v-if="item.icon" class="icon">
                         <img :src="item.icon" alt="Icon" />
                     </span>
+                    <span v-if="item.icon_component" class="icon-component">
+                        <component :is="item.icon_component" v-bind:size="'32'":custom-color="item.icon_component_custom_color"></component>
+                    </span>
                     <span>{{ item.label }}</span>
                 </div>
             </div>
@@ -32,9 +38,14 @@
 import { ref, computed, type PropType } from 'vue';
 import type { DropdownItem } from '@/types/components/dropdown';
 import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue';
+import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
+import WordsIcon from '@/assets/icons/vocabulary/WordsIcon.vue';
+import MasteredStatusIcon from '@/assets/icons/vocabulary/status/MasteredStatusIcon.vue';
+import Inactive1StatusIcon from '@/assets/icons/vocabulary/status/Inactive1StatusIcon.vue';
+import ActiveStatusIcon from '@/assets/icons/vocabulary/status/ActiveStatusIcon.vue';
 
 export default {
-    components: { ArrowDownIcon },
+    components: { ArrowDownIcon, LanguageIcon, WordsIcon, Inactive1StatusIcon, ActiveStatusIcon, MasteredStatusIcon },
     props: {
         items: {
             type: Array as PropType<DropdownItem[]>,
@@ -48,6 +59,9 @@ export default {
             type: String,
             default: 'Select an item',
         },
+        default_item: {
+            type: Object as PropType<DropdownItem>,
+        },
         disabled: {
             type: Boolean,
             default: false,
@@ -56,9 +70,10 @@ export default {
     emits: ['update:modelValue'],
     setup(props, { emit }) {
         const isOpen = ref(false);
-        const selected = computed<DropdownItem | undefined>(() =>
-            props.items.find((item) => item.value === props.modelValue),
-        );
+        const selected = computed<DropdownItem | undefined>(() => {
+            if (props.default_item) props.items.push(props.default_item);
+            return props.items.find((item) => item.value === props.modelValue);
+        });
 
         const handleDropdownClick = () => {
             if (!props.disabled) {
@@ -109,6 +124,7 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown {
+    cursor: pointer;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -146,7 +162,6 @@ export default {
 }
 
 .selected-item {
-    cursor: pointer;
     font-size: 1.6rem;
     font-weight: 400;
     line-height: 2rem;
@@ -196,16 +211,17 @@ export default {
     margin-right: 1.2rem;
 }
 
+.icon-component {
+    margin-right: 0.8rem;
+}
+
 .chevron {
     @include square(2.4rem);
     transition: all 0.3s ease;
     
-    &--down {
+    &--up {
         transform: rotateX(180deg);
     }
 
-    &--up {
-        transform: rotateX(0deg);
-    }
 }
 </style>
