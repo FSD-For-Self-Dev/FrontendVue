@@ -219,12 +219,9 @@ export default {
     @include square(2.4rem);
     transition: all 0.3s ease;
     
-    &--down {
+    &--up {
         transform: rotateX(180deg);
     }
 
-    &--up {
-        transform: rotateX(0deg);
-    }
 }
 </style>
