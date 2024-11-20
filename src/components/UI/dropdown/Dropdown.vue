@@ -114,7 +114,7 @@ export default {
     justify-content: space-between;
     gap: 1.6rem;
     align-items: center;
-    min-height: 5.9rem;
+    min-height: 5.6rem;
     max-width: 30rem;
     border-radius: $radius-md;
     padding-inline: 2rem;
@@ -166,14 +166,14 @@ export default {
     padding: 0;
     margin: 0;
     width: 100%;
-    border-radius: $radius-md;
+    border-radius: $radius-xs;
     max-height: 35rem;
     overflow-y: auto;
     z-index: 1000;
 }
 
 .dropdown-item {
-    padding: 1.2rem 1.6rem;
+    padding: 1.6rem 1.6rem;
     cursor: pointer;
     font-size: 1.6rem;
     font-weight: 400;
