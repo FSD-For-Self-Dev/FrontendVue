@@ -121,7 +121,7 @@ export default {
 
     @include hover {
         border-color: $primary-300;
-        box-shadow: 0 0 0 0.1rem $primary-300;
+        box-shadow: 0 0 0 0rem $primary-300;
     }
 
     &:disabled {
