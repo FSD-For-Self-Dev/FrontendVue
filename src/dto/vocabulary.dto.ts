@@ -3,7 +3,7 @@ export interface WordDto {
     language: string;
     translations: WordTranslationDto[];
     note: string;
-    status: string;
+    "activity_status": string;
 }
 
 export interface WordTranslationDto {

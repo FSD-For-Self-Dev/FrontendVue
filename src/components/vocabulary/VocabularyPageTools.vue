@@ -67,7 +67,7 @@ export default {
         })" />
         <Dropdown
           placeholder="Все слова"
-          v-model="filterOptions.status" :items="statusWordOptions"
+          v-model="filterOptions.activity_status" :items="statusWordOptions"
         />
       </div>
       <VocabularyButtonForModal size-button="medium" text-button="Новое слово или фраза" />
