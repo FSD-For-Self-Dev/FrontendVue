@@ -28,10 +28,11 @@ export default {
     <div class="vocabulary-content--cards">
       <div v-for="word in words
         .filter(word => word.text.toLocaleLowerCase().includes(filterOptions.text.toLocaleLowerCase()))
-        .filter(word => filterOptions.language ? word.language === filterOptions.language : word)"
+        .filter(word => filterOptions.language ? word.language === filterOptions.language : word)
+        .filter(word => filterOptions.activity_status ? word.activity_status.toLocaleLowerCase() === filterOptions.activity_status.toLocaleLowerCase() : word)"
         class="word-card-mock">
         <span class="word-card-mock--text">
-          <img :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" /> {{ word.text }}
+          <img :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" /> {{ word.text }} 
         </span>
         <div class="word-card-mock--translations">
           <span class="word-card-mock--translation" v-for="translation in word.translations">

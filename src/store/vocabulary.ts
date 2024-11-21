@@ -13,7 +13,7 @@ export interface VocabularyStore {
     filterOptions: {
         language: string;
         text: string;
-        status: string;
+        activity_status: string;
     };
 }
 
@@ -23,7 +23,7 @@ export const useVocabularyStore = defineStore('vocabulary', {
             count: 0,
             words: [],
             errors: { language: [], text: [] },
-            filterOptions: { language: '', text: '', status: '' },
+            filterOptions: { language: '', text: '', activity_status: '' },
         };
     },
     actions: {

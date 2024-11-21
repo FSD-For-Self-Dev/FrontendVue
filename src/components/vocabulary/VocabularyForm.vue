@@ -93,7 +93,7 @@ export default {
         language: this.language,
         translations: this.translations,
         note: this.note,
-        status: 'inactive'
+        activity_status: 'inactive'
       }
 
       const res = await this.createWord(data);
