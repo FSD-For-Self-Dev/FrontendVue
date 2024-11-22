@@ -90,7 +90,7 @@ export default {
     &-left {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 2rem;
     }
   }
 }
