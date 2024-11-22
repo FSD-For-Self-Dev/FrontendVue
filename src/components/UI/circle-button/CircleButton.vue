@@ -64,7 +64,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $primary-500 0.2rem solid;
+      outline: $primary-500 0.1rem solid;
     }
   }
 
@@ -82,7 +82,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $primary-500 0.2rem solid;
+      outline: $primary-500 0.1rem solid;
     }
   }
 
@@ -101,7 +101,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $primary-500 0.2rem solid;
+      outline: $primary-500 0.1rem solid;
     }
   }
 
