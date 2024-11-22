@@ -186,8 +186,8 @@ export default {
 
 .password-toggle {
     position: absolute;
-    top: 1.9rem;
-    right: 4rem;
+    top: 1.6rem;
+    right: 2.8rem;
     border: none;
     cursor: pointer;
     padding: 0;
