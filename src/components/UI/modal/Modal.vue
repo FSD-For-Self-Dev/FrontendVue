@@ -81,7 +81,7 @@ export default {
 }
 
 .modal {
-  position: fixed;
+  position: absolute;
   top: 6.4rem;
   left: 50%;
   transform: translateX(-50%);
