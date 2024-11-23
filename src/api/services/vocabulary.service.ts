@@ -6,7 +6,6 @@ export default (api: IApi) => {
             return api.request.get('/api/vocabulary/')
         },
         createWord: (word) => {
-            console.log(word);
             return api.request.post('/api/vocabulary/', word);
         },
     };

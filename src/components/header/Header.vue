@@ -19,7 +19,7 @@ export default {
 		authorized() {
 			return this.$route.path !== '/';
 		},
-		...mapState(useUserStore, ['username', 'authStatus']),
+		...mapState(useUserStore, ['username', 'authStatus', 'image']),
 	},
 	data(): {
 		showAuth: boolean,
@@ -78,7 +78,8 @@ export default {
 				<Button variant="secondary" size="small" view="icon">
 					<BellIcon size="24" />
 				</Button>
-				<Button variant="secondary" size="small" view="icon"
+				<img class="header--avatar" :src="image" v-if="image" @click.stop="() => showProfileTools = !showProfileTools" />
+				<Button v-else variant="secondary" size="small" view="icon"
 					@click.stop="() => showProfileTools = !showProfileTools">
 					<ProfileIcon size="24" />
 				</Button>
@@ -137,6 +138,14 @@ export default {
 		.header--user {
 			display: flex;
 			gap: 1rem;
+		}
+
+		.header--avatar {
+			width: 3.2rem;
+			height: 3.2rem;
+			border-radius: 50%;
+			object-fit: cover;
+			border: none;
 		}
 	}
 }
