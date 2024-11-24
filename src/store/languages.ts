@@ -6,6 +6,7 @@ import { isAxiosError } from 'axios';
 export interface ILanguagesState {
     available_languages: LanguageDto[];
     learning_languages: LearningLanguageDto[];
+    global_languages: LanguageDto[];
     count: number;
 }
 
@@ -15,6 +16,7 @@ export const useLanguagesStore = defineStore('languages', {
             available_languages: [],
             learning_languages: [],
             count: 0,
+            global_languages: [],
         };
     },
     getters: {
@@ -39,6 +41,11 @@ export const useLanguagesStore = defineStore('languages', {
             this.learning_languages = res.data
                 .results as unknown as LearningLanguageDto[];
         },
+        async getGlobalLanguages() {
+            const res = await api.languages.getGlobalLanguages();
+            this.global_languages = res.data
+                .results as unknown as LanguageDto[];
+        },
         async postLearningLanguage(languages: LanguageDto[]) {
             try {
                 const res = await api.languages.postLearningLanguage(languages);
@@ -47,9 +54,9 @@ export const useLanguagesStore = defineStore('languages', {
                     .results as unknown as LearningLanguageDto[];
                 return res;
             } catch (error) {
-              if(isAxiosError(error)) {
-                return error
-              }
+                if (isAxiosError(error)) {
+                    return error
+                }
             }
         },
     },

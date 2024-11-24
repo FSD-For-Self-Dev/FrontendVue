@@ -8,6 +8,9 @@ export default (api: IApi) => {
         getLearningLanguages() {
             return api.request.get('/api/languages/');
         },
+        getGlobalLanguages() {
+            return api.request.get('/api/global-languages/');
+        },
         postLearningLanguage(languages) {
             const data = languages.map((language) => {
                 return {

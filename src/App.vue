@@ -22,12 +22,13 @@ export default {
   },
   methods: {
     ...mapActions(useUserStore, ["getUser"]),
-    ...mapActions(useLanguagesStore, ["getAvailableLanguages", "getLearningLanguages"]),
+    ...mapActions(useLanguagesStore, ["getAvailableLanguages", "getLearningLanguages", "getGlobalLanguages"]),
     ...mapActions(useVocabularyStore, ["getVocabulary"])
   },
   mounted() {
     Promise.all([
       this.getUser(),
+      this.getGlobalLanguages(),
       this.getAvailableLanguages(),
       this.getLearningLanguages(),
       this.getVocabulary()

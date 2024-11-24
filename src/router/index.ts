@@ -5,6 +5,7 @@ import Vocabulary from '@/views/Vocabulary.vue';
 import Languages from '@/views/Languages.vue';
 import Error404 from '@/views/Error404.vue';
 import Test from '@/views/Test.vue';
+import Settings from '@/views/Settings.vue';
 
 const routes = [
     {
@@ -22,6 +23,10 @@ const routes = [
     {
         path: '/test',
         component: Test,
+    },
+    {
+        path: '/settings',
+        component: Settings,
     },
     {
         path: '/:catchAll(.*)',
