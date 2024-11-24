@@ -2,9 +2,10 @@
 import DeleteIcon from '@/assets/icons/actions/DeleteIcon.vue';
 import ExitIcon from '@/assets/icons/actions/ExitIcon.vue';
 import ProfileIcon from '@/assets/icons/common/ProfileIcon.vue';
+import Button from '@/components/UI/button/Button.vue';
 
 export default {
-  components: { DeleteIcon, ExitIcon, ProfileIcon },
+  components: { DeleteIcon, ExitIcon, ProfileIcon, Button },
 };
 
 </script>
@@ -12,14 +13,20 @@ export default {
 <template>
   <nav>
     <ul class="settings--navigation">
-      <li class="settings--navigation-item">
-        <ProfileIcon size="24" /> Профиль
+      <li>
+        <Button :style="{ width: '100%'}" size="medium" variant="secondary" text="Профиль" content-type="left-icon">
+          <ProfileIcon size="24" />
+        </Button>
       </li>
-      <li class="settings--navigation-item">
-        <ExitIcon size="24" /> Выйти из аккаунта
+      <li>
+        <Button :style="{ width: '100%'}" size="medium" variant="secondary" text="Выйти из аккаунта" content-type="left-icon">
+          <ExitIcon size="24" />
+        </Button>
       </li>
-      <li style="color: #CA2744" class="settings--navigation-item">
-        <DeleteIcon size="20" /> Удалить аккаунт
+      <li>
+        <Button :style="{ width: '100%', color: '#CA2744'}" size="medium" variant="secondary" text="Удалить аккаунт" content-type="left-icon">
+          <DeleteIcon size="20" />
+        </Button>
       </li>
     </ul>
   </nav>
