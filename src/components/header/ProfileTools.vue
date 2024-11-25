@@ -12,9 +12,9 @@
 </template>
 
 <script lang="ts">
-import ExitIcon from '@/assets/icons/ExitIcon.vue';
-import ProfileIcon from '@/assets/icons/ProfileIcon.vue';
-import SettingsIcon from '@/assets/icons/SettingsIcon.vue';
+import ExitIcon from '@/components/icons/ExitIcon.vue';
+import ProfileIcon from '@/components/icons/ProfileIcon.vue';
+import SettingsIcon from '@/components/icons/SettingsIcon.vue';
 import { useUserStore } from '@/store/user';
 import { OnClickOutside } from '@vueuse/components';
 import { mapActions, mapState } from 'pinia';

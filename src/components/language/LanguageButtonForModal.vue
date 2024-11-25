@@ -1,7 +1,7 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
-import ExercisesIcon from '@/assets/icons/ExercisesIcon.vue';
-import AddIcon from '@/assets/icons/AddIcon.vue';
+import ExercisesIcon from '@/components/icons/ExercisesIcon.vue';
+import AddIcon from '@/components/icons/AddIcon.vue';
 import Modal from '@/components/UI/modal/Modal.vue';
 import LanguagesForm from './LanguagesForm.vue';
 import { type PropType } from 'vue';

@@ -1,8 +1,8 @@
 <script lang="ts">
 import type { InputTypeHTMLAttribute, PropType } from "vue";
 import type { InputProps } from "@/types/components/input";
-import EyeOnIcon from "@/assets/icons/EyeOnIcon.vue";
-import EyeOffIcon from "@/assets/icons/EyeOffIcon.vue";
+import EyeOnIcon from "@/components/icons/EyeOnIcon.vue";
+import EyeOffIcon from "@/components/icons/EyeOffIcon.vue";
 
 
 export default {

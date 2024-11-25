@@ -12,7 +12,7 @@
 <script lang="ts">
 import HeaderPage from '@/components/UI/header-page/HeaderPage.vue';
 import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
-import SettingsIcon from '@/assets/icons/SettingsIcon.vue';
+import SettingsIcon from '@/components/icons/SettingsIcon.vue';
 import SettingsForm from '@/components/settings/SettingsForm.vue';
 import SettingsNavigation from '@/components/settings/SettingsNavigation.vue';
 

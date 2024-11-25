@@ -5,11 +5,11 @@ import VocabularyButtonForModal from './VocabularyButtonForModal.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { mapState, mapWritableState } from 'pinia';
 import { useVocabularyStore } from '@/store/vocabulary';
-import LanguageIcon from '@/assets/icons/LanguageIcon.vue';
-import WordsIcon from '@/assets/icons/WordsIcon.vue';
-import MasteredStatusIcon from '@/assets/icons/MasteredStatusIcon.vue';
-import Inactive1StatusIcon from '@/assets/icons/Inactive1StatusIcon.vue';
-import ActiveStatusIcon from '@/assets/icons/ActiveStatusIcon.vue';
+import LanguageIcon from '@/components/icons/LanguageIcon.vue';
+import WordsIcon from '@/components/icons/WordsIcon.vue';
+import MasteredStatusIcon from '@/components/icons/MasteredStatusIcon.vue';
+import Inactive1StatusIcon from '@/components/icons/Inactive1StatusIcon.vue';
+import ActiveStatusIcon from '@/components/icons/ActiveStatusIcon.vue';
 
 
 export default {

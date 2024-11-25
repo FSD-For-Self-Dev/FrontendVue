@@ -1,5 +1,5 @@
 <script lang="ts">
-import RuIcon from '@/assets/icons/languages/codes/RuIcon.vue';
+import RuIcon from '@/components/icons/RuIcon.vue';
 
 export default {
     components: { RuIcon },

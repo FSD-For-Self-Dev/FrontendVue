@@ -2,8 +2,8 @@
 import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
-import LineArrowForwardIcon from '@/assets/icons/LineArrowForwardIcon.vue';
-import VocabularyIcon from '@/assets/icons/VocabularyIcon.vue';
+import LineArrowForwardIcon from '@/components/icons/LineArrowForwardIcon.vue';
+import VocabularyIcon from '@/components/icons/VocabularyIcon.vue';
 import VocabularyButtonForModal from './VocabularyButtonForModal.vue';
 
 export default {

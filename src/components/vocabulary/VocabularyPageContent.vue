@@ -1,5 +1,5 @@
 <script lang="ts">
-import FilterIcon from '@/assets/icons/FilterIcon.vue';
+import FilterIcon from '@/components/icons/FilterIcon.vue';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { useLanguagesStore } from '@/store/languages';
 import { numWord } from '@/utils/numWord';

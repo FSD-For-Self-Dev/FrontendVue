@@ -35,8 +35,8 @@ import { useWindowScroll } from '@vueuse/core';
 import Header from '@/components/header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
 import CircleButton from '@/components/UI/circle-button/CircleButton.vue';
-import ArrowUpIcon from '@/assets/icons/ArrowUpIcon.vue';
-import ArrowBackwardIcon from '@/assets/icons/ArrowBackwardIcon.vue';
+import ArrowUpIcon from '@/components/icons/ArrowUpIcon.vue';
+import ArrowBackwardIcon from '@/components/icons/ArrowBackwardIcon.vue';
 import InfoMessages from '@/components/info-messages/InfoMessages.vue';
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 

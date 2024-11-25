@@ -1,14 +1,14 @@
 <script lang="ts">
-import ArrowBackwardIcon from "@/assets/icons/ArrowBackwardIcon.vue";
-import ArrowForwardIcon from "@/assets/icons/ArrowForwardIcon.vue";
-import CopyIcon from "@/assets/icons/CopyIcon.vue";
-import MoreIcon from "@/assets/icons/MoreIcon.vue";
-import FavouriteIcon from "@/assets/icons/FavouriteIcon.vue";
-import Inactive2StatusIcon from "@/assets/icons/Inactive2StatusIcon.vue";
-import Inactive3StatusIcon from "@/assets/icons/Inactive3StatusIcon.vue";
-import ActiveStatusIcon from "@/assets/icons/ActiveStatusIcon.vue";
-import MasteredStatusIcon from "@/assets/icons/MasteredStatusIcon.vue";
-import QuoteLeftIcon from "@/assets/icons/QuoteLeftIcon.vue";
+import ArrowBackwardIcon from "@/components/icons/ArrowBackwardIcon.vue";
+import ArrowForwardIcon from "@/components/icons/ArrowForwardIcon.vue";
+import CopyIcon from "@/components/icons/CopyIcon.vue";
+import MoreIcon from "@/components/icons/MoreIcon.vue";
+import FavouriteIcon from "@/components/icons/FavouriteIcon.vue";
+import Inactive2StatusIcon from "@/components/icons/Inactive2StatusIcon.vue";
+import Inactive3StatusIcon from "@/components/icons/Inactive3StatusIcon.vue";
+import ActiveStatusIcon from "@/components/icons/ActiveStatusIcon.vue";
+import MasteredStatusIcon from "@/components/icons/MasteredStatusIcon.vue";
+import QuoteLeftIcon from "@/components/icons/QuoteLeftIcon.vue";
 import { heroWords, itWords, languageCards } from "@/constants/wordsMock";
 
 export default {

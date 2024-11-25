@@ -25,7 +25,7 @@ export default defineComponent({
 
     onMounted(async () => {
       try {
-        const importedIcon = (await import(`@/assets/icons/${props.name}.svg?component`)).default;
+        const importedIcon = (await import(`@/components/icons/${props.name}.svg?component`)).default;
         IconComponent.value = markRaw(importedIcon);
       } catch (error) {
         console.error(`Failed to load icon: ${props.name}`, error);

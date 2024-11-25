@@ -1,7 +1,7 @@
 <script lang="ts">
-import DeleteIcon from '@/assets/icons/DeleteIcon.vue';
-import ExitIcon from '@/assets/icons/ExitIcon.vue';
-import ProfileIcon from '@/assets/icons/ProfileIcon.vue';
+import DeleteIcon from '@/components/icons/DeleteIcon.vue';
+import ExitIcon from '@/components/icons/ExitIcon.vue';
+import ProfileIcon from '@/components/icons/ProfileIcon.vue';
 
 export default {
   components: { DeleteIcon, ExitIcon, ProfileIcon },
