@@ -2,12 +2,10 @@ import { app } from './plugins/main-app';
 import '@/plugins/quasar';
 import '@/plugins/pinia';
 import '@/plugins/api-plugin';
-import router from '@/router';
-import blockIndex from '@/utils/robotsNoIndex';
-
+import '@/plugins/router';
+import '@/plugins/global-components';
 import '@/styles/main.scss';
-
-app.use(router);
+import blockIndex from '@/utils/robotsNoIndex';
 
 app.mount('#app');
 
