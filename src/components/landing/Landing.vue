@@ -4,17 +4,15 @@ import ArrowForwardIcon from "@/assets/icons/arrows/ArrowForwardIcon.vue";
 import CopyIcon from "@/assets/icons/actions/CopyIcon.vue";
 import MoreIcon from "@/assets/icons/common/MoreIcon.vue";
 import FavouriteIcon from "@/assets/icons/common/FavouriteIcon.vue";
-import EnglishIcon from "@/assets/icons/languages/EnglishIcon.vue";
 import Inactive2StatusIcon from "@/assets/icons/vocabulary/status/Inactive2StatusIcon.vue";
 import Inactive3StatusIcon from "@/assets/icons/vocabulary/status/Inactive3StatusIcon.vue";
 import ActiveStatusIcon from "@/assets/icons/vocabulary/status/ActiveStatusIcon.vue";
 import MasteredStatusIcon from "@/assets/icons/vocabulary/status/MasteredStatusIcon.vue";
 import QuoteLeftIcon from "@/assets/icons/vocabulary/QuoteLeftIcon.vue";
-import ItalianIcon from "@/assets/icons/languages/ItalianIcon.vue";
 import { heroWords, itWords, languageCards } from "@/constants/wordsMock";
 
 export default {
-  components: { ArrowBackwardIcon, ArrowForwardIcon, CopyIcon, MoreIcon, FavouriteIcon, EnglishIcon, ActiveStatusIcon, MasteredStatusIcon, Inactive2StatusIcon, Inactive3StatusIcon, QuoteLeftIcon, ItalianIcon },
+  components: { ArrowBackwardIcon, ArrowForwardIcon, CopyIcon, MoreIcon, FavouriteIcon, ActiveStatusIcon, MasteredStatusIcon, Inactive2StatusIcon, Inactive3StatusIcon, QuoteLeftIcon },
   data() {
     return {
       heroWords,
@@ -53,7 +51,7 @@ export default {
           </div>
           <div class="card-main">
             <span class="card-flag">
-              <ItalianIcon size="24"/>
+              <!-- fix needed: language icon -->
             </span>
             <div class="card-content">
               <span class="part-of-speech">СУЩЕСТВИТЕЛЬНОЕ</span>
@@ -120,7 +118,7 @@ export default {
           </div>
           <div class="card-main">
             <span class="card-flag">
-              <EnglishIcon size="24"/>
+              <!-- fix needed: language icon -->
             </span>
             <div class="card-content">
               <span class="part-of-speech">ГЛАГОЛ</span>
