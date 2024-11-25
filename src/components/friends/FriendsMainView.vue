@@ -1,8 +1,8 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 import Button from "@/components/UI/button/Button.vue";
-import ArrowForwardIcon from '@/assets/icons/arrows/ArrowForwardIcon.vue';
-import ChatIcon from '@/assets/icons/common/ChatIcon.vue';
+import ArrowForwardIcon from '@/assets/icons/ArrowForwardIcon.vue';
+import ChatIcon from '@/assets/icons/ChatIcon.vue';
 
 export default defineComponent({
   name: "FriendsMainView",

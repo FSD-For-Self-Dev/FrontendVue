@@ -9,7 +9,7 @@
 <script lang="ts">
 import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
 import HeaderPage from '@/components/UI/header-page/HeaderPage.vue';
-import VocabularyIcon from '@/assets/icons/vocabulary/VocabularyIcon.vue';
+import VocabularyIcon from '@/assets/icons/VocabularyIcon.vue';
 import VocabularyPageTools from '@/components/vocabulary/VocabularyPageTools.vue';
 import VocabularyPageContent from '@/components/vocabulary/VocabularyPageContent.vue';
 

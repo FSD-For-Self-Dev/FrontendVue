@@ -1,16 +1,16 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
-import ArrowForwardIcon from '@/assets/icons/arrows/ArrowForwardIcon.vue';
-import LineArrowForwardIcon from '@/assets/icons/arrows/LineArrowForwardIcon.vue';
-import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
-import AddIcon from '@/assets/icons/actions/AddIcon.vue';
-import TrophyStatusIcon from '@/assets/icons/vocabulary/status/TrophyStatusIcon.vue';
+import ArrowForwardIcon from '@/assets/icons/ArrowForwardIcon.vue';
+import LineArrowForwardIcon from '@/assets/icons/LineArrowForwardIcon.vue';
+import LanguageIcon from '@/assets/icons/LanguageIcon.vue';
+import AddIcon from '@/assets/icons/AddIcon.vue';
+import TrophyStatusIcon from '@/assets/icons/TrophyStatusIcon.vue';
 import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
-import Inactive2StatusIcon from '@/assets/icons/vocabulary/status/Inactive2StatusIcon.vue';
-import ActiveStatusIcon from '@/assets/icons/vocabulary/status/ActiveStatusIcon.vue';
+import Inactive2StatusIcon from '@/assets/icons/Inactive2StatusIcon.vue';
+import ActiveStatusIcon from '@/assets/icons/ActiveStatusIcon.vue';
 import LanguageButtonForModal from './LanguageButtonForModal.vue';
-import MasteredStatusIcon from '@/assets/icons/vocabulary/status/MasteredStatusIcon.vue';
+import MasteredStatusIcon from '@/assets/icons/MasteredStatusIcon.vue';
 
 
 export default {

@@ -2,8 +2,8 @@
 import { OnClickOutside } from '@vueuse/components';
 import Button from "@/components/UI/button/Button.vue";
 import { menuItems } from '@/constants/wordsMock';
-import BurgerMenuIcon from '@/assets/icons/common/BurgerMenuIcon.vue';
-import CloseIcon from '@/assets/icons/actions/CloseIcon.vue';
+import BurgerMenuIcon from '@/assets/icons/BurgerMenuIcon.vue';
+import CloseIcon from '@/assets/icons/CloseIcon.vue';
 export default {
   name: 'Menu',
   components: { Button, OnClickOutside, BurgerMenuIcon, CloseIcon },

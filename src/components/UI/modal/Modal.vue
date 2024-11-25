@@ -1,7 +1,7 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
 import { type PropType, type Component, ref } from 'vue';
-import CloseIcon from '@/assets/icons/actions/CloseIcon.vue';
+import CloseIcon from '@/assets/icons/CloseIcon.vue';
 
 export default {
   components: { OnClickOutside, CloseIcon },

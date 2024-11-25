@@ -1,8 +1,8 @@
 <script lang="ts">
 import type { InputTypeHTMLAttribute, PropType } from "vue";
 import type { InputProps } from "@/types/components/input";
-import EyeOnIcon from "@/assets/icons/common/EyeOnIcon.vue";
-import EyeOffIcon from "@/assets/icons/common/EyeOffIcon.vue";
+import EyeOnIcon from "@/assets/icons/EyeOnIcon.vue";
+import EyeOffIcon from "@/assets/icons/EyeOffIcon.vue";
 
 
 export default {
@@ -24,6 +24,9 @@ export default {
         },
         serverError: {
             type: String as PropType<InputProps["serverError"]>,
+        },
+        iconComponent: {
+            type: String as PropType<InputProps["iconComponent"]>
         },
     },
     data() {

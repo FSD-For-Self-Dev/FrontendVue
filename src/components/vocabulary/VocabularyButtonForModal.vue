@@ -1,6 +1,6 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
-import AddIcon from '@/assets/icons/actions/AddIcon.vue';
+import AddIcon from '@/assets/icons/AddIcon.vue';
 import Modal from '@/components/UI/modal/Modal.vue';
 import VocabularyForm from './VocabularyForm.vue';
 import { type PropType } from 'vue';

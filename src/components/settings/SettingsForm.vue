@@ -1,6 +1,6 @@
 <script lang="ts">
-import AddIcon from '@/assets/icons/actions/AddIcon.vue';
-import ProfileIcon from '@/assets/icons/common/ProfileIcon.vue';
+import AddIcon from '@/assets/icons/AddIcon.vue';
+import ProfileIcon from '@/assets/icons/ProfileIcon.vue';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import Input from '@/components/UI/input/Input.vue';
 import Button from '@/components/header/Button.vue';

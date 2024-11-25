@@ -1,8 +1,8 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
 import Button from "@/components/UI/button/Button.vue";
-import ExercisesIcon from '@/assets/icons/exercises/ExercisesIcon.vue';
-import LineArrowForwardIcon from '@/assets/icons/arrows/LineArrowForwardIcon.vue';
+import ExercisesIcon from '@/assets/icons/ExercisesIcon.vue';
+import LineArrowForwardIcon from '@/assets/icons/LineArrowForwardIcon.vue';
 
 export default defineComponent({
   name: "teachersMainView",

@@ -1,9 +1,9 @@
 <script lang="ts">
-import DiscordIcon from '@/assets/icons/socials/DiscordIcon.vue';
-import GithubIcon from '@/assets/icons/socials/GithubIcon.vue';
-import TelegramIcon from '@/assets/icons/socials/TelegramIcon.vue';
-import VkIcon from '@/assets/icons/socials/VkIcon.vue';
-import YoutubeIcon from '@/assets/icons/socials/YoutubeIcon.vue';
+import DiscordIcon from '@/assets/icons/DiscordIcon.vue';
+import GithubIcon from '@/assets/icons/GithubIcon.vue';
+import TelegramIcon from '@/assets/icons/TelegramIcon.vue';
+import VkIcon from '@/assets/icons/VkIcon.vue';
+import YoutubeIcon from '@/assets/icons/YoutubeIcon.vue';
 import Logo from '@/components/UI/logo/Logo.vue';
 
 export default {

@@ -1,14 +1,14 @@
 <script lang="ts">
-import ArrowBackwardIcon from "@/assets/icons/arrows/ArrowBackwardIcon.vue";
-import ArrowForwardIcon from "@/assets/icons/arrows/ArrowForwardIcon.vue";
-import CopyIcon from "@/assets/icons/actions/CopyIcon.vue";
-import MoreIcon from "@/assets/icons/common/MoreIcon.vue";
-import FavouriteIcon from "@/assets/icons/common/FavouriteIcon.vue";
-import Inactive2StatusIcon from "@/assets/icons/vocabulary/status/Inactive2StatusIcon.vue";
-import Inactive3StatusIcon from "@/assets/icons/vocabulary/status/Inactive3StatusIcon.vue";
-import ActiveStatusIcon from "@/assets/icons/vocabulary/status/ActiveStatusIcon.vue";
-import MasteredStatusIcon from "@/assets/icons/vocabulary/status/MasteredStatusIcon.vue";
-import QuoteLeftIcon from "@/assets/icons/vocabulary/QuoteLeftIcon.vue";
+import ArrowBackwardIcon from "@/assets/icons/ArrowBackwardIcon.vue";
+import ArrowForwardIcon from "@/assets/icons/ArrowForwardIcon.vue";
+import CopyIcon from "@/assets/icons/CopyIcon.vue";
+import MoreIcon from "@/assets/icons/MoreIcon.vue";
+import FavouriteIcon from "@/assets/icons/FavouriteIcon.vue";
+import Inactive2StatusIcon from "@/assets/icons/Inactive2StatusIcon.vue";
+import Inactive3StatusIcon from "@/assets/icons/Inactive3StatusIcon.vue";
+import ActiveStatusIcon from "@/assets/icons/ActiveStatusIcon.vue";
+import MasteredStatusIcon from "@/assets/icons/MasteredStatusIcon.vue";
+import QuoteLeftIcon from "@/assets/icons/QuoteLeftIcon.vue";
 import { heroWords, itWords, languageCards } from "@/constants/wordsMock";
 
 export default {

@@ -1,9 +1,9 @@
 <script lang="ts">
 import { mapActions } from 'pinia';
-import CloseIcon from '@/assets/icons/actions/CloseIcon.vue';
+import CloseIcon from '@/assets/icons/CloseIcon.vue';
 import { useInfoMessagesStore } from '@/store/info-message';
-import ErrorIcon from '@/assets/icons/common/ErrorIcon.vue';
-import InfoIcon from '@/assets/icons/common/InfoIcon.vue';
+import ErrorIcon from '@/assets/icons/ErrorIcon.vue';
+import InfoIcon from '@/assets/icons/InfoIcon.vue';
 
 export default {
     props: {

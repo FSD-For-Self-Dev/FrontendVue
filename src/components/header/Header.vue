@@ -9,9 +9,9 @@ import Authentication from '@/components/authentication/Authentication.vue';
 import { mapState } from 'pinia';
 import { useUserStore } from '@/store/user';
 import ProfileTools from './ProfileTools.vue';
-import BellIcon from '@/assets/icons/common/BellIcon.vue';
-import ProfileIcon from '@/assets/icons/common/ProfileIcon.vue';
-import AddIcon from '@/assets/icons/actions/AddIcon.vue';
+import BellIcon from '@/assets/icons/BellIcon.vue';
+import ProfileIcon from '@/assets/icons/ProfileIcon.vue';
+import AddIcon from '@/assets/icons/AddIcon.vue';
 
 export default {
 	components: { Logo, Menu, Button, BellIcon, Navigation, Search, Language, Authentication, ProfileTools, ProfileIcon, AddIcon },

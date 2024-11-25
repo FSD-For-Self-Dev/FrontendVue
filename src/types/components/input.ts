@@ -4,4 +4,6 @@ export interface InputProps {
   showLabel: boolean,
   validationError?: string,
   serverError?: string,
+  iconComponent?: string,
+  iconPos?: "left" | "right",
 }
