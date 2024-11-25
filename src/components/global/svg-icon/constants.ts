@@ -1,19 +1,19 @@
 export const sizes = {
     sm: {
       size: 16,
-      strokeWidth: 1
+      strokeWidth: 0
     },
     md: {
       size: 24,
-      strokeWidth: 1
+      strokeWidth: 0
     },
     lg: {
       size: 32,
-      strokeWidth: 1
+      strokeWidth: 0.2
     },
     xl: {
       size: 44,
-      strokeWidth: 1.5
+      strokeWidth: 0.5
     }
 };
 
