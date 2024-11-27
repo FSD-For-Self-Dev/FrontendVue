@@ -1,12 +1,10 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
-import Button from "@/components/UI/button/Button.vue";
 import { menuItems } from '@/constants/wordsMock';
-import BurgerMenuIcon from '@/components/icons/BurgerMenuIcon.vue';
-import CloseIcon from '@/components/icons/CloseIcon.vue';
+
 export default {
   name: 'Menu',
-  components: { Button, OnClickOutside, BurgerMenuIcon, CloseIcon },
+  components: { OnClickOutside },
   data() {
     return {
       showMenu: false,
@@ -26,16 +24,17 @@ export default {
 
 <template>
   <button class="button" @click="openMenu" v-if="!showMenu">
-    <BurgerMenuIcon size="32" />
+    <svg-icon name="BurgerMenuIcon" size="lg" hoverColor="var:primary-500" />
   </button>
   <button class="button" @click="closeMenu" v-if="showMenu">
-    <CloseIcon size="32" />
+    <svg-icon name="CloseIcon" size="lg" hoverColor="var:primary-500" />
   </button>
   <div class="menu" :class="{ show: showMenu }">
     <OnClickOutside @trigger="closeMenu">
       <ul class="menu__list">
         <li v-for="menuItem in menuItems" class="menu__item">
           <button :to="menuItem.link" class="menu__item-content" @click="closeMenu">
+            <svg-icon :name="menuItem.icon" size="nm" />
             <span class="menu__item-name">
               {{ menuItem.name }}
             </span>
@@ -104,10 +103,7 @@ export default {
 
 
     .menu__item-name {
-      font-family: 'Inter';
-      font-size: 1.6rem;
-      line-height: 2rem;
-      font-weight: 400;
+      @include text-2;
     }
   }
 }

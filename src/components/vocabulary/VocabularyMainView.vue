@@ -2,9 +2,7 @@
 import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
-import LineArrowForwardIcon from '@/components/icons/LineArrowForwardIcon.vue';
-import VocabularyIcon from '@/components/icons/VocabularyIcon.vue';
-import VocabularyButtonForModal from './VocabularyButtonForModal.vue';
+import NewWordButton from './NewWordButton.vue';
 
 export default {
     data() {
@@ -12,7 +10,7 @@ export default {
             showModal: false
         }
     },
-    components: { VocabularyIcon, LineArrowForwardIcon, VocabularyButtonForModal },
+    components: { NewWordButton },
     computed: {
         ...mapState(useVocabularyStore, ["count", "words"]),
         ...mapState(useLanguagesStore, ["learning_languages"])
@@ -35,19 +33,19 @@ export default {
         @click="count > 0 ? $router.push('vocabulary') : handleToggleModal(!showModal)">
         <div class="vocabulary-main-view--header">
             <h2 class="vocabulary-main-view--title">
-                <VocabularyIcon size="32" />Словарь <span style="color: #737782">{{ count }}</span>
+                <svg-icon name="VocabularyIcon" size="lg" style="stroke-width: 0.2;" />
+                Словарь
+                <span class="counter">{{ count }}</span>
             </h2>
 
-            <div id="forward-arrow">
-                <LineArrowForwardIcon size="32" />
-            </div>
+            <svg-icon id="forward-arrow" name="ArrowForwardLineIcon" size="lg" />
         </div>
         <div class="vocabulary-main-view--content">
             <div class="vocabulary-main-view--not-found" v-if="!words.length">
                 В словаре пока нет слов или фраз
 
-                <VocabularyButtonForModal :extra-toggle-modal="handleToggleModal" :extra-show-modal="showModal"
-                    text-button="Добавить первые слова" />
+                <NewWordButton :extra-toggle-modal="handleToggleModal" :extra-show-modal="showModal"
+                    label-button="Добавить первые слова" />
             </div>
 
             <div class="vocabulary-main-view--words" v-else @wheel.prevent="handleWheel">
@@ -100,13 +98,15 @@ export default {
         align-items: center;
 
         .vocabulary-main-view--title {
-            font-family: 'Inter';
-            font-size: 2rem;
-            line-height: 2.4rem;
-            font-weight: 500;
+            @include subheading-3;
+            color: $neutrals-900;
             display: flex;
             gap: 0.8rem;
             align-items: center;
+
+            .counter {
+                color: $neutrals-600
+            }
         }
     }
 
@@ -115,10 +115,8 @@ export default {
 
 
         .vocabulary-main-view--not-found {
-            font-style: 'Inter';
-            font-size: 1.6rem;
-            line-height: 2rem;
-            font-weight: 400;
+            @include text-2;
+            color: $neutrals-700;
             text-align: left;
 
             display: flex;
@@ -153,11 +151,8 @@ export default {
                 align-items: center;
                 justify-content: center;
 
-                font-family: Inter;
-                font-size: 2.4rem;
-                font-weight: 600;
-                line-height: 2.8rem;
-
+                @include heading-4;
+                color: $neutrals-900;
 
                 width: 29.5rem;
                 height: 34rem;

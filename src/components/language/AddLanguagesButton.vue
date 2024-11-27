@@ -1,22 +1,19 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
-import ExercisesIcon from '@/components/icons/ExercisesIcon.vue';
-import AddIcon from '@/components/icons/AddIcon.vue';
 import Modal from '@/components/UI/modal/Modal.vue';
-import LanguagesForm from './LanguagesForm.vue';
+import AddLanguagesForm from './AddLanguagesForm.vue';
 import { type PropType } from 'vue';
 
 export default {
   data() {
     return {
       showModal: false,
-      iconModal: ExercisesIcon,
-      formModal: LanguagesForm
+      formModal: AddLanguagesForm
     }
   },
-  components: { Button, Modal, AddIcon },
+  components: { Button, Modal },
   props: {
-    textButton: {
+    labelButton: {
       type: String,
       required: true
     },
@@ -53,9 +50,7 @@ export default {
 </script>
 
 <template>
-  <Button @click.stop="handleOpen" :size="sizeButton" :text="textButton">
-    <AddIcon size="16" />
-  </Button>
+  <Button @click.stop="handleOpen" :size="sizeButton" :label="labelButton" icon="AddIcon" />
   <Modal v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Добавить изучаемые языки"
-    :icon-modal="iconModal" :form="formModal" />
+    icon="ExercisesIcon" :form="formModal" />
 </template>

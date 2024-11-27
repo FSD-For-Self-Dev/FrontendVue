@@ -1,12 +1,12 @@
 <script lang="ts">
-import FilterIcon from '@/components/icons/FilterIcon.vue';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { useLanguagesStore } from '@/store/languages';
 import { numWord } from '@/utils/numWord';
 import { mapState } from 'pinia';
+import IconButton from '../UI/button/IconButton.vue';
 
 export default {
-  components: { FilterIcon },
+  components: { IconButton },
   computed: {
     ...mapState(useVocabularyStore, ["words", "count", "filterOptions"]),
     ...mapState(useLanguagesStore, ["learning_languages"]),
@@ -22,7 +22,9 @@ export default {
     <header class="vocabulary-content--header">
       <span class="vocabulary-content--info">{{ textInfo }}</span>
       <div class="vocabulary-content--filters">
-        <FilterIcon size="24" custom-color="#737782" />
+        <!-- <svg-icon name="FilterIcon" size="md"/> -->
+        <IconButton icon="FilterIcon" size="md" iconSize="nm" variant="tertiary" />
+        <IconButton icon="SortIcon" size="md" iconSize="nm" variant="tertiary" />
       </div>
     </header>
     <div class="vocabulary-content--cards">
@@ -55,12 +57,13 @@ export default {
   }
 
   &--info {
-    font-family: 'Inter';
-    font-size: 1.2rem;
-    font-weight: 400;
-    line-height: 2rem;
-    text-transform: uppercase;
+    @include tag-big;
     color: $neutrals-600;
+  }
+
+  &--filters {
+    display: inline-flex;
+    gap: 0.4rem;
   }
 
   &--cards {

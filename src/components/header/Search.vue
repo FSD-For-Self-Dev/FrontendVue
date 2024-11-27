@@ -1,10 +1,8 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
-import Button from './Button.vue';
-import SearchIcon from '@/components/icons/SearchIcon.vue';
 
 export default {
-    components: { SearchIcon, Button, OnClickOutside },
+    components: { OnClickOutside },
     data() {
         return {
             shownBar: false,
@@ -22,9 +20,9 @@ export default {
 </script>
 
 <template>
-    <Button variant="secondary" view="icon" @click="showSearchBar">
-        <SearchIcon size="32" />
-    </Button>
+    <button @click="showSearchBar">
+        <svg-icon name="SearchIcon" size="lg" />
+    </button>
     <div class="search">
         <OnClickOutside @trigger="hideSearchBar">
             <div class="searchbar" :class="{ shown: shownBar }">

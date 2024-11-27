@@ -1,35 +1,28 @@
-<template>
-<PageLayout>
-  <HeaderPage text="Настройки" :icon="HeaderIcon" />
-  <div class="settings--container">
-    <SettingsNavigation />
-    <SettingsForm />
-  </div>
-
-</PageLayout>
-</template>
-
 <script lang="ts">
-import HeaderPage from '@/components/UI/header-page/HeaderPage.vue';
+import PageTitle from '@/components/UI/page-title/PageTitle.vue';
 import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
-import SettingsIcon from '@/components/icons/SettingsIcon.vue';
 import SettingsForm from '@/components/settings/SettingsForm.vue';
 import SettingsNavigation from '@/components/settings/SettingsNavigation.vue';
 
 export default {
   components: {
     PageLayout,
-    HeaderPage,
+    PageTitle,
     SettingsForm,
     SettingsNavigation
   },
-  data() {
-    return {
-      HeaderIcon: SettingsIcon,
-    }
-  }
 }
 </script>
+
+<template>
+  <PageLayout>
+    <PageTitle text="Настройки" icon="HeaderIcon" />
+    <div class="settings--container">
+      <SettingsNavigation />
+      <SettingsForm />
+    </div>
+  </PageLayout>
+</template>
 
 <style lang="scss">
 .settings--container {

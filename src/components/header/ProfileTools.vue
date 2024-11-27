@@ -1,20 +1,4 @@
-<template>
-    <OnClickOutside @trigger.stop="() => handleClose()">
-        <div class="profile-tools">
-            <button @click="handleSettings" class="profile-tools__button">
-                <SettingsIcon size="24" /> Настройки
-            </button>
-            <button @click="handleExit" class="profile-tools__button">
-                <ExitIcon size="24" /> Выйти
-            </button>
-        </div>
-    </OnClickOutside>
-</template>
-
 <script lang="ts">
-import ExitIcon from '@/components/icons/ExitIcon.vue';
-import ProfileIcon from '@/components/icons/ProfileIcon.vue';
-import SettingsIcon from '@/components/icons/SettingsIcon.vue';
 import { useUserStore } from '@/store/user';
 import { OnClickOutside } from '@vueuse/components';
 import { mapActions, mapState } from 'pinia';
@@ -22,9 +6,6 @@ import { mapActions, mapState } from 'pinia';
 export default {
     components: {
         OnClickOutside,
-        ExitIcon,
-        SettingsIcon,
-        ProfileIcon
     },
     props: {
         handleClose: {
@@ -49,6 +30,18 @@ export default {
 }
 </script>
 
+<template>
+    <OnClickOutside @trigger.stop="() => handleClose()">
+        <div class="profile-tools">
+            <button @click="handleSettings" class="profile-tools__button">
+                <svg-icon name="SettingsIcon" size="md" />Настройки
+            </button>
+            <button @click="handleExit" class="profile-tools__button">
+                <svg-icon name="ExitIcon" size="md" />Выйти
+            </button>
+        </div>
+    </OnClickOutside>
+</template>
 
 <style lang="scss">
 .profile-tools {
@@ -61,12 +54,9 @@ export default {
     border-radius: 2rem;
 
     .profile-tools__button {
+        @include text-2;
         background-color: transparent;
         border: none;
-        font-family: Inter;
-        font-size: 1.6rem;
-        font-weight: 400;
-        line-height: 2rem;
         display: flex;
         align-items: center;
         gap: 1.2rem;

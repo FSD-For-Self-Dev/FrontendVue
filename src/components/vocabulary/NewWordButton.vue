@@ -1,24 +1,18 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
-import AddIcon from '@/components/icons/AddIcon.vue';
 import Modal from '@/components/UI/modal/Modal.vue';
-import VocabularyForm from './VocabularyForm.vue';
+import NewWordForm from './NewWordForm.vue';
 import { type PropType } from 'vue';
 
 export default {
   data() {
     return {
       showModal: false,
-      iconModal: AddIcon,
-      formModal: VocabularyForm
+      formModal: NewWordForm
     }
   },
-  components: { Button, AddIcon, Modal },
+  components: { Button, Modal },
   props: {
-    textButton: {
-      type: String,
-      required: true
-    },
     extraToggleModal: {
       type: Function as PropType<Function | null>,
       default: null
@@ -26,6 +20,10 @@ export default {
     extraShowModal: {
       type: Boolean as PropType<boolean | null>,
       default: null
+    },
+    labelButton: {
+      type: String,
+      required: true
     },
     sizeButton: {
       type: String as PropType<'normal' | 'medium' | 'small'>,
@@ -52,9 +50,7 @@ export default {
 </script>
 
 <template>
-  <Button @click.stop="handleOpen" :size="sizeButton" :text="textButton">
-    <AddIcon size="24" />
-  </Button>
-  <Modal size="md" v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Новое слово"
-    :icon-modal="iconModal" :form="formModal" />
+  <Button @click.stop="handleOpen" :size="sizeButton" :label="labelButton" icon="AddIcon" />
+  <Modal size="lg" v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Новое слово"
+    icon="AddIcon" :form="formModal" />
 </template>

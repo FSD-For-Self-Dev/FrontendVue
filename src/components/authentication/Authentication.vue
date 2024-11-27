@@ -3,17 +3,17 @@ import { OnClickOutside } from '@vueuse/components';
 import type { PropType } from 'vue';
 import Input from '@/components/UI/input/Input.vue';
 import Button from '@/components/UI/button/Button.vue';
-import CloseIcon from '@/components/icons/CloseIcon.vue';
 import { mapActions, mapWritableState } from 'pinia';
 import { useAuthStore } from '@/store/auth';
 import { useUserStore } from '@/store/user';
 import { isAxiosError } from 'axios';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
-import { useInfoMessagesStore } from '@/store/info-message';
+import { useNotificationsStore } from '@//store/notifications';
+import IconButton from '../UI/button/IconButton.vue';
 
 export default {
-  components: { OnClickOutside, Input, Button, CloseIcon },
+  components: { OnClickOutside, Input, Button, IconButton },
   computed: {
     ...mapWritableState(useAuthStore, ['email', 'password', 'password1', 'password2', 'username', 'remember', 'errors']),
   },
@@ -40,7 +40,7 @@ export default {
     ...mapActions(useUserStore, ['getUser']),
     ...mapActions(useLanguagesStore, ['getAvailableLanguages', 'getLearningLanguages']),
     ...mapActions(useVocabularyStore, ['getVocabulary']),
-    ...mapActions(useInfoMessagesStore, ['addNewMessage']),
+    ...mapActions(useNotificationsStore, ['addNewMessage']),
     switchFormHandler(form: 'login' | 'register') {
       this.clearState();
       this.switchForm(form);
@@ -80,7 +80,7 @@ export default {
 
 <template>
   <Teleport to="body">
-    <OnClickOutside :options="{ ignore: ['#info-messages'] }" @trigger="closeFormHandler">
+    <OnClickOutside :options="{ ignore: ['#notifications'] }" @trigger="closeFormHandler">
       <div class="modal-auth" v-if="showAuth">
         <form @submit.prevent="loginSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'login'">
           <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
@@ -106,14 +106,12 @@ export default {
             <a class="modal-auth--link">Забыли пароль?</a>
           </div>
           <Button 
+            label="Войти"
             style="width: 100%; display: flex; justify-content: center" 
             variant="primary" 
             size="medium"
-            view="icon"
-          >
-            Войти
-          </Button>
-          <div>
+          />
+          <div class="no-account">
             Нет аккаунта? 
             <a class="modal-auth--link" @click="() => switchFormHandler('register')">Зарегистрироваться</a>
           </div>
@@ -150,13 +148,11 @@ export default {
             :server-error="errors.password2 ? errors.password2.toString() : undefined" 
           />
           <Button 
+            label="Создать аккаунт"
             style="width: 100%; display: flex; justify-content: center" 
             variant="primary" 
             size="medium"
-            view="icon"
-          >
-            Создать аккаунт
-          </Button>
+          />
           <div>
             Уже есть аккаунт? 
             <a class="modal-auth--link" @click="() => switchFormHandler('login')">Войти</a>
@@ -164,9 +160,7 @@ export default {
         </form>
 
         <div class="modal-auth--image" />
-        <button class="modal-auth--close" @click="closeFormHandler">
-          <CloseIcon size="24" />
-        </button>
+        <IconButton icon="CloseIcon" size="md" variant="shadowed" class="modal-auth--close" @click="closeFormHandler" />
       </div>
     </OnClickOutside>
   </Teleport>
@@ -201,10 +195,7 @@ export default {
   }
 
   .modal-auth--title {
-    font-family: 'Inter';
-    font-size: 2rem;
-    font-weight: 600;
-    line-height: 2.4rem;
+    @include heading-4;
     align-self: start;
     margin-bottom: 1.2rem;
   }
@@ -213,18 +204,6 @@ export default {
     position: absolute;
     top: 2rem;
     right: 2rem;
-    width: 4.4rem;
-    height: 4.4rem;
-    background-color: transparent;
-    border: none;
-    color: $neutrals-600;
-    cursor: pointer;
-    background-color: $neutrals-100;
-    border-radius: $radius-full;
-    box-shadow: $regular-shadow;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .modal-auth--form {
@@ -242,13 +221,14 @@ export default {
     align-items: center;
   }
 
+  .no-account {
+    @include text-3;
+    color: $neutrals-900;
+  }
+
   .modal-auth--link {
+    @include text-3;
     color: $primary-500;
-    font-family: 'Inter';
-    font-size: 1.5rem;
-    font-weight: 400;
-    line-height: 1.6rem;
-    text-decoration: none;
     cursor: pointer;
 
     &:hover {
@@ -270,13 +250,11 @@ export default {
 }
 
 .custom-label {
+  @include text-3;
+  color: $neutrals-900;
   display: inline-flex;
   align-items: center;
   user-select: none;
-  font-family: 'Inter';
-  font-size: 1.5rem;
-  font-weight: 400;
-  line-height: 1.6rem;
 
   &::before {
     content: '';

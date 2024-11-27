@@ -1,15 +1,10 @@
 <script lang="ts">
 import Input from '@/components/UI/input/Input.vue';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
-import VocabularyButtonForModal from './VocabularyButtonForModal.vue';
+import NewWordButton from './NewWordButton.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { mapState, mapWritableState } from 'pinia';
 import { useVocabularyStore } from '@/store/vocabulary';
-import LanguageIcon from '@/components/icons/LanguageIcon.vue';
-import WordsIcon from '@/components/icons/WordsIcon.vue';
-import MasteredStatusIcon from '@/components/icons/MasteredStatusIcon.vue';
-import Inactive1StatusIcon from '@/components/icons/Inactive1StatusIcon.vue';
-import ActiveStatusIcon from '@/components/icons/ActiveStatusIcon.vue';
 
 
 export default {
@@ -23,30 +18,30 @@ export default {
         {
           value: 'inactive',
           label: 'Неактивные',
-          icon_component: 'inactive1-status-icon',
-          icon_component_custom_color: '#737782',
+          icon_component: 'Inactive1StatusIcon',
+          icon_component_custom_color: 'var:neutrals-600',
         },
         {
           value: 'active',
           label: 'Активные',
-          icon_component: 'active-status-icon',
-          icon_component_custom_color: '#6C8DFF',
+          icon_component: 'ActiveStatusIcon',
+          icon_component_custom_color: 'var:primary-500',
         },
         {
           value: 'mastered',
           label: 'Усвоенные',
-          icon_component: 'mastered-status-icon',
-          icon_component_custom_color: '#2FBC48',
+          icon_component: 'MasteredStatusIcon',
+          icon_component_custom_color: 'var:success-600',
         },
         {
           value: '',
           label: 'Все слова',
-          icon_component: 'words-icon',
+          icon_component: 'WordsIcon',
         },
       ]
     }
   },
-  components: { VocabularyButtonForModal, Input, Dropdown, LanguageIcon, WordsIcon, Inactive1StatusIcon, ActiveStatusIcon, MasteredStatusIcon },
+  components: { NewWordButton, Input, Dropdown },
 };
 </script>
 
@@ -56,7 +51,7 @@ export default {
       <div class="vocabulary-tools--top-left">
         <Dropdown
           placeholder="Все языки"
-          :default_item="{value: '', label: 'Все языки', icon_component: 'language-icon', is_default_item: true}"
+          :default_item="{value: '', label: 'Все языки', icon_component: 'LanguageIcon', is_default_item: true}"
           v-model="filterOptions.language" :items="learning_languages.map(({ language }) => {
           return {
             value: language.name,
@@ -70,7 +65,7 @@ export default {
           v-model="filterOptions.activity_status" :items="statusWordOptions"
         />
       </div>
-      <VocabularyButtonForModal size-button="medium" text-button="Новое слово или фраза" />
+      <NewWordButton size-button="medium" label-button="Новое слово или фраза" />
     </div>
     <Input v-model="filterOptions.text" placeholder="Найти слово или фразу..." />
   </div>

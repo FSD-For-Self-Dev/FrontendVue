@@ -1,47 +1,13 @@
-<template>
-    <div class="layout">
-        <Header />
-        <main class="main">
-            <div :class="{ wrapper: !landingPage }">
-                <CircleButton
-                    @click="goBack"
-                    v-if="!isMainpage"
-                    class="back-button"
-                >
-                    <ArrowBackwardIcon size="24"/>
-                    <span class="visually-hidden">Назад</span>
-                </CircleButton>
-                <slot></slot>
-                <Transition>
-                    <CircleButton
-                        @click="scrollToTop"
-                        v-if="!landingPage && y > 50"
-                        class="up-button"
-                    >
-                        <ArrowUpIcon size="24"/>
-                        <span class="visually-hidden">Наверх</span>
-                    </CircleButton>
-                </Transition>
-            </div>
-        </main>
-        <Footer />
-
-        <InfoMessages />
-    </div>
-</template>
-
 <script lang="ts">
 import { useWindowScroll } from '@vueuse/core';
 import Header from '@/components/header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
-import CircleButton from '@/components/UI/circle-button/CircleButton.vue';
-import ArrowUpIcon from '@/components/icons/ArrowUpIcon.vue';
-import ArrowBackwardIcon from '@/components/icons/ArrowBackwardIcon.vue';
-import InfoMessages from '@/components/info-messages/InfoMessages.vue';
+import IconButton from '@/components/UI/button/IconButton.vue';
+import NotificationsList from '@/components/notifications/NotificationsList.vue';
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
-    components: { Header, Footer, CircleButton, InfoMessages, ArrowUpIcon, ArrowBackwardIcon },
+    components: { Header, Footer, IconButton, NotificationsList },
     props: {
         landingPage: { type: Boolean, required: false, default: false },
     },
@@ -68,6 +34,44 @@ export default {
 };
 </script>
 
+<template>
+    <div class="layout">
+        <Header />
+        <main class="main">
+            <div :class="{ wrapper: !landingPage }">
+                <IconButton
+                    v-if="!isMainpage"
+                    @click="goBack"
+                    class="back-button"
+                    icon="ArrowBackwardIcon"
+                    size="lg"
+                    iconSize="nm"
+                    variant="shadowed"
+                >
+                    <span class="visually-hidden">Назад</span>
+                </IconButton>
+                <slot></slot>
+                <Transition>
+                    <IconButton
+                        @click="scrollToTop"
+                        v-if="!landingPage && y > 50"
+                        class="up-button"
+                        icon="ArrowUpIcon"
+                        size="lg"
+                        iconSize="nm"
+                        variant="shadowed"
+                    >
+                        <span class="visually-hidden">Наверх</span>
+                    </IconButton>
+                </Transition>
+            </div>
+        </main>
+        <Footer />
+
+        <NotificationsList />
+    </div>
+</template>
+
 <style lang="scss" scoped>
 .layout {
     min-height: 100vh;
@@ -92,7 +96,7 @@ export default {
 }
 
 .back-button {
-    position: absolute;
+    position: fixed;
     top: 13.7rem;
     left: 1.6rem;
 }

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import LanguageIcon from '@/components/icons/LanguageIcon.vue';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
 import AddIcon from '@/components/icons/AddIcon.vue';
@@ -9,12 +9,12 @@ import LikeIcon from '@/components/icons/LikeIcon.vue';
 import DislikeIcon from '@/components/icons/DislikeIcon.vue';
 import CopyIcon from '@/components/icons/CopyIcon.vue';
 import ShareIcon from '@/components/icons/ShareIcon.vue';
-import LineArrowBackIcon from '@/components/icons/LineArrowBackwardIcon.vue';
-import LineArrowForwardIcon from '@/components/icons/LineArrowForwardIcon.vue';
+import LineArrowBackIcon from '@/components/icons/ArrowBackwardLineIcon.vue';
+import LineArrowForwardIcon from '@/components/icons/ArrowForwardLineIcon.vue';
 import ArrowBackIcon from '@/components/icons/ArrowBackwardIcon.vue';
 import ArrowForwardIcon from '@/components/icons/ArrowForwardIcon.vue';
-import DoubleArrowBackIcon from '@/components/icons/DoubleArrowBackwardIcon.vue';
-import DoubleArrowForwardIcon from '@/components/icons/DoubleArrowForwardIcon.vue';
+import DoubleArrowBackIcon from '@/components/icons/ArrowBackwardDoubleIcon.vue';
+import DoubleArrowForwardIcon from '@/components/icons/ArrowForwardDoubleIcon.vue';
 import ArrowUpIcon from '@/components/icons/ArrowUpIcon.vue';
 import ArrowDownIcon from '@/components/icons/ArrowDownIcon.vue';
 import YoutubeIcon from '@/components/icons/YoutubeIcon.vue';
@@ -585,4 +585,4 @@ import ExpandIcon from '@/components/icons/ArrowExpandDownIcon.vue';
         }
     }
 }
-</style>
+</style> -->

@@ -26,16 +26,13 @@ export default {
 
 <style lang="scss">
 .tab {
+  @include text-2;
   width: max-content;
   padding: 1.2rem 2.8rem;
   border-radius: $radius-2xl;
   border: .1rem solid $neutrals-400;
-  color: $neutrals-600;
   background-color: transparent;
-  font-family: 'Inter';
-  font-size: 1.6rem;
-  font-weight: 500;
-  line-height: 2rem;
+  color: $neutrals-600;
   cursor: pointer;
 
   &:hover {

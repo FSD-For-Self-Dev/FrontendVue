@@ -7,18 +7,13 @@ import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import Input from '@/components/UI/input/Input.vue';
 import Button from '@/components/UI/button/Button.vue';
 import Tab from '@/components/UI/tab/Tab.vue';
-import CircleButton from '@/components/UI/circle-button/CircleButton.vue';
-import TranslationIcon from '@/components/icons/TranslationIcon.vue';
-import AssociationIcon from '@/components/icons/AssociationIcon.vue';
-import AddIcon from '@/components/icons/AddIcon.vue';
-import ConfirmIcon from '@/components/icons/ConfirmIcon.vue';
-import CloseIcon from '@/components/icons/CloseIcon.vue';
+import IconButton from '@/components/UI/button/IconButton.vue';
 import type { WordDto, WordTranslationDto } from '@/dto/vocabulary.dto';
-import { useInfoMessagesStore } from '@/store/info-message';
+import { useNotificationsStore } from '@/store/notifications';
 import { AxiosError, isAxiosError } from 'axios';
 
 export default {
-  components: { Dropdown, Input, Button, Tab, TranslationIcon, AssociationIcon, AddIcon, CircleButton, ConfirmIcon, CloseIcon },
+  components: { Dropdown, Input, Button, Tab, IconButton },
   data() {
     return {
       word: '',
@@ -48,7 +43,7 @@ export default {
   },
   methods: {
     ...mapActions(useVocabularyStore, ['createWord', 'getVocabulary']),
-    ...mapActions(useInfoMessagesStore, ['addNewMessage']),
+    ...mapActions(useNotificationsStore, ['addNewMessage']),
     handleNext() {
       if (this.step === 1) {
         this.updateTitle('Кастомизируйте новое слово, чтобы лучше его запомнить');
@@ -143,13 +138,13 @@ export default {
 
         <div v-if="tab === 1">
           <p class="vocabulary-modal--note">
-            <TranslationIcon size="24" />
+            <svg-icon name="TranslationIcon" size="md" color="var:primary-700" />
             Переводите слово или фразу на родной язык или другой изучаемый
           </p>
           <div class="vocabulary-modal--translations">
             <button v-if="!translationFormOpen" class="vocabulary-modal--add-translation" type="button"
               @click="translationFormOpen = true">
-              <AddIcon size="16" />
+              <svg-icon name="AddIcon" size="sm" color="var:primary-500" style="stroke-width: 0.02rem; padding-left: 0;" />
               <span>Добавить перевод</span>
             </button>
             <div v-if="translationFormOpen" class="vocabulary-modal--translation-form">
@@ -162,12 +157,8 @@ export default {
               })" />
               <div class="vocabulary-modal--translation-form-input">
                 <Input style="width: 61rem;" v-model="newTranslation" placeholder="Введите перевод..." />
-                <CircleButton type="button" @click="handleSubmitNewTranslation">
-                  <ConfirmIcon size="32" />
-                </CircleButton>
-                <CircleButton type="button" @click="translationFormOpen = false">
-                  <CloseIcon size="32" />
-                </CircleButton>
+                <IconButton icon="ConfirmIcon" size="lg" type="button" @click="handleSubmitNewTranslation" />
+                <IconButton icon="CloseIcon" size="lg" iconSize="nm" type="button" @click="translationFormOpen = false" />
               </div>
             </div>
             <div v-for="transition in translations" class="vocabulary-modal--translations-item">
@@ -180,18 +171,23 @@ export default {
 
         <div v-if="tab === 2">
           <p class="vocabulary-modal--note">
-            <AssociationIcon size="24" />
+            <svg-icon name="AssociationIcon" size="md" />
             Добавьте свои ассоциации с этим словом
           </p>
         </div>
       </div>
-      <div class="vocabulary-modal--footer">
-        <div v-if="step === 1"></div>
-        <Button size="medium" variant="secondary" type="button" @click="handleClose">Отменить</Button>
-        <Button v-if="step === 2" size="medium" type="button" variant="secondary" @click="handlePrev">Назад</Button>
-        <Button v-if="step === 1" size="medium" type="button" @click="handleNext"
-          :disabled="word.length === 0 || language.length === 0">Далее</Button>
-        <Button v-if="step === 2" size="medium" type="submit">Сохранить</Button>
+      <div v-if="step === 1" class="vocabulary-modal--footer">
+        <div></div>
+        <Button size="medium" variant="secondary" label="Отменить" @click="handleClose" />
+        <Button size="medium" label="Далее" @click="handleNext"
+          :disabled="word.length === 0 || language.length === 0" />
+      </div>
+      <div v-else class="vocabulary-modal--footer">
+        <div class="left-buttons">
+          <Button size="medium" variant="secondary" label="Отменить" @click="handleClose" />
+        </div>
+        <Button size="medium" label="Назад" variant="secondary" @click="handlePrev" />
+        <Button size="medium" type="submit" label="Сохранить" />
       </div>
     </form>
   </div>
@@ -206,18 +202,22 @@ export default {
   }
 
   .vocabulary-modal--footer {
-    display: grid;
-    grid-template-columns: 56.4rem max-content max-content;
+    display: flex;
+    justify-content: right;
     gap: 1.2rem;
-    padding-top: 2.8rem;
+    padding-top: 4rem;
+
+    .left-buttons {
+      width: 100%;
+      display: flex;
+      justify-content: left;
+    }
   }
 
   .vocabulary-modal--word {
-    font-family: 'Inter';
-    font-size: 2.4rem;
-    font-weight: 500;
-    line-height: 2.8rem;
-    padding: 4rem 0;
+    @include subheading-2;
+    color: $neutrals-900;
+    padding-bottom: 4rem;
   }
 
   .vocabulary-modal--tabs {
@@ -275,10 +275,8 @@ export default {
       border: .1rem solid $neutrals-400;
       border-radius: $radius-xl;
       background-color: $neutrals-100;
-      font-family: 'Inter';
-      font-size: 1.6rem;
-      font-weight: 500;
-      line-height: 2rem;
+      @include subheading-4;
+      color: $neutrals-900;
     }
   }
 
@@ -286,25 +284,24 @@ export default {
     width: 26rem;
     height: 12rem;
     padding: 2rem;
-    color: $primary-500;
     border: 0.1rem dashed $primary-300;
     border-radius: $radius-xl;
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
     background-color: $neutrals-100;
-    font-family: 'Inter';
-    font-size: 1.6rem;
-    font-weight: 500;
-    line-height: 2rem;
+    @include text-2;
+    color: $primary-500;
     cursor: pointer;
 
     &:hover {
       background-color: $primary-100;
+      border-color: $primary-500;
     }
 
     &:active {
       background-color: $primary-200;
+      border-color: $primary-500;
     }
   }
 }

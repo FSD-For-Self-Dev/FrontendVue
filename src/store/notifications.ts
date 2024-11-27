@@ -1,23 +1,23 @@
 import { defineStore } from 'pinia';
 
-export type InfoMessage = {
+export type Notification = {
     id: number;
     type: 'error' | 'info';
     text: string;
 };
 
-interface InfoMessagesStore {
+interface NotificationsStore {
     pk: number;
-    messages: InfoMessage[];
+    messages: Notification[];
 }
 
-export const useInfoMessagesStore = defineStore('info-message', {
-    state: (): InfoMessagesStore => ({
+export const useNotificationsStore = defineStore('notification', {
+    state: (): NotificationsStore => ({
         pk: 0,
         messages: [],
     }),
     actions: {
-        addNewMessage(message: Omit<InfoMessage, 'id'>) {
+        addNewMessage(message: Omit<Notification, 'id'>) {
             this.messages.push({
                 id: this.pk,
                 ...message,

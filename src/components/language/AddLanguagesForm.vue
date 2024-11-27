@@ -1,11 +1,11 @@
 <script lang="ts">
-import Input from '@/components/UI/input/Input.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { mapActions, mapState } from 'pinia';
 import { numWord } from '@/utils/numWord';
+import { useNotificationsStore } from '@/store/notifications';
 import type { LanguageDto } from '@/dto/languages.dto';
-import { useInfoMessagesStore } from '@/store/info-message';
 import Button from '@/components/UI/button/Button.vue';
+import Input from '@/components/UI/input/Input.vue';
 import { isAxiosError } from 'axios';
 
 export default {
@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     ...mapActions(useLanguagesStore, ["postLearningLanguage", "getAvailableLanguages"]),
-    ...mapActions(useInfoMessagesStore, ["addNewMessage"]),
+    ...mapActions(useNotificationsStore, ["addNewMessage"]),
     toggleActiveLanguage(lang: LanguageDto) {
       if (this.activeLanguage.includes(lang)) {
         this.activeLanguage = this.activeLanguage.filter((item) => item.id !== lang.id);
@@ -83,12 +83,8 @@ export default {
       </div>
     </div>
     <div class="languages-form--actions">
-      <Button variant="secondary" size="medium" @click="() => closeForm()">
-        Отмена
-      </Button>
-      <Button variant="primary" size="medium" type="submit">
-        Сохранить
-      </Button>
+      <Button label="Отмена" variant="secondary" size="medium" @click="() => closeForm()" />
+      <Button label="Сохранить" variant="primary" size="medium" type="submit" />
     </div>
   </form>
 </template>
@@ -100,10 +96,7 @@ export default {
   gap: 10px;
 
   .languages-form--available-info {
-    font-family: 'Inter';
-    font-size: 1.2rem;
-    font-weight: 400;
-    line-height: 2rem;
+    @include tag-big;
     color: $neutrals-600;
     text-transform: uppercase;
 
@@ -116,10 +109,10 @@ export default {
     gap: 2rem;
 
     .languages-form--list-item {
-      font-family: 'Inter';
-      font-size: 1.4rem;
+      @include text-2;
+      color: $neutrals-900;
       width: 17.5rem;
-      border: 1px solid $neutrals-300;
+      border: 1px solid $neutrals-400;
       border-radius: 1.2rem;
       padding: 1.2rem 1.6rem;
       display: flex;

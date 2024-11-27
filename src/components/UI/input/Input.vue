@@ -1,12 +1,8 @@
 <script lang="ts">
 import type { InputTypeHTMLAttribute, PropType } from "vue";
 import type { InputProps } from "@/types/components/input";
-import EyeOnIcon from "@/components/icons/EyeOnIcon.vue";
-import EyeOffIcon from "@/components/icons/EyeOffIcon.vue";
-
 
 export default {
-    components: { EyeOnIcon, EyeOffIcon },
     inheritAttrs: false,
     props: {
         label: {
@@ -95,8 +91,8 @@ export default {
         <button v-if="$attrs.type === 'password'"
             :aria-label="inputType === 'password' ? 'Show password' : 'Hide password'" class="password-toggle"
             @click="togglePassword" type="button">
-            <EyeOnIcon size="24" v-if="inputType === 'password'" />
-            <EyeOffIcon size="24" v-else />
+            <svg-icon name="EyeOnIcon" size="md" v-if="inputType === 'password'" />
+            <svg-icon name="EyeOffIcon" size="md" v-else />
         </button>
         <label :id="`${name}-label`" :class="labelClasses" :for="name">
             {{ label }}
@@ -117,9 +113,7 @@ export default {
     border-radius: $radius-2xl;
     padding-inline: 2.8rem;
     border: 0.1rem solid $neutrals-400;
-    font-size: 1.6rem;
-    line-height: 2rem;
-    font-weight: 400;
+    @include text-2;
     color: $neutrals-900;
 
     @include hover {
@@ -164,8 +158,7 @@ export default {
     & input:focus+label,
     label.up {
         top: 1.2rem;
-        font-size: 1.2rem;
-        line-height: 1.4rem;
+        @include text-4;
         color: $neutrals-600;
     }
 }
@@ -174,15 +167,14 @@ export default {
     position: absolute;
     top: 1.9rem;
     left: 2rem;
-    font-size: 1.4rem;
+    @include text-3;
+    color: $neutrals-600;
     transition: all 0.05s ease-in-out;
-    color: $neutrals-900;
 }
 
 .validation-error,
 .server-error {
-    font-size: 1.2rem;
-    line-height: 1.4rem;
+    @include text-3;
     color: $neutrals-600;
     padding-left: 2.4rem;
 }

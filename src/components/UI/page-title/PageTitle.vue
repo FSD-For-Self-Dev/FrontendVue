@@ -8,7 +8,7 @@ export default {
       required: true
     },
     icon: {
-      type: Object as PropType<Component>,
+      type: String,
       required: true
     }
   }
@@ -18,7 +18,7 @@ export default {
 <template>
   <header class="header-page">
     <h2 class="header-page--title">
-      <component :is="icon" size="20" /> {{ text }}
+      <svg-icon :name="icon" size="md" color="var:neutrals-600" /> {{ text }}
     </h2>
   </header>
 </template>
@@ -29,13 +29,8 @@ export default {
   align-items: center;
 
   &--title {
-    font-family: 'Inter';
-    font-size: 1.2rem;
-    font-weight: 400;
-    line-height: 2rem;
+    @include tag-big;
     color: $neutrals-600;
-    text-transform: uppercase;
-
     display: flex;
     align-items: center;
     gap: .8rem;

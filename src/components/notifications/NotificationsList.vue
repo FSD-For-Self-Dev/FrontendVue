@@ -1,29 +1,29 @@
 <script lang="ts">
 import { useAuthStore } from '@/store/auth';
 import { mapState } from 'pinia';
-import Item from './Item.vue';
-import { useInfoMessagesStore } from '@/store/info-message';
+import Notification from './Notification.vue';
+import { useNotificationsStore } from '@/store/notifications';
 
 export default {
     components: {
-        Item
+        Notification
     },
     computed: {
-        ...mapState(useInfoMessagesStore, ['messages'])
+        ...mapState(useNotificationsStore, ['messages'])
     },
 }
 </script>
 
 <template>
     <Teleport to="body">
-        <div class="info-messages" id="info-messages">
-            <Item type="error" v-for="message in messages" :key="`message-${message.id}`" :message="message" />
+        <div class="notifications" id="notifications">
+            <Notification type="error" v-for="message in messages" :key="`message-${message.id}`" :message="message" />
         </div>
     </Teleport>
 </template>
 
 <style lang="scss">
-.info-messages {
+.notifications {
     position: fixed;
     top: 12rem;
     right: 2rem;
