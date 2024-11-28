@@ -55,7 +55,6 @@ export default {
 <style lang="scss" scoped>
 .button {
   @include flex-center;
-//   border: 0.1rem solid transparent;
   cursor: pointer;
   border-radius: $radius-full;
   align-self: center;
@@ -179,8 +178,7 @@ export default {
   }
 
   &--lucid {
-    background-color: $neutrals-100;
-    opacity: 0.7;
+    background-color: #ffffff30;
     box-shadow: $regular-shadow;
 
     #icon {
@@ -188,7 +186,7 @@ export default {
     };
 
     @include hover {
-      opacity: 0.2;
+      background-color: #ffffff70;
       
       #icon {
         color: $primary-700;
@@ -196,7 +194,7 @@ export default {
     }
 
     @include active {
-      opacity: 0.2;
+      background-color: #ffffff80;
       
       #icon {
         color: $primary-700;
@@ -204,7 +202,7 @@ export default {
     }
 
     @include focus {
-      opacity: 0.2;
+      background-color: #ffffff80;
       outline-offset: -0.1rem;
       outline: $primary-500 0.1rem solid;
       
@@ -217,26 +215,36 @@ export default {
   &--xxsmall {
     width: 2.8rem;
     height: 2.8rem;
+    min-width: 2.8rem;
+    min-height: 2.8rem;
   }
 
   &--xsmall {
     width: 3.6rem;
     height: 3.6rem;
+    min-width: 3.6rem;
+    min-height: 3.6rem;
   }
 
   &--small {
     width: 4rem;
     height: 4rem;
+    min-width: 4rem;
+    min-height: 4rem;
   }
 
   &--medium {
     width: 4.4rem;
     height: 4.4rem;
+    min-width: 4.4rem;
+    min-height: 4.4rem;
   }
 
   &--large {
     width: 5.6rem;
     height: 5.6rem;
+    min-width: 5.6rem;
+    min-height: 5.6rem;
   }
 }
 

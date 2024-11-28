@@ -7,18 +7,18 @@ export default {};
         <ul class="navigation--list">
             <li>
                 <a class="navigation--item" @click="$router.push('vocabulary')">
-                    <svg-icon name="VocabularyIcon" size="md" />Словарь
+                    <svg-icon name="VocabularyIcon" size="md" style="stroke-width: 0.2;" />Словарь
                 </a>
             </li>
             <li>
                 <a class="navigation--item">
-                    <svg-icon name="CollectionsIcon" size="md" />Коллекции
+                    <svg-icon name="CollectionsIcon" size="md" style="stroke-width: 0.2;" />Коллекции
                 </a>
 
             </li>
             <li>
                 <a class="navigation--item">
-                    <svg-icon name="ExercisesIcon" size="md" />Упражнения
+                    <svg-icon name="ExercisesIcon" size="md" style="stroke-width: 0.2;" />Упражнения
                 </a>
             </li>
         </ul>
@@ -35,7 +35,7 @@ export default {};
         padding: 0;
         margin: 0;
         display: flex;
-        gap: 16px;
+        gap: 1.6rem;
     }
 
     &--item {
@@ -48,7 +48,7 @@ export default {};
         border-radius: 40px;
         line-height: 20px;
         background-color: $neutrals-100;
-        gap: 0.8rem;
+        gap: 0.6rem;
         min-width: 15.2rem;
 
         &:hover {

@@ -1,4 +1,4 @@
-export interface IMenuItems {
+export interface INavbarItems {
     name: String,
     link: String,
     icon: String

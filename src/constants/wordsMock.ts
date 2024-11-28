@@ -4,7 +4,7 @@ import type {
     IItWords,
     ILanguageCards,
 } from '@/types/components/ad-landing';
-import type { IMenuItems } from '@/types/components/menu';
+import type { INavbarItems } from '@/types/components/navbar';
 
 export const words: IWordCard[] = [
     { text: 'break a leg' },
@@ -75,7 +75,7 @@ export const languageCards: ILanguageCards[] = [
     },
 ];
 
-export const menuItems: IMenuItems[] = [
+export const navbarItems: INavbarItems[] = [
     { name: 'Главная', link: '', icon: 'HomeIcon' },
     { name: 'Изучаемые языки', link: '', icon: 'TranslationIcon' },
     { name: 'Словарь', link: '', icon: 'VocabularyIcon' },

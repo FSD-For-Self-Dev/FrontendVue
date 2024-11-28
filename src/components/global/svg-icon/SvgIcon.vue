@@ -138,7 +138,7 @@ export default {
 <style lang="scss" scoped>
   .svg-icon {
     color: v-bind(colorBind);
-    transition: color 0.1s ease-in-out;
+    transition: color 0.2s ease-in-out;
     padding: 0.4rem;
 
     &.add-hover:hover {
