@@ -84,14 +84,8 @@ export default {
       <Dropdown placeholder="Родной язык 1" :items="dropDownItems" v-model="native_languages[0]" />
       <Dropdown placeholder="Родной язык 2" :items="dropDownItems" v-model="native_languages[1]"
         v-if="native_languages[1] || moreNativeLang" />
-      <Button
-        label="Добавить еще один родной язык"
-        icon="AddIcon"
-        class="settings--more-native-lang"
-        type="button"
-        @click="moreNativeLang = true"
-        v-else
-      />
+      <Button label="Добавить еще один родной язык" icon="AddIcon" class="settings--more-native-lang" type="button"
+        @click="moreNativeLang = true" v-else />
     </div>
     <Button label="Сохранить" class="settings--submit-button" size="medium" type="submit" />
   </form>
@@ -108,10 +102,7 @@ export default {
   }
 
   .settings--label-form {
-    font-family: 'Inter';
-    font-size: 2rem;
-    font-weight: 400;
-    line-height: 2.4rem;
+    @include text-1;
     color: $neutrals-600;
 
     display: flex;
@@ -177,10 +168,8 @@ export default {
       }
 
       .settings--sub1 {
-        font-family: 'Inter';
-        font-size: 2rem;
+        @include subheading-3;
         font-weight: 500;
-        line-height: 2.4rem;
         color: $neutrals-900;
         padding-bottom: 0.8rem;
       }
@@ -190,10 +179,8 @@ export default {
       }
 
       .settings--sub2 {
-        font-family: 'Inter';
-        font-size: 1.4rem;
+        @include text-3;
         font-weight: 400;
-        line-height: 1.8rem;
         color: $neutrals-600;
       }
     }
