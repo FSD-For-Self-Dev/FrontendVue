@@ -65,7 +65,10 @@ export default {
       v-on:dragleave="onDrag = false" v-on:dragend="onDrag = false" v-on:drop="onDrag = false">
       <input type="file" @change.stop="onFileChanged" accept="image/*" />
       <div class="settings--image-info">
-        <img class="settings--avatar" width="140" :src="image" v-if="image" />
+        <div v-if="!image" class="settings--not-found-avatar">
+          <svg-icon name="ProfileIcon" size="lg" color="var:neutral-500" />
+        </div>
+        <img v-else class="settings--avatar" width="140" :src="image" v-if="image" />
         <span class="settings--sub1">Перетащите файл сюда или <span class="settings--highlighted">выберите с
             компьютера</span></span>
         <span class="settings--sub2">Картинка (jpg, jpeg, png, gif)</span>
@@ -132,6 +135,13 @@ export default {
         top: 15%;
       }
 
+      .settings--not-found-avatar {
+        position: relative;
+        transition: opacity 0.5s ease;
+        top: 24%;
+        background-color: $neutrals-100;
+      }
+
       .settings--sub1,
       .settings--sub2 {
         opacity: 0;
@@ -164,6 +174,19 @@ export default {
         height: 14rem;
         object-fit: cover;
         border-radius: 50%;
+        margin-bottom: 2.4rem;
+      }
+
+      .settings--not-found-avatar {
+        width: 6.4rem;
+        height: 6.4rem;
+        border: .1rem solid $neutrals-400;
+        color: $neutrals-500;
+        box-sizing: border-box;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin-bottom: 2.4rem;
       }
 
