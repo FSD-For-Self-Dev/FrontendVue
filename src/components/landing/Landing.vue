@@ -1,18 +1,7 @@
 <script lang="ts">
-import ArrowBackwardIcon from "@/assets/icons/arrows/ArrowBackwardIcon.vue";
-import ArrowForwardIcon from "@/assets/icons/arrows/ArrowForwardIcon.vue";
-import CopyIcon from "@/assets/icons/actions/CopyIcon.vue";
-import MoreIcon from "@/assets/icons/common/MoreIcon.vue";
-import FavouriteIcon from "@/assets/icons/common/FavouriteIcon.vue";
-import Inactive2StatusIcon from "@/assets/icons/vocabulary/status/Inactive2StatusIcon.vue";
-import Inactive3StatusIcon from "@/assets/icons/vocabulary/status/Inactive3StatusIcon.vue";
-import ActiveStatusIcon from "@/assets/icons/vocabulary/status/ActiveStatusIcon.vue";
-import MasteredStatusIcon from "@/assets/icons/vocabulary/status/MasteredStatusIcon.vue";
-import QuoteLeftIcon from "@/assets/icons/vocabulary/QuoteLeftIcon.vue";
 import { heroWords, itWords, languageCards } from "@/constants/wordsMock";
 
 export default {
-  components: { ArrowBackwardIcon, ArrowForwardIcon, CopyIcon, MoreIcon, FavouriteIcon, ActiveStatusIcon, MasteredStatusIcon, Inactive2StatusIcon, Inactive3StatusIcon, QuoteLeftIcon },
   data() {
     return {
       heroWords,
@@ -42,11 +31,11 @@ export default {
         <div class="hero-card card-1">
           <div class="card-header">
             <span class="card-status">
-              <ActiveStatusIcon size="16"/>Активное
+              <svg-icon name="ActiveStatusIcon" size="md" />Активное
             </span>
             <span class="card-actions">
-              <FavouriteIcon size="24"/>
-              <MoreIcon size="24"/>
+              <svg-icon name="FavouriteIcon" size="md" />
+              <svg-icon name="MoreIcon" size="md" />
             </span>
           </div>
           <div class="card-main">
@@ -56,7 +45,7 @@ export default {
             <div class="card-content">
               <span class="part-of-speech">СУЩЕСТВИТЕЛЬНОЕ</span>
               <h2 class="card-word">Spiaggia
-                <CopyIcon size="16"/>
+                <svg-icon name="CopyIcon" size="md" />
               </h2>
               <div class="card-tags">
                 <span class="card-tag">
@@ -85,8 +74,8 @@ export default {
                 <span class="card-4-subtitle">Часто используются в IT сфере</span>
               </div>
               <div class="card-4-actions">
-                <FavouriteIcon size="24"/>
-                <MoreIcon size="24"/>
+                <svg-icon name="FavouriteIcon" size="md" />
+                <svg-icon name="MoreIcon" size="md" />
               </div>
             </div>
             <div class="card-4-footer">
@@ -109,11 +98,11 @@ export default {
         <div class="hero-card card-5">
           <div class="card-header">
             <span class="card-status">
-              <Inactive3StatusIcon size="16"/>Почти активное
+              <svg-icon name="Inactive3StatusIcon" size="md" />Почти активное
             </span>
             <span class="card-actions">
-              <FavouriteIcon size="24"/>
-              <MoreIcon size="24"/>
+              <svg-icon name="FavouriteIcon" size="md" />
+              <svg-icon name="MoreIcon" size="md" />
             </span>
           </div>
           <div class="card-main">
@@ -123,7 +112,7 @@ export default {
             <div class="card-content">
               <span class="part-of-speech">ГЛАГОЛ</span>
               <h2 class="card-word">Develop
-                <CopyIcon size="16"/>
+                <svg-icon name="CopyIcon" size="md" />
               </h2>
               <div class="card-tags">
                 <span class="card-tag">
@@ -138,18 +127,18 @@ export default {
           <div class="card-translation">
             <div class="card-translation-actions">
               <button class="card-translation-navigation">
-                <ArrowBackwardIcon size="24" class="card-translation-navigation-icon" />
+                <svg-icon name="ArrowBackwardIcon" size="md" />
               </button>
               <p class="card-translation-word">Разрабатывать</p>
               <button class="card-translation-navigation">
-                <ArrowForwardIcon size="24" class="card-translation-navigation-icon" />
+                <svg-icon name="ArrowForwardIcon" size="md" />
               </button>
             </div>
             <p class="card-translation-info">1/1</p>
           </div>
         </div>
         <div class="hero-card card-6">
-          <QuoteLeftIcon size="32"/>
+          <svg-icon name="QuoteLeftIcon" size="lg" />
           <div class="card-6-content">
             <h2 class="card-6-title">I need a vacation</h2>
             <p class="card-6-subtitle">by no author</p>
@@ -168,13 +157,13 @@ export default {
             <h3 class="language-card-title">{{ languageCard.languageName }}</h3>
             <div class="language-card-activities">
               <div class="language-card-activity">
-                <ActiveStatusIcon size="16"/>{{ languageCard.activeStatus }}
+                <svg-icon name="ActiveStatusIcon" size="md" />{{ languageCard.activeStatus }}
               </div>
               <div class="language-card-activity">
-                <Inactive2StatusIcon size="16"/>{{ languageCard.inactiveStatus }}
+                <svg-icon name="Inactive2StatusIcon" size="md" />{{ languageCard.inactiveStatus }}
               </div>
               <div class="language-card-activity">
-                <MasteredStatusIcon size="16"/>{{ languageCard.markedStatus }}
+                <svg-icon name="MasteredStatusIcon" size="md" />{{ languageCard.markedStatus }}
               </div>
             </div>
           </div>
@@ -535,11 +524,6 @@ icon {
   background-color: inherit;
 }
 
-.card-translation-navigation-icon {
-  width: 3rem;
-  height: 2rem;
-}
-
 .card-translation-word {
   font-size: 1.6rem;
   line-height: 2rem;
@@ -592,7 +576,7 @@ icon {
 .stacked-card {
   position: absolute;
   border-radius: 2rem;
-  box-shadow: 0 0.4rem 0.6rem rgba(0, 0, 0, 0.1);
+  box-shadow: $regular-shadow;
   padding: 2rem;
   transition: transform 0.3s ease;
 }
@@ -613,7 +597,7 @@ icon {
   width: 37rem;
   height: 18rem;
   background-color: $primary-300;
-  box-shadow: 0 0 0.8rem 0 rgba(17, 17, 26, 0.1), 0 0.1rem 0 0 rgba(17, 17, 26, 0.05);
+  box-shadow: $regular-shadow;
   background: rgba(92, 119, 210, 0.6);
   transform: rotate(-357deg);
 }

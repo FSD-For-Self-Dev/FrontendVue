@@ -4,7 +4,7 @@ import type {
     IItWords,
     ILanguageCards,
 } from '@/types/components/ad-landing';
-import type { IMenuItems } from '@/types/components/menu';
+import type { INavbarItems } from '@/types/components/navbar';
 
 export const words: IWordCard[] = [
     { text: 'break a leg' },
@@ -35,7 +35,7 @@ export const heroWords: IHeroWords[] = [
     { text: 'Синонимы' },
     { text: 'Переводы' },
     { text: 'Ассоциации' },
-    { text: 'Мой словарь' },
+    { text: 'Словарь' },
     { text: 'Избранное' },
 ];
 
@@ -75,12 +75,12 @@ export const languageCards: ILanguageCards[] = [
     },
 ];
 
-export const menuItems: IMenuItems[] = [
-    { name: 'Главная', link: '', icon: 'home' },
-    { name: 'Изучаемые языки', link: '', icon: 'translation' },
-    { name: 'Мой словарь', link: '', icon: 'vocabulary' },
-    { name: 'Коллекции', link: '', icon: 'collections' },
-    { name: 'Избранное', link: '', icon: 'favourite-default' },
-    { name: 'Упражнения', link: '', icon: 'exercises' },
-    { name: 'О платформе', link: '', icon: 'info' },
+export const navbarItems: INavbarItems[] = [
+    { name: 'Главная', link: '', icon: 'HomeIcon' },
+    { name: 'Изучаемые языки', link: '', icon: 'TranslationIcon' },
+    { name: 'Словарь', link: '', icon: 'VocabularyIcon' },
+    { name: 'Коллекции', link: '', icon: 'CollectionsIcon' },
+    { name: 'Избранное', link: '', icon: 'FavouriteIcon' },
+    { name: 'Упражнения', link: '', icon: 'ExercisesIcon' },
+    { name: 'О платформе', link: '', icon: 'InfoIcon' },
 ];

@@ -1,9 +1,7 @@
 <script lang="ts">
-import AddIcon from '@/assets/icons/actions/AddIcon.vue';
-import ProfileIcon from '@/assets/icons/common/ProfileIcon.vue';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import Input from '@/components/UI/input/Input.vue';
-import Button from '@/components/header/Button.vue';
+import Button from '@/components/UI/button/Button.vue';
 import type { UserDto } from '@/dto/user.dto';
 import { useLanguagesStore } from '@/store/languages';
 import { useUserStore } from '@/store/user';
@@ -12,7 +10,7 @@ import { mapActions, mapWritableState } from 'pinia';
 import { computed, ref } from 'vue';
 
 export default {
-  components: { Dropdown, AddIcon, Input, Button, ProfileIcon },
+  components: { Dropdown, Input, Button },
   computed: {
     ...mapWritableState(useUserStore, ["native_languages", "first_name", "username", "image"])
   },
@@ -83,11 +81,16 @@ export default {
       <Dropdown placeholder="Родной язык 1" :items="dropDownItems" v-model="native_languages[0]" />
       <Dropdown placeholder="Родной язык 2" :items="dropDownItems" v-model="native_languages[1]"
         v-if="native_languages[1] || moreNativeLang" />
-      <button class="settings--more-native-lang" type="button" @click="moreNativeLang = true" v-else>
-        <AddIcon size="16" /> Добавить еще один родной язык
-      </button>
+      <Button
+        label="Добавить еще один родной язык"
+        icon="AddIcon"
+        class="settings--more-native-lang"
+        type="button"
+        @click="moreNativeLang = true"
+        v-else
+      />
     </div>
-    <Button class="settings--submit-button" size="medium" type="submit">Сохранить</Button>
+    <Button label="Сохранить" class="settings--submit-button" size="medium" type="submit" />
   </form>
 </template>
 

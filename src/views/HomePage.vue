@@ -1,3 +1,19 @@
+<script lang="ts">
+import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
+import LanguagesMainView from '@/components/language/LanguagesMainView.vue';
+import VocabularyMainView from '@/components/vocabulary/VocabularyMainView.vue';
+import Landing from '@/components/landing/Landing.vue';
+import { mapState } from 'pinia';
+import { useUserStore } from '@/store/user';
+
+export default {
+  components: { PageLayout, LanguagesMainView, VocabularyMainView, Landing },
+  computed: {
+    ...mapState(useUserStore, ['authStatus', 'username']),
+  }
+};
+</script>
+
 <template>
   <PageLayout>
     <div class="home-page" v-if="authStatus">
@@ -11,23 +27,6 @@
     <Landing v-else />
   </PageLayout>
 </template>
-
-<script lang="ts">
-import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
-import LanguagesMainView from '@/components/language/LanguagesMainView.vue';
-import VocabularyMainView from '@/components/vocabulary/VocabularyMainView.vue';
-import Landing from '@/components/landing/Landing.vue';
-import { mapState } from 'pinia';
-import { useUserStore } from '@/store/user';
-import FriendsMainView from "@/components/friends/FriendsMainView.vue";
-import TeachersMainView from "@/components/teachers/TeachersMainView.vue";
-export default {
-  components: { TeachersMainView, FriendsMainView, PageLayout, LanguagesMainView, VocabularyMainView, Landing },
-  computed: {
-    ...mapState(useUserStore, ['authStatus', 'username']),
-  }
-};
-</script>
 
 <style lang="scss" scoped>
 .home-page {

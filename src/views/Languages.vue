@@ -1,23 +1,18 @@
-<template>
-	<PageLayout>
-		<HeaderPage text="Языки" :icon="LangIcon" />
-		<LanguageButtonForModal size-button="medium" text-button="Добавить язык" />
-	</PageLayout>
-</template>
-
 <script lang="ts">
 import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
-import LanguageButtonForModal from '@/components/language/LanguageButtonForModal.vue';
-import HeaderPage from '@/components/UI/header-page/HeaderPage.vue';
-import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
+import AddLanguagesButton from '@/components/language/AddLanguagesButton.vue';
+import PageTitle from '@/components/UI/page-title/PageTitle.vue';
+
 export default {
-	components: { PageLayout, HeaderPage, LanguageButtonForModal },
-	data() {
-		return {
-			LangIcon: LanguageIcon
-		}
-	}
+	components: { PageLayout, PageTitle, AddLanguagesButton },
 };
 </script>
+
+<template>
+	<PageLayout>
+		<PageTitle text="Языки" icon="LanguageIcon" />
+		<AddLanguagesButton size-button="medium" label-button="Добавить язык" />
+	</PageLayout>
+</template>
 
 <style lang="scss" scoped></style>

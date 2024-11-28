@@ -1,13 +1,8 @@
 <script lang="ts">
-import DiscordIcon from '@/assets/icons/socials/DiscordIcon.vue';
-import GithubIcon from '@/assets/icons/socials/GithubIcon.vue';
-import TelegramIcon from '@/assets/icons/socials/TelegramIcon.vue';
-import VkIcon from '@/assets/icons/socials/VkIcon.vue';
-import YoutubeIcon from '@/assets/icons/socials/YoutubeIcon.vue';
 import Logo from '@/components/UI/logo/Logo.vue';
 
 export default {
-    components: { Logo, DiscordIcon, GithubIcon, TelegramIcon, VkIcon, YoutubeIcon },
+    components: { Logo },
     data() {
         return {
             privacyPolicies: [
@@ -24,10 +19,10 @@ export default {
                 { name: 'Отзывы', link: '#' },
             ] as Array<{ name: string; link: string }>,
             socialLinks: [
-                { name: 'YouTube', icon: 'youtube', link: '#' },
-                { name: 'Telegram', icon: 'telegram', link: '#' },
-                { name: 'VK', icon: 'vk', link: '#' },
-                { name: 'GitHub', icon: 'github', link: '#' },
+                { name: 'YouTube', icon: 'YoutubeIcon', link: '#' },
+                { name: 'Telegram', icon: 'TelegramIcon', link: '#' },
+                { name: 'VK', icon: 'VkIcon', link: '#' },
+                { name: 'GitHub', icon: 'GithubIcon', link: '#' },
             ] as Array<{ name: string; icon: string; link: string }>,
             year: new Date().getFullYear(),
         };
@@ -68,17 +63,11 @@ export default {
                             v-for="socialLink in socialLinks"
                             :key="socialLink.name"
                             :href="socialLink.link"
-                            class="footer__icon-link"
                             target="_blank"
                             tabindex="0"
                             rel="noopener noreferrer"
                         >
-                            <YoutubeIcon size="32" custom-color="#9EB4FF" v-if="socialLink.icon === 'youtube'" />
-                            <TelegramIcon size="32" custom-color="#9EB4FF" v-else-if="socialLink.icon === 'telegram'" />
-                            <VkIcon size="32" custom-color="#9EB4FF" v-else-if="socialLink.icon === 'vk'" />
-                            <GithubIcon size="32" custom-color="#9EB4FF" v-else-if="socialLink.icon === 'github'" />
-
-
+                            <svg-icon :name="socialLink.icon" size="xxl" color="var:primary-400" hoverColor="var:primary-600" />
                             <span class="visually-hidden">
                                 {{ socialLink.name }}
                             </span>
@@ -124,7 +113,8 @@ export default {
         list-style-type: none;
         margin: 0;
         padding: 0;
-        line-height: 2rem;
+        @include text-2;
+        color: $neutrals-700;
 
         &-item {
             @include hover {
@@ -146,15 +136,9 @@ export default {
         align-items: center;
     }
 
-    &__icon-link {
-        display: flex;
-        align-items: center;
-        width: 3.2rem;
-        height: 3.2rem;
-    }
-
     &__rights {
-        font-size: 1.4rem;
+        @include text-3;
+        color: $neutrals-700;
     }
 }
 </style>

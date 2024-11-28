@@ -1,14 +1,10 @@
 <script lang="ts">
-import RuIcon from '@/assets/icons/languages/codes/RuIcon.vue';
-
-export default {
-    components: { RuIcon },
-};
+export default {};
 </script>
 
 <template>
     <button class="language--button">
-        <RuIcon size="32"/>
+        <svg-icon name="RuIcon" size="lg" hoverColor="var:primary-500" />
     </button>
 </template>
 
@@ -18,5 +14,8 @@ export default {
     border: none;
     background-color: transparent;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>

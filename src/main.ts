@@ -1,16 +1,11 @@
-import { createApp } from 'vue';
-import { createPinia } from 'pinia';
-import router from '@/router';
-import App from '@/App.vue';
-import blockIndex from '@/utils/robotsNoIndex';
-import ApiPlugin from '@/plugins/api-plugin';
-
+import { app } from './plugins/main-app';
+import '@/plugins/quasar';
+import '@/plugins/pinia';
+import '@/plugins/api-plugin';
+import '@/plugins/router';
+import '@/plugins/global-components';
 import '@/styles/main.scss';
-
-const app = createApp(App);
-app.use(createPinia());
-app.use(router);
-app.use(ApiPlugin);
+import blockIndex from '@/utils/robotsNoIndex';
 
 app.mount('#app');
 

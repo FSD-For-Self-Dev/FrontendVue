@@ -1,51 +1,8 @@
-<template>
-    <div class="dropdown" :class="dropdownClasses" @click="handleDropdownClick">
-        <div class="selected-item">
-            <span v-if="selected && selected.icon" class="icon">
-                <img :src="selected.icon" alt="Icon" />
-            </span>
-            <span v-if="selected && selected.icon_component" class="icon-component">
-                <component :is=selected.icon_component v-bind:size="'32'":custom-color="selected.icon_component_custom_color"></component>
-            </span>
-            <span>
-                {{ selected ? selected.label : placeholder }}
-            </span>
-        </div>
-        <ArrowDownIcon class="chevron" :class="chevronClasses" size="24" />
-        <div v-if="isOpen" class="dropdown-menu">
-            <div class="dropdown-content">
-                <div
-                    v-for="item in items"
-                    :key="item.value"
-                    class="dropdown-item"
-                    :class="{ 'dropdown-item--selected': isItemSelected(item) }"
-                    @click.stop="handleItemClick(item)"
-                >
-                    <span v-if="item.icon" class="icon">
-                        <img :src="item.icon" alt="Icon" />
-                    </span>
-                    <span v-if="item.icon_component" class="icon-component">
-                        <component :is="item.icon_component" v-bind:size="'32'":custom-color="item.icon_component_custom_color"></component>
-                    </span>
-                    <span>{{ item.label }}</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script lang="ts">
 import { ref, computed, type PropType } from 'vue';
 import type { DropdownItem } from '@/types/components/dropdown';
-import ArrowDownIcon from '@/assets/icons/arrows/ArrowDownIcon.vue';
-import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
-import WordsIcon from '@/assets/icons/vocabulary/WordsIcon.vue';
-import MasteredStatusIcon from '@/assets/icons/vocabulary/status/MasteredStatusIcon.vue';
-import Inactive1StatusIcon from '@/assets/icons/vocabulary/status/Inactive1StatusIcon.vue';
-import ActiveStatusIcon from '@/assets/icons/vocabulary/status/ActiveStatusIcon.vue';
 
 export default {
-    components: { ArrowDownIcon, LanguageIcon, WordsIcon, Inactive1StatusIcon, ActiveStatusIcon, MasteredStatusIcon },
     props: {
         items: {
             type: Array as PropType<DropdownItem[]>,
@@ -122,6 +79,38 @@ export default {
 };
 </script>
 
+<template>
+    <div class="dropdown" :class="dropdownClasses" @click="handleDropdownClick">
+        <div class="selected-item">
+            <span v-if="selected && selected.icon" class="icon-container">
+                <img :src="selected.icon" alt="Icon" style="width: 100%; height: 100%" />
+            </span>
+            <svg-icon v-if="selected && selected.icon_component" v-bind:name="selected.icon_component":color="selected.icon_component_custom_color" size="nm" />
+            <span>
+                {{ selected ? selected.label : placeholder }}
+            </span>
+        </div>
+        <svg-icon class="chevron" :class="chevronClasses" name="ArrowDownIcon" size="md" />
+        <div v-if="isOpen" class="dropdown-menu">
+            <div class="dropdown-content">
+                <div
+                    v-for="item in items"
+                    :key="item.value"
+                    class="dropdown-item"
+                    :class="{ 'dropdown-item--selected': isItemSelected(item) }"
+                    @click.stop="handleItemClick(item)"
+                >
+                    <span v-if="item.icon" class="icon-container">
+                        <img :src="item.icon" alt="Icon" style="width: 100%; height: 100%" />
+                    </span>
+                    <svg-icon v-if="item.icon_component" v-bind:name="item.icon_component":color="item.icon_component_custom_color" size="nm" />
+                    <span>{{ item.label }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
 <style lang="scss" scoped>
 .dropdown {
     cursor: pointer;
@@ -135,16 +124,11 @@ export default {
     border-radius: $radius-md;
     padding-inline: 2rem;
     border: 0.1rem solid $neutrals-400;
-    font-size: 1.4rem;
-    line-height: 2rem;
-    font-weight: 500;
-    color: $neutrals-900;
     background-color: $neutrals-100;
     box-sizing: border-box;
 
     @include hover {
         border-color: $primary-300;
-        box-shadow: 0 0 0 0rem $primary-300;
     }
 
     &--disabled {
@@ -162,11 +146,11 @@ export default {
 }
 
 .selected-item {
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 2rem;
+    @include text-2;
+    color: $neutrals-900;
     display: flex;
     align-items: center;
+    gap: 0.8rem;
 }
 
 .dropdown-menu {
@@ -174,9 +158,7 @@ export default {
     top: 105%;
     left: 0;
     background: white;
-    box-shadow:
-        0px 0px 8px 0px #11111a1a,
-        0px 1px 0px 0px #11111a0d;
+    box-shadow: $regular-shadow;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -190,11 +172,11 @@ export default {
 .dropdown-item {
     padding: 1.6rem 1.6rem;
     cursor: pointer;
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 2rem;
+    @include text-2;
+    color: $neutrals-900;
     display: flex;
     align-items: center;
+    gap: 0.8rem;
 
     &:hover {
         background-color: $primary-200;
@@ -205,14 +187,13 @@ export default {
     }
 }
 
-.icon {
-    width: 2.4rem;
-    height: 2.4rem;
-    margin-right: 1.2rem;
-}
-
-.icon-component {
-    margin-right: 0.8rem;
+.icon-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.8rem;
+    height: 2.8rem;
+    padding: 0.4rem;
 }
 
 .chevron {
