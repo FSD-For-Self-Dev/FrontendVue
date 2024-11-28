@@ -26,8 +26,10 @@ export default {
       })
     })
     const moreNativeLang = ref(false);
+    const onDrag = ref(false);
 
     return {
+      onDrag,
       dropDownItems,
       global_languages,
       moreNativeLang
@@ -41,7 +43,7 @@ export default {
         first_name: this.first_name,
         native_languages: this.native_languages,
         image: this.image
-      } 
+      }
       this.patchUser(data);
     },
     async onFileChanged(event: Event) {
@@ -59,10 +61,14 @@ export default {
 
 <template>
   <form class="settings--form" @submit.prevent="handleSubmit">
-    <label class="settings--label-image">
+    <label class="settings--label-image" :class="{ 'label--drag': onDrag }" v-on:dragenter="onDrag = true"
+      v-on:dragleave="onDrag = false" v-on:dragend="onDrag = false" v-on:drop="onDrag = false">
       <input type="file" @change.stop="onFileChanged" accept="image/*" />
       <div class="settings--image-info">
-        <img class="settings--avatar" width="140" :src="image" v-if="image" />
+        <div v-if="!image" class="settings--not-found-avatar">
+          <svg-icon name="ProfileIcon" size="lg" color="var:neutral-500" />
+        </div>
+        <img v-else class="settings--avatar" width="140" :src="image" v-if="image" />
         <span class="settings--sub1">Перетащите файл сюда или <span class="settings--highlighted">выберите с
             компьютера</span></span>
         <span class="settings--sub2">Картинка (jpg, jpeg, png, gif)</span>
@@ -81,14 +87,8 @@ export default {
       <Dropdown placeholder="Родной язык 1" :items="dropDownItems" v-model="native_languages[0]" />
       <Dropdown placeholder="Родной язык 2" :items="dropDownItems" v-model="native_languages[1]"
         v-if="native_languages[1] || moreNativeLang" />
-      <Button
-        label="Добавить еще один родной язык"
-        icon="AddIcon"
-        class="settings--more-native-lang"
-        type="button"
-        @click="moreNativeLang = true"
-        v-else
-      />
+      <Button label="Добавить еще один родной язык" icon="AddIcon" class="settings--more-native-lang" type="button"
+        @click="moreNativeLang = true" v-else />
     </div>
     <Button label="Сохранить" class="settings--submit-button" size="medium" type="submit" />
   </form>
@@ -105,10 +105,7 @@ export default {
   }
 
   .settings--label-form {
-    font-family: 'Inter';
-    font-size: 2rem;
-    font-weight: 400;
-    line-height: 2.4rem;
+    @include text-1;
     color: $neutrals-600;
 
     display: flex;
@@ -127,6 +124,33 @@ export default {
     border-radius: 4rem;
     border: 1px dashed $primary-300;
 
+    &.label--drag {
+      border: 1px dashed $primary-500;
+      background-color: $primary-200;
+      transition: all .4s ease;
+
+      .settings--avatar {
+        position: relative;
+        transition: all .5s ease;
+        top: 15%;
+      }
+
+      .settings--not-found-avatar {
+        position: relative;
+        transition: opacity 0.5s ease;
+        top: 24%;
+        background-color: $neutrals-100;
+      }
+
+      .settings--sub1,
+      .settings--sub2 {
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+
+    }
+
     & input {
       opacity: 0;
       position: absolute;
@@ -134,6 +158,7 @@ export default {
       height: 100%;
       top: 0;
       left: 0;
+      z-index: 20;
     }
 
     .settings--image-info {
@@ -142,6 +167,7 @@ export default {
       align-items: center;
       max-width: 34rem;
       text-align: center;
+      position: relative;
 
       .settings--avatar {
         width: 14rem;
@@ -151,11 +177,22 @@ export default {
         margin-bottom: 2.4rem;
       }
 
+      .settings--not-found-avatar {
+        width: 6.4rem;
+        height: 6.4rem;
+        border: .1rem solid $neutrals-400;
+        color: $neutrals-500;
+        box-sizing: border-box;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 2.4rem;
+      }
+
       .settings--sub1 {
-        font-family: 'Inter';
-        font-size: 2rem;
+        @include subheading-3;
         font-weight: 500;
-        line-height: 2.4rem;
         color: $neutrals-900;
         padding-bottom: 0.8rem;
       }
@@ -165,10 +202,8 @@ export default {
       }
 
       .settings--sub2 {
-        font-family: 'Inter';
-        font-size: 1.4rem;
+        @include text-3;
         font-weight: 400;
-        line-height: 1.8rem;
         color: $neutrals-600;
       }
     }

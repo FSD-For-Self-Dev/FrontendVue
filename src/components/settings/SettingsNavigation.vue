@@ -1,25 +1,25 @@
 <script lang="ts">
-import DeleteIcon from '@/components/icons/DeleteIcon.vue';
-import ExitIcon from '@/components/icons/ExitIcon.vue';
-import ProfileIcon from '@/components/icons/ProfileIcon.vue';
-
+import Button from '@/components/UI/button/Button.vue';
 export default {
-  components: { DeleteIcon, ExitIcon, ProfileIcon },
+  components: { Button },
 };
 
 </script>
 
 <template>
-  <nav>
-    <ul class="settings--navigation">
-      <li class="settings--navigation-item">
-        <ProfileIcon size="24" /> Профиль
+  <nav class="settings--navigation">
+    <ul class="settings--list">
+      <li>
+        <Button :style="{ width: '100%', justifyContent: 'start' }" size="medium" variant="secondary" label="Профиль"
+          icon="ProfileIcon" />
       </li>
-      <li class="settings--navigation-item">
-        <ExitIcon size="24" /> Выйти из аккаунта
+      <li>
+        <Button :style="{ width: '100%', justifyContent: 'start' }" size="medium" variant="secondary"
+          label="Выйти из аккаунта" icon="ExitIcon" />
       </li>
-      <li style="color: #CA2744" class="settings--navigation-item">
-        <DeleteIcon size="20" /> Удалить аккаунт
+      <li>
+        <Button :style="{ width: '100%', justifyContent: 'start' }" size="medium" variant="danger"
+          label="Удалить аккаунт" icon="DeleteIcon" />
       </li>
     </ul>
   </nav>
@@ -27,23 +27,13 @@ export default {
 
 <style lang="scss">
 .settings--navigation {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  position: fixed;
+  top: 20rem;
 
-  .settings--navigation-item {
+  .settings--list {
     display: flex;
-    align-items: center;
-    gap: .8rem;
-
-    border: .1rem solid $neutrals-400;
-    padding: 1.4rem 2.8rem;
-    border-radius: 2.8rem;
-
-    font-family: 'Inter';
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 2rem;
+    flex-direction: column;
+    gap: 16px;
   }
 }
 </style>

@@ -10,13 +10,17 @@ export default {
     icon: {
       type: String,
       required: true
+    },
+    settingsPage: {
+      type: Boolean,
+      default: false
     }
   }
 }
 </script>
 
 <template>
-  <header class="header-page">
+  <header class="header-page" :class="{ 'settings-page': settingsPage }">
     <h2 class="header-page--title">
       <svg-icon :name="icon" size="md" color="var:neutrals-600" /> {{ text }}
     </h2>
@@ -27,6 +31,11 @@ export default {
 .header-page {
   display: flex;
   align-items: center;
+
+
+  &.settings-page {
+    position: fixed;
+  }
 
   &--title {
     @include tag-big;

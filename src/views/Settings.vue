@@ -16,8 +16,9 @@ export default {
 
 <template>
   <PageLayout>
-    <PageTitle text="Настройки" icon="HeaderIcon" />
+    <PageTitle settings-page text="Настройки" icon="SettingsIcon" />
     <div class="settings--container">
+      <div></div>
       <SettingsNavigation />
       <SettingsForm />
     </div>
@@ -29,5 +30,6 @@ export default {
   display: grid;
   grid-template-columns: 30rem auto;
   gap: 6rem;
+  position: relative;
 }
 </style>

@@ -62,16 +62,9 @@ export default {
 
 <template>
   <button class="button" :class="buttonClasses">
-    <svg-icon
-      v-if="icon && iconPos === 'left'"
-      v-bind:name="icon":size="iconSizes[size]"
-      class="icon"
-    />
-    <svg-icon
-      v-if="additionalIcon && iconPos === 'right'"
-      v-bind:name="additionalIcon":size="iconSizes[size]"
-      class="icon"
-    />
+    <svg-icon v-if="icon && iconPos === 'left'" v-bind:name="icon" :size="iconSizes[size]" class="icon" />
+    <svg-icon v-if="additionalIcon && iconPos === 'right'" v-bind:name="additionalIcon" :size="iconSizes[size]"
+      class="icon" />
 
     <span v-if="label" style="float: left; text-align: left;">
       {{ label }}
@@ -80,16 +73,9 @@ export default {
       {{ additionalLabel }}
     </span>
 
-    <svg-icon
-      v-if="icon && iconPos === 'right'"
-      v-bind:name="icon":size="iconSizes[size]"
-      class="icon"
-    />
-    <svg-icon
-      v-if="additionalIcon && iconPos === 'left'"
-      v-bind:name="additionalIcon":size="iconSizes[size]"
-      class="icon"
-    />
+    <svg-icon v-if="icon && iconPos === 'right'" v-bind:name="icon" :size="iconSizes[size]" class="icon" />
+    <svg-icon v-if="additionalIcon && iconPos === 'left'" v-bind:name="additionalIcon" :size="iconSizes[size]"
+      class="icon" />
   </button>
 </template>
 
@@ -272,5 +258,4 @@ export default {
   display: flex;
   align-items: center;
 }
-
 </style>
