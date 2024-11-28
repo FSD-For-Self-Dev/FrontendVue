@@ -207,9 +207,14 @@ export default {
     border-color: $neutrals-400;
     background-color: $neutrals-100;
     color: $danger-700;
+    border-color: $danger-200;
+
+    .icon {
+      color: $danger-700;
+    }
 
     @include hover {
-      border-color: $danger-200;
+      border-color: $danger-300;
     }
 
     @include active {
