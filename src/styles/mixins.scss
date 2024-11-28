@@ -8,6 +8,13 @@
     align-items: center;
 }
 
+@mixin abs-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 @mixin square($size) {
   width: $size;
   aspect-ratio: 1 / 1;
@@ -30,19 +37,14 @@
     overflow: hidden !important;
 }
 
-@mixin abs-center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+// *** Grid mixins below ***
 
 @mixin grid16($columns: 4) {
     display: grid;
     grid-template-columns: repeat($columns, 1fr);
     gap: 1.6rem;
 
-    // Здесь впоследствии будет медиа
+    // media
 }
 
 @mixin grid20($columns: 4) {
@@ -57,22 +59,129 @@
     gap: 2.4rem;
 }
 
-@mixin grid16($columns: 4) {
-    display: grid;
-    grid-template-columns: repeat($columns, 1fr);
-    gap: 1.6rem;
+// *** Fonts mixins below ***
 
-    // Здесь впоследствии будет медиа
+// Text
+
+@mixin text-1 {
+    font-family: Inter-Regular, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2rem;
+    line-height: 2.4rem;
 }
 
-@mixin grid20($columns: 4) {
-    display: grid;
-    grid-template-columns: repeat($columns, 1fr);
-    gap: 2rem;
+@mixin text-2 {
+    font-family: Inter-Regular, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.6rem;
+    line-height: 2rem;
 }
 
-@mixin grid24($columns: 4) {
-    display: grid;
-    grid-template-columns: repeat($columns, 1fr);
-    gap: 2.4rem;
+@mixin text-3 {
+    font-family: Inter-Regular, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+}
+
+@mixin text-4 {
+    font-family: Inter-Regular, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+}
+
+@mixin text-5 {
+    font-family: Inter-Regular, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1rem;
+    line-height: 1.2rem;
+}
+
+// Subheading
+
+@mixin subheading-1 {
+    font-family: Inter-Medium, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2.8rem;
+    line-height: 3.2rem;
+}
+
+@mixin subheading-2 {
+    font-family: Inter-Medium, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2.4rem;
+    line-height: 2.8rem;
+}
+
+@mixin subheading-3 {
+    font-family: Inter-Medium, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2rem;
+    line-height: 2.4rem;
+}
+
+@mixin subheading-4 {
+    font-family: Inter-Medium, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.6rem;
+    line-height: 2rem;
+}
+
+@mixin subheading-5 {
+    font-family: Inter-Medium, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+}
+
+// Heading
+
+@mixin heading-1 {
+    font-family: Inter-Semibold, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 4rem;
+    line-height: 4.4rem;
+}
+
+@mixin heading-2 {
+    font-family: Inter-Semibold, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 3.2rem;
+    line-height: 3.6rem;
+}
+
+@mixin heading-3 {
+    font-family: Inter-Semibold, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2.8rem;
+    line-height: 3.2rem;
+}
+
+@mixin heading-4 {
+    font-family: Inter-Semibold, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2.4rem;
+    line-height: 2.8rem;
+}
+
+@mixin heading-5 {
+    font-family: Inter-Semibold, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2rem;
+    line-height: 2.4rem;
+}
+
+@mixin heading-6 {
+    font-family: Inter-Semibold, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+}
+
+// Tag
+
+@mixin tag-large {
+    font-family: Inter-Regular, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    text-transform: uppercase;
+}
+
+@mixin tag-big {
+    font-family: Inter-Regular, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1.2rem;
+    line-height: 2rem;
+    text-transform: uppercase;
+}
+
+@mixin tag-small {
+    font-family: Inter-Regular, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1rem;
+    line-height: 2rem;
+    text-transform: uppercase;
 }

@@ -1,6 +1,7 @@
 <script lang="ts">
 import type { TextareaProps } from "@/types/components/textarea";
 import type { PropType } from "vue";
+
 export default {
   props: {
     label: {
@@ -84,15 +85,12 @@ export default {
   padding-block: 1.6rem;
   padding-inline: 2rem;
   border: 0.1rem solid $neutrals-400;
-  font-size: 1.4rem;
-  line-height: 1.6rem;
-  font-weight: 500;
+  @include text-2;
   color: $neutrals-900;
   resize: vertical;
 
   @include hover {
     border-color: $primary-300;
-    box-shadow: 0 0 0 0.1rem $primary-300;
   }
 
   &:disabled {
@@ -108,7 +106,7 @@ export default {
 
   &:focus-visible {
     outline-offset: -0.1rem;
-    outline: $primary-500 0.2rem solid;
+    outline: $primary-500 0.1rem solid;
   }
 
   &--with-label {
@@ -133,8 +131,7 @@ export default {
   & textarea:focus+label,
   label.up {
     top: 1.2rem;
-    font-size: 1.2rem;
-    line-height: 1.4rem;
+    @include text-4;
     color: $neutrals-600;
   }
 }
@@ -143,15 +140,14 @@ export default {
   position: absolute;
   top: 1.9rem;
   left: 2rem;
-  font-size: 1.4rem;
-  transition: all 0.05s ease-in-out;
+  @include text-3;
   color: $neutrals-900;
+  transition: all 0.05s ease-in-out;
 }
 
 .validation-error,
 .server-error {
-  font-size: 1.2rem;
-  line-height: 1.4rem;
+  @include text-3;
   color: $neutrals-600;
   padding-left: 2.4rem;
 }

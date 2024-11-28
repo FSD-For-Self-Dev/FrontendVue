@@ -1,10 +1,9 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
 import { type PropType, type Component, ref } from 'vue';
-import CloseIcon from '@/assets/icons/actions/CloseIcon.vue';
 
 export default {
-  components: { OnClickOutside, CloseIcon },
+  components: { OnClickOutside },
   props: {
     closeModal: {
       type: Function,
@@ -12,12 +11,14 @@ export default {
     },
     titleModal: {
       type: String,
+      required: true
     },
     form: {
       type: Object as PropType<Component>,
     },
-    iconModal: {
-      type: Object as PropType<Component>,
+    icon: {
+      type: String,
+      required: false
     },
     size: {
       type: String as PropType<'md' | 'lg'>,
@@ -52,12 +53,21 @@ export default {
 
         <div class="modal--header">
           <h2 class="modal--title">
-            <component size="32" :is="iconModal" v-if="iconModal" /> {{ title }}
+            <svg-icon
+              v-if="icon"
+              size="lg"
+              :name="icon"
+              style="stroke-width: 0.03rem;"
+            />{{ title }}
           </h2>
 
-          <button class="modal--close" @click="() => closeModal()">
-            <CloseIcon size="44" />
-          </button>
+          <svg-icon
+            class="modal--close"
+            @click="() => closeModal()"
+            size="lg"
+            name="CloseIcon"
+            hoverColor="var:primary-500"
+          />
         </div>
 
         <div class="modal--form">
@@ -81,7 +91,7 @@ export default {
 }
 
 .modal {
-  position: fixed;
+  position: absolute;
   top: 6.4rem;
   left: 50%;
   transform: translateX(-50%);
@@ -92,11 +102,11 @@ export default {
   box-shadow: $regular-shadow;
 
   &.modal--md {
-    min-width: 68.5rem;
+    width: 68.5rem;
   }
 
   &.modal--lg {
-    min-width: 96rem;
+    width: 96rem;
   }
 
   .modal--header {
@@ -104,29 +114,18 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding-bottom: 4rem;
+    gap: 1.2rem;
 
     .modal--title {
-      font-family: 'Inter';
-      font-size: 2.4rem;
-      font-weight: 500;
-      line-height: 2.8rem;
-
+      @include subheading-3;
+      color: $neutrals-900;
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-
-
+      gap: 1.2rem;
     }
 
     .modal--close {
-      background-color: transparent;
-      border: none;
-      padding: 0;
       cursor: pointer;
-
-      &:hover {
-        color: $primary-300;
-      }
     }
   }
 }

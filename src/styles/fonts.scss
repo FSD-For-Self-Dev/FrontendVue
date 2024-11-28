@@ -1,49 +1,54 @@
 @font-face {
-    font-family: 'Fredoka';
+    font-family: 'Fredoka-Regular';
     font-weight: 400;
+    font-style: normal;
+    font-display: auto;
     src:
         local('Fredoka-Regular'),
         url('@/assets/fonts/fredoka/fredoka-regular.woff2') format('woff2'),
-        local('Fredoka-Regular'),
         url('@/assets/fonts/fredoka/fredoka-regular.woff') format('woff');
 }
 
 @font-face {
-    font-family: 'Fredoka';
+    font-family: 'Fredoka-Medium';
     font-weight: 500;
+    font-style: normal;
+    font-display: auto;
     src:
         local('Fredoka-Medium'),
         url('@/assets/fonts/fredoka/fredoka-medium.woff2') format('woff2'),
-        local('Fredoka-Medium'),
         url('@/assets/fonts/fredoka/fredoka-medium.woff') format('woff');
 }
 
 @font-face {
-    font-family: 'Inter';
+    font-family: 'Inter-Regular';
     font-weight: 400;
+    font-style: normal;
+    font-display: auto;
     src:
         local('Inter-Regular'),
         url('@/assets/fonts/inter/inter-regular.woff2') format('woff2'),
-        local('Inter-Regular'),
         url('@/assets/fonts/inter/inter-regular.woff') format('woff');
 }
 
 @font-face {
-    font-family: 'Inter';
+    font-family: 'Inter-Medium';
     font-weight: 500;
+    font-style: normal;
+    font-display: auto;
     src:
         local('Inter-Medium'),
         url('@/assets/fonts/inter/inter-medium.woff2') format('woff2'),
-        local('Inter-Medium'),
         url('@/assets/fonts/inter/inter-medium.woff') format('woff');
 }
 
 @font-face {
-    font-family: 'Inter';
+    font-family: 'Inter-SemiBold';
     font-weight: 600;
+    font-style: normal;
+    font-display: auto;
     src:
         local('Inter-SemiBold'),
         url('@/assets/fonts/inter/inter-semi-bold.woff2') format('woff2'),
-        local('Inter-SemiBold'),
         url('@/assets/fonts/inter/inter-semi-bold.woff') format('woff');
 }
