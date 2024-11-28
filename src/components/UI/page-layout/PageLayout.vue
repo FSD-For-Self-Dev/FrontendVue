@@ -4,6 +4,7 @@ import Header from '@/components/header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
 import IconButton from '@/components/UI/button/IconButton.vue';
 import NotificationsList from '@/components/notifications/NotificationsList.vue';
+
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
