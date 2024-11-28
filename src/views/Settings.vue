@@ -15,8 +15,8 @@ export default {
 </script>
 
 <template>
-  <PageLayout>
-    <PageTitle settings-page text="Настройки" icon="SettingsIcon" />
+  <PageLayout noFooterPage>
+    <PageTitle text="Настройки" icon="SettingsIcon" style="position: fixed;" />
     <div class="settings--container">
       <div></div>
       <SettingsNavigation />

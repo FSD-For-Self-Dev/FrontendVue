@@ -4,13 +4,14 @@ import Header from '@/components/header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
 import IconButton from '@/components/UI/button/IconButton.vue';
 import NotificationsList from '@/components/notifications/NotificationsList.vue';
+
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
     components: { Header, Footer, IconButton, NotificationsList },
     props: {
         landingPage: { type: Boolean, required: false, default: false },
-        settingsPage: { type: Boolean, required: false, default: false },
+        noFooterPage: { type: Boolean, required: false, default: false },
     },
     data() {
         return {
@@ -53,8 +54,7 @@ export default {
                 </Transition>
             </div>
         </main>
-        <Footer />
-
+        <Footer v-if="!noFooterPage" />
         <NotificationsList />
     </div>
 </template>

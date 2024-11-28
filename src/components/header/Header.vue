@@ -197,6 +197,11 @@ export default {
 			border-radius: 50%;
 			object-fit: cover;
 			border: none;
+			cursor: pointer;
+
+			@include hover {
+				opacity: 0.9;
+			}
 		}
 	}
 }
