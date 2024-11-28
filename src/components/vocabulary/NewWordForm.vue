@@ -116,15 +116,15 @@ export default {
   <div class="vocabulary-modal">
     <form class="vocabulary-modal--form" @submit.prevent="() => submitForm()">
       <div v-if="step === 1" class="vocabulary-modal--step1">
-        <Dropdown :placeholder="learning_languages.length === 0 ? 'Нет изучаемых языков' : 'Изучаемый язык'"
+        <Dropdown placeholder="Изучаемый язык"
           v-model="language" :items="learning_languages.map((lang) => {
             return {
               value: lang.language.name,
               label: lang.language.name_local,
               icon: lang.language.flag_icon
             }
-          })" />
-        <Input v-model="word" placeholder="Введите слово или фразу..." />
+          })" style="padding-inline: 2.8rem;" />
+        <Input v-model="word" placeholder="Введите слово или фразу..." size="standart" />
         <Input show-label v-model="note" label="Заметка" />
       </div>
 
@@ -148,13 +148,14 @@ export default {
               <span>Добавить перевод</span>
             </button>
             <div v-if="translationFormOpen" class="vocabulary-modal--translation-form">
-              <Dropdown v-model="newTranslationLanguage" :items="available_languages.map((lang) => {
-                return {
-                  value: lang.name,
-                  label: lang.name_local,
-                  icon: lang.flag_icon
-                }
-              })" />
+              <Dropdown placeholder="Язык перевода"
+                v-model="newTranslationLanguage" :items="available_languages.map((lang) => {
+                  return {
+                    value: lang.name,
+                    label: lang.name_local,
+                    icon: lang.flag_icon
+                  }
+              })" style="padding-inline: 2.8rem;" />
               <div class="vocabulary-modal--translation-form-input">
                 <Input style="width: 61rem;" v-model="newTranslation" placeholder="Введите перевод..." />
                 <IconButton icon="ConfirmIcon" size="lg" type="button" @click="handleSubmitNewTranslation" />
@@ -171,7 +172,7 @@ export default {
 
         <div v-if="tab === 2">
           <p class="vocabulary-modal--note">
-            <svg-icon name="AssociationIcon" size="md" />
+            <svg-icon name="AssociationIcon" size="md" color="var:primary-700" />
             Добавьте свои ассоциации с этим словом
           </p>
         </div>

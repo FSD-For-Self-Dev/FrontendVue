@@ -67,7 +67,11 @@ export default {
       </div>
       <NewWordButton size-button="medium" label-button="Новое слово или фраза" />
     </div>
-    <Input v-model="filterOptions.text" placeholder="Найти слово или фразу..." />
+    <Input
+      v-model="filterOptions.text"
+      placeholder="Найти слово или фразу..."
+      icon="SearchIcon"
+    />
   </div>
 </template>
 

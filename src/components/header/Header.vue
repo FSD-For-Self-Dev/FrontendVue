@@ -89,7 +89,7 @@ export default {
 		<div class="header--center" style="width: 100%; max-width: 80rem;" v-else>
 			<div class="header--tools" style="width: 100%;">
 				<OnClickOutside @trigger="hideSearchBar" style="width: 100%; display: flex">
-					<Input style="width: 100%; display: flex" placeholder="Поиск..." />
+					<Input style="width: 100%; display: flex" placeholder="Поиск..." icon="SearchIcon" />
 				</OnClickOutside>
 				<IconButton style="min-width: 5.6rem;" icon="AddIcon" size="lg" variant="primary" />
 			</div>

@@ -83,9 +83,9 @@ export default {
     <div class="dropdown" :class="dropdownClasses" @click="handleDropdownClick">
         <div class="selected-item">
             <span v-if="selected && selected.icon" class="icon-container">
-                <img :src="selected.icon" alt="Icon" />
+                <img :src="selected.icon" alt="Icon" style="width: 100%; height: 100%" />
             </span>
-            <svg-icon v-if="selected && selected.icon_component" v-bind:name="selected.icon_component":color="selected.icon_component_custom_color" size="lg" />
+            <svg-icon v-if="selected && selected.icon_component" v-bind:name="selected.icon_component":color="selected.icon_component_custom_color" size="nm" />
             <span>
                 {{ selected ? selected.label : placeholder }}
             </span>
@@ -101,9 +101,9 @@ export default {
                     @click.stop="handleItemClick(item)"
                 >
                     <span v-if="item.icon" class="icon-container">
-                        <img :src="item.icon" alt="Icon" />
+                        <img :src="item.icon" alt="Icon" style="width: 100%; height: 100%" />
                     </span>
-                    <svg-icon v-if="item.icon_component" v-bind:name="item.icon_component":color="item.icon_component_custom_color" size="lg" />
+                    <svg-icon v-if="item.icon_component" v-bind:name="item.icon_component":color="item.icon_component_custom_color" size="nm" />
                     <span>{{ item.label }}</span>
                 </div>
             </div>
@@ -191,8 +191,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3.2rem;
-    height: 3.2rem;
+    width: 2.8rem;
+    height: 2.8rem;
+    padding: 0.4rem;
 }
 
 .chevron {

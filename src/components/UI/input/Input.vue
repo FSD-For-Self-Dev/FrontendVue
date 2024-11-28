@@ -8,12 +8,12 @@ export default {
         label: {
             type: String as PropType<InputProps["label"]>,
         },
-        modelValue: {
-            type: String as PropType<InputProps["modelValue"]>,
-        },
         showLabel: {
             type: Boolean as PropType<InputProps["showLabel"]>,
             default: false,
+        },
+        modelValue: {
+            type: String as PropType<InputProps["modelValue"]>,
         },
         validationError: {
             type: String as PropType<InputProps["validationError"]>,
@@ -21,8 +21,16 @@ export default {
         serverError: {
             type: String as PropType<InputProps["serverError"]>,
         },
-        iconComponent: {
-            type: String as PropType<InputProps["iconComponent"]>
+        icon: {
+            type: String as PropType<InputProps["icon"]>
+        },
+        iconPos: {
+            type: String as PropType<InputProps["iconPos"]>,
+            default: "left"
+        },
+        size: {
+            type: String as PropType<InputProps["size"]>,
+            default: "standart"
         },
     },
     data() {
@@ -47,9 +55,13 @@ export default {
         },
         inputClasses() {
             return {
+                "input--with-icon-left": this.icon && this.iconPos === "left",
+                "input--with-icon-right": this.icon && this.iconPos === "right",
                 "input--with-label": this.showLabel,
                 "input--validation-error": this.validationError,
                 "input--server-error": this.serverError,
+                "input--standart": this.size === "standart",
+                "input--big": this.size === "big",
             };
         },
         labelClasses() {
@@ -57,15 +69,25 @@ export default {
                 return {
                     label: this.showLabel,
                     "visually-hidden": !this.showLabel,
-                    up: this.modelValue.length > 0,
+                    up: true,
+                    "label--with-icon-left": this.icon && this.iconPos === "left",
+                    "label--with-icon-right": this.icon && this.iconPos === "right",
                 };
             } else {
                 return {
                     label: this.showLabel,
                     "visually-hidden": !this.showLabel,
-                    up: false
+                    up: false,
+                    "label--with-icon-left": this.icon && this.iconPos === "left",
+                    "label--with-icon-right": this.icon && this.iconPos === "right",
                 };
             }
+        },
+        iconClasses() {
+            return {
+                "icon--left": this.iconPos === "left",
+                "icon--right": this.iconPos === "right",
+            };
         },
     },
     methods: {
@@ -94,6 +116,11 @@ export default {
             <svg-icon name="EyeOnIcon" size="md" v-if="inputType === 'password'" />
             <svg-icon name="EyeOffIcon" size="md" v-else />
         </button>
+        <svg-icon
+            v-if="icon"
+            v-bind:name="icon" size="nm"
+            class="icon":class="iconClasses"
+        />
         <label :id="`${name}-label`" :class="labelClasses" :for="name">
             {{ label }}
         </label>
@@ -108,11 +135,19 @@ export default {
 
 <style lang="scss" scoped>
 .input {
-    min-height: 5.6rem;
+    &--standart {
+        min-height: 5.6rem;
+        @include text-2;
+    }
+
+    &--big {
+        min-height: 6.4rem;
+        @include text-1;
+    }
+
     border-radius: $radius-2xl;
     padding-inline: 2.8rem;
     border: 0.1rem solid $neutrals-400;
-    @include text-2;
     color: $neutrals-900;
 
     @include hover {
@@ -135,8 +170,16 @@ export default {
         outline: $primary-500 0.1rem solid;
     }
 
+    &--with-icon-left {
+        padding-left: 6.4rem;
+    }
+
+    &--with-icon-right {
+        padding-right: 7.6rem;
+    }
+
     &--with-label {
-        padding-top: 1rem;
+        padding-top: 0rem;
     }
 
     &--validation-error {
@@ -157,19 +200,45 @@ export default {
 
     & input:focus+label,
     label.up {
-        top: 1.2rem;
-        @include text-4;
+        top: -0.8rem;
+        @include text-3;
         color: $neutrals-600;
+        background-color: $neutrals-100;
+        padding-inline: 0.4rem;
+    }
+
+    .icon {
+        &--left {
+            position: absolute;
+            top: 1.4rem;
+            left: 2.8rem;
+            color: $neutrals-700;
+        }
+
+        &--right {
+            position: absolute;
+            top: 1.4rem;
+            right: 2.8rem;
+            color: $neutrals-900;
+        }
     }
 }
 
 .label {
+    @include text-2;
     position: absolute;
-    top: 1.9rem;
-    left: 2rem;
-    @include text-3;
+    top: 1.8rem;
+    left: 2.8rem;
     color: $neutrals-600;
     transition: all 0.05s ease-in-out;
+
+    &--with-icon-left {
+        padding-left: 3.6rem;
+    }
+
+    &--with-icon-right {
+        padding-right: 4.8rem;
+    }
 }
 
 .validation-error,
