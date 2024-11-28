@@ -80,6 +80,8 @@ export default {
 
 <template>
   <Teleport to="body">
+    <div class="overlay" v-if="showAuth"></div>
+
     <OnClickOutside :options="{ ignore: ['#notifications'] }" @trigger="closeFormHandler">
       <div class="modal-auth" v-if="showAuth">
         <form @submit.prevent="loginSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'login'">
@@ -167,17 +169,23 @@ export default {
 </template>
 
 <style lang="scss">
-.authentication {
-  display: flex;
-  gap: 1rem;
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color: $neutrals-600;
+  opacity: 30%;
+  top: 0;
+  left: 0;
+  z-index: 20000;
 }
 
 .modal-auth {
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: 6.4rem;
   left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
+  transform: translateX(-50%);
+  z-index: 25000;
   width: 88rem;
   height: 62rem;
   background-color: $neutrals-100;
