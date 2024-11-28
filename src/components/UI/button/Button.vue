@@ -28,6 +28,10 @@ export default {
       type: String as PropType<ButtonProps["additionalLabel"]>,
       required: false,
     },
+    additionalIcon: {
+      type: String as PropType<ButtonProps["additionalIcon"]>,
+      required: false,
+    },
   },
   computed: {
     buttonClasses() {
@@ -63,6 +67,11 @@ export default {
       v-bind:name="icon":size="iconSizes[size]"
       class="icon"
     />
+    <svg-icon
+      v-if="additionalIcon && iconPos === 'right'"
+      v-bind:name="additionalIcon":size="iconSizes[size]"
+      class="icon"
+    />
 
     <span v-if="label" style="float: left; text-align: left;">
       {{ label }}
@@ -74,6 +83,11 @@ export default {
     <svg-icon
       v-if="icon && iconPos === 'right'"
       v-bind:name="icon":size="iconSizes[size]"
+      class="icon"
+    />
+    <svg-icon
+      v-if="additionalIcon && iconPos === 'left'"
+      v-bind:name="additionalIcon":size="iconSizes[size]"
       class="icon"
     />
   </button>

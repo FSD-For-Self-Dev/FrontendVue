@@ -5,4 +5,5 @@ export interface ButtonProps {
   icon?: string;
   iconPos?: string;
   additionalLabel?: string;
+  additionalIcon?: string;
 }
