@@ -34,10 +34,10 @@ export default {
     <OnClickOutside @trigger.stop="() => handleClose()">
         <div class="profile-tools">
             <button @click="handleSettings" class="profile-tools__button">
-                <svg-icon name="SettingsIcon" size="md" />Настройки
+                <svg-icon name="SettingsIcon" size="nm"/>Настройки
             </button>
             <button @click="handleExit" class="profile-tools__button">
-                <svg-icon name="ExitIcon" size="md" />Выйти
+                <svg-icon name="ExitIcon" size="nm" />Выйти
             </button>
         </div>
     </OnClickOutside>
@@ -72,11 +72,11 @@ export default {
         }
 
         &:hover {
-            background-color: $neutrals-300;
+            background-color: $primary-200;
         }
 
         &:active {
-            background-color: $neutrals-200;
+            background-color: $primary-300;
         }
     }
 }
