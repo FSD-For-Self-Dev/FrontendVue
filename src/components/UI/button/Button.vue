@@ -58,15 +58,16 @@ export default {
     <span v-if="additionalText" class="additional">
       {{ additionalText }}
     </span>
-  </button> 
+  </button>
 </template>
 
 <style lang="scss" scoped>
 .button {
-  width: max-content;
   display: inline-flex;
+  width: max-content;
+  min-width: 16rem;
+  justify-content: center;
   border: 0.1rem solid transparent;
-  align-items: center;
   text-decoration: none;
   font-weight: 400;
 
@@ -94,7 +95,7 @@ export default {
     border-radius: $radius-2xl;
     column-gap: 0.8rem;
     font-size: 1.6rem;
-    line-height: 2rem;
+    line-height: 2.3rem;
 
     .icon {
       @include square(2.4rem);
@@ -135,7 +136,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $primary-900 0.2rem solid;
+      outline: $primary-900 0.1rem solid;
     }
   }
 
@@ -150,7 +151,6 @@ export default {
 
     @include active {
       border-color: $primary-500;
-      box-shadow: 0 0 0 0.1rem $primary-500;
     }
 
     &:disabled {
@@ -159,7 +159,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $secondary-900 0.2rem solid;
+      outline: $secondary-900 0.1rem solid;
     }
   }
 
@@ -170,12 +170,10 @@ export default {
 
     @include hover {
       border-color: $danger-200;
-      box-shadow: 0 0 0 0.1rem $danger-200;
     }
 
     @include active {
       border-color: $danger-400;
-      box-shadow: 0 0 0 0.1rem $danger-400;
     }
 
     &:disabled {
@@ -184,7 +182,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $danger-400 0.2rem solid;
+      outline: $danger-400 0.1rem solid;
     }
   }
 
@@ -195,12 +193,10 @@ export default {
 
     @include hover {
       border-color: $success-700;
-      box-shadow: 0 0 0 0.1rem $success-700;
     }
 
     @include active {
       border-color: $success-500;
-      box-shadow: 0 0 0 0.1rem $success-500;
     }
 
     &:disabled {
@@ -209,7 +205,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $success-900 0.2rem solid;
+      outline: $success-900 0.1rem solid;
     }
   }
 }

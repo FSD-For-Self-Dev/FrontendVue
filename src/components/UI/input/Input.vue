@@ -109,19 +109,18 @@ export default {
 
 <style lang="scss" scoped>
 .input {
-    min-height: 5.9rem;
+    min-height: 5.6rem;
     min-width: 100%;
     border-radius: $radius-2xl;
-    padding-inline: 2rem;
+    padding-inline: 2.8rem;
     border: 0.1rem solid $neutrals-400;
-    font-size: 1.4rem;
-    line-height: 1.6rem;
-    font-weight: 500;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    font-weight: 400;
     color: $neutrals-900;
 
     @include hover {
         border-color: $primary-300;
-        box-shadow: 0 0 0 0rem $primary-300;
     }
 
     &:disabled {
@@ -137,7 +136,7 @@ export default {
 
     &:focus-visible {
         outline-offset: -0.1rem;
-        outline: $primary-500 0.2rem solid;
+        outline: $primary-500 0.1rem solid;
     }
 
     &--with-label {
@@ -187,8 +186,8 @@ export default {
 
 .password-toggle {
     position: absolute;
-    top: 1.9rem;
-    right: 4rem;
+    top: 1.6rem;
+    right: 2.8rem;
     border: none;
     cursor: pointer;
     padding: 0;

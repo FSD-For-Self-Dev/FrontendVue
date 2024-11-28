@@ -108,7 +108,7 @@ export default {
 
   &:focus-visible {
     outline-offset: -0.1rem;
-    outline: $primary-500 0.2rem solid;
+    outline: $primary-500 0.1rem solid;
   }
 
   &--with-label {

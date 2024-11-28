@@ -22,8 +22,6 @@ import TelegramIcon from '@/assets/icons/socials/TelegramIcon.vue';
 import GithubIcon from '@/assets/icons/socials/GithubIcon.vue';
 import VkIcon from '@/assets/icons/socials/VkIcon.vue';
 import DiscordIcon from '@/assets/icons/socials/DiscordIcon.vue';
-import RussianIcon from '@/assets/icons/languages/RussianIcon.vue';
-import EnglishIcon from '@/assets/icons/languages/EnglishIcon.vue';
 import AssociationIcon from '@/assets/icons/vocabulary/AssociationIcon.vue';
 import SynonymIcon from '@/assets/icons/vocabulary/SynonymIcon.vue';
 import ExampleIcon from '@/assets/icons/vocabulary/ExampleIcon.vue';
@@ -223,18 +221,6 @@ import ExpandIcon from '@/assets/icons/arrows/ArrowExpandDownIcon.vue';
                     <h3 class="test-icons--title">Discord</h3>
                     <DiscordIcon size="32" customColor="#9EB4FF" />
                     <DiscordIcon size="24" customColor="#9EB4FF" />
-                </div>
-                <div class="test-icons--block">
-                    <h3 class="test-icons--title">Russian</h3>
-                    <RussianIcon size="32" />
-                    <RussianIcon size="24" />
-                    <RussianIcon size="16" />
-                </div>
-                <div class="test-icons--block">
-                    <h3 class="test-icons--title">English</h3>
-                    <EnglishIcon size="32" />
-                    <EnglishIcon size="24" />
-                    <EnglishIcon size="16" />
                 </div>
                 <div class="test-icons--block">
                     <h3 class="test-icons--title">Association</h3>
