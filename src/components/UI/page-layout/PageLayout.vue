@@ -10,7 +10,7 @@ export default {
     components: { Header, Footer, IconButton, NotificationsList },
     props: {
         landingPage: { type: Boolean, required: false, default: false },
-        settingsPage: { type: Boolean, required: false, default: false },
+        noFooterPage: { type: Boolean, required: false, default: false },
     },
     data() {
         return {
@@ -53,8 +53,7 @@ export default {
                 </Transition>
             </div>
         </main>
-        <Footer />
-
+        <Footer v-if="!noFooterPage" />
         <NotificationsList />
     </div>
 </template>
