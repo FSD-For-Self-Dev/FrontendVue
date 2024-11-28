@@ -3,28 +3,20 @@
         <Header />
         <main class="main">
             <div :class="{ wrapper: !landingPage }">
-                <CircleButton
-                    @click="goBack"
-                    v-if="!isMainpage"
-                    class="back-button"
-                >
-                    <ArrowBackwardIcon size="24"/>
+                <CircleButton @click="goBack" v-if="!isMainpage" class="back-button">
+                    <ArrowBackwardIcon size="24" />
                     <span class="visually-hidden">Назад</span>
                 </CircleButton>
                 <slot></slot>
                 <Transition>
-                    <CircleButton
-                        @click="scrollToTop"
-                        v-if="!landingPage && y > 50"
-                        class="up-button"
-                    >
-                        <ArrowUpIcon size="24"/>
+                    <CircleButton @click="scrollToTop" v-if="!landingPage && y > 50" class="up-button">
+                        <ArrowUpIcon size="24" />
                         <span class="visually-hidden">Наверх</span>
                     </CircleButton>
                 </Transition>
             </div>
         </main>
-        <Footer />
+        <Footer v-if="!settingsPage" />
 
         <InfoMessages />
     </div>
@@ -44,6 +36,7 @@ export default {
     components: { Header, Footer, CircleButton, InfoMessages, ArrowUpIcon, ArrowBackwardIcon },
     props: {
         landingPage: { type: Boolean, required: false, default: false },
+        settingsPage: { type: Boolean, required: false, default: false },
     },
     data() {
         return {
@@ -77,10 +70,12 @@ export default {
     justify-content: space-between;
     background-color: $neutrals-200;
 }
+
 .main {
     width: 100%;
     background-color: $neutrals-200;
 }
+
 .wrapper {
     max-width: 1600px;
     min-height: 100%;
@@ -96,22 +91,26 @@ export default {
     top: 13.7rem;
     left: 1.6rem;
 }
+
 .up-button {
     position: fixed;
     bottom: 4rem;
     right: 1.6rem;
 }
+
 .v-enter-active,
 .v-leave-active {
     transition:
         opacity 0.2s,
         transform 0.4s ease;
 }
+
 .v-enter-from,
 .v-leave-to {
     opacity: 0;
     transform: translateY(100px);
 }
+
 .v-enter-to,
 .v-leave-from {
     opacity: 1;

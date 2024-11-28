@@ -28,8 +28,10 @@ export default {
       })
     })
     const moreNativeLang = ref(false);
+    const onDrag = ref(false);
 
     return {
+      onDrag,
       dropDownItems,
       global_languages,
       moreNativeLang
@@ -43,7 +45,7 @@ export default {
         first_name: this.first_name,
         native_languages: this.native_languages,
         image: this.image
-      } 
+      }
       this.patchUser(data);
     },
     async onFileChanged(event: Event) {
@@ -61,7 +63,8 @@ export default {
 
 <template>
   <form class="settings--form" @submit.prevent="handleSubmit">
-    <label class="settings--label-image">
+    <label class="settings--label-image" :class="{ 'label--drag': onDrag }" v-on:dragenter="onDrag = true"
+      v-on:dragleave="onDrag = false" v-on:dragend="onDrag = false" v-on:drop="onDrag = false">
       <input type="file" @change.stop="onFileChanged" accept="image/*" />
       <div class="settings--image-info">
         <img class="settings--avatar" width="140" :src="image" v-if="image" />
@@ -124,6 +127,26 @@ export default {
     border-radius: 4rem;
     border: 1px dashed $primary-300;
 
+    &.label--drag {
+      border: 1px dashed $primary-500;
+      background-color: $primary-200;
+      transition: all .4s ease;
+
+      .settings--avatar {
+        position: relative;
+        transition: all .5s ease;
+        top: 15%;
+      }
+
+      .settings--sub1,
+      .settings--sub2 {
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+
+    }
+
     & input {
       opacity: 0;
       position: absolute;
@@ -131,6 +154,7 @@ export default {
       height: 100%;
       top: 0;
       left: 0;
+      z-index: 20;
     }
 
     .settings--image-info {
@@ -139,6 +163,7 @@ export default {
       align-items: center;
       max-width: 34rem;
       text-align: center;
+      position: relative;
 
       .settings--avatar {
         width: 14rem;

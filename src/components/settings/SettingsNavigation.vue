@@ -11,20 +11,22 @@ export default {
 </script>
 
 <template>
-  <nav>
-    <ul class="settings--navigation">
+  <nav class="settings--navigation">
+    <ul class="settings--list">
       <li>
-        <Button :style="{ width: '100%'}" size="medium" variant="secondary" text="Профиль" content-type="left-icon">
+        <Button :style="{ width: '100%' }" size="medium" variant="secondary" text="Профиль" content-type="left-icon">
           <ProfileIcon size="24" />
         </Button>
       </li>
       <li>
-        <Button :style="{ width: '100%'}" size="medium" variant="secondary" text="Выйти из аккаунта" content-type="left-icon">
+        <Button :style="{ width: '100%' }" size="medium" variant="secondary" text="Выйти из аккаунта"
+          content-type="left-icon">
           <ExitIcon size="24" />
         </Button>
       </li>
       <li>
-        <Button :style="{ width: '100%', color: '#CA2744'}" size="medium" variant="secondary" text="Удалить аккаунт" content-type="left-icon">
+        <Button :style="{ width: '100%', color: '#CA2744' }" size="medium" variant="secondary" text="Удалить аккаунт"
+          content-type="left-icon">
           <DeleteIcon size="20" />
         </Button>
       </li>
@@ -34,9 +36,14 @@ export default {
 
 <style lang="scss">
 .settings--navigation {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  position: fixed;
+  top: 20rem;
+
+  .settings--list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
 
   .settings--navigation-item {
     display: flex;

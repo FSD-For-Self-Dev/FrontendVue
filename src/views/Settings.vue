@@ -1,12 +1,13 @@
 <template>
-<PageLayout>
-  <HeaderPage text="Настройки" :icon="HeaderIcon" />
-  <div class="settings--container">
-    <SettingsNavigation />
-    <SettingsForm />
-  </div>
+  <PageLayout settings-page>
+    <HeaderPage text="Настройки" :icon="HeaderIcon" settings-page />
+    <div class="settings--container">
+      <div></div>
+      <SettingsNavigation />
+      <SettingsForm />
+    </div>
 
-</PageLayout>
+  </PageLayout>
 </template>
 
 <script lang="ts">
@@ -36,5 +37,6 @@ export default {
   display: grid;
   grid-template-columns: 30rem auto;
   gap: 6rem;
+  position: relative;
 }
 </style>
