@@ -153,8 +153,9 @@ export default {
         .languages-main-view--learning-languages-list {
             display: flex;
             gap: 2rem;
-            flex-wrap: wrap;
-
+            padding-bottom: 1.6rem;
+            overflow-x: auto;
+            @include scroll;
 
             .languages-main-view--learning-languages-list-item {
                 padding: 3.2rem 3.2rem;

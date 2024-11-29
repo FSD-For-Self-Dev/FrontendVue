@@ -126,7 +126,7 @@ export default {
 
         .vocabulary-main-view--words {
             display: flex;
-            gap: 1.6rem;
+            gap: 2rem;
             padding-bottom: 1.6rem;
             overflow-x: auto;
             @include scroll;
