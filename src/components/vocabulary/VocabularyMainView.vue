@@ -29,8 +29,7 @@ export default {
 </script>
 
 <template>
-    <button class="vocabulary-main-view"
-        @click="count > 0 ? $router.push('vocabulary') : handleToggleModal(!showModal)">
+    <button class="vocabulary-main-view" @click="$router.push('vocabulary')">
         <div class="vocabulary-main-view--header">
             <h2 class="vocabulary-main-view--title">
                 <svg-icon name="VocabularyIcon" size="lg" style="stroke-width: 0.2;" />

@@ -16,13 +16,6 @@ export default {
         ...mapState(useLanguagesStore, ['learning_languages', 'count'])
     },
     methods: {
-        handleView() {
-            if (this.count > 0) {
-                this.$router.push('/languages');
-            } else {
-                this.handleToggleModal(!this.showModal);
-            }
-        },
         handleToggleModal(state: boolean) {
             this.showModal = state;
         }
@@ -31,26 +24,22 @@ export default {
 </script>
 
 <template>
-    <button class="languages-main-view" @click="handleView">
+    <button class="languages-main-view" @click="$router.push('languages')">
         <div class="languages-main-view--header">
-
             <h2 class="languages-main-view--title">
                 <svg-icon name="LanguageIcon" size="lg" style="stroke-width: 0.2;" />
                 Изучаемые языки
                 <span class="counter">{{ count }}</span>
             </h2>
-
             <svg-icon id="forward-arrow" name="ArrowForwardLineIcon" size="lg" />
         </div>
+
         <div class="languages-main-view--content">
             <div class="languages-main-view--not-found-learning-languages" v-if="learning_languages.length === 0">
                 Нет изучаемых языков
-
                 <AddLanguagesButton :extra-toggle-modal="handleToggleModal" :extra-show-modal="showModal"
                     button-text="Добавить первый язык" />
-
             </div>
-
             <div class="languages-main-view--learning-languages" v-else>
                 <div class="languages-main-view--learning-languages-list">
                     <LanguageCard :language="language" v-for="language in learning_languages" />
@@ -69,7 +58,6 @@ export default {
     border: 1px solid transparent;
     cursor: pointer;
     width: 100%;
-    min-height: 36.5rem;
     max-height: max-content;
 
     display: flex;

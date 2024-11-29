@@ -21,6 +21,12 @@ export default {
         "card--small": this.size === "small",
       };
     },
+    iconSizes() {
+      return {
+        "large": "lg",
+        "small": "md",
+      };
+    },
   },
 };
 </script>
@@ -31,16 +37,16 @@ export default {
         <span class="card--name">{{ language.language.name_local }}</span>
         <ul class="card--status-counters">
             <li class="card--status-counters-item">
-                <svg-icon name="ActiveStatusIcon" size="md" color="var:primary-500" />
-                <span class="card--status-counters-item-counter">{{ language.active_words_count }}</span>
+                <svg-icon name="ActiveStatusIcon" :size="iconSizes[size]" color="var:primary-500" />
+                <span class="card--status-counters-item--counter">{{ language.active_words_count }}</span>
             </li>
             <li class="card--status-counters-item">
-                <svg-icon name="Inactive2StatusIcon" size="md" color="var:neutrals-600" />
-                <span class="card--status-counters-item-counter">{{ language.inactive_words_count }}</span>
+                <svg-icon name="Inactive2StatusIcon" :size="iconSizes[size]" color="var:neutrals-600" />
+                <span class="card--status-counters-item--counter">{{ language.inactive_words_count }}</span>
             </li>
             <li class="card--status-counters-item">
-                <svg-icon name="MasteredStatusIcon" size="md" color="var:success-600" />
-                <span class="card--status-counters-item-counter">{{ language.mastered_words_count }}</span>
+                <svg-icon name="MasteredStatusIcon" :size="iconSizes[size]" color="var:success-600" />
+                <span class="card--status-counters-item--counter">{{ language.mastered_words_count }}</span>
             </li>
         </ul>
     </div>
@@ -82,8 +88,16 @@ export default {
       border-radius: $radius-xl;
     }
 
-    .card--status-counters-item-counter {
-      @include heading-6;
+    .card--status-counters {
+      gap: 0.8rem;
+    }
+
+    .card--status-counters-item {
+      gap: 0;
+
+      &--counter {
+        @include heading-6;
+      }
     }
   }
 
@@ -98,15 +112,29 @@ export default {
     }
 
     .card--content {
-      gap: 1.6rem;
+      gap: 2rem;
       padding: 4rem 4rem;
       width: 30rem;
-      height: 15.2rem;
+      height: max-content;
       border-radius: $radius-xl;
     }
 
-    .card--status-counters-item-counter {
-      @include heading-5;
+    .card--overlay {
+      width: 40rem;
+      height: 30rem;
+      border-radius: $radius-xl;
+    }
+
+    .card--status-counters {
+      gap: 1.2rem;
+    }
+
+    .card--status-counters-item {
+      gap: 0.2rem;
+
+      &--counter {
+        @include heading-4;
+      }
     }
   }
 
@@ -124,15 +152,15 @@ export default {
 
   &--status-counters {
     display: flex;
-    gap: 0.8rem;
+    padding-right: 0.4rem;
 
     .card--status-counters-item {
       display: flex;
       align-items: center;
-    }
 
-    .card--status-counters-item-counter {
-      color: $neutrals-600;
+      &--counter {
+        color: $neutrals-600;
+      }
     }
   }
 

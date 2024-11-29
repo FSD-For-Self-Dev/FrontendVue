@@ -120,8 +120,8 @@ export default {
   }
 
   .languages-form--list {
-    display:flex;
-    flex-wrap:wrap;
+    display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
     overflow-y: auto;
     max-height: 18.4rem;
