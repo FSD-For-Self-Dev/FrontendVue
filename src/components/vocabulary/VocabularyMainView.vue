@@ -7,8 +7,10 @@ import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapState } from 'pinia';
 
+import WordCard from './WordCard.vue';
+
 export default {
-    components: { Button, LineArrowForwardIcon, VocabularyIcon, AddIcon },
+    components: { Button, LineArrowForwardIcon, VocabularyIcon, AddIcon, WordCard },
     computed: {
         ...mapState(useVocabularyStore, ["count", "words"]),
         ...mapState(useLanguagesStore, ["learning_languages"])
@@ -26,7 +28,7 @@ export default {
         <div class="vocabulary-main-view--header">
 
             <h2 class="vocabulary-main-view--title">
-                <VocabularyIcon size="32"/>Словарь <span style="color: #737782">{{ count }}</span>
+                <VocabularyIcon size="32"/>Словарь<span style="color: #737782">{{ count }}</span>
             </h2>
 
             <div id="forward-arrow">
@@ -43,9 +45,8 @@ export default {
             </div>
 
             <div class="vocabulary-main-view--words" v-else>
-                <div class="vocabulary-main-view--word" v-for="word in words">
-                    <img width="16" :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />
-                    {{ word.text }}
+                <div v-for="word in words">
+                    <WordCard :word="word"/>
                 </div>
             </div>
         </div>
@@ -102,9 +103,6 @@ export default {
     }
 
     .vocabulary-main-view--content {
-        padding-top: 2rem;
-
-
         .vocabulary-main-view--not-found {
             font-style: 'Inter';
             font-size: 1.6rem;
@@ -118,28 +116,12 @@ export default {
 
 
         .vocabulary-main-view--words {
+            padding-block: 2rem;
+            padding-inline: 0.5rem;
             display: flex;
             gap: 1.6rem;
-
-            .vocabulary-main-view--word {
-                padding: 1.6rem 2rem;
-                background-color: $neutrals-100;
-                border-radius: 2rem;
-                border: .1rem solid $neutrals-300;
-
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                font-family: Inter;
-                font-size: 2.4rem;
-                font-weight: 600;
-                line-height: 2.8rem;
-
-
-                width: 29.5rem;
-                height: 34rem;
-            }
+            overflow-y: auto;
+            overflow-x: visible;
         }
 
     }
