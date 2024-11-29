@@ -11,10 +11,10 @@ import { OnClickOutside } from '@vueuse/components';
 import Button from '@/components/UI/button/Button.vue';
 import ProfileTools from './ProfileTools.vue';
 import IconButton from '../UI/button/IconButton.vue';
-import Input from '../UI/input/Input.vue';
+import Search from './Search.vue';
 
 export default {
-	components: { Logo, Button, IconButton, Navigation, Language, Authentication, ProfileTools, OnClickOutside, Input },
+	components: { Logo, Button, IconButton, Navigation, Language, Authentication, ProfileTools, OnClickOutside, Search },
 	computed: {
 		authorized() {
 			return this.$route.path !== '/';
@@ -89,7 +89,7 @@ export default {
 		<div class="header--center" style="width: 100%; max-width: 80rem;" v-else>
 			<div class="header--tools" style="width: 100%;">
 				<OnClickOutside @trigger="hideSearchBar" style="width: 100%; display: flex">
-					<Input style="width: 100%; display: flex" placeholder="Поиск..." icon="SearchIcon" />
+					<Search />
 				</OnClickOutside>
 				<IconButton style="min-width: 5.6rem;" icon="AddIcon" size="lg" variant="primary" />
 			</div>
