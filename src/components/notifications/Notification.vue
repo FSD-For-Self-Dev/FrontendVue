@@ -76,6 +76,8 @@ export default {
 
 .notification__close {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .notifications--item__left {
