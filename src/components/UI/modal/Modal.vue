@@ -108,7 +108,7 @@ export default {
   box-shadow: $regular-shadow;
 
   &.modal--md {
-    width: 68.5rem;
+    width: 70rem;
   }
 
   &.modal--lg {

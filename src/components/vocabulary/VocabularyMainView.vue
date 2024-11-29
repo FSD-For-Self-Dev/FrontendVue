@@ -129,16 +129,7 @@ export default {
             gap: 1.6rem;
             padding-bottom: 1.6rem;
             overflow-x: auto;
-
-            &::-webkit-scrollbar {
-                height: .4rem;
-                background-color: transparent;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                border-radius: $radius-lg;
-                background-color: $neutrals-400;
-            }
+            @include scroll;
 
             .vocabulary-main-view--word {
                 padding: 1.6rem 2rem;
