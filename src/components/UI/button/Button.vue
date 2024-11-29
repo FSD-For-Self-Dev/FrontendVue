@@ -86,7 +86,8 @@ export default {
   min-width: 16rem;
   align-items: center;
   justify-content: center;
-  border: 0.1rem solid transparent;
+  // border: 0.1rem solid transparent;
+  outline: 0.1rem solid transparent;
   text-decoration: none;
 
   .icon {
@@ -104,29 +105,33 @@ export default {
   }
 
   &--normal {
-    @include padding(2, 3.2, 0.1);
     @include text-1;
+    height: 6.4rem;
+    padding: 2rem 3.2rem;
     border-radius: $radius-md;
     column-gap: 0.8rem;
   }
 
   &--medium {
-    @include padding(1.6, 3.2, 0.1);
     @include text-2;
-    border-radius: $radius-2xl;
+    height: 5.6rem;
+    padding: 1.6rem 3.2rem;
+    border-radius: $radius-xs;
     column-gap: 0.8rem;
   }
 
   &--small {
-    @include padding(1.4, 2.4, 0.1);
     @include text-3;
+    height: 4.4rem;
+    padding: 1.4rem 2.4rem;
     border-radius: $radius-xs;
     column-gap: 0.6rem;
   }
 
   &--extra-small {
-    @include padding(1, 2.4, 0.1);
     @include text-4;
+    height: 3.6rem;
+    padding: 1rem 2.4rem;
     border-radius: $radius-xs;
     column-gap: 0.6rem;
   }
@@ -134,7 +139,7 @@ export default {
   &--primary {
     --buttonAccentColor: #{$primary-400};
     background-color: var(--buttonAccentColor);
-    border-color: var(--buttonAccentColor);
+    outline-color: var(--buttonAccentColor);
     color: $neutrals-900;
 
     @include hover {
@@ -161,16 +166,16 @@ export default {
   }
 
   &--secondary {
-    border-color: $neutrals-400;
+    outline-color: $neutrals-400;
     background-color: $neutrals-100;
     color: $neutrals-900;
 
     @include hover {
-      border-color: $primary-300;
+      outline-color: $primary-300;
     }
 
     @include active {
-      border-color: $primary-500;
+      outline-color: $primary-500;
     }
 
     &:disabled {
@@ -184,21 +189,20 @@ export default {
   }
 
   &--danger {
-    border-color: $neutrals-400;
     background-color: $neutrals-100;
     color: $danger-700;
-    border-color: $danger-200;
+    outline-color: $danger-200;
 
     .icon {
       color: $danger-700;
     }
 
     @include hover {
-      border-color: $danger-300;
+      outline-color: $danger-300;
     }
 
     @include active {
-      border-color: $danger-400;
+      outline-color: $danger-400;
     }
 
     &:disabled {
@@ -212,16 +216,16 @@ export default {
   }
 
   &--success {
-    border-color: $primary-400;
+    outline-color: $primary-400;
     background-color: $success-300;
     color: $neutrals-900;
 
     @include hover {
-      border-color: $success-700;
+      outline-color: $success-700;
     }
 
     @include active {
-      border-color: $success-500;
+      outline-color: $success-500;
     }
 
     &:disabled {

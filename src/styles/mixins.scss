@@ -20,10 +20,6 @@
   aspect-ratio: 1 / 1;
 }
 
-@mixin padding($vertical, $horizontal, $border: 1) {
-    padding: #{$vertical - $border}rem #{$horizontal - $border}rem;
-}
-
 @mixin visually-hidden {
     position: absolute !important;
     width: 1px !important;
