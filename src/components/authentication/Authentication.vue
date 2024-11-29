@@ -86,78 +86,86 @@ export default {
       <div class="modal-auth" v-if="showAuth">
         <form @submit.prevent="loginSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'login'">
           <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
-          <Input 
-            type="text" 
-            label="Логин" 
-            :show-label="true" 
-            v-model="username"
-            :server-error="errors.username ? errors.username.toString() : undefined" 
-          />
-          <Input 
-            type="password" 
-            label="Пароль" 
-            :show-label="true" 
-            v-model="password"
-            :server-error="errors.password ? errors.password.toString() : undefined" 
-          />
-          <div class="modal-auth--tools">
-            <div>
-              <input class="custom-checkbox" type="checkbox" id="remember" v-model="remember" />
-              <label class="custom-label" for="remember">Запомнить меня</label>
+          <div class="modal-auth--form--inputs">
+            <Input 
+              type="text" 
+              label="Логин" 
+              :show-label="true" 
+              v-model="username"
+              :server-error="errors.username ? errors.username.toString() : undefined" 
+            />
+            <Input 
+              type="password" 
+              label="Пароль" 
+              :show-label="true" 
+              v-model="password"
+              :server-error="errors.password ? errors.password.toString() : undefined" 
+            />
+            <div class="modal-auth--tools">
+              <div>
+                <input class="custom-checkbox" type="checkbox" id="remember" v-model="remember" />
+                <label class="custom-label" for="remember">Запомнить меня</label>
+              </div>
+              <a class="modal-auth--link">Забыли пароль?</a>
             </div>
-            <a class="modal-auth--link">Забыли пароль?</a>
           </div>
-          <Button 
-            text="Войти"
-            style="width: 100%; display: flex; justify-content: center" 
-            variant="primary" 
-            size="medium"
-          />
-          <div class="no-account">
-            Нет аккаунта? 
-            <a class="modal-auth--link" @click="() => switchFormHandler('register')">Зарегистрироваться</a>
+          <div class="modal-auth--form--actions">
+            <Button 
+              text="Войти"
+              style="width: 100%; display: flex; justify-content: center" 
+              variant="primary" 
+              size="medium"
+            />
+            <div class="auth-switcher">
+              Нет аккаунта? 
+              <a class="modal-auth--link" @click="() => switchFormHandler('register')">Зарегистрироваться</a>
+            </div>
           </div>
         </form>
 
         <form @submit.prevent="registrationSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'register'">
           <h2 class="modal-auth--title">Добро пожаловать!</h2>
-          <Input 
-            type="text" 
-            label="Логин" 
-            :show-label="true" 
-            v-model="username"
-            :server-error="errors.username ? errors.username.toString() : undefined" 
-          />
-          <Input 
-            type="email" 
-            label="Email" 
-            :show-label="true" 
-            v-model="email"
-            :server-error="errors.email ? errors.email.toString() : undefined" 
-          />
-          <Input 
-            type="password" 
-            label="Пароль" 
-            :show-label="true" 
-            v-model="password1"
-            :server-error="errors.password1 ? errors.password1.toString() : undefined" 
-          />
-          <Input 
-            type="password" 
-            label="Подтверждение пароля" 
-            :show-label="true" 
-            v-model="password2"
-            :server-error="errors.password2 ? errors.password2.toString() : undefined" 
-          />
-          <Button 
-            text="Создать аккаунт"
-            style="width: 100%; display: flex; justify-content: center" 
-            variant="primary" 
-            size="medium"
-          />
-          <div>
-            Уже есть аккаунт? 
-            <a class="modal-auth--link" @click="() => switchFormHandler('login')">Войти</a>
+          <div class="modal-auth--form--inputs">
+            <Input 
+              type="text" 
+              label="Логин" 
+              :show-label="true" 
+              v-model="username"
+              :server-error="errors.username ? errors.username.toString() : undefined" 
+            />
+            <Input 
+              type="email" 
+              label="Email" 
+              :show-label="true" 
+              v-model="email"
+              :server-error="errors.email ? errors.email.toString() : undefined" 
+            />
+            <Input 
+              type="password" 
+              label="Пароль" 
+              :show-label="true" 
+              v-model="password1"
+              :server-error="errors.password1 ? errors.password1.toString() : undefined" 
+            />
+            <Input 
+              type="password" 
+              label="Подтверждение пароля" 
+              :show-label="true" 
+              v-model="password2"
+              :server-error="errors.password2 ? errors.password2.toString() : undefined" 
+            />
+          </div>
+          <div class="modal-auth--form--actions">
+            <Button 
+              text="Создать аккаунт"
+              style="width: 100%; display: flex; justify-content: center" 
+              variant="primary" 
+              size="medium"
+            />
+            <div class="auth-switcher">
+              Уже есть аккаунт? 
+              <a class="modal-auth--link" @click="() => switchFormHandler('login')">Войти</a>
+            </div>
           </div>
         </form>
 
@@ -205,7 +213,8 @@ export default {
   .modal-auth--title {
     @include heading-4;
     align-self: start;
-    margin-bottom: 1.2rem;
+    margin-bottom: 3.2rem;
+    width: 100%;
   }
 
   .modal-auth--close {
@@ -215,11 +224,23 @@ export default {
   }
 
   .modal-auth--form {
-    gap: 1.2rem;
-    padding: 4.8rem 4.8rem 0;
     display: flex;
-    width: 100%;
     flex-direction: column;
+    padding: 4.8rem 4.8rem 0;
+    width: 100%;
+
+    &--inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    &--actions {
+      display: flex;
+      flex-direction: column;
+      gap: 2.4rem;
+      margin-top: 2.4rem;
+    }
   }
 
   .modal-auth--tools {
@@ -229,9 +250,13 @@ export default {
     align-items: center;
   }
 
-  .no-account {
+  .auth-switcher {
     @include text-3;
     color: $neutrals-900;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
   }
 
   .modal-auth--link {
@@ -260,7 +285,7 @@ export default {
 .custom-label {
   @include text-3;
   color: $neutrals-900;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   user-select: none;
 
