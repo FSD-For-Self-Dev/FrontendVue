@@ -1,6 +1,7 @@
 <script lang="ts">
 
 export default {
+  inheritAttrs: false,
   props: {
     clearActiveItems: {
       type: Function,
