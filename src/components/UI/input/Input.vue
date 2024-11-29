@@ -32,6 +32,9 @@ export default {
             type: String as PropType<InputProps["size"]>,
             default: "standart"
         },
+        additionalIcon: {
+            type: String as PropType<InputProps["additionalIcon"]>,
+        },
     },
     data() {
         return {
@@ -89,6 +92,12 @@ export default {
                 "icon--right": this.iconPos === "right",
             };
         },
+        additionalIconClasses() {
+            return {
+                "icon--right": this.iconPos === "left",
+                "icon--left": this.iconPos === "right",
+            };
+        },
     },
     methods: {
         togglePassword() {
@@ -120,6 +129,11 @@ export default {
             v-if="icon"
             v-bind:name="icon" size="nm"
             class="icon":class="iconClasses"
+        />
+        <svg-icon
+            v-if="additionalIcon"
+            v-bind:name="additionalIcon" size="nm"
+            class="icon additionalIcon" :class="additionalIconClasses"
         />
         <label :id="`${name}-label`" :class="labelClasses" :for="name">
             {{ label }}
