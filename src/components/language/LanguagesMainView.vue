@@ -2,6 +2,7 @@
 import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
 import AddLanguagesButton from './AddLanguagesButton.vue';
+import LanguageCard from './LanguageCard.vue';
 
 
 export default {
@@ -10,7 +11,7 @@ export default {
             showModal: false
         };
     },
-    components: { AddLanguagesButton },
+    components: { AddLanguagesButton, LanguageCard },
     computed: {
         ...mapState(useLanguagesStore, ['learning_languages', 'count'])
     },
@@ -52,27 +53,7 @@ export default {
 
             <div class="languages-main-view--learning-languages" v-else>
                 <div class="languages-main-view--learning-languages-list">
-                    <div class="languages-main-view--learning-languages-list-item" v-for="lang in learning_languages"
-                        :key="lang.id" :style="{ backgroundImage: `url(${lang.cover})` }">
-                        <div class="languages-main-view--learning-languages-list-item-content">
-                            <span class="languages-main-view--learning-languages-list-item-name">{{
-                                lang.language.name_local }}</span>
-                            <ul class="languages-main-view--learning-languages-list-info">
-                                <li class="languages-main-view--learning-languages-list-info-item">
-                                    <svg-icon name="ActiveStatusIcon" size="md" color="var:primary-500" />
-                                    <span class="languages-main-view--leaning-languages-counter">{{ lang.active_words_count }}</span>
-                                </li>
-                                <li class="languages-main-view--learning-languages-list-info-item">
-                                    <svg-icon name="Inactive2StatusIcon" size="md" color="var:neutrals-600" />
-                                    <span class="languages-main-view--leaning-languages-counter">{{ lang.inactive_words_count }}</span>
-                                </li>
-                                <li class="languages-main-view--learning-languages-list-info-item">
-                                    <svg-icon name="MasteredStatusIcon" size="md" color="var:success-600" />
-                                    <span class="languages-main-view--leaning-languages-counter">{{ lang.mastered_words_count }}</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    <LanguageCard :language="language" v-for="language in learning_languages" />
                 </div>
             </div>
         </div>
@@ -156,52 +137,7 @@ export default {
             padding-bottom: 1.6rem;
             overflow-x: auto;
             @include scroll;
-
-            .languages-main-view--learning-languages-list-item {
-                padding: 3.2rem 3.2rem;
-                width: 25.2rem;
-                height: 18.8rem;
-                display: flex;
-                align-items: center;
-                border-radius: 2rem;
-                background-size: cover;
-
-                .languages-main-view--learning-languages-list-item-content {
-                    gap: 1.2rem;
-                    padding: 3.6rem 3.2rem;
-                    width: 20.4rem;
-                    height: 12.4rem;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    border-radius: 2rem;
-                    background-color: rgba(255, 255, 255, 0.8);
-
-                    .languages-main-view--learning-languages-list-item-name {
-                        @include heading-5;
-                        color: $neutrals-900;
-                        text-align: center;
-                    }
-                }
-
-            }
         }
-
-        .languages-main-view--learning-languages-list-info {
-            display: flex;
-            gap: 0.8rem;
-
-            .languages-main-view--learning-languages-list-info-item {
-                display: flex;
-                align-items: center;
-            }
-
-            .languages-main-view--leaning-languages-counter {
-                @include heading-6;
-                color: $neutrals-600;
-            }
-        }
-
     }
 }
 </style>
