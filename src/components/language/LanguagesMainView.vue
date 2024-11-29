@@ -46,7 +46,7 @@ export default {
                 Нет изучаемых языков
 
                 <AddLanguagesButton :extra-toggle-modal="handleToggleModal" :extra-show-modal="showModal"
-                    label-button="Добавить первый язык" />
+                    button-text="Добавить первый язык" />
 
             </div>
 

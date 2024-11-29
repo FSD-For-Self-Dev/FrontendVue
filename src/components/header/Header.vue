@@ -100,8 +100,8 @@ export default {
 
 		<div class="header--right">
 			<div class="header--auth-buttons" v-if="!authStatus">
-				<Button label="Войти" size="normal" @click="() => openAuth('login')" />
-				<Button label="Зарегистрироваться" size="normal" variant="secondary"
+				<Button text="Войти" size="normal" @click="() => openAuth('login')" />
+				<Button text="Зарегистрироваться" size="normal" variant="secondary"
 					@click="() => openAuth('register')" />
 			</div>
 

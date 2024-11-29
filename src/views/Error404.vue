@@ -28,7 +28,7 @@ export default {
                 Но мы знаем, что вас может заинтересовать
             </p>
             <div class="btn">
-                <Button label="На главную" size="medium" @click="$router.push('/')" />
+                <Button text="На главную" size="medium" @click="$router.push('/')" />
             </div>
         </div>
     </PageLayout>

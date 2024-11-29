@@ -108,7 +108,7 @@ export default {
             <a class="modal-auth--link">Забыли пароль?</a>
           </div>
           <Button 
-            label="Войти"
+            text="Войти"
             style="width: 100%; display: flex; justify-content: center" 
             variant="primary" 
             size="medium"
@@ -150,7 +150,7 @@ export default {
             :server-error="errors.password2 ? errors.password2.toString() : undefined" 
           />
           <Button 
-            label="Создать аккаунт"
+            text="Создать аккаунт"
             style="width: 100%; display: flex; justify-content: center" 
             variant="primary" 
             size="medium"

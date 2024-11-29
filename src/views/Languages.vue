@@ -11,7 +11,7 @@ export default {
 <template>
 	<PageLayout>
 		<PageTitle text="Языки" icon="LanguageIcon" />
-		<AddLanguagesButton size-button="medium" label-button="Добавить язык" />
+		<AddLanguagesButton button-size="medium" button-text="Добавить язык" />
 	</PageLayout>
 </template>
 

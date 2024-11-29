@@ -4,8 +4,8 @@ import type { ButtonProps } from "@/types/components/button";
 
 export default {
   props: {
-    label: {
-      type: String as PropType<ButtonProps["label"]>,
+    text: {
+      type: String as PropType<ButtonProps["text"]>,
       required: false,
     },
     size: {
@@ -66,8 +66,8 @@ export default {
     <svg-icon v-if="additionalIcon && iconPos === 'right'" v-bind:name="additionalIcon" :size="iconSizes[size]"
       class="icon" />
 
-    <span v-if="label" style="float: left; text-align: left;">
-      {{ label }}
+    <span v-if="text" style="float: left; text-align: left;">
+      {{ text }}
     </span>
     <span v-if="additionalLabel" class="additional">
       {{ additionalLabel }}

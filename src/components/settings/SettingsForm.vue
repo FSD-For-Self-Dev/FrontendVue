@@ -98,8 +98,8 @@ export default {
         @click="moreNativeLang = true" v-else />
     </div>
     <div class="buttons">
-      <Button label="Сбросить" size="medium" variant="secondary" @click="cancelChanges()" />
-      <Button label="Сохранить" size="medium" type="submit" />
+      <Button text="Сбросить" size="medium" variant="secondary" @click="cancelChanges()" />
+      <Button text="Сохранить" size="medium" type="submit" />
     </div>
   </form>
 </template>

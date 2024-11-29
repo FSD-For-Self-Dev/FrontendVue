@@ -45,7 +45,7 @@ export default {
                 В словаре пока нет слов или фраз
 
                 <NewWordButton :extra-toggle-modal="handleToggleModal" :extra-show-modal="showModal"
-                    label-button="Добавить первые слова" />
+                    button-text="Добавить первые слова" />
             </div>
 
             <div class="vocabulary-main-view--words" v-else @wheel.prevent="handleWheel">

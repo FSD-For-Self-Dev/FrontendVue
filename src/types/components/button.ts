@@ -1,5 +1,5 @@
 export interface ButtonProps {
-  label: string;
+  text: string;
   size: "normal" | "medium" | "small" ;
   variant: "primary" | "secondary" | "success" | "danger";
   icon?: string;

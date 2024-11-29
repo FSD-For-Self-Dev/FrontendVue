@@ -65,7 +65,7 @@ export default {
           v-model="filterOptions.activity_status" :items="statusWordOptions"
         />
       </div>
-      <NewWordButton size-button="medium" label-button="Новое слово или фраза" />
+      <NewWordButton button-size="medium" button-text="Новое слово или фраза" />
     </div>
     <Input
       v-model="filterOptions.text"

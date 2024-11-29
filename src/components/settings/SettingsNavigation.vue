@@ -10,16 +10,16 @@ export default {
   <nav class="settings--navigation">
     <ul class="settings--list">
       <li>
-        <Button :style="{ width: '100%', justifyContent: 'start' }" size="medium" variant="secondary" label="Профиль"
+        <Button :style="{ width: '100%', justifyContent: 'start' }" size="medium" variant="secondary" text="Профиль"
           icon="ProfileIcon" />
       </li>
       <li>
         <Button :style="{ width: '100%', justifyContent: 'start' }" size="medium" variant="secondary"
-          label="Выйти из аккаунта" icon="ExitIcon" />
+          text="Выйти из аккаунта" icon="ExitIcon" />
       </li>
       <li>
         <Button :style="{ width: '100%', justifyContent: 'start' }" size="medium" variant="danger"
-          label="Удалить аккаунт" icon="DeleteIcon" />
+          text="Удалить аккаунт" icon="DeleteIcon" />
       </li>
     </ul>
   </nav>
