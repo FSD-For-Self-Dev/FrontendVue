@@ -15,14 +15,14 @@ export default {
 </script>
 
 <template>
-    <div class="counter" @click="() => clearActiveItems()">
+    <div class="items-counter" @click="() => clearActiveItems()">
       <svg-icon name="CloseIcon" size="sm" color="var:$neutrals-700" class="icon" />
       {{ value }}
     </div>
 </template>
 
 <style lang="scss">
-.counter {
+.items-counter {
   display: flex;
   align-items: center;
   gap: 0.8rem;
