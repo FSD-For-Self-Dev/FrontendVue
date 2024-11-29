@@ -83,8 +83,8 @@ export default {
       </div>
     </div>
     <div class="languages-form--actions">
-      <Button label="Отмена" variant="secondary" size="medium" @click="() => closeForm()" />
-      <Button label="Сохранить" variant="primary" size="medium" type="submit" />
+      <Button text="Отмена" variant="secondary" size="medium" @click="() => closeForm()" />
+      <Button text="Сохранить" variant="primary" size="medium" type="submit" />
     </div>
   </form>
 </template>

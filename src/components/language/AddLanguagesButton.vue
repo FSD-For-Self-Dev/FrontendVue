@@ -13,7 +13,7 @@ export default {
   },
   components: { Button, Modal },
   props: {
-    labelButton: {
+    buttonText: {
       type: String,
       required: true
     },
@@ -25,7 +25,7 @@ export default {
       type: Boolean as PropType<boolean | null>,
       default: null
     },
-    sizeButton: {
+    buttonSize: {
       type: String as PropType<'normal' | 'medium' | 'small'>,
       default: 'small'
     }
@@ -50,7 +50,7 @@ export default {
 </script>
 
 <template>
-  <Button @click.stop="handleOpen" :size="sizeButton" :label="labelButton" icon="AddIcon" />
+  <Button @click.stop="handleOpen" :size="buttonSize" :text="buttonText" icon="AddIcon" />
   <Modal v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Добавить изучаемые языки"
     icon="ExercisesIcon" :form="formModal" />
 </template>

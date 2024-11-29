@@ -149,6 +149,7 @@ export default {
     padding-inline: 2.8rem;
     border: 0.1rem solid $neutrals-400;
     color: $neutrals-900;
+    background-color: $neutrals-100;
 
     @include hover {
         border-color: $primary-300;
@@ -200,11 +201,14 @@ export default {
 
     & input:focus+label,
     label.up {
-        top: -0.8rem;
+        top: -1.2rem;
         @include text-3;
         color: $neutrals-600;
         background-color: $neutrals-100;
-        padding-inline: 0.4rem;
+        padding-inline: 0.8rem;
+        border-radius: $radius-xs;
+        padding-block: 0.4rem;
+        margin-left: -0.4rem;
     }
 
     .icon {

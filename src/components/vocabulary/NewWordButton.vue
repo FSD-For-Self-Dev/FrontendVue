@@ -21,11 +21,11 @@ export default {
       type: Boolean as PropType<boolean | null>,
       default: null
     },
-    labelButton: {
+    buttonText: {
       type: String,
       required: true
     },
-    sizeButton: {
+    buttonSize: {
       type: String as PropType<'normal' | 'medium' | 'small'>,
       default: 'small'
     }
@@ -50,7 +50,7 @@ export default {
 </script>
 
 <template>
-  <Button @click.stop="handleOpen" :size="sizeButton" :label="labelButton" icon="AddIcon" />
+  <Button @click.stop="handleOpen" :size="buttonSize" :text="buttonText" icon="AddIcon" />
   <Modal size="lg" v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Новое слово"
     icon="AddIcon" :form="formModal" />
 </template>

@@ -83,8 +83,8 @@ export default {
   width: 100vw;
   height: 100vh;
   position: fixed;
-  background-color: $neutrals-200;
-  opacity: 60%;
+  background-color: $neutrals-600;
+  opacity: 30%;
   top: 0;
   left: 0;
   z-index: 20000;
