@@ -106,49 +106,29 @@ export default {
   &--normal {
     @include padding(2, 3.2, 0.1);
     @include text-1;
-
     border-radius: $radius-md;
     column-gap: 0.8rem;
-
-    .icon {
-      @include square(3.2rem);
-    }
   }
 
   &--medium {
     @include padding(1.6, 3.2, 0.1);
     @include text-2;
-
     border-radius: $radius-2xl;
     column-gap: 0.8rem;
-
-    .icon {
-      @include square(2.4rem);
-    }
   }
 
   &--small {
     @include padding(1.4, 2.4, 0.1);
     @include text-3;
-
     border-radius: $radius-xs;
     column-gap: 0.6rem;
-
-    .icon {
-      @include square(1.6rem);
-    }
   }
 
   &--extra-small {
     @include padding(1, 2.4, 0.1);
     @include text-4;
-
     border-radius: $radius-xs;
     column-gap: 0.6rem;
-
-    .icon {
-      @include square(1.6rem);
-    }
   }
 
   &--primary {
