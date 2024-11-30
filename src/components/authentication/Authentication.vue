@@ -11,9 +11,10 @@ import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { useNotificationsStore } from '@//store/notifications';
 import IconButton from '../UI/button/IconButton.vue';
+import BooleanInput from '../UI/input/BooleanInput.vue';
 
 export default {
-  components: { OnClickOutside, Input, Button, IconButton },
+  components: { OnClickOutside, Input, Button, IconButton, BooleanInput },
   computed: {
     ...mapWritableState(useAuthStore, ['email', 'password', 'password1', 'password2', 'username', 'remember', 'errors']),
   },
@@ -101,15 +102,12 @@ export default {
               v-model="password"
               :server-error="errors.password ? errors.password.toString() : undefined" 
             />
-            <div class="modal-auth--tools">
-              <div>
-                <input class="custom-checkbox" type="checkbox" id="remember" v-model="remember" />
-                <label class="custom-label" for="remember">Запомнить меня</label>
-              </div>
-              <a class="modal-auth--link">Забыли пароль?</a>
-            </div>
           </div>
           <div class="modal-auth--form--actions">
+            <div class="modal-auth--tools">
+              <BooleanInput label="Запомнить меня" type="checkbox" size="small" v-model="remember" checked />
+              <a class="modal-auth--link">Забыли пароль?</a>
+            </div>
             <Button 
               text="Войти"
               style="width: 100%; display: flex; justify-content: center" 
@@ -239,7 +237,7 @@ export default {
       display: flex;
       flex-direction: column;
       gap: 2.4rem;
-      margin-top: 2.4rem;
+      margin-top: 1.6rem;
     }
   }
 
@@ -267,41 +265,6 @@ export default {
     &:hover {
       text-decoration: underline;
     }
-  }
-}
-
-.custom-checkbox {
-  position: absolute;
-  z-index: -1;
-  opacity: 0;
-
-  &:checked+.custom-label::before {
-    border-color: $primary-500;
-    background-color: $primary-500;
-    background-image: url("../../assets/svg-icons/tick.svg");
-  }
-}
-
-.custom-label {
-  @include text-3;
-  color: $neutrals-900;
-  display: flex;
-  align-items: center;
-  user-select: none;
-
-  &::before {
-    content: '';
-    display: inline-block;
-    width: 2.5rem;
-    height: 2.5rem;
-    flex-shrink: 0;
-    flex-grow: 0;
-    border: 0.1rem solid $neutrals-400;
-    border-radius: 0.6rem;
-    margin-right: 0.5rem;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 1.6rem 1.6rem;
   }
 }
 </style>

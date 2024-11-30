@@ -170,8 +170,8 @@ export default {
     }
 
     &:disabled {
-        background-color: $neutrals-200;
-        border-color: $neutrals-200;
+        background-color: $neutrals-300;
+        border-color: $neutrals-300;
         color: $neutrals-600;
         cursor: not-allowed;
 
