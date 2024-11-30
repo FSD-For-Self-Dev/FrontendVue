@@ -32,6 +32,9 @@ export default {
             type: String as PropType<InputProps["size"]>,
             default: "standart"
         },
+        additionalIcon: {
+            type: String as PropType<InputProps["additionalIcon"]>,
+        },
     },
     data() {
         return {
@@ -89,6 +92,12 @@ export default {
                 "icon--right": this.iconPos === "right",
             };
         },
+        additionalIconClasses() {
+            return {
+                "icon--right": this.iconPos === "left",
+                "icon--left": this.iconPos === "right",
+            };
+        },
     },
     methods: {
         togglePassword() {
@@ -121,6 +130,11 @@ export default {
             v-bind:name="icon" size="nm"
             class="icon":class="iconClasses"
         />
+        <svg-icon
+            v-if="additionalIcon"
+            v-bind:name="additionalIcon" size="nm"
+            class="icon additionalIcon" :class="additionalIconClasses"
+        />
         <label :id="`${name}-label`" :class="labelClasses" :for="name">
             {{ label }}
         </label>
@@ -149,14 +163,15 @@ export default {
     padding-inline: 2.8rem;
     border: 0.1rem solid $neutrals-400;
     color: $neutrals-900;
+    background-color: $neutrals-100;
 
     @include hover {
         border-color: $primary-300;
     }
 
     &:disabled {
-        background-color: $neutrals-200;
-        border-color: $neutrals-200;
+        background-color: $neutrals-300;
+        border-color: $neutrals-300;
         color: $neutrals-600;
         cursor: not-allowed;
 
@@ -200,11 +215,14 @@ export default {
 
     & input:focus+label,
     label.up {
-        top: -0.8rem;
+        top: -1.2rem;
         @include text-3;
         color: $neutrals-600;
         background-color: $neutrals-100;
-        padding-inline: 0.4rem;
+        padding-inline: 0.8rem;
+        border-radius: $radius-xs;
+        padding-block: 0.4rem;
+        margin-left: -0.4rem;
     }
 
     .icon {

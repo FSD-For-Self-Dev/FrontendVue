@@ -5,9 +5,11 @@ import NewWordButton from './NewWordButton.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { mapState, mapWritableState } from 'pinia';
 import { useVocabularyStore } from '@/store/vocabulary';
+import Search from './Search.vue';
 
 
 export default {
+  components: { NewWordButton, Input, Dropdown, Search },
   computed: {
     ...mapState(useLanguagesStore, ["learning_languages"]),
     ...mapWritableState(useVocabularyStore, ["filterOptions"]),
@@ -41,7 +43,6 @@ export default {
       ]
     }
   },
-  components: { NewWordButton, Input, Dropdown },
 };
 </script>
 
@@ -65,13 +66,9 @@ export default {
           v-model="filterOptions.activity_status" :items="statusWordOptions"
         />
       </div>
-      <NewWordButton size-button="medium" label-button="Новое слово или фраза" />
+      <NewWordButton button-size="medium" button-text="Новое слово или фраза" />
     </div>
-    <Input
-      v-model="filterOptions.text"
-      placeholder="Найти слово или фразу..."
-      icon="SearchIcon"
-    />
+    <Search v-model="filterOptions.text" />
   </div>
 </template>
 

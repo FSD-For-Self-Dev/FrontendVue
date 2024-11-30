@@ -179,16 +179,16 @@ export default {
       </div>
       <div v-if="step === 1" class="vocabulary-modal--footer">
         <div></div>
-        <Button size="medium" variant="secondary" label="Отменить" @click="handleClose" />
-        <Button size="medium" label="Далее" @click="handleNext"
+        <Button size="medium" variant="secondary" text="Отменить" @click="handleClose" />
+        <Button size="medium" text="Далее" @click="handleNext"
           :disabled="word.length === 0 || language.length === 0" />
       </div>
       <div v-else class="vocabulary-modal--footer">
         <div class="left-buttons">
-          <Button size="medium" variant="secondary" label="Отменить" @click="handleClose" />
+          <Button size="medium" variant="secondary" text="Отменить" @click="handleClose" />
         </div>
-        <Button size="medium" label="Назад" variant="secondary" @click="handlePrev" />
-        <Button size="medium" type="submit" label="Сохранить" />
+        <Button size="medium" text="Назад" variant="secondary" @click="handlePrev" />
+        <Button size="medium" type="submit" text="Сохранить" />
       </div>
     </form>
   </div>

@@ -11,7 +11,7 @@ export default {
 
 <template>
 	<PageLayout>
-		<PageTitle text="словарь" icon="VocabularyIcon" />
+		<PageTitle text="Словарь" icon="VocabularyIcon" />
 		<VocabularyTools />
 		<VocabularyWords />
 	</PageLayout>

@@ -7,8 +7,11 @@ import type { LanguageDto } from '@/dto/languages.dto';
 import Button from '@/components/UI/button/Button.vue';
 import Input from '@/components/UI/input/Input.vue';
 import { isAxiosError } from 'axios';
+import Search from '@/components/language/Search.vue';
+import Counter from '../../counter/Counter.vue';
 
 export default {
+  components: { Input, Button, Search, Counter },
   props: {
     closeForm: {
       type: Function,
@@ -17,11 +20,10 @@ export default {
   },
   data() {
     return {
-      searchWord: '',
+      searchLanguage: '',
       activeLanguage: [] as LanguageDto[]
     }
   },
-  components: { Input, Button },
   computed: {
     ...mapState(useLanguagesStore, ['available_languages']),
     count() {
@@ -32,8 +34,8 @@ export default {
     },
     filteredLanguages() {
       return this.available_languages.filter((lang) => {
-        return lang.name.toLowerCase().includes(this.searchWord.toLowerCase()) ||
-          lang.name_local.toLowerCase().includes(this.searchWord.toLowerCase())
+        return lang.name.toLowerCase().includes(this.searchLanguage.toLowerCase()) ||
+          lang.name_local.toLowerCase().includes(this.searchLanguage.toLowerCase())
       });
     }
   },
@@ -46,6 +48,9 @@ export default {
       } else {
         this.activeLanguage.push(lang);
       }
+    },
+    clearActiveLanguages() {
+      this.activeLanguage.length = 0;
     },
     async handleSave() {
       const res = await this.postLearningLanguage(this.activeLanguage);
@@ -64,18 +69,24 @@ export default {
 
       await this.getAvailableLanguages();
       this.closeForm();
-    }
+    },
+    handleWheel(event: WheelEvent) {
+      const container = event.currentTarget as HTMLElement;
+      event.preventDefault();
+      container.scrollTop += event.deltaX;
+    },
   }
 }
 </script>
 
 <template>
   <form class="languages-form" @submit.prevent="() => handleSave()">
-    <Input v-model="searchWord" placeholder="Найти язык..." />
-    <div>
+    <Search v-model="searchLanguage" />
+    <div class="languages-from--counters-info">
       <span class="languages-form--available-info">{{ available_info }} </span>
+      <Counter :value="activeLanguage.length" :clear-active-items="clearActiveLanguages" />
     </div>
-    <div class="languages-form--list">
+    <div class="languages-form--list" @wheel.prevent="handleWheel">
       <div class="languages-form--list-item" @click="() => toggleActiveLanguage(lang)"
         :class="activeLanguage.includes(lang) && 'active'" v-for="lang in filteredLanguages" :key="lang.id">
         <img :src="lang.flag_icon" />
@@ -83,8 +94,8 @@ export default {
       </div>
     </div>
     <div class="languages-form--actions">
-      <Button label="Отмена" variant="secondary" size="medium" @click="() => closeForm()" />
-      <Button label="Сохранить" variant="primary" size="medium" type="submit" />
+      <Button text="Отменить" variant="secondary" size="medium" @click="() => closeForm()" />
+      <Button text="Добавить" variant="primary" size="medium" type="submit" />
     </div>
   </form>
 </template>
@@ -93,44 +104,55 @@ export default {
 .languages-form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 2rem;
+
+  .languages-from--counters-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.6rem;
+  }
 
   .languages-form--available-info {
     @include tag-big;
     color: $neutrals-600;
     text-transform: uppercase;
-
-    padding: 2rem 0;
   }
 
   .languages-form--list {
-    display: grid;
-    grid-template-columns: auto auto auto;
+    display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
+    overflow-y: auto;
+    max-height: 18.4rem;
+    @include scroll;
 
     .languages-form--list-item {
       @include text-2;
       color: $neutrals-900;
       width: 17.5rem;
+      height: 4.8rem;
       border: 1px solid $neutrals-400;
       border-radius: 1.2rem;
       padding: 1.2rem 1.6rem;
       display: flex;
-      align-items: center;
       gap: 1.2rem;
       cursor: pointer;
       user-select: none;
 
       &:hover {
-        border: 1px solid $primary-300;
+        background-color: $primary-200;
+        border: 1px solid $primary-200;
       }
 
       &:active {
-        border: 1px solid $primary-500;
+        background-color: $primary-300;
+        border: 1px solid $primary-300;
       }
 
       &.active {
         background-color: $primary-200;
+        border: 1px solid $primary-500;
       }
     }
   }

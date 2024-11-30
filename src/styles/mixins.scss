@@ -20,10 +20,6 @@
   aspect-ratio: 1 / 1;
 }
 
-@mixin padding($vertical, $horizontal, $border: 1) {
-    padding: #{$vertical - $border}rem #{$horizontal - $border}rem;
-}
-
 @mixin visually-hidden {
     position: absolute !important;
     width: 1px !important;
@@ -35,6 +31,24 @@
     clip-path: inset(100%) !important;
     clip: rect(0 0 0 0) !important;
     overflow: hidden !important;
+}
+
+@mixin scroll {
+    &::-webkit-scrollbar {
+        width: .4rem;
+        height: .4rem;
+        background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: $radius-lg;
+        background-color: $neutrals-400;
+        cursor: pointer;
+
+        @include hover {
+          background-color: $neutrals-500;
+        }
+    }
 }
 
 // *** Grid mixins below ***

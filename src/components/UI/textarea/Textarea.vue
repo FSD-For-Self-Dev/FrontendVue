@@ -50,11 +50,19 @@ export default {
       };
     },
     labelClasses() {
-      return {
-        label: this.showLabel,
-        "visually-hidden": !this.showLabel,
-        up: this.modelValue?.length > 0,
-      };
+      if (this.modelValue) {
+        return {
+            label: this.showLabel,
+            "visually-hidden": !this.showLabel,
+            up: true,
+        };
+      } else {
+          return {
+              label: this.showLabel,
+              "visually-hidden": !this.showLabel,
+              up: false,
+          };
+      }
     },
   },
 };
@@ -130,18 +138,23 @@ export default {
 
   & textarea:focus+label,
   label.up {
-    top: 1.2rem;
-    @include text-4;
+    top: -1.2rem;
+    @include text-3;
     color: $neutrals-600;
+    background-color: $neutrals-100;
+    padding-inline: 0.8rem;
+    border-radius: $radius-xs;
+    padding-block: 0.4rem;
+    margin-left: -0.4rem;
   }
 }
 
 .label {
+  @include text-2;
   position: absolute;
-  top: 1.9rem;
-  left: 2rem;
-  @include text-3;
-  color: $neutrals-900;
+  top: 1.8rem;
+  left: 2.8rem;
+  color: $neutrals-600;
   transition: all 0.05s ease-in-out;
 }
 

@@ -11,10 +11,10 @@ import { OnClickOutside } from '@vueuse/components';
 import Button from '@/components/UI/button/Button.vue';
 import ProfileTools from './ProfileTools.vue';
 import IconButton from '../UI/button/IconButton.vue';
-import Input from '../UI/input/Input.vue';
+import Search from './Search.vue';
 
 export default {
-	components: { Logo, Button, IconButton, Navigation, Language, Authentication, ProfileTools, OnClickOutside, Input },
+	components: { Logo, Button, IconButton, Navigation, Language, Authentication, ProfileTools, OnClickOutside, Search },
 	computed: {
 		authorized() {
 			return this.$route.path !== '/';
@@ -89,7 +89,7 @@ export default {
 		<div class="header--center" style="width: 100%; max-width: 80rem;" v-else>
 			<div class="header--tools" style="width: 100%;">
 				<OnClickOutside @trigger="hideSearchBar" style="width: 100%; display: flex">
-					<Input style="width: 100%; display: flex" placeholder="Поиск..." icon="SearchIcon" />
+					<Search />
 				</OnClickOutside>
 				<IconButton style="min-width: 5.6rem;" icon="AddIcon" size="lg" variant="primary" />
 			</div>
@@ -100,8 +100,8 @@ export default {
 
 		<div class="header--right">
 			<div class="header--auth-buttons" v-if="!authStatus">
-				<Button label="Войти" size="normal" @click="() => openAuth('login')" />
-				<Button label="Зарегистрироваться" size="normal" variant="secondary"
+				<Button text="Войти" size="normal" @click="() => openAuth('login')" />
+				<Button text="Зарегистрироваться" size="normal" variant="secondary"
 					@click="() => openAuth('register')" />
 			</div>
 
@@ -122,7 +122,7 @@ export default {
 		</div>
 	</header>
 	<div class="navbar" :class="{ show: showNavbar }">
-		<OnClickOutside @trigger="closeNavbar">
+		<OnClickOutside @trigger="closeNavbar" class="navbar__wrapper">
 		<ul class="navbar__list">
 			<li v-for="navbarItem in navbarItems" class="navbar__item">
 			<button :to="navbarItem.link" class="navbar__item-content" @click="closeNavbar">
@@ -197,6 +197,11 @@ export default {
 			border-radius: 50%;
 			object-fit: cover;
 			border: none;
+			cursor: pointer;
+
+			@include hover {
+				opacity: 0.9;
+			}
 		}
 	}
 }
@@ -240,6 +245,13 @@ export default {
 	display: flex;
 	flex-direction: column;
 	gap: 0.8rem;
+	height: 100%;
+	overflow-y: auto;
+    @include scroll;
+}
+
+.navbar__wrapper {
+	height: 100%;
 }
 
 .navbar__item {

@@ -8,9 +8,13 @@ import { useUserStore } from '@/store/user';
 import { useBase64 } from '@vueuse/core';
 import { mapActions, mapWritableState } from 'pinia';
 import { computed, ref } from 'vue';
+import TextButton from '../UI/button/TextButton.vue';
+import { useWindowScroll } from '@vueuse/core';
+
+const { y } = useWindowScroll({ behavior: 'instant' });
 
 export default {
-  components: { Dropdown, Input, Button },
+  components: { Dropdown, Input, Button, TextButton },
   computed: {
     ...mapWritableState(useUserStore, ["native_languages", "first_name", "username", "image"])
   },
@@ -54,7 +58,10 @@ export default {
         const base64 = useBase64(files[0]);
         this.image = await base64.promise.value;
       }
-    }
+    },
+    cancelChanges() {
+      y.value = 0;
+  },
   },
 }
 </script>
@@ -63,7 +70,7 @@ export default {
   <form class="settings--form" @submit.prevent="handleSubmit">
     <label class="settings--label-image" :class="{ 'label--drag': onDrag }" v-on:dragenter="onDrag = true"
       v-on:dragleave="onDrag = false" v-on:dragend="onDrag = false" v-on:drop="onDrag = false">
-      <input type="file" @change.stop="onFileChanged" accept="image/*" />
+      <input type="file" @change.stop="onFileChanged" accept="image/*" style="cursor: pointer;"/>
       <div class="settings--image-info">
         <div v-if="!image" class="settings--not-found-avatar">
           <svg-icon name="ProfileIcon" size="lg" color="var:neutral-500" />
@@ -87,10 +94,13 @@ export default {
       <Dropdown placeholder="Родной язык 1" :items="dropDownItems" v-model="native_languages[0]" />
       <Dropdown placeholder="Родной язык 2" :items="dropDownItems" v-model="native_languages[1]"
         v-if="native_languages[1] || moreNativeLang" />
-      <Button label="Добавить еще один родной язык" icon="AddIcon" class="settings--more-native-lang" type="button"
+      <TextButton text="Добавить еще один родной язык" icon="AddIcon" type="button"
         @click="moreNativeLang = true" v-else />
     </div>
-    <Button label="Сохранить" class="settings--submit-button" size="medium" type="submit" />
+    <div class="buttons">
+      <Button text="Сбросить" size="medium" variant="secondary" @click="cancelChanges()" />
+      <Button text="Сохранить" size="medium" type="submit" />
+    </div>
   </form>
 </template>
 
@@ -100,12 +110,14 @@ export default {
   flex-direction: column;
   gap: 4rem;
 
-  .settings--submit-button {
-    align-self: end;
+  .buttons {
+    display: inline-flex;
+    justify-content: right;
+    gap: 1.2rem;
   }
 
   .settings--label-form {
-    @include text-1;
+    @include text-2;
     color: $neutrals-600;
 
     display: flex;
@@ -147,8 +159,6 @@ export default {
         opacity: 0;
         transition: opacity 0.5s ease;
       }
-
-
     }
 
     & input {
@@ -192,7 +202,6 @@ export default {
 
       .settings--sub1 {
         @include subheading-3;
-        font-weight: 500;
         color: $neutrals-900;
         padding-bottom: 0.8rem;
       }
@@ -203,37 +212,10 @@ export default {
 
       .settings--sub2 {
         @include text-3;
-        font-weight: 400;
         color: $neutrals-600;
       }
     }
   }
-
-
 }
 
-.settings--more-native-lang {
-  background-color: transparent;
-  border: none;
-  padding: 2rem 0 0 0;
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-
-  color: $primary-500;
-  font-family: 'Inter';
-  font-size: 1.4rem;
-  font-weight: 400;
-  line-height: 1.8rem;
-
-  cursor: pointer;
-
-  &:hover {
-    color: $primary-700;
-  }
-
-  &:active {
-    color: $primary-800;
-  }
-}
 </style>

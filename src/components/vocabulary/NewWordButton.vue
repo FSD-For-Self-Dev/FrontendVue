@@ -1,14 +1,12 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
 import Modal from '@/components/UI/modal/Modal.vue';
-import NewWordForm from './NewWordForm.vue';
 import { type PropType } from 'vue';
 
 export default {
   data() {
     return {
       showModal: false,
-      formModal: NewWordForm
     }
   },
   components: { Button, Modal },
@@ -21,11 +19,11 @@ export default {
       type: Boolean as PropType<boolean | null>,
       default: null
     },
-    labelButton: {
+    buttonText: {
       type: String,
       required: true
     },
-    sizeButton: {
+    buttonSize: {
       type: String as PropType<'normal' | 'medium' | 'small'>,
       default: 'small'
     }
@@ -50,7 +48,7 @@ export default {
 </script>
 
 <template>
-  <Button @click.stop="handleOpen" :size="sizeButton" :label="labelButton" icon="AddIcon" />
+  <Button @click.stop="handleOpen" :size="buttonSize" :text="buttonText" icon="AddIcon" />
   <Modal size="lg" v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Новое слово"
-    icon="AddIcon" :form="formModal" />
+    icon="AddIcon" modalContent="NewWordForm" />
 </template>
