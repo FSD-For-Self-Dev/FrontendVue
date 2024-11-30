@@ -1,52 +1,58 @@
 <script lang="ts">
-import Button from '@/components/UI/button/Button.vue';
-import LineArrowForwardIcon from '@/assets/icons/arrows/LineArrowForwardIcon.vue';
-import VocabularyIcon from '@/assets/icons/vocabulary/VocabularyIcon.vue';
-import AddIcon from '@/assets/icons/actions/AddIcon.vue';
+import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
-import { mapState } from 'pinia';
-
-import WordCard from './WordCard.vue';
+import NewWordButton from './NewWordButton.vue';
 
 export default {
-    components: { Button, LineArrowForwardIcon, VocabularyIcon, AddIcon, WordCard },
+    data() {
+        return {
+            showModal: false
+        }
+    },
+    components: { NewWordButton },
     computed: {
         ...mapState(useVocabularyStore, ["count", "words"]),
         ...mapState(useLanguagesStore, ["learning_languages"])
     },
     methods: {
-        redirectToNewWord() {
-            this.$router.push('/new-word');
+        handleToggleModal(state: boolean) {
+            this.showModal = state;
+        },
+        handleWheel(event: WheelEvent) {
+            const container = event.currentTarget as HTMLElement;
+            event.preventDefault();
+            container.scrollLeft += event.deltaY;
         }
     }
 }
 </script>
 
 <template>
-    <button class="vocabulary-main-view" @click="redirectToNewWord">
+    <button class="vocabulary-main-view"
+        @click="count > 0 ? $router.push('vocabulary') : handleToggleModal(!showModal)">
         <div class="vocabulary-main-view--header">
-
             <h2 class="vocabulary-main-view--title">
-                <VocabularyIcon size="32"/>Словарь<span style="color: #737782">{{ count }}</span>
+                <svg-icon name="VocabularyIcon" size="lg" style="stroke-width: 0.2;" />
+                Словарь
+                <span class="counter">{{ count }}</span>
             </h2>
 
-            <div id="forward-arrow">
-                <LineArrowForwardIcon size="32"/>
-            </div>
+            <svg-icon id="forward-arrow" name="ArrowForwardLineIcon" size="lg" />
         </div>
         <div class="vocabulary-main-view--content">
             <div class="vocabulary-main-view--not-found" v-if="!words.length">
                 В словаре пока нет слов или фраз
 
-                <Button @click="redirectToNewWord" size="small" text="Добавить первые слова">
-                    <AddIcon size="16"/>
-                </Button>
+                <NewWordButton :extra-toggle-modal="handleToggleModal" :extra-show-modal="showModal"
+                    label-button="Добавить первые слова" />
             </div>
 
-            <div class="vocabulary-main-view--words" v-else>
-                <div v-for="word in words">
-                    <WordCard :word="word"/>
+            <div class="vocabulary-main-view--words" v-else @wheel.prevent="handleWheel">
+                <div class="vocabulary-main-view--word" v-for="word in words">
+                    <img
+                        :src="learning_languages.find(lang => lang.language.name === word.language)?.language.flag_icon" />
+                    {{ word.text }}
                 </div>
             </div>
         </div>
@@ -92,22 +98,22 @@ export default {
         align-items: center;
 
         .vocabulary-main-view--title {
-            font-family: 'Inter';
-            font-size: 2rem;
-            line-height: 2.4rem;
-            font-weight: 500;
+            @include subheading-3;
+            color: $neutrals-900;
             display: flex;
             gap: 0.8rem;
             align-items: center;
+
+            .counter {
+                color: $neutrals-600
+            }
         }
     }
 
     .vocabulary-main-view--content {
         .vocabulary-main-view--not-found {
-            font-style: 'Inter';
-            font-size: 1.6rem;
-            line-height: 2rem;
-            font-weight: 400;
+            @include text-2;
+            color: $neutrals-700;
             text-align: left;
 
             display: flex;
@@ -120,8 +126,36 @@ export default {
             padding-inline: 0.5rem;
             display: flex;
             gap: 1.6rem;
-            overflow-y: auto;
-            overflow-x: visible;
+            padding-bottom: 1.6rem;
+            overflow-x: auto;
+
+            &::-webkit-scrollbar {
+                height: .4rem;
+                background-color: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: $radius-lg;
+                background-color: $neutrals-400;
+            }
+
+            .vocabulary-main-view--word {
+                padding: 1.6rem 2rem;
+                background-color: $neutrals-100;
+                border-radius: 2rem;
+                border: .1rem solid $neutrals-300;
+                flex-shrink: 0;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                @include heading-4;
+                color: $neutrals-900;
+
+                width: 29.5rem;
+                height: 34rem;
+            }
         }
 
     }

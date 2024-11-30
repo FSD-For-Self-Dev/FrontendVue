@@ -3,23 +3,13 @@ export interface WordDto {
     slug: string;
     language?: string;
     text: string;
-    author: string;
-    created: string;
-    modified: string;
-    tags: string[];
-    favorite: boolean;
-    is_problematic: boolean;
-    activity_status: "Inactive" | "Active" | "Mastered";
-    activity_progress: number;
-    last_exercise_date?: string;
-    types: string[];
-    translations_count: number;
-    translations: string[];
-    image?: string;
-  }
+    language: string;
+    translations: WordTranslationDto[];
+    note: string;
+    "activity_status": string;
+}
 
 export interface WordTranslationDto {
     text: string;
     language: string;
 }
-

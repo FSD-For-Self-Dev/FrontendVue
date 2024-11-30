@@ -1,15 +1,18 @@
-<template>
-    <PageLayout>
-        <h1>СЛОВАРЬ</h1>
-    </PageLayout>
-</template>
-
 <script lang="ts">
 import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
+import PageTitle from '@/components/UI/page-title/PageTitle.vue';
+import VocabularyTools from '@/components/vocabulary/VocabularyTools.vue';
+import VocabularyWords from '@/components/vocabulary/VocabularyWords.vue';
 
 export default {
-    components: { PageLayout },
+	components: { PageLayout, PageTitle, VocabularyTools, VocabularyWords },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<template>
+	<PageLayout>
+		<PageTitle text="словарь" icon="VocabularyIcon" />
+		<VocabularyTools />
+		<VocabularyWords />
+	</PageLayout>
+</template>

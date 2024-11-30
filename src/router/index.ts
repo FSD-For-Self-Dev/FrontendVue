@@ -3,9 +3,9 @@ import type { RouteRecordRaw } from 'vue-router';
 import HomePage from '@/views/HomePage.vue';
 import Vocabulary from '@/views/Vocabulary.vue';
 import Languages from '@/views/Languages.vue';
-import NewWord from '@/views/NewWord.vue';
 import Error404 from '@/views/Error404.vue';
-import Test from '@/views/Test.vue';
+// import Test from '@/views/Test.vue';
+import Settings from '@/views/Settings.vue';
 
 const routes = [
     {
@@ -17,16 +17,16 @@ const routes = [
         component: Vocabulary,
     },
     {
-        path: '/new-word',
-        component: NewWord,
-    },
-    {
         path: '/languages',
         component: Languages,
     },
+    // {
+    //     path: '/test',
+    //     component: Test,
+    // },
     {
-        path: '/test',
-        component: Test,
+        path: '/settings',
+        component: Settings,
     },
     {
         path: '/:catchAll(.*)',

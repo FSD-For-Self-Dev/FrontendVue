@@ -1,35 +1,41 @@
 <script lang="ts">
 import Logo from '@/components/UI/logo/Logo.vue'
-import Menu from './Menu.vue';
-import Button from './Button.vue';
 import Navigation from './Navigation.vue';
-import Search from './Search.vue';
 import Language from './Language.vue';
 import Authentication from '@/components/authentication/Authentication.vue';
+import { navbarItems } from '@/constants/wordsMock';
+import type { INavbarItems } from '@/types/components/navbar';
 import { mapState } from 'pinia';
 import { useUserStore } from '@/store/user';
+import { OnClickOutside } from '@vueuse/components';
+import Button from '@/components/UI/button/Button.vue';
 import ProfileTools from './ProfileTools.vue';
-import BellIcon from '@/assets/icons/common/BellIcon.vue';
-import ProfileIcon from '@/assets/icons/common/ProfileIcon.vue';
-import AddIcon from '@/assets/icons/actions/AddIcon.vue';
+import IconButton from '../UI/button/IconButton.vue';
+import Input from '../UI/input/Input.vue';
 
 export default {
-	components: { Logo, Menu, Button, BellIcon, Navigation, Search, Language, Authentication, ProfileTools, ProfileIcon, AddIcon },
+	components: { Logo, Button, IconButton, Navigation, Language, Authentication, ProfileTools, OnClickOutside, Input },
 	computed: {
 		authorized() {
 			return this.$route.path !== '/';
 		},
-		...mapState(useUserStore, ['username', 'authStatus']),
+		...mapState(useUserStore, ['username', 'authStatus', 'image']),
 	},
 	data(): {
 		showAuth: boolean,
 		viewAuth: 'login' | 'register',
 		showProfileTools: boolean,
+		shownBar: boolean,
+		showNavbar: boolean,
+		navbarItems: INavbarItems[],
 	} {
 		return {
 			showAuth: false,
 			viewAuth: 'login',
 			showProfileTools: false,
+			shownBar: false,
+			showNavbar: false,
+			navbarItems
 		};
 	},
 	methods: {
@@ -43,6 +49,18 @@ export default {
 		switchForm(view: 'login' | 'register') {
 			this.viewAuth = view;
 		},
+		showSearchBar(event: MouseEvent) {
+            this.shownBar = true;
+        },
+        hideSearchBar() {
+            this.shownBar = false;
+        },
+		openNavbar() {
+			this.showNavbar = true;
+		},
+		closeNavbar() {
+			this.showNavbar = false;
+		},
 	},
 };
 
@@ -51,37 +69,47 @@ export default {
 <template>
 	<header class="header">
 		<div class="header--left">
-			<Menu />
-			<Logo />
+			<div style="width: 3.2rem; display: flex; align-items: center">
+				<svg-icon @click="openNavbar" v-if="!showNavbar" name="BurgerMenuIcon" size="lg" hoverColor="var:primary-500" style="cursor: pointer;" />
+				<svg-icon @click="closeNavbar" v-if="showNavbar" name="CloseIcon" size="lg" hoverColor="var:primary-500" style="cursor: pointer;" />
+			</div>
+			<Logo style="width: max-content;"/>
 		</div>
 
-		<div class="header--center">
-			<Navigation v-if="authStatus" />
+		<div class="header--center" v-if="!shownBar">
+			<div class="header--navigation">
+				<Navigation v-if="authStatus" />
+			</div>
+			<div class="header--tools" v-if="authStatus">
+				<IconButton icon="SearchIcon" size="lg" variant="secondary" @click="showSearchBar" />
+				<IconButton icon="AddIcon" size="lg" variant="primary" />
+			</div>
 		</div>
+
+		<div class="header--center" style="width: 100%; max-width: 80rem;" v-else>
+			<div class="header--tools" style="width: 100%;">
+				<OnClickOutside @trigger="hideSearchBar" style="width: 100%; display: flex">
+					<Input style="width: 100%; display: flex" placeholder="Поиск..." icon="SearchIcon" />
+				</OnClickOutside>
+				<IconButton style="min-width: 5.6rem;" icon="AddIcon" size="lg" variant="primary" />
+			</div>
+		</div>
+
+		<Authentication :switch-form="switchForm" :close-auth="closeAuth" :show-auth="showAuth"
+			:view-auth="viewAuth" v-if="!authStatus" />
 
 		<div class="header--right">
-			<Button v-if="!authStatus" @click="() => openAuth('login')">Войти</Button>
-			<Button v-if="!authStatus" variant="secondary"
-				@click="() => openAuth('register')">Зарегистрироваться</Button>
-
-			<Authentication :switch-form="switchForm" :close-auth="closeAuth" :show-auth="showAuth"
-				:view-auth="viewAuth" v-if="!authStatus" />
-
-			<div class="header--tools" v-if="authStatus">
-				<Search />
-				<Button variant="primary" view="icon">
-					<AddIcon size="32" custom-color="#fff" />
-				</Button>
+			<div class="header--auth-buttons" v-if="!authStatus">
+				<Button label="Войти" size="normal" @click="() => openAuth('login')" />
+				<Button label="Зарегистрироваться" size="normal" variant="secondary"
+					@click="() => openAuth('register')" />
 			</div>
 
 			<div class="header--user" v-if="authStatus">
-				<Button variant="secondary" size="small" view="icon">
-					<BellIcon size="24" />
-				</Button>
-				<Button variant="secondary" size="small" view="icon"
-					@click.stop="() => showProfileTools = !showProfileTools">
-					<ProfileIcon size="24" />
-				</Button>
+				<IconButton icon="BellIcon" size="md" variant="secondary" />
+				<img class="header--avatar" :src="image" v-if="image" @click.stop="() => showProfileTools = !showProfileTools" />
+				<IconButton v-else icon="ProfileIcon" size="md" variant="secondary"
+					@click.stop="() => showProfileTools = !showProfileTools" />
 			</div>
 
 			<div class="header--language">
@@ -93,6 +121,20 @@ export default {
 			</Teleport>
 		</div>
 	</header>
+	<div class="navbar" :class="{ show: showNavbar }">
+		<OnClickOutside @trigger="closeNavbar">
+		<ul class="navbar__list">
+			<li v-for="navbarItem in navbarItems" class="navbar__item">
+			<button :to="navbarItem.link" class="navbar__item-content" @click="closeNavbar">
+				<svg-icon :name="navbarItem.icon" size="nm" class="navbar__item-icon"/>
+				<span class="navbar__item-name">
+				{{ navbarItem.name }}
+				</span>
+			</button>
+			</li>
+		</ul>
+		</OnClickOutside>
+	</div>
 </template>
 
 <style lang="scss">
@@ -104,23 +146,34 @@ export default {
 	width: 100%;
 	height: 10rem;
 	display: flex;
-	gap: 3.2rem;
+	gap: 4rem;
+	align-items: center;
 	justify-content: space-between;
-	background-color: #ffffffe6;
+	background-color: #ffffffdd;
 	box-shadow: $regular-shadow;
 	padding: 2.2rem 3.2rem;
 	backdrop-filter: blur(4px);
-	align-items: center;
-
 
 	.header--left {
 		display: flex;
-		gap: 3.2rem;
+		gap: 4rem;
+		width: max-content;
 	}
 
 	.header--center {
 		display: flex;
-		gap: 1rem;
+		gap: 4rem;
+		align-items: center;
+
+		.header--navigation {
+			display: flex;
+			gap: 1.2rem;
+		}
+
+		.header--tools {
+			display: flex;
+			gap: 1.2rem;
+		}
 	}
 
 	.header--right {
@@ -128,16 +181,99 @@ export default {
 		gap: 4rem;
 		align-items: center;
 
-
-		.header--tools {
+		.header--auth-buttons {
 			display: flex;
-			gap: 1rem;
+			gap: 1.6rem;
 		}
 
 		.header--user {
 			display: flex;
-			gap: 1rem;
+			gap: 1.2rem;
 		}
+
+		.header--avatar {
+			width: 4.4rem;
+			height: 4.4rem;
+			border-radius: 50%;
+			object-fit: cover;
+			border: none;
+		}
+	}
+}
+
+.button {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.navbar {
+	position: fixed;
+	z-index: 9;
+	top: 10rem;
+	left: -29rem;
+	min-width: 26rem;
+	height: calc(100svh - 10rem);
+	background-color: #ffffffdd;
+	box-shadow: $regular-shadow;
+	backdrop-filter: blur(4px);
+	padding: 2.5rem;
+
+	transition:
+		left 0.3s,
+		opacity 0.3s ease-out;
+
+	&.show {
+		opacity: 1;
+		left: 0
+	}
+
+	.navbar__content {
+		height: 100%;
+		width: 100%;
+		backdrop-filter: blur(4px);
+	}
+}
+
+.navbar__list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.8rem;
+}
+
+.navbar__item {
+	height: 6rem;
+	padding: 0.8rem 2.4rem 0.8rem 1.2rem;
+	border-radius: $radius-xs;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+
+	.navbar__item-content {
+		display: flex;
+		align-items: center;
+		gap: 1.2rem;
+
+		background-color: transparent;
+		border: 1px solid transparent;
+		cursor: pointer;
+
+		.navbar__item-name {
+			@include text-2;
+		}
+	}
+
+	.navbar__item-icon {
+		stroke-width: 0.2;
+	}
+
+	@include hover {
+		background-color: $primary-300;
+	}
+
+	@include active {
+		background-color: $primary-500;
 	}
 }
 </style>

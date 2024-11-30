@@ -9,11 +9,11 @@ export default {
 </script>
 
 <template>
-    <a class="logo" href="/">
+    <a class="logo" @click="$router.push('/')">
         <img class="logo" :src="logo" alt="logo" />
         <div class="logo-name">
             <h3 class="logo-title">Linguista</h3>
-            <p class="logo-subtitle text">Control & Repeat</p>
+            <p class="logo-subtitle">Control & Repeat</p>
         </div>
     </a>
 </template>
@@ -26,6 +26,7 @@ export default {
 .logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .logo-name {
@@ -33,11 +34,11 @@ export default {
 }
 
 .logo-title {
-    font-family: 'Fredoka';
+    font-family: 'Fredoka-Medium', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 2.4rem;
 }
 
 .logo-subtitle {
-    font-size: 1.4rem;
+    @include text-3;
 }
 </style>

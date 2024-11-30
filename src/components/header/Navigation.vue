@@ -1,32 +1,24 @@
 <script lang="ts">
-import CollectionsIcon from '@/assets/icons/collections/CollectionsIcon.vue';
-import ExercisesIcon from '@/assets/icons/exercises/ExercisesIcon.vue';
-import VocabularyIcon from '@/assets/icons/vocabulary/VocabularyIcon.vue';
-
-
-export default {
-    name: 'Button',
-    components: { VocabularyIcon, CollectionsIcon, ExercisesIcon },
-}
+export default {};
 </script>
 
 <template>
     <nav class="navigation">
         <ul class="navigation--list">
             <li>
-                <a class="navigation--item">
-                    <VocabularyIcon size="20" />Мой словарь
+                <a class="navigation--item" @click="$router.push('vocabulary')">
+                    <svg-icon name="VocabularyIcon" size="md" style="stroke-width: 0.2;" />Словарь
                 </a>
             </li>
             <li>
                 <a class="navigation--item">
-                    <CollectionsIcon size="20" />Коллекции
+                    <svg-icon name="CollectionsIcon" size="md" style="stroke-width: 0.2;" />Коллекции
                 </a>
 
             </li>
             <li>
                 <a class="navigation--item">
-                    <ExercisesIcon size="20" />Упражнения
+                    <svg-icon name="ExercisesIcon" size="md" style="stroke-width: 0.2;" />Упражнения
                 </a>
             </li>
         </ul>
@@ -43,20 +35,21 @@ export default {
         padding: 0;
         margin: 0;
         display: flex;
-        gap: 16px;
+        gap: 1.6rem;
     }
 
     &--item {
+        @include text-2;
         display: flex;
         align-items: center;
         padding: 12px 16px;
         cursor: pointer;
         border: 1px solid $neutrals-400;
         border-radius: 40px;
-        font-size: 16px;
         line-height: 20px;
         background-color: $neutrals-100;
-        gap: 0.8rem;
+        gap: 0.6rem;
+        min-width: 15.2rem;
 
         &:hover {
             background-color: $primary-300;

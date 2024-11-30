@@ -4,9 +4,9 @@ import type { ButtonProps } from "@/types/components/button";
 
 export default {
   props: {
-    contentType: {
-      type: String as PropType<ButtonProps["contentType"]>,
-      default: "text",
+    label: {
+      type: String as PropType<ButtonProps["label"]>,
+      required: false,
     },
     size: {
       type: String as PropType<ButtonProps["size"]>,
@@ -16,12 +16,20 @@ export default {
       type: String as PropType<ButtonProps["variant"]>,
       default: "primary",
     },
-    additionalText: {
-      type: String as PropType<ButtonProps["additionalText"]>,
+    icon: {
+      type: String as PropType<ButtonProps["icon"]>,
       required: false,
     },
-    text: {
-      type: String as PropType<ButtonProps["text"]>,
+    iconPos: {
+      type: String as PropType<ButtonProps["iconPos"]>,
+      default: "left",
+    },
+    additionalLabel: {
+      type: String as PropType<ButtonProps["additionalLabel"]>,
+      required: false,
+    },
+    additionalIcon: {
+      type: String as PropType<ButtonProps["additionalIcon"]>,
       required: false,
     },
   },
@@ -40,48 +48,67 @@ export default {
         "button--danger": this.variant === "danger",
       };
     },
+
+    iconSizes() {
+      return {
+        "normal": "lg",
+        "medium": "md",
+        "small": "sm",
+      };
+    },
   },
 };
 </script>
 
 <template>
   <button class="button" :class="buttonClasses">
-    <span style="float: left;">
-      <slot />
+    <svg-icon v-if="icon && iconPos === 'left'" v-bind:name="icon" :size="iconSizes[size]" class="icon" />
+    <svg-icon v-if="additionalIcon && iconPos === 'right'" v-bind:name="additionalIcon" :size="iconSizes[size]"
+      class="icon" />
+
+    <span v-if="label" style="float: left; text-align: left;">
+      {{ label }}
     </span>
-    <span v-if="text" style="float: left; text-align: left;">
-      {{ text }}
+    <span v-if="additionalLabel" class="additional">
+      {{ additionalLabel }}
     </span>
-    <span v-if="contentType === 'right-icon'">
-      <slot />
-    </span>
-    <span v-if="additionalText" class="additional">
-      {{ additionalText }}
-    </span>
-  </button> 
+
+    <svg-icon v-if="icon && iconPos === 'right'" v-bind:name="icon" :size="iconSizes[size]" class="icon" />
+    <svg-icon v-if="additionalIcon && iconPos === 'left'" v-bind:name="additionalIcon" :size="iconSizes[size]"
+      class="icon" />
+  </button>
 </template>
 
 <style lang="scss" scoped>
 .button {
-  width: max-content;
   display: inline-flex;
-  border: 0.1rem solid transparent;
+  width: max-content;
+  min-width: 16rem;
   align-items: center;
+  justify-content: center;
+  border: 0.1rem solid transparent;
   text-decoration: none;
-  font-weight: 400;
+
+  .icon {
+    stroke-width: 0.02rem;
+    transition: none;
+  }
 
   &:disabled {
     cursor: not-allowed;
     color: $neutrals-600;
+
+    .icon {
+      color: $neutrals-600;
+    }
   }
 
   &--normal {
     @include padding(2, 3.2, 0.1);
+    @include text-1;
 
     border-radius: $radius-md;
     column-gap: 0.8rem;
-    font-size: 2rem;
-    line-height: 2.4rem;
 
     .icon {
       @include square(3.2rem);
@@ -90,11 +117,10 @@ export default {
 
   &--medium {
     @include padding(1.6, 3.2, 0.1);
+    @include text-2;
 
     border-radius: $radius-2xl;
     column-gap: 0.8rem;
-    font-size: 1.6rem;
-    line-height: 2rem;
 
     .icon {
       @include square(2.4rem);
@@ -103,11 +129,22 @@ export default {
 
   &--small {
     @include padding(1.4, 2.4, 0.1);
+    @include text-3;
 
     border-radius: $radius-xs;
     column-gap: 0.6rem;
-    font-size: 1.4rem;
-    line-height: 1.6rem;
+
+    .icon {
+      @include square(1.6rem);
+    }
+  }
+
+  &--extra-small {
+    @include padding(1, 2.4, 0.1);
+    @include text-4;
+
+    border-radius: $radius-xs;
+    column-gap: 0.6rem;
 
     .icon {
       @include square(1.6rem);
@@ -127,6 +164,10 @@ export default {
     @include active {
       --buttonAccentColor: #{$primary-500};
       color: $neutrals-100;
+
+      .icon {
+        color: $neutrals-100;
+      }
     }
 
     &:disabled {
@@ -135,7 +176,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $primary-900 0.2rem solid;
+      outline: $primary-900 0.1rem solid;
     }
   }
 
@@ -150,7 +191,6 @@ export default {
 
     @include active {
       border-color: $primary-500;
-      box-shadow: 0 0 0 0.1rem $primary-500;
     }
 
     &:disabled {
@@ -159,7 +199,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $secondary-900 0.2rem solid;
+      outline: $secondary-900 0.1rem solid;
     }
   }
 
@@ -167,15 +207,18 @@ export default {
     border-color: $neutrals-400;
     background-color: $neutrals-100;
     color: $danger-700;
+    border-color: $danger-200;
+
+    .icon {
+      color: $danger-700;
+    }
 
     @include hover {
-      border-color: $danger-200;
-      box-shadow: 0 0 0 0.1rem $danger-200;
+      border-color: $danger-300;
     }
 
     @include active {
       border-color: $danger-400;
-      box-shadow: 0 0 0 0.1rem $danger-400;
     }
 
     &:disabled {
@@ -184,7 +227,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $danger-400 0.2rem solid;
+      outline: $danger-400 0.1rem solid;
     }
   }
 
@@ -195,12 +238,10 @@ export default {
 
     @include hover {
       border-color: $success-700;
-      box-shadow: 0 0 0 0.1rem $success-700;
     }
 
     @include active {
       border-color: $success-500;
-      box-shadow: 0 0 0 0.1rem $success-500;
     }
 
     &:disabled {
@@ -209,7 +250,7 @@ export default {
 
     @include focus {
       outline-offset: -0.1rem;
-      outline: $success-900 0.2rem solid;
+      outline: $success-900 0.1rem solid;
     }
   }
 }
@@ -222,5 +263,4 @@ export default {
   display: flex;
   align-items: center;
 }
-
 </style>

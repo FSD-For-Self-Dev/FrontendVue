@@ -5,5 +5,8 @@ export default (api: IApi) => {
         getUser() {
             return api.request.get('/api/auth/user/');
         },
+        patchUser(data) {
+            return api.request.patch('/api/auth/user/', data);
+        }
     };
 };

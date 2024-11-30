@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
 import type { LanguageDto, LearningLanguageDto } from '@/dto/languages.dto';
 import api from '@/api';
+import { isAxiosError } from 'axios';
 
 export interface ILanguagesState {
     available_languages: LanguageDto[];
     learning_languages: LearningLanguageDto[];
+    global_languages: LanguageDto[];
     count: number;
 }
 
@@ -14,6 +16,7 @@ export const useLanguagesStore = defineStore('languages', {
             available_languages: [],
             learning_languages: [],
             count: 0,
+            global_languages: [],
         };
     },
     getters: {
@@ -34,15 +37,27 @@ export const useLanguagesStore = defineStore('languages', {
         },
         async getLearningLanguages() {
             const res = await api.languages.getLearningLanguages();
-            this.count = res.data.count as unknown as number; 
+            this.count = res.data.count as unknown as number;
             this.learning_languages = res.data
                 .results as unknown as LearningLanguageDto[];
         },
+        async getGlobalLanguages() {
+            const res = await api.languages.getGlobalLanguages();
+            this.global_languages = res.data
+                .results as unknown as LanguageDto[];
+        },
         async postLearningLanguage(languages: LanguageDto[]) {
-            const res = await api.languages.postLearningLanguage(languages);
-            this.count = res.data.count as unknown as number; 
-            this.learning_languages = res.data
-                .results as unknown as LearningLanguageDto[];
-        }
+            try {
+                const res = await api.languages.postLearningLanguage(languages);
+                this.count = res.data.count as unknown as number;
+                this.learning_languages = res.data
+                    .results as unknown as LearningLanguageDto[];
+                return res;
+            } catch (error) {
+                if (isAxiosError(error)) {
+                    return error
+                }
+            }
+        },
     },
 });

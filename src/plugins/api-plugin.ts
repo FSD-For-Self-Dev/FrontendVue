@@ -1,3 +1,4 @@
+import { app } from './main-app';
 import type { App } from 'vue';
 import api from '@/api';
 
@@ -7,4 +8,4 @@ class ApiPlugin {
     }
 }
 
-export default new ApiPlugin();
+app.use(new ApiPlugin());

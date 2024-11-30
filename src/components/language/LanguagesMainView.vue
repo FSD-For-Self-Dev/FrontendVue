@@ -1,62 +1,52 @@
 <script lang="ts">
-import AddNewLanguageModal from '@/components/language/AddNewModal.vue';
-import Button from '@/components/UI/button/Button.vue';
-import ArrowForwardIcon from '@/assets/icons/arrows/ArrowForwardIcon.vue';
-import LineArrowForwardIcon from '@/assets/icons/arrows/LineArrowForwardIcon.vue';
-import LanguageIcon from '@/assets/icons/languages/LanguageIcon.vue';
-import AddIcon from '@/assets/icons/actions/AddIcon.vue';
-import TrophyStatusIcon from '@/assets/icons/vocabulary/status/TrophyStatusIcon.vue';
 import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
-import Inactive2StatusIcon from '@/assets/icons/vocabulary/status/Inactive2StatusIcon.vue';
-import ActiveStatusIcon from '@/assets/icons/vocabulary/status/ActiveStatusIcon.vue';
-import MasteredStatusIcon from '@/assets/icons/vocabulary/status/MasteredStatusIcon.vue';
+import AddLanguagesButton from './AddLanguagesButton.vue';
+
 
 export default {
     data() {
         return {
-            isLanguageModalOpen: false,
+            showModal: false
         };
     },
-    components: { Button, AddNewLanguageModal, ArrowForwardIcon, LineArrowForwardIcon, LanguageIcon, AddIcon, TrophyStatusIcon, ActiveStatusIcon, MasteredStatusIcon, Inactive2StatusIcon },
+    components: { AddLanguagesButton },
     computed: {
         ...mapState(useLanguagesStore, ['learning_languages', 'count'])
     },
     methods: {
-        openLanguageModal(event: Event) {
-            event.stopPropagation();
-            this.isLanguageModalOpen = true;
+        handleView() {
+            if (this.count > 0) {
+                this.$router.push('/languages');
+            } else {
+                this.handleToggleModal(!this.showModal);
+            }
         },
-        toggleLanguageModal(event: Event) {
-            event.stopPropagation();
-            this.isLanguageModalOpen = !this.isLanguageModalOpen;
-        },
-        closeModal() {
-            this.isLanguageModalOpen = false;
+        handleToggleModal(state: boolean) {
+            this.showModal = state;
         }
     },
 }
 </script>
 
 <template>
-    <button class="languages-main-view" @click="toggleLanguageModal">
+    <button class="languages-main-view" @click="handleView">
         <div class="languages-main-view--header">
 
             <h2 class="languages-main-view--title">
-                <LanguageIcon size="32"/>Изучаемые языки <span style="color: #737782">{{ count
-                    }}</span>
+                <svg-icon name="LanguageIcon" size="lg" style="stroke-width: 0.2;" />
+                Изучаемые языки
+                <span class="counter">{{ count }}</span>
             </h2>
 
-            <div id="forward-arrow">
-                <LineArrowForwardIcon size="32"/>
-            </div>
+            <svg-icon id="forward-arrow" name="ArrowForwardLineIcon" size="lg" />
         </div>
         <div class="languages-main-view--content">
             <div class="languages-main-view--not-found-learning-languages" v-if="learning_languages.length === 0">
                 Нет изучаемых языков
-                <Button @click="openLanguageModal" size="small" text="Добавить изучаемый язык">
-                    <AddIcon size="16"/>
-                </Button>
+
+                <AddLanguagesButton :extra-toggle-modal="handleToggleModal" :extra-show-modal="showModal"
+                    label-button="Добавить первый язык" />
 
             </div>
 
@@ -69,28 +59,24 @@ export default {
                                 lang.language.name_local }}</span>
                             <ul class="languages-main-view--learning-languages-list-info">
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <ActiveStatusIcon size="16" custom-color="#6C8DFF"/>{{ lang.active_words_count }}
+                                    <svg-icon name="ActiveStatusIcon" size="md" color="var:primary-500" />
+                                    <span class="languages-main-view--leaning-languages-counter">{{ lang.active_words_count }}</span>
                                 </li>
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <Inactive2StatusIcon size="16" custom-color="#737782"/>{{ lang.inactive_words_count }}
+                                    <svg-icon name="Inactive2StatusIcon" size="md" color="var:neutrals-600" />
+                                    <span class="languages-main-view--leaning-languages-counter">{{ lang.inactive_words_count }}</span>
                                 </li>
                                 <li class="languages-main-view--learning-languages-list-info-item">
-                                    <MasteredStatusIcon size="16" custom-color="#2FBC48"/>{{ lang.mastered_words_count
-                                    }}
+                                    <svg-icon name="MasteredStatusIcon" size="md" color="var:success-600" />
+                                    <span class="languages-main-view--leaning-languages-counter">{{ lang.mastered_words_count }}</span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
-
     </button>
-    <Teleport to="body">
-        <AddNewLanguageModal :close-handler="closeModal" v-if="isLanguageModalOpen" />
-    </Teleport>
 </template>
 
 <style lang="scss">
@@ -139,14 +125,15 @@ export default {
 
 
         .languages-main-view--title {
-            font-family: 'Inter';
-            font-size: 2rem;
-            line-height: 2.4rem;
-            font-weight: 500;
+            @include subheading-3;
+            color: $neutrals-900;
             display: flex;
             gap: 0.8rem;
             align-items: center;
 
+            .counter {
+                color: $neutrals-600
+            }
         }
     }
 
@@ -155,10 +142,8 @@ export default {
         width: 100%;
 
         .languages-main-view--not-found-learning-languages {
-            font-style: 'Inter';
-            font-size: 1.6rem;
-            line-height: 2rem;
-            font-weight: 400;
+            @include text-2;
+            color: $neutrals-700;
             text-align: left;
 
             display: flex;
@@ -172,14 +157,19 @@ export default {
 
 
             .languages-main-view--learning-languages-list-item {
-                padding: 3.2rem 2.4rem;
-                width: 18.8rem;
+                padding: 3.2rem 3.2rem;
+                width: 25.2rem;
+                height: 18.8rem;
+                display: flex;
+                align-items: center;
                 border-radius: 2rem;
                 background-size: cover;
 
                 .languages-main-view--learning-languages-list-item-content {
-                    padding: 3.2rem 4.2rem;
-                    width: 100%;
+                    gap: 1.2rem;
+                    padding: 3.6rem 3.2rem;
+                    width: 20.4rem;
+                    height: 12.4rem;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
@@ -187,10 +177,7 @@ export default {
                     background-color: rgba(255, 255, 255, 0.8);
 
                     .languages-main-view--learning-languages-list-item-name {
-                        font-family: 'Inter';
-                        font-size: 1.6rem;
-                        line-height: 2rem;
-                        font-weight: 400;
+                        @include heading-5;
                         color: $neutrals-900;
                         text-align: center;
                     }
@@ -204,13 +191,13 @@ export default {
             gap: 0.8rem;
 
             .languages-main-view--learning-languages-list-info-item {
-                font-family: 'Inter';
-                font-size: 1.2rem;
-                line-height: 1.6rem;
-                font-weight: 400;
-                color: $neutrals-600;
                 display: flex;
                 align-items: center;
+            }
+
+            .languages-main-view--leaning-languages-counter {
+                @include heading-6;
+                color: $neutrals-600;
             }
         }
 

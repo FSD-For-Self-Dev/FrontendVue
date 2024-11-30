@@ -72,9 +72,7 @@ export default {
   border-radius: $radius-2xl;
   padding-right: 2rem;
   border: 0.1rem solid $neutrals-400;
-  font-size: 1.6rem;
-  line-height: 2rem;
-  font-weight: 500;
+  @include text-2;
   color: $neutrals-700;
 
   @include hover {
@@ -95,14 +93,11 @@ export default {
 
   &--normal {
     min-height: 5.6rem;
-    font-size: 1.6rem;
-    line-height: 2rem;
     padding-left: 5.2rem;
   }
 
   &--large {
     min-height: 6.4rem;
-    font-weight: 600;
     padding-left: 6.4rem;
   }
 }
