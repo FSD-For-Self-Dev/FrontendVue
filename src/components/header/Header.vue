@@ -122,7 +122,7 @@ export default {
 		</div>
 	</header>
 	<div class="navbar" :class="{ show: showNavbar }">
-		<OnClickOutside @trigger="closeNavbar">
+		<OnClickOutside @trigger="closeNavbar" class="navbar__wrapper">
 		<ul class="navbar__list">
 			<li v-for="navbarItem in navbarItems" class="navbar__item">
 			<button :to="navbarItem.link" class="navbar__item-content" @click="closeNavbar">
@@ -245,6 +245,13 @@ export default {
 	display: flex;
 	flex-direction: column;
 	gap: 0.8rem;
+	height: 100%;
+	overflow-y: auto;
+    @include scroll;
+}
+
+.navbar__wrapper {
+	height: 100%;
 }
 
 .navbar__item {
