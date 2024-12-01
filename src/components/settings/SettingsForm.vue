@@ -33,7 +33,7 @@ export default {
     const formImage = ref(image);
     const formFirstName = ref(first_name);
     const formUserName = ref(username);
-    const formNativeLang = ref(native_languages.length > 0 ? native_languages : ['']);
+    const formNativeLang = ref(native_languages.length > 0 ? native_languages.slice() : ['']);
 
     return {
       onDrag,
@@ -71,11 +71,11 @@ export default {
       }
     },
     cancelChanges() {
+      y.value = 0;
       this.formImage = this.image;
       this.formFirstName = this.first_name;
       this.formUserName = this.username;
-      this.formNativeLang =
-        this.native_languages.length === 0 ? this.native_languages : [''];
+      this.formNativeLang = this.native_languages.slice();
     },
   },
 };
