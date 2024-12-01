@@ -41,7 +41,7 @@ export default {
                 <span class="card--status-counters-item--counter">{{ language.active_words_count }}</span>
             </li>
             <li class="card--status-counters-item">
-                <svg-icon name="Inactive2StatusIcon" :size="iconSizes[size]" color="var:neutrals-600" />
+                <svg-icon name="Inactive1StatusIcon" :size="iconSizes[size]" color="var:neutrals-600" />
                 <span class="card--status-counters-item--counter">{{ language.inactive_words_count }}</span>
             </li>
             <li class="card--status-counters-item">

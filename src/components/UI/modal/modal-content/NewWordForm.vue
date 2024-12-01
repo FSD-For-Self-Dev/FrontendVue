@@ -8,7 +8,7 @@ import Input from '@/components/UI/input/Input.vue';
 import Button from '@/components/UI/button/Button.vue';
 import Tab from '@/components/UI/tab/Tab.vue';
 import IconButton from '@/components/UI/button/IconButton.vue';
-import type { WordDto, WordTranslationDto } from '@/dto/vocabulary.dto';
+import type { NewWordDto, WordTranslationDto } from '@/dto/vocabulary.dto';
 import { useNotificationsStore } from '@/store/notifications';
 import { AxiosError, isAxiosError } from 'axios';
 
@@ -83,12 +83,11 @@ export default {
       this.newTranslationLanguage = '';
     },
     async submitForm() {
-      const data: WordDto = {
+      const data: NewWordDto = {
         text: this.word,
         language: this.language,
         translations: this.translations,
         note: this.note,
-        activity_status: 'inactive'
       }
 
       const res = await this.createWord(data);

@@ -85,7 +85,6 @@ export default {
   min-width: 16rem;
   align-items: center;
   justify-content: center;
-  // border: 0.1rem solid transparent;
   outline: 0.1rem solid transparent;
   text-decoration: none;
 
