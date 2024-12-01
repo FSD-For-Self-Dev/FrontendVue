@@ -16,7 +16,15 @@ import BooleanInput from '../UI/input/BooleanInput.vue';
 export default {
   components: { OnClickOutside, Input, Button, IconButton, BooleanInput },
   computed: {
-    ...mapWritableState(useAuthStore, ['email', 'password', 'password1', 'password2', 'username', 'remember', 'errors']),
+    ...mapWritableState(useAuthStore, [
+      'email',
+      'password',
+      'password1',
+      'password2',
+      'username',
+      'remember',
+      'errors',
+    ]),
   },
   props: {
     showAuth: {
@@ -34,7 +42,7 @@ export default {
     switchForm: {
       type: Function as PropType<(form: 'login' | 'register') => void>,
       required: true,
-    }
+    },
   },
   methods: {
     ...mapActions(useAuthStore, ['login', 'registration', 'clearState']),
@@ -51,31 +59,37 @@ export default {
       this.closeAuth();
     },
     async registrationSubmitHandler() {
-      await this.registration().then(res => {
+      await this.registration().then((res) => {
         if (!isAxiosError(res)) {
           this.password = this.password1;
           this.loginSubmitHandler();
         } else {
-          this.addNewMessage({ type: 'error', text: res.response?.data['non_field_errors'][0] });
+          this.addNewMessage({
+            type: 'error',
+            text: res.response?.data['non_field_errors'][0],
+          });
         }
       });
     },
     async loginSubmitHandler() {
-      await this.login().then(res => {
+      await this.login().then((res) => {
         if (!isAxiosError(res)) {
           Promise.all([
             this.getUser(),
             this.getAvailableLanguages(),
             this.getLearningLanguages(),
-            this.getVocabulary()
+            this.getVocabulary(),
           ]);
           this.closeFormHandler();
         } else {
-          this.addNewMessage({ type: 'error', text: res.response?.data['non_field_errors'][0] });
+          this.addNewMessage({
+            type: 'error',
+            text: res.response?.data['non_field_errors'][0],
+          });
         }
       });
     },
-  }
+  },
 };
 </script>
 
@@ -85,90 +99,114 @@ export default {
 
     <OnClickOutside :options="{ ignore: ['#notifications'] }" @trigger="closeFormHandler">
       <div class="modal-auth" v-if="showAuth">
-        <form @submit.prevent="loginSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'login'">
+        <form
+          @submit.prevent="loginSubmitHandler"
+          class="modal-auth--form"
+          v-if="viewAuth === 'login'"
+        >
           <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
           <div class="modal-auth--form--inputs">
-            <Input 
-              type="text" 
-              label="Логин" 
-              :show-label="true" 
+            <Input
+              type="text"
+              label="Логин"
+              :show-label="true"
               v-model="username"
-              :server-error="errors.username ? errors.username.toString() : undefined" 
+              :server-error="errors.username ? errors.username.toString() : undefined"
             />
-            <Input 
-              type="password" 
-              label="Пароль" 
-              :show-label="true" 
+            <Input
+              type="password"
+              label="Пароль"
+              :show-label="true"
               v-model="password"
-              :server-error="errors.password ? errors.password.toString() : undefined" 
+              :server-error="errors.password ? errors.password.toString() : undefined"
             />
           </div>
           <div class="modal-auth--form--actions">
             <div class="modal-auth--tools">
-              <BooleanInput label="Запомнить меня" type="checkbox" size="small" v-model="remember" checked />
+              <BooleanInput
+                label="Запомнить меня"
+                type="checkbox"
+                size="small"
+                v-model="remember"
+                checked
+              />
               <a class="modal-auth--link">Забыли пароль?</a>
             </div>
-            <Button 
+            <Button
               text="Войти"
-              style="width: 100%; display: flex; justify-content: center" 
-              variant="primary" 
+              style="width: 100%; display: flex; justify-content: center"
+              variant="primary"
               size="medium"
             />
             <div class="auth-switcher">
-              Нет аккаунта? 
-              <a class="modal-auth--link" @click="() => switchFormHandler('register')">Зарегистрироваться</a>
+              Нет аккаунта?
+              <a class="modal-auth--link" @click="() => switchFormHandler('register')"
+                >Зарегистрироваться</a
+              >
             </div>
           </div>
         </form>
 
-        <form @submit.prevent="registrationSubmitHandler" class="modal-auth--form" v-if="viewAuth === 'register'">
+        <form
+          @submit.prevent="registrationSubmitHandler"
+          class="modal-auth--form"
+          v-if="viewAuth === 'register'"
+        >
           <h2 class="modal-auth--title">Добро пожаловать!</h2>
           <div class="modal-auth--form--inputs">
-            <Input 
-              type="text" 
-              label="Логин" 
-              :show-label="true" 
+            <Input
+              type="text"
+              label="Логин"
+              :show-label="true"
               v-model="username"
-              :server-error="errors.username ? errors.username.toString() : undefined" 
+              :server-error="errors.username ? errors.username.toString() : undefined"
             />
-            <Input 
-              type="email" 
-              label="Email" 
-              :show-label="true" 
+            <Input
+              type="email"
+              label="Email"
+              :show-label="true"
               v-model="email"
-              :server-error="errors.email ? errors.email.toString() : undefined" 
+              :server-error="errors.email ? errors.email.toString() : undefined"
             />
-            <Input 
-              type="password" 
-              label="Пароль" 
-              :show-label="true" 
+            <Input
+              type="password"
+              label="Пароль"
+              :show-label="true"
               v-model="password1"
-              :server-error="errors.password1 ? errors.password1.toString() : undefined" 
+              :server-error="errors.password1 ? errors.password1.toString() : undefined"
             />
-            <Input 
-              type="password" 
-              label="Подтверждение пароля" 
-              :show-label="true" 
+            <Input
+              type="password"
+              label="Подтверждение пароля"
+              :show-label="true"
               v-model="password2"
-              :server-error="errors.password2 ? errors.password2.toString() : undefined" 
+              :server-error="errors.password2 ? errors.password2.toString() : undefined"
             />
           </div>
           <div class="modal-auth--form--actions">
-            <Button 
+            <Button
               text="Создать аккаунт"
-              style="width: 100%; display: flex; justify-content: center" 
-              variant="primary" 
+              style="width: 100%; display: flex; justify-content: center"
+              variant="primary"
               size="medium"
             />
             <div class="auth-switcher">
-              Уже есть аккаунт? 
-              <a class="modal-auth--link" @click="() => switchFormHandler('login')">Войти</a>
+              Уже есть аккаунт?
+              <a class="modal-auth--link" @click="() => switchFormHandler('login')"
+                >Войти</a
+              >
             </div>
           </div>
         </form>
 
         <div class="modal-auth--image" />
-        <IconButton icon="CloseIcon" size="md" variant="shadowed" class="modal-auth--close" @click="closeFormHandler" />
+        <IconButton
+          icon="CloseIcon"
+          size="md"
+          variant="shadowed"
+          class="modal-auth--close"
+          @click="closeFormHandler"
+        />
       </div>
     </OnClickOutside>
   </Teleport>
@@ -201,7 +239,7 @@ export default {
   justify-content: space-between;
 
   .modal-auth--image {
-    background-image: url("../../assets/images/modal-auth-image.jpg");
+    background-image: url('../../assets/images/modal-auth-image.jpg');
     background-size: cover;
     min-width: 44rem;
     height: 62rem;
