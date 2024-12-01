@@ -15,39 +15,51 @@ const { y } = useWindowScroll({ behavior: 'instant' });
 
 export default {
   components: { Dropdown, Input, Button, TextButton },
-  computed: {
-    ...mapWritableState(useUserStore, ["native_languages", "first_name", "username", "image"])
-  },
   setup() {
     const { global_languages } = useLanguagesStore();
+    const { first_name, username, image, native_languages } = useUserStore();
     const dropDownItems = computed(() => {
       return global_languages.map((lang) => {
         return {
           value: lang.name,
           label: lang.name_local,
-          icon: lang.flag_icon
-        }
-      })
-    })
+          icon: lang.flag_icon,
+        };
+      });
+    });
+
+    console.log(first_name, username, image, native_languages);
     const moreNativeLang = ref(false);
     const onDrag = ref(false);
+    const formImage = ref(image);
+    const formFirstName = ref(first_name);
+    const formUserName = ref(username);
+    const formNativeLang = ref(native_languages.length > 0 ? native_languages : ['']);
 
     return {
       onDrag,
       dropDownItems,
       global_languages,
-      moreNativeLang
-    }
+      moreNativeLang,
+      formImage,
+      formFirstName,
+      formUserName,
+      formNativeLang,
+      first_name,
+      username,
+      image,
+      native_languages,
+    };
   },
   methods: {
-    ...mapActions(useUserStore, ["patchUser"]),
+    ...mapActions(useUserStore, ['patchUser']),
     handleSubmit() {
       const data: UserDto = {
-        username: this.username,
-        first_name: this.first_name,
-        native_languages: this.native_languages,
-        image: this.image
-      }
+        username: this.formUserName,
+        first_name: this.formFirstName,
+        native_languages: this.formNativeLang,
+        image: this.formImage,
+      };
       this.patchUser(data);
     },
     async onFileChanged(event: Event) {
@@ -56,49 +68,85 @@ export default {
 
       if (files) {
         const base64 = useBase64(files[0]);
-        this.image = await base64.promise.value;
+        this.formImage = await base64.promise.value;
       }
     },
     cancelChanges() {
-      y.value = 0;
+      this.formImage = this.image;
+      this.formFirstName = this.first_name;
+      this.formUserName = this.username;
+      this.formNativeLang =
+        this.native_languages.length === 0 ? this.native_languages : [''];
+    },
   },
-  },
-}
+};
 </script>
 
 <template>
   <form class="settings--form" @submit.prevent="handleSubmit">
-    <label class="settings--label-image" :class="{ 'label--drag': onDrag }" v-on:dragenter="onDrag = true"
-      v-on:dragleave="onDrag = false" v-on:dragend="onDrag = false" v-on:drop="onDrag = false">
-      <input type="file" @change.stop="onFileChanged" accept="image/*" style="cursor: pointer;"/>
+    <label
+      class="settings--label-image"
+      :class="{ 'label--drag': onDrag }"
+      v-on:dragenter="onDrag = true"
+      v-on:dragleave="onDrag = false"
+      v-on:dragend="onDrag = false"
+      v-on:drop="onDrag = false"
+    >
+      <input
+        type="file"
+        @change.stop="onFileChanged"
+        accept="image/*"
+        style="cursor: pointer"
+      />
       <div class="settings--image-info">
-        <div v-if="!image" class="settings--not-found-avatar">
+        <div v-if="!formImage" class="settings--not-found-avatar">
           <svg-icon name="ProfileIcon" size="lg" color="var:neutral-500" />
         </div>
-        <img v-else class="settings--avatar" width="140" :src="image" v-if="image" />
-        <span class="settings--sub1">Перетащите файл сюда или <span class="settings--highlighted">выберите с
-            компьютера</span></span>
+        <img v-else class="settings--avatar" width="140" :src="formImage" />
+        <span class="settings--sub1"
+          >Перетащите файл сюда или
+          <span class="settings--highlighted">выберите с компьютера</span></span
+        >
         <span class="settings--sub2">Картинка (jpg, jpeg, png, gif)</span>
       </div>
     </label>
     <label class="settings--label-form">
       Имя
-      <Input v-model="first_name" />
+      <Input v-model="formFirstName" />
     </label>
     <label class="settings--label-form">
       Логин (отображается как @your_login)
-      <Input v-model="username" />
+      <Input v-model="formUserName" />
     </label>
     <div class="settings--label-form">
       Родной язык
-      <Dropdown placeholder="Родной язык 1" :items="dropDownItems" v-model="native_languages[0]" />
-      <Dropdown placeholder="Родной язык 2" :items="dropDownItems" v-model="native_languages[1]"
-        v-if="native_languages[1] || moreNativeLang" />
-      <TextButton text="Добавить еще один родной язык" icon="AddIcon" type="button"
-        @click="moreNativeLang = true" v-else />
+      <Dropdown
+        placeholder="Родной язык 1"
+        :items="dropDownItems"
+        v-model="formNativeLang[0]"
+      />
+      <Dropdown
+        placeholder="Родной язык 2"
+        :items="dropDownItems"
+        v-model="formNativeLang[1]"
+        v-if="formNativeLang[1] || moreNativeLang"
+      />
+      <TextButton
+        text="Добавить еще один родной язык"
+        icon="AddIcon"
+        type="button"
+        @click="moreNativeLang = true"
+        v-else
+      />
     </div>
     <div class="buttons">
-      <Button text="Сбросить" size="medium" variant="secondary" @click="cancelChanges()" />
+      <Button
+        text="Сбросить"
+        size="medium"
+        variant="secondary"
+        type="button"
+        @click="cancelChanges()"
+      />
       <Button text="Сохранить" size="medium" type="submit" />
     </div>
   </form>
@@ -139,11 +187,11 @@ export default {
     &.label--drag {
       border: 1px dashed $primary-500;
       background-color: $primary-200;
-      transition: all .4s ease;
+      transition: all 0.4s ease;
 
       .settings--avatar {
         position: relative;
-        transition: all .5s ease;
+        transition: all 0.5s ease;
         top: 15%;
       }
 
@@ -190,7 +238,7 @@ export default {
       .settings--not-found-avatar {
         width: 6.4rem;
         height: 6.4rem;
-        border: .1rem solid $neutrals-400;
+        border: 0.1rem solid $neutrals-400;
         color: $neutrals-500;
         box-sizing: border-box;
         border-radius: 50%;
@@ -217,5 +265,4 @@ export default {
     }
   }
 }
-
 </style>
