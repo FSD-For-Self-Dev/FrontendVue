@@ -28,7 +28,6 @@ export default {
       });
     });
 
-    console.log(first_name, username, image, native_languages);
     const moreNativeLang = ref(false);
     const onDrag = ref(false);
     const formImage = ref(image);
