@@ -4,17 +4,17 @@ import { isAxiosError } from 'axios';
 import { defineStore } from 'pinia';
 
 export interface VocabularyStore {
-    count: number;
-    words: WordDto[];
-    errors: {
-        language: string[];
-        text: string[];
-    };
-    filterOptions: {
-        language: string;
-        text: string;
-        activity_status: string;
-    };
+  count: number;
+  words: WordDto[];
+  errors: {
+    language: string[];
+    text: string[];
+  };
+  filterOptions: {
+    language: string;
+    text: string;
+    activity_status: string;
+  };
 }
 
 export const useVocabularyStore = defineStore('vocabulary', {
