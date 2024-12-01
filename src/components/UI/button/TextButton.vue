@@ -33,14 +33,13 @@ export default {
 <style lang="scss" scoped>
 .text-button {
   @include text-3;
+  align-items: center;
+  gap: 1.2rem;
   display: inline-flex;
   width: max-content;
   background-color: transparent;
   border: transparent;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
   cursor: pointer;
   color: $primary-500;
 

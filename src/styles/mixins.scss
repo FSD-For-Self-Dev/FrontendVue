@@ -33,6 +33,24 @@
     overflow: hidden !important;
 }
 
+@mixin scroll {
+    &::-webkit-scrollbar {
+        width: .4rem;
+        height: .4rem;
+        background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: $radius-lg;
+        background-color: $neutrals-400;
+        cursor: pointer;
+
+        @include hover {
+          background-color: $neutrals-500;
+        }
+    }
+}
+
 // *** Grid mixins below ***
 
 @mixin grid16($columns: 4) {

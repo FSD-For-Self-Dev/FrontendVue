@@ -1,17 +1,17 @@
 <script lang="ts">
 import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
-import AddLanguagesButton from '@/components/language/AddLanguagesButton.vue';
 import PageTitle from '@/components/UI/page-title/PageTitle.vue';
+import LanguagesListView from '@/components/language/LanguagesListView.vue';
 
 export default {
-	components: { PageLayout, PageTitle, AddLanguagesButton },
+	components: { PageLayout, PageTitle, LanguagesListView },
 };
 </script>
 
 <template>
 	<PageLayout>
 		<PageTitle text="Языки" icon="LanguageIcon" />
-		<AddLanguagesButton button-size="medium" button-text="Добавить язык" />
+		<LanguagesListView />
 	</PageLayout>
 </template>
 

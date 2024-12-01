@@ -7,4 +7,5 @@ export interface InputProps {
   serverError?: string,
   icon?: string,
   iconPos?: "left" | "right",
+  additionalIcon?: string,
 }

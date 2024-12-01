@@ -1,6 +1,7 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
 import { type PropType, type Component, ref } from 'vue';
+import { defineAsyncComponent } from 'vue'
 
 export default {
   components: { OnClickOutside },
@@ -13,9 +14,6 @@ export default {
       type: String,
       required: true
     },
-    form: {
-      type: Object as PropType<Component>,
-    },
     icon: {
       type: String,
       required: false
@@ -23,6 +21,10 @@ export default {
     size: {
       type: String as PropType<'md' | 'lg'>,
       default: 'md'
+    },
+    modalContent: {
+      type: String,
+      required: true
     }
   },
   setup(props) {
@@ -39,7 +41,11 @@ export default {
   computed: {
     modalSize() {
       return this.size === 'lg' ? 'modal--lg' : 'modal--md';
-    }
+    },
+    dynamicComponent() {
+      const modalContent = this.modalContent;
+      return defineAsyncComponent(() => import(`./modal-content/${modalContent}.vue`));
+    },
   }
 }
 </script>
@@ -71,7 +77,7 @@ export default {
         </div>
 
         <div class="modal--form">
-          <component :is="form" :closeForm="closeModal" :updateTitle="updateTitle" />
+          <component :is="dynamicComponent" :closeForm="closeModal" :updateTitle="updateTitle" />
         </div>
       </div>
     </OnClickOutside>
@@ -102,7 +108,7 @@ export default {
   box-shadow: $regular-shadow;
 
   &.modal--md {
-    width: 68.5rem;
+    width: 70rem;
   }
 
   &.modal--lg {

@@ -29,8 +29,7 @@ export default {
 </script>
 
 <template>
-    <button class="vocabulary-main-view"
-        @click="count > 0 ? $router.push('vocabulary') : handleToggleModal(!showModal)">
+    <button class="vocabulary-main-view" @click="$router.push('vocabulary')">
         <div class="vocabulary-main-view--header">
             <h2 class="vocabulary-main-view--title">
                 <svg-icon name="VocabularyIcon" size="lg" style="stroke-width: 0.2;" />
@@ -126,19 +125,10 @@ export default {
 
         .vocabulary-main-view--words {
             display: flex;
-            gap: 1.6rem;
+            gap: 2rem;
             padding-bottom: 1.6rem;
             overflow-x: auto;
-
-            &::-webkit-scrollbar {
-                height: .4rem;
-                background-color: transparent;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                border-radius: $radius-lg;
-                background-color: $neutrals-400;
-            }
+            @include scroll;
 
             .vocabulary-main-view--word {
                 padding: 1.6rem 2rem;

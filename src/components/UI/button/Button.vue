@@ -48,7 +48,6 @@ export default {
         "button--danger": this.variant === "danger",
       };
     },
-
     iconSizes() {
       return {
         "normal": "lg",
