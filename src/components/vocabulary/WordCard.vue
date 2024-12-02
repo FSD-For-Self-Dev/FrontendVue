@@ -5,6 +5,8 @@ import { useLanguagesStore } from '@/store/languages';
 import { mapActions, mapState } from 'pinia';
 import WordTagCard from './WordTagCard.vue';
 import { useNotificationsStore } from '@/store/notifications';
+import { useVocabularyStore } from '@/store/vocabulary';
+import { isAxiosError } from 'axios';
 
 export default {
   components: { WordTagCard },
@@ -56,9 +58,13 @@ export default {
       else if (this.word.text.length > 32) return '2rem';
       else return '2.8rem';
     },
+    getFavOpacity() {
+      return this.word.favorite ? 100 : 0;
+    },
   },
   methods: {
     ...mapActions(useNotificationsStore, ['addNewMessage']),
+    ...mapActions(useVocabularyStore, ['addWordToFavorite', 'removeWordFromFavorite']),
     getFlagIcon(neededLang: string | undefined) {
       return this.global_languages.find((lang) => lang.name === neededLang)?.flag_icon;
     },
@@ -86,6 +92,50 @@ export default {
         text: `Слово скопировано: ${text.slice(0, 20)}`,
       });
     },
+    async handleFavourite() {
+      console.log(this.word.favorite);
+      if (this.word.favorite) {
+        console.log('fav');
+        const res = await this.removeWordFromFavorite(this.word.slug);
+        console.log(res);
+        if (isAxiosError(res)) {
+          if (res.response?.status === 409) {
+            this.addNewMessage({
+              type: 'error',
+              text: 'Слово уже не находится в вашем избранном',
+            });
+          } else {
+            console.log(res.response?.data);
+          }
+        } else {
+          this.word.favorite = false;
+          this.addNewMessage({
+            type: 'info',
+            text: `Слово удалено из избранного: ${this.word.text}`,
+          });
+        }
+      } else {
+        console.log('unfav');
+        const res = await this.addWordToFavorite(this.word.slug);
+        console.log(res);
+        if (isAxiosError(res)) {
+          if (res.response?.status === 409) {
+            this.addNewMessage({
+              type: 'error',
+              text: 'Слово уже находится в вашем избранном',
+            });
+          } else {
+            console.log(res.response?.data);
+          }
+        } else {
+          this.word.favorite = true;
+          this.addNewMessage({
+            type: 'info',
+            text: `Слово добавлено в избранное: ${this.word.text}`,
+          });
+        }
+      }
+    },
   },
 };
 </script>
@@ -105,8 +155,17 @@ export default {
         <p>{{ word.activity_status }}</p>
       </div>
       <div class="card__header--actions" :class="backgroundClasses">
-        <svg-icon name="FavouriteIcon" size="lg" />
-        <svg-icon name="MoreIcon" size="lg" />
+        <div @click="handleFavourite" class="fav-icon">
+          <svg-icon
+            name="FavouriteFilledIcon"
+            size="lg"
+            class="fav"
+            color="var:danger-500"
+            hoverColor="var:danger-400"
+          />
+          <svg-icon name="FavouriteIcon" size="lg" class="unfav" />
+        </div>
+        <svg-icon name="MoreIcon" size="lg" hoverColor="var:primary-500" />
       </div>
     </div>
     <div class="card__content" :class="backgroundClasses">
@@ -199,14 +258,14 @@ export default {
   cursor: pointer;
 
   // Text wrap
-    white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    white-space: pre-wrap;       /* css-3 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
-    white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
-    word-break: break-all;
-    white-space: normal;
+  white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  white-space: pre-wrap; /* css-3 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
+  word-break: break-all;
+  white-space: normal;
 
   &__background {
     position: absolute;
@@ -395,6 +454,22 @@ export default {
 
   &:active {
     outline: $primary-500 solid 0.1rem;
+  }
+}
+
+.fav-icon {
+  cursor: pointer;
+  display: flex;
+
+  .fav {
+    position: absolute;
+    opacity: v-bind(getFavOpacity);
+  }
+}
+
+.fav-icon:hover {
+  .fav {
+    opacity: 100%;
   }
 }
 </style>

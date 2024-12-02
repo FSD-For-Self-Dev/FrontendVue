@@ -50,6 +50,26 @@ export const useVocabularyStore = defineStore('vocabulary', {
         return error;
       }
     },
+    async addWordToFavorite(wordSlug: string) {
+      try {
+        await api.vocabulary.addWordToFavorite(wordSlug);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          this.errors = error.response?.data;
+        }
+        return error;
+      }
+    },
+    async removeWordFromFavorite(wordSlug: string) {
+      try {
+        await api.vocabulary.removeWordFromFavorite(wordSlug);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          this.errors = error.response?.data;
+        }
+        return error;
+      }
+    },
     clearDataVocabulary() {
       this.words = [];
     },
