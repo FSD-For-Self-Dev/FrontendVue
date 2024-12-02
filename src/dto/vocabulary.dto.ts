@@ -25,10 +25,16 @@ export interface NewWordDto {
     text: string;
     types?: string[];
     translations?: WordTranslationDto[];
+    image_associations?: ImageAssociationsDto[];
     note?: string;
 }
 
 export interface WordTranslationDto {
     text: string;
     language: string;
+}
+
+export interface ImageAssociationsDto {
+    image?: string;
+    image_url?: string;
 }
