@@ -7,9 +7,10 @@ import WordTagCard from './WordTagCard.vue';
 import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { isAxiosError } from 'axios';
+import WordTools from './WordTools.vue';
 
 export default {
-  components: { WordTagCard },
+  components: { WordTagCard, WordTools },
   props: {
     word: {
       type: Object as PropType<WordDto>,
@@ -19,6 +20,7 @@ export default {
   data() {
     return {
       translationCurrentIndex: 0,
+      showWordTools: false,
     };
   },
   computed: {
@@ -165,9 +167,13 @@ export default {
           />
           <svg-icon name="FavouriteIcon" size="lg" class="unfav" />
         </div>
-        <svg-icon name="MoreIcon" size="lg" hoverColor="var:primary-500" />
+        <div class="more-icon">
+          <svg-icon name="MoreFilledIcon" size="lg" color="var:primary-500" hoverColor="var:primary-400" @click.stop="() => showWordTools = !showWordTools" class="more-inactive" v-if="showWordTools" />
+          <svg-icon name="MoreIcon" size="lg" hoverColor="var:primary-500" @click.stop="() => showWordTools = !showWordTools" class="more-active" v-else />
+        </div>
       </div>
     </div>
+    <WordTools :handleClose="() => showWordTools = false" v-if="showWordTools" />
     <div class="card__content" :class="backgroundClasses">
       <div class="card__content--language">
         <img :src="getFlagIcon(word.language)" alt="Icon" class="language-icon" />
@@ -470,6 +476,21 @@ export default {
 .fav-icon:hover {
   .fav {
     opacity: 100%;
+  }
+}
+
+.more-icon {
+  cursor: pointer;
+  display: flex;
+  width: 3.2rem;
+  padding: 0;
+
+  .more-inactive {
+    height: 100%
+  }
+
+  .more-active {
+    height: 100%
   }
 }
 </style>
