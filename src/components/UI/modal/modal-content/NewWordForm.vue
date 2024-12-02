@@ -425,7 +425,7 @@ export default {
   &--footer {
     display: flex;
     justify-content: right;
-    gap: 1.2rem;
+    gap: 1.6rem;
     padding-top: 4rem;
 
     .left-buttons {

@@ -166,7 +166,7 @@ export default {
   .buttons {
     display: inline-flex;
     justify-content: right;
-    gap: 1.2rem;
+    gap: 1.6rem;
   }
 
   .settings--label-form {

@@ -276,6 +276,7 @@ export default {
       .language-icon {
         width: 100%;
         height: 100%;
+        @include text-3;
       }
     }
 

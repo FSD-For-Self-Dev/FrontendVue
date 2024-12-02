@@ -184,7 +184,7 @@ export default {
 
   .languages-form--actions {
     display: flex;
-    gap: 1.2rem;
+    gap: 1.6rem;
     justify-content: flex-end;
     padding-top: 4rem;
   }
