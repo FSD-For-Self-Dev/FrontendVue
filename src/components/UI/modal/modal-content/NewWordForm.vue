@@ -324,9 +324,9 @@ export default {
             >
               <svg-icon
                 name="AddIcon"
-                size="sm"
+                size="md"
                 color="var:primary-500"
-                style="stroke-width: 0.02rem; padding-left: 0"
+                style="stroke-width: 0.05rem; padding-left: 0"
               />
               <span>Добавить перевод</span>
             </button>
@@ -366,7 +366,7 @@ export default {
                 name="AddIcon"
                 size="nm"
                 color="var:primary-500"
-                style="stroke-width: 0.02rem; padding-left: 0"
+                style="stroke-width: 0.05rem; padding-left: 0"
               />
               <span>Добавить ассоциацию</span>
             </button>
@@ -488,7 +488,7 @@ export default {
     flex-direction: column;
     gap: 1.2rem;
     background-color: $neutrals-100;
-    @include text-2;
+    @include subheading-4;
     color: $primary-500;
     cursor: pointer;
 
