@@ -14,7 +14,7 @@ export interface LearningLanguageDto {
     language: LanguageDto;
     level: string;
     cover: string;
-    count: number;
+    words_count: number;
     inactive_words_count: number;
     active_words_count: number;
     mastered_words_count: number;

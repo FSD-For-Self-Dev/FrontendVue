@@ -32,11 +32,11 @@ export default {
     WordImageItem,
     WordTranslationItem,
   },
-  data() {
+  data(methods) {
     return {
       word: '',
       note: '',
-      language: '',
+      language: methods.getFavouriteLanguage(),
       translations: [] as WordTranslationDto[],
       image_associations: [] as ImageAssociationsDto[],
       step: 1,
@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     ...mapState(useVocabularyStore, ['count', 'words']),
-    ...mapState(useLanguagesStore, ['learning_languages', 'all_languages']),
+    ...mapState(useLanguagesStore, ['all_languages']),
     emptyImage(): string {
       return new URL(`/src/assets/images/emptyImage.svg`, import.meta.url).href;
     },
@@ -80,6 +80,17 @@ export default {
   methods: {
     ...mapActions(useVocabularyStore, ['createWord', 'getVocabulary']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
+    ...mapState(useLanguagesStore, ['learning_languages']),
+    getFavouriteLanguage() {
+      const counts = this.learning_languages().map((lang) => {
+        return lang.words_count;
+      });
+      const max_count = Math.max.apply(null, counts);
+      const language = this.learning_languages().find(
+        (lang) => lang.words_count === max_count,
+      )?.language.name;
+      return language ? language : '';
+    },
     handleNext() {
       if (this.step === 1) {
         this.updateTitle('Кастомизируйте новое слово, чтобы лучше его запомнить');
@@ -249,7 +260,7 @@ export default {
           placeholder="Изучаемый язык"
           v-model="language"
           :items="
-            learning_languages.map((lang) => {
+            learning_languages().map((lang) => {
               return {
                 value: lang.language.name,
                 label: lang.language.name_local,
