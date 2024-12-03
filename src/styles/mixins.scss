@@ -51,6 +51,40 @@
     }
 }
 
+@mixin dropdown-list {
+  box-shadow: $regular-shadow;
+  background-color: $neutrals-100;
+  min-width: 28.8rem;
+  border-radius: 2rem;
+}
+
+@mixin dropdown-list-item {
+  @include text-2;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  cursor: pointer;
+  width: 100%;
+  padding: 1.6rem 2rem;
+
+  &:nth-child(1) {
+    border-radius: 2rem 2rem 0 0;
+  }
+  &:last-child {
+    border-radius: 0 0 2rem 2rem;
+  }
+
+  &:hover {
+    background-color: $primary-200;
+  }
+
+  &:active {
+    background-color: $primary-300;
+  }
+}
+
 // *** Grid mixins below ***
 
 @mixin grid16($columns: 4) {
