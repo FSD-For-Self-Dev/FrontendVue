@@ -2,6 +2,7 @@
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapActions, mapState } from 'pinia';
+import type { PropType } from 'vue';
 import type { DropdownItem } from '@/types/components/dropdown';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import Input from '@/components/UI/input/Input.vue';
@@ -32,11 +33,25 @@ export default {
     WordImageItem,
     WordTranslationItem,
   },
-  data(methods) {
+  props: {
+    editObjectLookup: {
+      type: String,
+      required: false,
+    },
+    closeForm: {
+      type: Function,
+      required: true,
+    },
+    updateTitle: {
+      type: Function,
+      default: () => {},
+    },
+  },
+  data() {
     return {
       word: '',
       note: '',
-      language: methods.getLastLanguage(),
+      language: '',
       translations: [] as WordTranslationDto[],
       image_associations: [] as ImageAssociationsDto[],
       step: 1,
@@ -54,21 +69,14 @@ export default {
       submitProcess: false,
     };
   },
-  setup() {
+  setup(props) {
     const onDrag = ref(false);
+    const editObjectLookup = ref(props.editObjectLookup);
+
     return {
       onDrag,
+      editObjectLookup,
     };
-  },
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-    updateTitle: {
-      type: Function,
-      default: () => {},
-    },
   },
   computed: {
     ...mapState(useVocabularyStore, ['count']),
@@ -78,11 +86,21 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useVocabularyStore, ['createWord', 'getVocabulary']),
+    ...mapActions(useVocabularyStore, [
+      'createWord',
+      'patchWord',
+      'getVocabulary',
+      'getWordProfile',
+    ]),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapState(useVocabularyStore, ["words"]),
+    ...mapState(useVocabularyStore, ['words']),
     getLastLanguage() {
-      try {return this.words()[0].language;} catch (error) {return ''};
+      try {
+        const language = this.words()[0].language;
+        return language ? language : '';
+      } catch (error) {
+        return '';
+      }
     },
     handleNext() {
       if (this.step === 1) {
@@ -115,6 +133,7 @@ export default {
       this.editImage = '';
       this.image_associations = [];
       this.editIndex = undefined;
+      this.editObjectLookup = undefined;
     },
     async handleSubmitNewTranslation() {
       if (typeof this.editIndex != 'undefined') {
@@ -221,7 +240,12 @@ export default {
         image_associations: this.image_associations,
         note: this.note,
       };
-      const res = await this.createWord(data);
+      const res = this.editObjectLookup
+        ? await this.patchWord(this.editObjectLookup, data)
+        : await this.createWord(data);
+      const successMsg = this.editObjectLookup
+        ? 'Изменения сохранены'
+        : 'Новое слово добавлено в словарь';
       if (isAxiosError(res)) {
         if (res.response?.status === 409) {
           this.addNewMessage({
@@ -236,11 +260,28 @@ export default {
         this.handleClose();
         this.addNewMessage({
           type: 'info',
-          text: 'Слово успешно добавлено в словарь',
+          text: successMsg,
         });
       }
       this.submitProcess = false;
     },
+  },
+  mounted() {
+    if (this.editObjectLookup) {
+      Promise.all([this.getWordProfile(this.editObjectLookup)]).finally(() => {
+        const { wordProfile } = useVocabularyStore();
+
+        this.word = wordProfile.text ? wordProfile.text : '';
+        this.language = wordProfile.language ? wordProfile.language : '';
+        this.note = wordProfile.note ? wordProfile.note : '';
+        this.translations = wordProfile.translations ? wordProfile.translations : [];
+        this.image_associations = wordProfile.image_associations
+          ? wordProfile.image_associations
+          : [];
+      });
+    } else {
+      this.language = this.getLastLanguage();
+    }
   },
 };
 </script>
@@ -387,12 +428,19 @@ export default {
 
       <div v-if="step === 1" class="vocabulary-modal--footer">
         <div></div>
-        <Button size="medium" variant="secondary" text="Отменить" @click="handleClose" />
+        <Button
+          size="medium"
+          variant="secondary"
+          text="Отменить"
+          @click="handleClose"
+          type="button"
+        />
         <Button
           size="medium"
           text="Далее"
           @click="handleNext"
           :disabled="word.length === 0 || language.length === 0"
+          type="button"
         />
       </div>
       <div v-else class="vocabulary-modal--footer">
@@ -402,12 +450,19 @@ export default {
             variant="secondary"
             text="Отменить"
             @click="handleClose"
+            type="button"
           />
         </div>
-        <Button size="medium" text="Назад" variant="secondary" @click="handlePrev" />
+        <Button
+          size="medium"
+          text="Назад"
+          variant="secondary"
+          @click="handlePrev"
+          type="button"
+        />
         <div>
           <Button v-if="!submitProcess" size="medium" type="submit" text="Сохранить" />
-          <Button v-else size="medium" text="Сохраняем..." disabled />
+          <Button v-else size="medium" text="Сохранение..." disabled />
         </div>
       </div>
     </form>

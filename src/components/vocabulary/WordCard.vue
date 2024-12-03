@@ -8,9 +8,10 @@ import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { isAxiosError } from 'axios';
 import WordTools from './WordTools.vue';
+import Modal from '../UI/modal/Modal.vue';
 
 export default {
-  components: { WordTagCard, WordTools },
+  components: { WordTagCard, WordTools, Modal },
   props: {
     word: {
       type: Object as PropType<WordDto>,
@@ -21,6 +22,8 @@ export default {
     return {
       translationCurrentIndex: 0,
       showWordTools: false,
+      showModal: false,
+      editWordSlug: '' as string,
     };
   },
   computed: {
@@ -95,11 +98,8 @@ export default {
       });
     },
     async handleFavourite() {
-      console.log(this.word.favorite);
       if (this.word.favorite) {
-        console.log('fav');
         const res = await this.removeWordFromFavorite(this.word.slug);
-        console.log(res);
         if (isAxiosError(res)) {
           if (res.response?.status === 409) {
             this.addNewMessage({
@@ -117,9 +117,7 @@ export default {
           });
         }
       } else {
-        console.log('unfav');
         const res = await this.addWordToFavorite(this.word.slug);
-        console.log(res);
         if (isAxiosError(res)) {
           if (res.response?.status === 409) {
             this.addNewMessage({
@@ -137,6 +135,15 @@ export default {
           });
         }
       }
+    },
+    handleDelete() {
+      return;
+    },
+    handleEdit() {
+      this.showWordTools = false;
+      this.showModal = true;
+      this.editWordSlug = this.word.slug;
+      return;
     },
   },
 };
@@ -168,12 +175,32 @@ export default {
           <svg-icon name="FavouriteIcon" size="lg" class="unfav" />
         </div>
         <div class="more-icon">
-          <svg-icon name="MoreFilledIcon" size="lg" color="var:primary-500" hoverColor="var:primary-400" @click.stop="() => showWordTools = !showWordTools" class="more-inactive" v-if="showWordTools" />
-          <svg-icon name="MoreIcon" size="lg" hoverColor="var:primary-500" @click.stop="() => showWordTools = !showWordTools" class="more-active" v-else />
+          <svg-icon
+            name="MoreFilledIcon"
+            size="lg"
+            color="var:primary-500"
+            hoverColor="var:primary-400"
+            @click.stop="() => (showWordTools = !showWordTools)"
+            class="more-inactive"
+            v-if="showWordTools"
+          />
+          <svg-icon
+            name="MoreIcon"
+            size="lg"
+            hoverColor="var:primary-500"
+            @click.stop="() => (showWordTools = !showWordTools)"
+            class="more-active"
+            v-else
+          />
         </div>
       </div>
     </div>
-    <WordTools :handleClose="() => showWordTools = false" v-if="showWordTools" />
+    <WordTools
+      :handleClose="() => (showWordTools = false)"
+      v-if="showWordTools"
+      :handle-delete="handleDelete"
+      :handle-edit="handleEdit"
+    />
     <div class="card__content" :class="backgroundClasses">
       <div class="card__content--language">
         <img :src="getFlagIcon(word.language)" alt="Icon" class="language-icon" />
@@ -230,6 +257,15 @@ export default {
       </div>
     </div>
   </article>
+  <Modal
+    size="lg"
+    v-if="showModal"
+    :close-modal="() => (showModal = false)"
+    title-modal="Редактировать слово"
+    icon="EditIcon"
+    modalContent="NewWordForm"
+    :editObjectLookup="editWordSlug"
+  />
 </template>
 
 <style lang="scss" scoped>
@@ -486,11 +522,11 @@ export default {
   padding: 0;
 
   .more-inactive {
-    height: 100%
+    height: 100%;
   }
 
   .more-active {
-    height: 100%
+    height: 100%;
   }
 }
 </style>

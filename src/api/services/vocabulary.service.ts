@@ -8,11 +8,17 @@ export default (api: IApi) => {
         createWord: (word) => {
             return api.request.post('/api/vocabulary/', word);
         },
+        patchWord: (wordSlug, wordUpdated) => {
+            return api.request.patch(`/api/vocabulary/${wordSlug}/`, wordUpdated);
+        },
         addWordToFavorite: (wordSlug) => {
             return api.request.post(`/api/vocabulary/${wordSlug}/favorite/`);
         },
         removeWordFromFavorite: (wordSlug) => {
             return api.request.delete(`/api/vocabulary/${wordSlug}/favorite/`);
+        },
+        getWordProfile: (wordSlug) => {
+            return api.request.get(`/api/vocabulary/${wordSlug}/`);
         },
     };
 };

@@ -7,7 +7,6 @@ export default (api: IApi) => {
             return api.request.post('/api/auth/login/', data);
         },
         logout() {
-            console.log('logout');
             return api.request.post('/api/auth/logout/');
         },
         registration(data: RegistrationDto) {
