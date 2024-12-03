@@ -54,7 +54,9 @@
 @mixin dropdown-list {
   box-shadow: $regular-shadow;
   background-color: $neutrals-100;
+  width: max-content;
   min-width: 28.8rem;
+  max-width: 52rem;
   border-radius: 2rem;
 }
 
@@ -68,6 +70,7 @@
   cursor: pointer;
   width: 100%;
   padding: 1.6rem 2rem;
+  text-align: left;
 
   &:nth-child(1) {
     border-radius: 2rem 2rem 0 0;

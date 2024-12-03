@@ -88,6 +88,10 @@ export default {
     @include focus {
       background-color: $primary-700;
     }
+
+    &.active {
+      background-color: $primary-700;
+    }
   }
 
   &--secondary {
