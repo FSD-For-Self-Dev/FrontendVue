@@ -85,6 +85,18 @@ export default {
     emptyImage(): string {
       return new URL(`/src/assets/images/emptyImage.svg`, import.meta.url).href;
     },
+    getTranslationLanguages() {
+      const all_languages_filtered = this.all_languages.filter((lang) => {
+        return (lang.name !== this.language)
+      });
+      return all_languages_filtered.map((lang) => {
+        return {
+          value: lang.name,
+          label: lang.name_local,
+          icon: lang.flag_icon,
+        };
+      });
+    },
   },
   methods: {
     ...mapActions(useVocabularyStore, [
@@ -241,7 +253,6 @@ export default {
         image_associations: this.image_associations,
         note: this.note,
       };
-      console.log('DATA', data);
       const res = this.editObjectLookup
         ? await this.patchWord(this.editObjectLookup, data)
         : await this.createWord(data);
@@ -336,16 +347,9 @@ export default {
             <Dropdown
               placeholder="Язык перевода"
               v-model="newTranslationLanguage"
-              :items="
-                all_languages.map((lang) => {
-                  return {
-                    value: lang.name,
-                    label: lang.name_local,
-                    icon: lang.flag_icon,
-                  };
-                })
-              "
+              :items="getTranslationLanguages"
               style="padding-inline: 2.8rem"
+              emptyTip="Нет родных или других изучаемых языков"
             />
             <div class="vocabulary-modal--translation-form-input">
               <Input

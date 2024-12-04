@@ -23,6 +23,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        emptyTip: {
+            type: String,
+            required: false,
+        },
     },
     emits: ['update:modelValue'],
     setup(props, { emit }) {
@@ -99,12 +103,16 @@ export default {
                     class="dropdown-item"
                     :class="{ 'dropdown-item--selected': isItemSelected(item) }"
                     @click.stop="handleItemClick(item)"
+                    v-if="items.length > 0"
                 >
                     <span v-if="item.icon" class="icon-container">
                         <img :src="item.icon" alt="Icon" style="width: 100%; height: 100%" />
                     </span>
                     <svg-icon v-if="item.icon_component" v-bind:name="item.icon_component":color="item.icon_component_custom_color" size="nm" />
                     <span>{{ item.label }}</span>
+                </div>
+                <div class="dropdown-item disabled" v-else-if="emptyTip">
+                    <span>{{ emptyTip }}</span>
                 </div>
             </div>
         </div>
