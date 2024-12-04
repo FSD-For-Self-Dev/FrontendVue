@@ -22,8 +22,10 @@ export default {
     return {
       translationCurrentIndex: 0,
       showWordTools: false,
-      showModal: false,
+      showEditWordModal: false,
+      showDeleteWordModal: false,
       editWordSlug: '' as string,
+      deleteWordSlug: '' as string,
     };
   },
   computed: {
@@ -137,11 +139,14 @@ export default {
       }
     },
     handleDelete() {
+      this.showWordTools = false;
+      this.showDeleteWordModal = true;
+      this.deleteWordSlug = this.word.slug;
       return;
     },
     handleEdit() {
       this.showWordTools = false;
-      this.showModal = true;
+      this.showEditWordModal = true;
       this.editWordSlug = this.word.slug;
       return;
     },
@@ -164,7 +169,7 @@ export default {
         <p>{{ word.activity_status }}</p>
       </div>
       <div class="card__header--actions" :class="backgroundClasses">
-        <div @click="handleFavourite" class="fav-icon">
+        <div @click.stop="handleFavourite" class="fav-icon">
           <svg-icon
             name="FavouriteFilledIcon"
             size="lg"
@@ -216,7 +221,7 @@ export default {
             size="md"
             color="var:neutrals-600"
             hoverColor="var:primary-700"
-            @click="copyToClipboard(word.text)"
+            @click.stop="copyToClipboard(word.text)"
           />
         </div>
       </div>
@@ -240,7 +245,7 @@ export default {
         color="var:neutrals-600"
         hoverColor="var:primary-500"
         class="translations-carousel--arrow backward"
-        @click="goToPrevTranslation"
+        @click.stop="goToPrevTranslation"
       />
       <svg-icon
         name="ArrowForwardIcon"
@@ -248,7 +253,7 @@ export default {
         color="var:neutrals-600"
         hoverColor="var:primary-500"
         class="translations-carousel--arrow forward"
-        @click="goToNextTranslation"
+        @click.stop="goToNextTranslation"
       />
       <div class="translations-carousel--counter">
         <span class="translations-counter">
@@ -259,12 +264,21 @@ export default {
   </article>
   <Modal
     size="lg"
-    v-if="showModal"
-    :close-modal="() => (showModal = false)"
+    v-if="showEditWordModal"
+    :close-modal="() => (showEditWordModal = false)"
     title-modal="Редактировать слово"
     icon="EditIcon"
     modalContent="NewWordForm"
     :editObjectLookup="editWordSlug"
+  />
+  <Modal
+    size="lg"
+    v-if="showDeleteWordModal"
+    :close-modal="() => (showDeleteWordModal = false)"
+    title-modal="Вы уверены, что хотите удалить слово?"
+    icon="InfoIcon"
+    modalContent="DeleteWordForm"
+    :editObjectLookup="deleteWordSlug"
   />
 </template>
 
@@ -406,23 +420,13 @@ export default {
       }
 
       &--types {
-        @include tag-big;
-        color: $neutrals-700;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        text-align: center;
+        @include word-type;
       }
     }
 
     &--word-tags {
-      display: flex;
-      flex-direction: row;
-      gap: 0.8rem;
-      width: 100%;
+      @include word-tags-list-small;
       justify-content: center;
-      height: 2.4rem;
-      max-height: 2.4rem;
       padding-inline: 1.6rem;
     }
   }

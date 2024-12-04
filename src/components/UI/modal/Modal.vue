@@ -1,7 +1,10 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
+import { useWindowScroll } from '@vueuse/core';
 import { type PropType, type Component, ref } from 'vue';
 import { defineAsyncComponent } from 'vue';
+
+const { y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
   components: { OnClickOutside },
@@ -33,6 +36,9 @@ export default {
   },
   setup(props) {
     const title = ref(props.titleModal);
+
+    y.value = 0;
+
     return {
       title,
     };

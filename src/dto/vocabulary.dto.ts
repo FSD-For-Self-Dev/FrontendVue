@@ -24,6 +24,7 @@ export interface NewWordDto {
   language?: string;
   text: string;
   types?: string[];
+  tags?: WordTagDto[];
   translations?: WordTranslationDto[];
   image_associations?: ImageAssociationsDto[];
   note?: string;
@@ -42,8 +43,16 @@ export interface ImageAssociationsDto {
 export interface WordProfileDto {
   language?: string;
   text?: string;
+  activity_status?: string;
   types?: string[];
+  tags?: WordTagDto[];
   translations?: WordTranslationDto[];
   image_associations?: ImageAssociationsDto[];
   note?: string;
+  translations_count?: number;
+  image_associations_count?: number;
+}
+
+export interface WordTagDto {
+  name?: string;
 }

@@ -88,6 +88,33 @@
   }
 }
 
+@mixin word-type {
+  @include tag-big;
+  color: $neutrals-700;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+@mixin word-tags-list-small {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  width: 100%;
+  height: 2.4rem;
+  max-height: 2.4rem;
+}
+
+@mixin word-tags-list-big {
+  display: flex;
+  flex-direction: row;
+  gap: 1.2rem;
+  width: 100%;
+  height: 3.2rem;
+  max-height: 3.2rem;
+}
+
 // *** Grid mixins below ***
 
 @mixin grid16($columns: 4) {

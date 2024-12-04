@@ -23,13 +23,7 @@ export const useVocabularyStore = defineStore('vocabulary', {
     return {
       count: 0,
       words: [],
-      wordProfile: {
-        text: '',
-        language: '',
-        translations: [],
-        image_associations: [],
-        note: '',
-      },
+      wordProfile: {},
       errors: { language: [], text: [] },
       filterOptions: { language: '', text: '', activity_status: '' },
     };
@@ -68,6 +62,29 @@ export const useVocabularyStore = defineStore('vocabulary', {
         return error;
       }
     },
+    async getWordProfile(wordSlug: string) {
+      try {
+        const { data } = await api.vocabulary.getWordProfile(wordSlug);
+        if (data) {
+          this.wordProfile = data as WordProfileDto;
+        }
+      } catch (error) {
+        if (isAxiosError(error)) {
+          this.errors = error.response?.data;
+        }
+        return error;
+      }
+    },
+    async deleteWord(wordSlug: string) {
+      try {
+        await api.vocabulary.deleteWord(wordSlug);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          this.errors = error.response?.data;
+        }
+        return error;
+      }
+    },
     async addWordToFavorite(wordSlug: string) {
       try {
         await api.vocabulary.addWordToFavorite(wordSlug);
@@ -81,20 +98,6 @@ export const useVocabularyStore = defineStore('vocabulary', {
     async removeWordFromFavorite(wordSlug: string) {
       try {
         await api.vocabulary.removeWordFromFavorite(wordSlug);
-      } catch (error) {
-        if (isAxiosError(error)) {
-          this.errors = error.response?.data;
-        }
-        return error;
-      }
-    },
-    async getWordProfile(wordSlug: string) {
-      try {
-        const { data } = await api.vocabulary.getWordProfile(wordSlug);
-        if (data) {
-          this.wordProfile = data as WordProfileDto;
-          return this.wordProfile;
-        }
       } catch (error) {
         if (isAxiosError(error)) {
           this.errors = error.response?.data;

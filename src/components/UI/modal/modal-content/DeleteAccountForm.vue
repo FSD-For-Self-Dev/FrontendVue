@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { useUserStore } from '@/store/user';
 import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';

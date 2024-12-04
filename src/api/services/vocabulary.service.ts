@@ -11,6 +11,9 @@ export default (api: IApi) => {
         patchWord: (wordSlug, wordUpdated) => {
             return api.request.patch(`/api/vocabulary/${wordSlug}/`, wordUpdated);
         },
+        deleteWord: (wordSlug) => {
+            return api.request.delete(`/api/vocabulary/${wordSlug}/`);
+        },
         addWordToFavorite: (wordSlug) => {
             return api.request.post(`/api/vocabulary/${wordSlug}/favorite/`);
         },

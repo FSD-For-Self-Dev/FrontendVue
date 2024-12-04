@@ -104,7 +104,7 @@ export default {
     },
     handleNext() {
       if (this.step === 1) {
-        this.updateTitle('Кастомизируйте новое слово, чтобы лучше его запомнить');
+        this.updateTitle('Кастомизируйте слово, чтобы лучше его запомнить');
       }
       this.step++;
     },
