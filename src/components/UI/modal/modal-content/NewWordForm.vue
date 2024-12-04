@@ -240,6 +240,7 @@ export default {
         image_associations: this.image_associations,
         note: this.note,
       };
+      console.log('DATA', data);
       const res = this.editObjectLookup
         ? await this.patchWord(this.editObjectLookup, data)
         : await this.createWord(data);
@@ -266,18 +267,29 @@ export default {
       this.submitProcess = false;
     },
   },
-  mounted() {
+  async mounted() {
     if (this.editObjectLookup) {
-      Promise.all([this.getWordProfile(this.editObjectLookup)]).finally(() => {
+      Promise.all([this.getWordProfile(this.editObjectLookup)]).finally(async () => {
         const { wordProfile } = useVocabularyStore();
 
         this.word = wordProfile.text ? wordProfile.text : '';
         this.language = wordProfile.language ? wordProfile.language : '';
         this.note = wordProfile.note ? wordProfile.note : '';
         this.translations = wordProfile.translations ? wordProfile.translations : [];
-        this.image_associations = wordProfile.image_associations
-          ? wordProfile.image_associations
-          : [];
+
+        if (wordProfile.image_associations) {
+          const image_associations_promise = wordProfile.image_associations.map(async (image) => {
+            image.image = image.image ? image.image : ''
+            var blob = await (await fetch(image.image)).blob();
+            var file = new File([blob], image.image.replace(/^.*\//g, ''), {type: blob.type});
+            const base64 = useBase64(file);
+            return {
+              'image': await base64.promise.value,
+              'image_url': image.image_url
+            }
+          });
+          this.image_associations = await Promise.all(image_associations_promise);
+        }
       });
     } else {
       this.language = this.getLastLanguage();

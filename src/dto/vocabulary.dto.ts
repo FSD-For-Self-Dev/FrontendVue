@@ -44,6 +44,7 @@ export interface WordProfileDto {
   language?: string;
   text?: string;
   activity_status?: string;
+  activity_progress?: number;
   types?: string[];
   tags?: WordTagDto[];
   translations?: WordTranslationDto[];
