@@ -21,6 +21,7 @@ import { useBase64 } from '@vueuse/core';
 import ImageUploadForm from '@/components/vocabulary/ImageUploadForm.vue';
 import WordImageItem from '@/components/vocabulary/WordImageItem.vue';
 import WordTranslationItem from '@/components/vocabulary/WordTranslationItem.vue';
+import { readUrlFile } from '@/utils/readUrlFile';
 
 export default {
   components: {
@@ -280,9 +281,7 @@ export default {
         if (wordProfile.image_associations) {
           const image_associations_promise = wordProfile.image_associations.map(async (image) => {
             image.image = image.image ? image.image : ''
-            var blob = await (await fetch(image.image)).blob();
-            var file = new File([blob], image.image.replace(/^.*\//g, ''), {type: blob.type});
-            const base64 = useBase64(file);
+            const base64 = useBase64(await readUrlFile(image.image));
             return {
               'image': await base64.promise.value,
               'image_url': image.image_url

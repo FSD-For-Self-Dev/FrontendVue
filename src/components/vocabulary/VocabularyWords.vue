@@ -12,7 +12,7 @@ export default {
     ...mapState(useVocabularyStore, ["words", "count", "filterOptions"]),
     ...mapState(useLanguagesStore, ["learning_languages"]),
     textInfo() {
-      return `Найдено ${this.count} ${numWord(this.count, ['слово', 'слова', 'слов'])} или ${numWord(this.count, ['фраза', 'фразы', 'фраз'])}`;
+      return `Найдено ${this.count} ${numWord(this.count, ['слово', 'слова', 'слов'])} и ${numWord(this.count, ['фраза', 'фразы', 'фраз'])}`;
     }
   }
 }
