@@ -24,6 +24,7 @@ export default {
       showWordTools: false,
       showEditWordModal: false,
       showDeleteWordModal: false,
+      showWordProfileModal: false,
       editWordSlug: '' as string,
       deleteWordSlug: '' as string,
     };
@@ -138,16 +139,25 @@ export default {
         }
       }
     },
+    updateFavorite(value: boolean) {
+      this.word.favorite = value;
+    },
     handleDelete() {
       this.showWordTools = false;
+      this.showWordProfileModal = false;
       this.showDeleteWordModal = true;
       this.deleteWordSlug = this.word.slug;
       return;
     },
     handleEdit() {
       this.showWordTools = false;
+      this.showWordProfileModal = false;
       this.showEditWordModal = true;
       this.editWordSlug = this.word.slug;
+      return;
+    },
+    handleWordProfile() {
+      this.showWordProfileModal = true;
       return;
     },
   },
@@ -155,7 +165,7 @@ export default {
 </script>
 
 <template>
-  <article class="card">
+  <article class="card" @click.stop="handleWordProfile">
     <div class="card__background" :class="{ 'with-image': word.image }">
       <div class="card__background--overlay" v-if="word.image" />
       <img :src="word.image" alt="Word image" v-if="word.image" />
@@ -269,7 +279,7 @@ export default {
     title-modal="Редактировать слово"
     icon="EditIcon"
     modalContent="NewWordForm"
-    :editObjectLookup="editWordSlug"
+    :objectLookup="editWordSlug"
   />
   <Modal
     size="lg"
@@ -278,7 +288,19 @@ export default {
     title-modal="Вы уверены, что хотите удалить слово?"
     icon="InfoIcon"
     modalContent="DeleteWordForm"
-    :editObjectLookup="deleteWordSlug"
+    :objectLookup="deleteWordSlug"
+  />
+  <Modal
+    size="lg"
+    v-if="showWordProfileModal"
+    :close-modal="() => (showWordProfileModal = false)"
+    title-modal="Профиль слова"
+    icon="WordsIcon"
+    modalContent="WordProfileModal"
+    :objectLookup="word.slug"
+    @favoriteupdate="updateFavorite"
+    @editword="handleEdit"
+    @deleteword="handleDelete"
   />
 </template>
 

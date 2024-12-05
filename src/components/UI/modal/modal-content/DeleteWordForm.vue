@@ -17,7 +17,7 @@ export default {
       type: Function,
       required: true,
     },
-    editObjectLookup: {
+    objectLookup: {
       type: String,
       required: true,
     },
@@ -36,10 +36,10 @@ export default {
     };
   },
   setup(props) {
-    const editObjectLookup = ref(props.editObjectLookup);
+    const objectLookup = ref(props.objectLookup);
 
     return {
-      editObjectLookup,
+      objectLookup,
     };
   },
   computed: {
@@ -60,7 +60,7 @@ export default {
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     async handleDelete() {
       this.submitProcess = true;
-      const res = await this.deleteWord(this.editObjectLookup);
+      const res = await this.deleteWord(this.objectLookup);
       if (isAxiosError(res)) {
         console.log(res.response?.data);
       } else {
@@ -81,8 +81,8 @@ export default {
     },
   },
   mounted() {
-    if (this.editObjectLookup) {
-      Promise.all([this.getWordProfile(this.editObjectLookup)]).finally(() => {
+    if (this.objectLookup) {
+      Promise.all([this.getWordProfile(this.objectLookup)]).finally(() => {
         const { wordProfile } = useVocabularyStore();
 
         this.word = wordProfile.text ? wordProfile.text : '';

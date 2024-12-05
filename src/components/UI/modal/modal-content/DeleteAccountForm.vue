@@ -67,6 +67,10 @@ export default {
       </div>
     </div>
     <div class="buttons">
+      <div class="tip" style="width: 100%;">
+        <svg-icon name="InfoIcon" size="md" color="var:danger-600" style="stroke-width: 0.02rem;" />
+        <p>Это действие нельзя будет обратить</p>
+      </div>
       <Button
         type="button"
         variant="secondary"
@@ -142,6 +146,15 @@ export default {
         }
       }
     }
+  }
+
+  .tip {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.8rem;
+    color: $danger-600;
+    @include text-2;
   }
 
   .buttons {

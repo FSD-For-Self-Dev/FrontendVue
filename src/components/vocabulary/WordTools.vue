@@ -27,10 +27,10 @@ export default {
 <template>
   <OnClickOutside @trigger.stop="() => handleClose()" class="click-wrapper">
     <div class="word-tools">
-      <button @click="() => handleEdit()" class="word-tools__button">
+      <button @click.stop="() => handleEdit()" class="word-tools__button">
         <p>Редактировать</p>
       </button>
-      <button @click="() => handleDelete()" class="word-tools__button">
+      <button @click.stop="() => handleDelete()" class="word-tools__button">
         <p>Удалить</p>
       </button>
     </div>

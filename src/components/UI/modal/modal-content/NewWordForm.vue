@@ -35,7 +35,7 @@ export default {
     WordTranslationItem,
   },
   props: {
-    editObjectLookup: {
+    objectLookup: {
       type: String,
       required: false,
     },
@@ -72,11 +72,11 @@ export default {
   },
   setup(props) {
     const onDrag = ref(false);
-    const editObjectLookup = ref(props.editObjectLookup);
+    const objectLookup = ref(props.objectLookup);
 
     return {
       onDrag,
-      editObjectLookup,
+      objectLookup,
     };
   },
   computed: {
@@ -146,19 +146,20 @@ export default {
       this.editImage = '';
       this.image_associations = [];
       this.editIndex = undefined;
-      this.editObjectLookup = undefined;
+      this.objectLookup = undefined;
     },
     async handleSubmitNewTranslation() {
       if (typeof this.editIndex != 'undefined') {
         let translations_updated = this.translations.slice(0, this.editIndex);
         translations_updated.push({
+          id: this.translations[this.editIndex].id,
           text: this.newTranslation,
           language: this.newTranslationLanguage,
         });
         translations_updated.push(...this.translations.slice(this.editIndex + 1));
         this.translations = translations_updated;
       } else {
-        this.translations.push({
+        this.translations.unshift({
           text: this.newTranslation,
           language: this.newTranslationLanguage,
         });
@@ -203,6 +204,7 @@ export default {
       if (typeof this.editIndex != 'undefined') {
         let image_associations_updated = this.image_associations.slice(0, this.editIndex);
         image_associations_updated.push({
+          id: this.image_associations[this.editIndex].id,
           image: this.newImage,
           image_url: this.newImageUrl,
         });
@@ -211,7 +213,7 @@ export default {
         );
         this.image_associations = image_associations_updated;
       } else {
-        this.image_associations.push({
+        this.image_associations.unshift({
           image: this.newImage,
           image_url: this.newImageUrl,
         });
@@ -253,10 +255,10 @@ export default {
         image_associations: this.image_associations,
         note: this.note,
       };
-      const res = this.editObjectLookup
-        ? await this.patchWord(this.editObjectLookup, data)
+      const res = this.objectLookup
+        ? await this.patchWord(this.objectLookup, data)
         : await this.createWord(data);
-      const successMsg = this.editObjectLookup
+      const successMsg = this.objectLookup
         ? 'Изменения сохранены'
         : 'Новое слово добавлено в словарь';
       if (isAxiosError(res)) {
@@ -280,8 +282,8 @@ export default {
     },
   },
   async mounted() {
-    if (this.editObjectLookup) {
-      Promise.all([this.getWordProfile(this.editObjectLookup)]).finally(async () => {
+    if (this.objectLookup) {
+      Promise.all([this.getWordProfile(this.objectLookup)]).finally(async () => {
         const { wordProfile } = useVocabularyStore();
 
         this.word = wordProfile.text ? wordProfile.text : '';
@@ -294,6 +296,7 @@ export default {
             image.image = image.image ? image.image : ''
             const base64 = useBase64(await readUrlFile(image.image));
             return {
+              'id': image.id,
               'image': await base64.promise.value,
               'image_url': image.image_url
             }

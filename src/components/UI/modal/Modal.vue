@@ -29,7 +29,7 @@ export default {
       type: String,
       required: true,
     },
-    editObjectLookup: {
+    objectLookup: {
       type: String,
       required: false,
     },
@@ -90,7 +90,8 @@ export default {
             :is="dynamicComponent"
             :closeForm="closeModal"
             :updateTitle="updateTitle"
-            :editObjectLookup="editObjectLookup"
+            :objectLookup="objectLookup"
+            v-bind="{ ...$attrs, onInput: undefined }"
           />
         </div>
       </div>

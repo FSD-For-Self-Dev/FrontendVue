@@ -31,11 +31,13 @@ export interface NewWordDto {
 }
 
 export interface WordTranslationDto {
+  id?: string;
   text: string;
   language: string;
 }
 
 export interface ImageAssociationsDto {
+  id?: string;
   image?: string;
   image_url?: string;
 }
@@ -43,6 +45,9 @@ export interface ImageAssociationsDto {
 export interface WordProfileDto {
   language?: string;
   text?: string;
+  slug?: string;
+  author?: AuthorDto;
+  favorite?: boolean;
   activity_status?: string;
   activity_progress?: number;
   types?: string[];
@@ -56,4 +61,10 @@ export interface WordProfileDto {
 
 export interface WordTagDto {
   name?: string;
+}
+
+export interface AuthorDto {
+  username?: string;
+  first_name?: string;
+  image?: string;
 }
