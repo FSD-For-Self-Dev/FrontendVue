@@ -7,6 +7,7 @@ import { defineAsyncComponent } from 'vue';
 const { y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
+  inheritAttrs: false,
   components: { OnClickOutside },
   props: {
     closeModal: {
