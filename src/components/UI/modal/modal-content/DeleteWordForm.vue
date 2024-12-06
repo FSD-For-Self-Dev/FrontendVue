@@ -58,6 +58,7 @@ export default {
   methods: {
     ...mapActions(useVocabularyStore, ['getVocabulary', 'getWordProfile', 'deleteWord']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
+    ...mapActions(useLanguagesStore, ['getLearningLanguages']),
     async handleDelete() {
       this.submitProcess = true;
       const res = await this.deleteWord(this.objectLookup);
@@ -65,6 +66,7 @@ export default {
         console.log(res.response?.data);
       } else {
         await this.getVocabulary();
+        await this.getLearningLanguages();
         this.closeForm();
         this.addNewMessage({
           type: 'info',

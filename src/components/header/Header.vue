@@ -137,12 +137,14 @@ export default {
           () => {
             showNewWordModal = true;
             showAddingTools = false;
+			addIconActive = false;
           }
         "
         :handle-add-language="
           () => {
             showAddLanguageModal = true;
             showAddingTools = false;
+			addIconActive = false;
           }
         "
         v-if="showAddingTools"

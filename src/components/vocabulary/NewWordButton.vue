@@ -26,7 +26,11 @@ export default {
     buttonSize: {
       type: String as PropType<'normal' | 'medium' | 'small'>,
       default: 'small'
-    }
+    },
+    chosenLanguage: {
+      type: String,
+      required: false
+    },
   },
   methods: {
     handleOpen() {
@@ -50,5 +54,5 @@ export default {
 <template>
   <Button @click.stop="handleOpen" :size="buttonSize" :text="buttonText" icon="AddIcon" />
   <Modal size="lg" v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Новое слово"
-    icon="AddIcon" modalContent="NewWordForm" />
+    icon="AddIcon" modalContent="NewWordForm" :chosenLanguage="chosenLanguage" />
 </template>

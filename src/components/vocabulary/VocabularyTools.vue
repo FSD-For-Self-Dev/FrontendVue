@@ -12,7 +12,15 @@ export default {
   components: { NewWordButton, Input, Dropdown, Search },
   computed: {
     ...mapState(useLanguagesStore, ["learning_languages"]),
-    ...mapWritableState(useVocabularyStore, ["filterOptions"]),
+    ...mapWritableState(useVocabularyStore, ["filterOptions", "count"]),
+    wordsCounter() {
+      const chosen_lang = this.learning_languages.filter((lang) => { return lang.language.name === this.filterOptions.language})[0];
+      try {
+        return chosen_lang.words_count;
+      } catch {
+        return this.count;
+      }
+    },
   },
   data() {
     return {
@@ -64,11 +72,17 @@ export default {
         <Dropdown
           placeholder="Все слова"
           v-model="filterOptions.activity_status" :items="statusWordOptions"
+          v-if="wordsCounter > 0"
         />
       </div>
-      <NewWordButton button-size="medium" button-text="Новое слово или фраза" />
+      <NewWordButton
+        button-size="medium"
+        button-text="Новое слово или фраза"
+        :chosenLanguage="filterOptions.language"
+        v-if="wordsCounter > 0"
+      />
     </div>
-    <Search v-model="filterOptions.text" />
+    <Search v-model="filterOptions.text" v-if="wordsCounter > 0" />
   </div>
 </template>
 

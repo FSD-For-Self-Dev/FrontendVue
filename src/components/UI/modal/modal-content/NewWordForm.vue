@@ -47,6 +47,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    chosenLanguage: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
@@ -81,10 +85,7 @@ export default {
   },
   computed: {
     ...mapState(useVocabularyStore, ['count']),
-    ...mapState(useLanguagesStore, ['learning_languages', 'all_languages']),
-    emptyImage(): string {
-      return new URL(`/src/assets/images/emptyImage.svg`, import.meta.url).href;
-    },
+    ...mapState(useLanguagesStore, ['learning_languages', 'all_languages', 'global_languages']),
     getTranslationLanguages() {
       const all_languages_filtered = this.all_languages.filter((lang) => {
         return (lang.name !== this.language)
@@ -97,6 +98,25 @@ export default {
         };
       });
     },
+    getWordLanguages() {
+      if (this.learning_languages.length === 0) {
+        return this.global_languages.map((lang) => {
+          return {
+            value: lang.name,
+            label: lang.name_local,
+            icon: lang.flag_icon,
+          };
+        })
+      } else {
+        return this.learning_languages.map((lang) => {
+          return {
+            value: lang.language.name,
+            label: lang.language.name_local,
+            icon: lang.language.flag_icon,
+          };
+        })
+      };
+    },
   },
   methods: {
     ...mapActions(useVocabularyStore, [
@@ -105,14 +125,19 @@ export default {
       'getVocabulary',
       'getWordProfile',
     ]),
-    ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapState(useVocabularyStore, ['words']),
+    ...mapActions(useNotificationsStore, ['addNewMessage']),
+    ...mapActions(useLanguagesStore, ['getLearningLanguages']),
     getLastLanguage() {
-      try {
-        const language = this.words()[0].language;
-        return language ? language : '';
-      } catch (error) {
-        return '';
+      if (this.chosenLanguage) {
+        return this.chosenLanguage
+      } else {
+        try {
+          const language = this.words()[0].language;
+          return language ? language : '';
+        } catch (error) {
+          return '';
+        }
       }
     },
     handleNext() {
@@ -272,6 +297,7 @@ export default {
         }
       } else {
         await this.getVocabulary();
+        await this.getLearningLanguages();
         this.handleClose();
         this.addNewMessage({
           type: 'info',
@@ -318,15 +344,7 @@ export default {
         <Dropdown
           placeholder="Изучаемый язык"
           v-model="language"
-          :items="
-            learning_languages.map((lang) => {
-              return {
-                value: lang.language.name,
-                label: lang.language.name_local,
-                icon: lang.language.flag_icon,
-              };
-            })
-          "
+          :items="getWordLanguages"
           style="padding-inline: 2.8rem"
         />
         <Input v-model="word" placeholder="Введите слово или фразу..." size="standart" />
