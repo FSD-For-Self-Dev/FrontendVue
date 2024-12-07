@@ -3,9 +3,10 @@ import type { RouteRecordRaw } from 'vue-router';
 import HomePage from '@/views/HomePage.vue';
 import Vocabulary from '@/views/Vocabulary.vue';
 import Languages from '@/views/Languages.vue';
+import LanguageProfile from '@/views/LanguageProfile.vue';
+import Settings from '@/views/Settings.vue';
 import Error404 from '@/views/Error404.vue';
 // import Test from '@/views/Test.vue';
-import Settings from '@/views/Settings.vue';
 
 const routes = [
     {
@@ -20,18 +21,24 @@ const routes = [
         path: '/languages',
         component: Languages,
     },
-    // {
-    //     path: '/test',
-    //     component: Test,
-    // },
+    {
+        path: '/languages/:slug',
+        name: 'language-profile',
+        component: LanguageProfile
+    },
     {
         path: '/settings',
         component: Settings,
     },
     {
-        path: '/:catchAll(.*)',
+        path: '/:pathMatch(.*)*',
+        name: '404',
         component: Error404,
-    }
+    },
+    // {
+    //     path: '/test',
+    //     component: Test,
+    // },
 ] as RouteRecordRaw[];
 
 const router = createRouter({

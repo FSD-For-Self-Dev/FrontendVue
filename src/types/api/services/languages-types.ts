@@ -7,4 +7,5 @@ export type Languages = {
     getGlobalLanguages: () => AxiosPromise<Record<string, string>>;
     getAllLanguages: () => AxiosPromise<Record<string, string>>;
     postLearningLanguage: (language: LanguageDto[]) => AxiosPromise<Record<string, string>>;
+    deleteLanguage: (languageSlug: string, delete_words: boolean) => AxiosPromise<Record<string, string>>;
 };

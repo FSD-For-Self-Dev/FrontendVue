@@ -288,7 +288,7 @@ export default {
           v-for="translation in wordProfile.translations"
           :editable=false
         />
-        <p class="empty-tip" v-if="wordProfile.translations?.length === 0">Нет переводов</p>
+        <p class="additions-list-empty-tip" v-if="wordProfile.translations?.length === 0">Нет переводов</p>
       </div>
       <div v-if="tab === 2" class="additions-list" style="max-height: 54.4rem;">
         <WordImageItem
@@ -296,7 +296,7 @@ export default {
           v-for="image in wordProfile.image_associations"
           :editable=false
         />
-        <p class="empty-tip" v-if="wordProfile.image_associations?.length === 0">Нет ассоциаций</p>
+        <p class="additions-list-empty-tip" v-if="wordProfile.image_associations?.length === 0">Нет ассоциаций</p>
       </div>
     </div>
   </div>
@@ -553,7 +553,7 @@ export default {
         overflow-y: auto;
         @include scroll;
 
-        .empty-tip {
+        &-empty-tip {
           @include text-2;
           color: $neutrals-600;
         }

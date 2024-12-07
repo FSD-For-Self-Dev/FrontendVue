@@ -51,6 +51,15 @@ export const useLanguagesStore = defineStore('languages', {
         }
       }
     },
+    async deleteLanguage(languageSlug: string, delete_words: boolean = false) {
+      try {
+        await api.languages.deleteLanguage(languageSlug, delete_words);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          return error;
+        }
+      }
+    },
     clearDataLanguages() {
       this.available_languages = [];
       this.learning_languages = [];

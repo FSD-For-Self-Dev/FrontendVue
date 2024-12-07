@@ -35,6 +35,7 @@ export default {
         "button--medium": this.size === "md",
         "button--normal": this.size === "nm",
         "button--large": this.size === "lg",
+        "button--xlarge": this.size === "xl",
 
         /* Variants */
         "button--primary": this.variant === "primary",
@@ -360,6 +361,13 @@ export default {
     height: 5.6rem;
     min-width: 5.6rem;
     min-height: 5.6rem;
+  }
+
+  &--xlarge {
+    width: 6.4rem;
+    height: 6.4rem;
+    min-width: 6.4rem;
+    min-height: 6.4rem;
   }
 }
 

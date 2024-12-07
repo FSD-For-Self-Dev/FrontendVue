@@ -4,6 +4,7 @@ import type { BooleanInputProps } from "@/types/components/boolean-input";
 
 export default {
   inheritAttrs: false,
+  emits: ['update:modelValue'],
   props: {
     label: {
       type: String as PropType<BooleanInputProps["label"]>,
@@ -16,6 +17,12 @@ export default {
     size: {
       type: String as PropType<BooleanInputProps["size"]>,
       default: "small",
+    },
+    modelValue: {
+      type: [Array, Boolean],
+    },
+    value: { 
+      type: [Boolean, Object]
     },
   },
   computed: {
@@ -39,6 +46,14 @@ export default {
     isDisabled() {
       return Boolean(this.$attrs.disabled);
     },
+    model: {
+      get() {
+        return this.modelValue;
+      },
+      set(value) {
+        this.$emit("update:modelValue", value);
+      }
+    },
   },
 };
 </script>
@@ -49,8 +64,9 @@ export default {
       class="boolean-input--input" :class="inputClasses"
       id="booleaninput"
       :type="type === 'toggle' ? 'checkbox' : type"
-      v-bind="{ ...$attrs, onInput: undefined }"
       :disabled="isDisabled" :aria-disabled="isDisabled"
+      v-model="model"
+      :value="value"
     />
     <label class="boolean-input--label" for="booleaninput">{{ label }}</label>
   </div>
@@ -63,7 +79,7 @@ export default {
     height: max-content;
     
     .boolean-input--label {
-      gap: 0.8rem;
+      gap: 1.2rem;
 
       &::before {
         min-width: 2.4rem;

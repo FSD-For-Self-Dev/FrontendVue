@@ -7,9 +7,16 @@ import IconButton from '../UI/button/IconButton.vue';
 import WordCard from './WordCard.vue';
 import type { LearningLanguageDto } from '@/dto/languages.dto';
 import NewWordButton from './NewWordButton.vue';
+import type { PropType } from 'vue';
 
 export default {
   components: { IconButton, WordCard, NewWordButton },
+  props: {
+    chosenLanguage: {
+      type: Object as PropType<LearningLanguageDto>,
+      required: false
+    },
+  },
   data() {
     return {
       words_count: 0,
@@ -23,7 +30,7 @@ export default {
       return `Найдено ${this.count} ${numWord(this.count, ['слово', 'слова', 'слов'])} и ${numWord(this.count, ['фраза', 'фразы', 'фраз'])}`;
     },
     wordsCounter() {
-      const chosen_lang = this.learning_languages.filter((lang) => { return lang.language.name === this.filterOptions.language})[0];
+      const chosen_lang = this.chosenLanguage ? this.chosenLanguage : this.learning_languages.filter((lang) => { return lang.language.name === this.filterOptions.language})[0];
       try {
         this.words_count = chosen_lang.words_count;
         this.tip = 'В вашем словаре пока нет слов этого языка';
@@ -54,7 +61,7 @@ export default {
   </div>
   <div class="empty-tip" v-else >
     <p class="tip">{{ tip }}</p>
-    <NewWordButton button-size="medium" button-text="Новое слово или фраза" :chosenLanguage="filterOptions.language" />
+    <NewWordButton button-size="medium" button-text="Новое слово или фраза" :chosenLanguage="chosenLanguage ? chosenLanguage.language.name : filterOptions.language" />
   </div>
 </template>
 
@@ -70,7 +77,7 @@ export default {
 
   &--info {
     @include tag-big;
-    color: $neutrals-600;
+    color: $neutrals-700;
   }
 
   &--filters {

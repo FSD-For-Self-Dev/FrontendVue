@@ -55,6 +55,7 @@ export default {
   height: 26rem;
   border-radius: $radius-xl;
   background-color: $neutrals-200;
+  overflow: hidden;
 
   img {
     width: 100%;

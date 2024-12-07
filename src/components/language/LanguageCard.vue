@@ -1,6 +1,6 @@
 <script lang="ts">
-import type { PropType } from "vue";
-import type { LanguageCardProps } from "../../types/components/language-card";
+import type { PropType } from 'vue';
+import type { LanguageCardProps } from '../../types/components/language-card';
 
 export default {
   props: {
@@ -9,22 +9,22 @@ export default {
       required: true,
     },
     size: {
-      type: String as PropType<LanguageCardProps["size"]>,
-      default: "small",
+      type: String as PropType<LanguageCardProps['size']>,
+      default: 'small',
     },
   },
   computed: {
     cardClasses() {
       return {
         /* Sizes */
-        "card--large": this.size === "large",
-        "card--small": this.size === "small",
+        'card--large': this.size === 'large',
+        'card--small': this.size === 'small',
       };
     },
     iconSizes() {
       return {
-        "large": "lg",
-        "small": "md",
+        large: 'lg',
+        small: 'md',
       };
     },
   },
@@ -32,26 +32,51 @@ export default {
 </script>
 
 <template>
-  <div class="card" :class="cardClasses" :style="{ backgroundImage: `url(${language.cover})` }">
+  <div
+    class="card"
+    :class="cardClasses"
+    :style="{ backgroundImage: `url(${language.cover})` }"
+    @click.stop="
+      $router.push({ name: 'language-profile', params: { slug: language.language.name } })
+    "
+  >
     <div class="card--content">
-        <span class="card--name">{{ language.language.name_local }}</span>
-        <ul class="card--status-counters">
-            <li class="card--status-counters-item">
-                <svg-icon name="ActiveStatusIcon" :size="iconSizes[size]" color="var:primary-500" />
-                <span class="card--status-counters-item--counter">{{ language.active_words_count }}</span>
-            </li>
-            <li class="card--status-counters-item">
-                <svg-icon name="Inactive1StatusIcon" :size="iconSizes[size]" color="var:neutrals-600" />
-                <span class="card--status-counters-item--counter">{{ language.inactive_words_count }}</span>
-            </li>
-            <li class="card--status-counters-item">
-                <svg-icon name="MasteredStatusIcon" :size="iconSizes[size]" color="var:success-600" />
-                <span class="card--status-counters-item--counter">{{ language.mastered_words_count }}</span>
-            </li>
-        </ul>
+      <span class="card--name">{{ language.language.name_local }}</span>
+      <ul class="card--status-counters">
+        <li class="card--status-counters-item">
+          <svg-icon
+            name="ActiveStatusIcon"
+            :size="iconSizes[size]"
+            color="var:primary-500"
+          />
+          <span class="card--status-counters-item--counter">{{
+            language.active_words_count
+          }}</span>
+        </li>
+        <li class="card--status-counters-item">
+          <svg-icon
+            name="Inactive1StatusIcon"
+            :size="iconSizes[size]"
+            color="var:neutrals-600"
+          />
+          <span class="card--status-counters-item--counter">{{
+            language.inactive_words_count
+          }}</span>
+        </li>
+        <li class="card--status-counters-item">
+          <svg-icon
+            name="MasteredStatusIcon"
+            :size="iconSizes[size]"
+            color="var:success-600"
+          />
+          <span class="card--status-counters-item--counter">{{
+            language.mastered_words_count
+          }}</span>
+        </li>
+      </ul>
     </div>
     <div class="card--overlay" v-if="language.cover"></div>
-</div>
+  </div>
 </template>
 
 <style lang="scss" scoped>
@@ -105,7 +130,7 @@ export default {
     padding: 5.2rem 5.2rem;
     width: 40rem;
     height: 30rem;
-    border-radius: $radius-xl;
+    border-radius: $radius-xs;
 
     .card--name {
       @include heading-2;
