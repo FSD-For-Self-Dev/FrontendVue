@@ -8,6 +8,9 @@ export default {
         label: {
             type: String as PropType<InputProps["label"]>,
         },
+        placeholder: {
+            type: String as PropType<InputProps["placeholder"]>,
+        },
         showLabel: {
             type: Boolean as PropType<InputProps["showLabel"]>,
             default: false,
@@ -68,7 +71,7 @@ export default {
             };
         },
         labelClasses() {
-            if (this.modelValue) {
+            if (this.modelValue || this.placeholder) {
                 return {
                     label: this.showLabel,
                     "visually-hidden": !this.showLabel,
@@ -116,7 +119,7 @@ export default {
 
 <template>
     <div class="form-row">
-        <input v-bind="{ ...$attrs, onInput: undefined }" :type="inputType" class="input" :class="inputClasses"
+        <input v-bind="{ ...$attrs, onInput: undefined }" :placeholder="placeholder" :type="inputType" class="input" :class="inputClasses"
             :id="name" :name="name" :value="modelValue" @input="handleInput" :disabled="isDisabled"
             :aria-disabled="isDisabled" :aria-invalid="!isValid" :aria-describedby="descriptionId" />
         <button v-if="$attrs.type === 'password'"
@@ -215,7 +218,7 @@ export default {
 
     & input:focus+label,
     label.up {
-        top: -1.2rem;
+        top: -8%;
         @include text-3;
         color: $neutrals-600;
         background-color: $neutrals-100;

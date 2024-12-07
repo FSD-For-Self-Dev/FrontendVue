@@ -2,6 +2,7 @@
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapActions, mapState } from 'pinia';
+import type { PropType } from 'vue';
 import type { DropdownItem } from '@/types/components/dropdown';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import Input from '@/components/UI/input/Input.vue';
@@ -20,6 +21,7 @@ import { useBase64 } from '@vueuse/core';
 import ImageUploadForm from '@/components/vocabulary/ImageUploadForm.vue';
 import WordImageItem from '@/components/vocabulary/WordImageItem.vue';
 import WordTranslationItem from '@/components/vocabulary/WordTranslationItem.vue';
+import { readUrlFile } from '@/utils/readUrlFile';
 
 export default {
   components: {
@@ -32,11 +34,29 @@ export default {
     WordImageItem,
     WordTranslationItem,
   },
-  data(methods) {
+  props: {
+    objectLookup: {
+      type: String,
+      required: false,
+    },
+    closeForm: {
+      type: Function,
+      required: true,
+    },
+    updateTitle: {
+      type: Function,
+      default: () => {},
+    },
+    chosenLanguage: {
+      type: String,
+      required: false,
+    },
+  },
+  data() {
     return {
       word: '',
       note: '',
-      language: methods.getLastLanguage(),
+      language: '',
       translations: [] as WordTranslationDto[],
       image_associations: [] as ImageAssociationsDto[],
       step: 1,
@@ -54,39 +74,79 @@ export default {
       submitProcess: false,
     };
   },
-  setup() {
+  setup(props) {
     const onDrag = ref(false);
+    const objectLookup = ref(props.objectLookup);
+
     return {
       onDrag,
+      objectLookup,
     };
-  },
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-    updateTitle: {
-      type: Function,
-      default: () => {},
-    },
   },
   computed: {
     ...mapState(useVocabularyStore, ['count']),
-    ...mapState(useLanguagesStore, ['learning_languages', 'all_languages']),
-    emptyImage(): string {
-      return new URL(`/src/assets/images/emptyImage.svg`, import.meta.url).href;
+    ...mapState(useLanguagesStore, [
+      'learning_languages',
+      'all_languages',
+      'global_languages',
+    ]),
+    getTranslationLanguages() {
+      const all_languages_filtered = this.all_languages.filter((lang) => {
+        return lang.name !== this.language;
+      });
+      return all_languages_filtered.map((lang) => {
+        return {
+          value: lang.name,
+          label: lang.name_local,
+          icon: lang.flag_icon,
+        };
+      });
+    },
+    getWordLanguages() {
+      if (this.learning_languages.length === 0) {
+        return this.global_languages.map((lang) => {
+          return {
+            value: lang.name,
+            label: lang.name_local,
+            icon: lang.flag_icon,
+          };
+        });
+      } else {
+        return this.learning_languages.map((lang) => {
+          return {
+            value: lang.language.name,
+            label: lang.language.name_local,
+            icon: lang.language.flag_icon,
+          };
+        });
+      }
     },
   },
   methods: {
-    ...mapActions(useVocabularyStore, ['createWord', 'getVocabulary']),
+    ...mapActions(useVocabularyStore, [
+      'createWord',
+      'patchWord',
+      'getVocabulary',
+      'getWordProfile',
+    ]),
+    ...mapState(useVocabularyStore, ['words']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapState(useVocabularyStore, ["words"]),
+    ...mapActions(useLanguagesStore, ['getLearningLanguages']),
     getLastLanguage() {
-      try {return this.words()[0].language;} catch (error) {return ''};
+      if (this.chosenLanguage) {
+        return this.chosenLanguage;
+      } else {
+        try {
+          const language = this.words()[0].language;
+          return language ? language : '';
+        } catch (error) {
+          return '';
+        }
+      }
     },
     handleNext() {
       if (this.step === 1) {
-        this.updateTitle('Кастомизируйте новое слово, чтобы лучше его запомнить');
+        this.updateTitle('Кастомизируйте слово, чтобы лучше его запомнить');
       }
       this.step++;
     },
@@ -115,18 +175,20 @@ export default {
       this.editImage = '';
       this.image_associations = [];
       this.editIndex = undefined;
+      this.objectLookup = undefined;
     },
     async handleSubmitNewTranslation() {
       if (typeof this.editIndex != 'undefined') {
         let translations_updated = this.translations.slice(0, this.editIndex);
         translations_updated.push({
+          id: this.translations[this.editIndex].id,
           text: this.newTranslation,
           language: this.newTranslationLanguage,
         });
         translations_updated.push(...this.translations.slice(this.editIndex + 1));
         this.translations = translations_updated;
       } else {
-        this.translations.push({
+        this.translations.unshift({
           text: this.newTranslation,
           language: this.newTranslationLanguage,
         });
@@ -171,6 +233,7 @@ export default {
       if (typeof this.editIndex != 'undefined') {
         let image_associations_updated = this.image_associations.slice(0, this.editIndex);
         image_associations_updated.push({
+          id: this.image_associations[this.editIndex].id,
           image: this.newImage,
           image_url: this.newImageUrl,
         });
@@ -179,7 +242,7 @@ export default {
         );
         this.image_associations = image_associations_updated;
       } else {
-        this.image_associations.push({
+        this.image_associations.unshift({
           image: this.newImage,
           image_url: this.newImageUrl,
         });
@@ -221,7 +284,12 @@ export default {
         image_associations: this.image_associations,
         note: this.note,
       };
-      const res = await this.createWord(data);
+      const res = this.objectLookup
+        ? await this.patchWord(this.objectLookup, data)
+        : await this.createWord(data);
+      const successMsg = this.objectLookup
+        ? 'Изменения сохранены'
+        : 'Новое слово добавлено в словарь';
       if (isAxiosError(res)) {
         if (res.response?.status === 409) {
           this.addNewMessage({
@@ -233,14 +301,44 @@ export default {
         }
       } else {
         await this.getVocabulary();
+        await this.getLearningLanguages();
         this.handleClose();
         this.addNewMessage({
           type: 'info',
-          text: 'Слово успешно добавлено в словарь',
+          text: successMsg,
         });
       }
       this.submitProcess = false;
     },
+  },
+  async mounted() {
+    if (this.objectLookup) {
+      Promise.all([this.getWordProfile(this.objectLookup)]).finally(async () => {
+        const { wordProfile } = useVocabularyStore();
+
+        this.word = wordProfile.text ? wordProfile.text : '';
+        this.language = wordProfile.language ? wordProfile.language : '';
+        this.note = wordProfile.note ? wordProfile.note : '';
+        this.translations = wordProfile.translations ? wordProfile.translations : [];
+
+        if (wordProfile.image_associations) {
+          const image_associations_promise = wordProfile.image_associations.map(
+            async (image) => {
+              image.image = image.image ? image.image : '';
+              const base64 = useBase64(await readUrlFile(image.image));
+              return {
+                id: image.id,
+                image: await base64.promise.value,
+                image_url: image.image_url,
+              };
+            },
+          );
+          this.image_associations = await Promise.all(image_associations_promise);
+        }
+      });
+    } else {
+      this.language = this.getLastLanguage();
+    }
   },
 };
 </script>
@@ -252,19 +350,17 @@ export default {
         <Dropdown
           placeholder="Изучаемый язык"
           v-model="language"
-          :items="
-            learning_languages.map((lang) => {
-              return {
-                value: lang.language.name,
-                label: lang.language.name_local,
-                icon: lang.language.flag_icon,
-              };
-            })
-          "
+          :items="getWordLanguages"
           style="padding-inline: 2.8rem"
         />
         <Input v-model="word" placeholder="Введите слово или фразу..." size="standart" />
-        <Input show-label v-model="note" label="Заметка" />
+        <Input
+          show-label
+          v-model="note"
+          placeholder="Введите полезную заметку, например: Не употребляетя с глаголами чувств..."
+          label="Заметка"
+          style="margin-top: 0.8rem"
+        />
       </div>
 
       <div v-if="step === 2">
@@ -284,16 +380,9 @@ export default {
             <Dropdown
               placeholder="Язык перевода"
               v-model="newTranslationLanguage"
-              :items="
-                all_languages.map((lang) => {
-                  return {
-                    value: lang.name,
-                    label: lang.name_local,
-                    icon: lang.flag_icon,
-                  };
-                })
-              "
+              :items="getTranslationLanguages"
               style="padding-inline: 2.8rem"
+              emptyTip="Нет родных или других изучаемых языков"
             />
             <div class="vocabulary-modal--translation-form-input">
               <Input
@@ -387,12 +476,19 @@ export default {
 
       <div v-if="step === 1" class="vocabulary-modal--footer">
         <div></div>
-        <Button size="medium" variant="secondary" text="Отменить" @click="handleClose" />
+        <Button
+          size="medium"
+          variant="secondary"
+          text="Отменить"
+          @click="handleClose"
+          type="button"
+        />
         <Button
           size="medium"
           text="Далее"
           @click="handleNext"
           :disabled="word.length === 0 || language.length === 0"
+          type="button"
         />
       </div>
       <div v-else class="vocabulary-modal--footer">
@@ -402,12 +498,19 @@ export default {
             variant="secondary"
             text="Отменить"
             @click="handleClose"
+            type="button"
           />
         </div>
-        <Button size="medium" text="Назад" variant="secondary" @click="handlePrev" />
+        <Button
+          size="medium"
+          text="Назад"
+          variant="secondary"
+          @click="handlePrev"
+          type="button"
+        />
         <div>
           <Button v-if="!submitProcess" size="medium" type="submit" text="Сохранить" />
-          <Button v-else size="medium" text="Сохраняем..." disabled />
+          <Button v-else size="medium" text="Сохранение..." disabled />
         </div>
       </div>
     </form>

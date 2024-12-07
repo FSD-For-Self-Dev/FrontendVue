@@ -1,24 +1,44 @@
 <script lang="ts">
+import type { PropType } from 'vue';
+
 
 export default {
   props: {
     tag: {
       type: String,
-      required: true
+      required: false
+    },
+    size: {
+      type: String as PropType<'small' | 'medium'>,
+      default: 'small',
     },
   },
+  computed: {
+    tagSize() {
+      return this.size === 'small' ? 'tag--small' : 'tag--medium';
+    },
+  }
 };
 </script>
 
 <template>
-  <div class="tag"> {{ tag }} </div>
+  <div class="tag" :class="tagSize"> {{ tag }} </div>
 </template>
 
 <style lang="scss" scoped>
 .tag {
-  @include tag-small;
-  height: 2.4rem;
-  padding-inline: 1.2rem;
+  &--small {
+    @include tag-small;
+    height: 2.4rem;
+    padding-inline: 1.2rem;
+  }
+
+  &--medium {
+    @include tag-big;
+    height: 3.2rem;
+    padding-inline: 1.6rem;
+  }
+
   display: flex;
   align-items: center;
   background-color: $secondary-300;

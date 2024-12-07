@@ -11,8 +11,8 @@ export default (api: IApi) => {
         getGlobalLanguages() {
             return api.request.get('/api/global-languages/');
         },
-        getAllLanguages() {
-            return api.request.get('/api/languages/all/');
+        getAllLanguages(exclude_language: string = '') {
+            return api.request.get(`/api/languages/all/?exclude=${exclude_language}`);
         },
         postLearningLanguage(languages) {
             const data = languages.map((language) => {
@@ -22,6 +22,18 @@ export default (api: IApi) => {
             });
 
             return api.request.post('/api/languages/', data);
+        },
+        deleteLanguage(languageSlug, delete_words) {
+            if (delete_words) {
+                return api.request.delete(`/api/languages/${languageSlug}/?delete_words`);
+            }
+            return api.request.delete(`/api/languages/${languageSlug}/`);
+        },
+        getLanguageCovers(languageSlug) {
+            return api.request.get(`/api/languages/${languageSlug}/cover-choices/`);
+        },
+        setLanguageCover(languageSlug, data) {
+            return api.request.post(`/api/languages/${languageSlug}/set-cover/`, data);
         },
     };
 };

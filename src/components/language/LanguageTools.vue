@@ -16,21 +16,14 @@ export default {
       type: Function,
       required: true,
     },
-    handleEdit: {
-      type: Function,
-      required: true,
-    },
   },
 };
 </script>
 
 <template>
   <OnClickOutside @trigger.stop="() => handleClose()" class="click-wrapper">
-    <div class="word-tools">
-      <button @click.stop="() => handleEdit()" class="word-tools__button">
-        <p>Редактировать</p>
-      </button>
-      <button @click.stop="() => handleDelete()" class="word-tools__button">
+    <div class="language-tools">
+      <button @click.stop="() => handleDelete()" class="language-tools__button">
         <p>Удалить</p>
       </button>
     </div>
@@ -38,17 +31,17 @@ export default {
 </template>
 
 <style lang="scss">
-.word-tools {
+.language-tools {
   @include dropdown-list;
 
-  .word-tools__button {
+  .language-tools__button {
     @include dropdown-list-item;
   }
 }
 .click-wrapper {
   position: absolute;
   z-index: 1;
-  top: 6rem;
-  right: 2rem;
+  top: 6.4rem;
+  right: 0.4rem;
 }
 </style>

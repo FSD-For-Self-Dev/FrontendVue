@@ -8,9 +8,10 @@ import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { isAxiosError } from 'axios';
 import WordTools from './WordTools.vue';
+import Modal from '../UI/modal/Modal.vue';
 
 export default {
-  components: { WordTagCard, WordTools },
+  components: { WordTagCard, WordTools, Modal },
   props: {
     word: {
       type: Object as PropType<WordDto>,
@@ -21,6 +22,11 @@ export default {
     return {
       translationCurrentIndex: 0,
       showWordTools: false,
+      showEditWordModal: false,
+      showDeleteWordModal: false,
+      showWordProfileModal: false,
+      editWordSlug: '' as string,
+      deleteWordSlug: '' as string,
     };
   },
   computed: {
@@ -95,11 +101,8 @@ export default {
       });
     },
     async handleFavourite() {
-      console.log(this.word.favorite);
       if (this.word.favorite) {
-        console.log('fav');
         const res = await this.removeWordFromFavorite(this.word.slug);
-        console.log(res);
         if (isAxiosError(res)) {
           if (res.response?.status === 409) {
             this.addNewMessage({
@@ -117,9 +120,7 @@ export default {
           });
         }
       } else {
-        console.log('unfav');
         const res = await this.addWordToFavorite(this.word.slug);
-        console.log(res);
         if (isAxiosError(res)) {
           if (res.response?.status === 409) {
             this.addNewMessage({
@@ -138,12 +139,33 @@ export default {
         }
       }
     },
+    updateFavorite(value: boolean) {
+      this.word.favorite = value;
+    },
+    handleDelete() {
+      this.showWordTools = false;
+      this.showWordProfileModal = false;
+      this.showDeleteWordModal = true;
+      this.deleteWordSlug = this.word.slug;
+      return;
+    },
+    handleEdit() {
+      this.showWordTools = false;
+      this.showWordProfileModal = false;
+      this.showEditWordModal = true;
+      this.editWordSlug = this.word.slug;
+      return;
+    },
+    handleWordProfile() {
+      this.showWordProfileModal = true;
+      return;
+    },
   },
 };
 </script>
 
 <template>
-  <article class="card">
+  <article class="card" @click.stop="handleWordProfile">
     <div class="card__background" :class="{ 'with-image': word.image }">
       <div class="card__background--overlay" v-if="word.image" />
       <img :src="word.image" alt="Word image" v-if="word.image" />
@@ -157,7 +179,7 @@ export default {
         <p>{{ word.activity_status }}</p>
       </div>
       <div class="card__header--actions" :class="backgroundClasses">
-        <div @click="handleFavourite" class="fav-icon">
+        <div @click.stop="handleFavourite" class="fav-icon">
           <svg-icon
             name="FavouriteFilledIcon"
             size="lg"
@@ -168,12 +190,32 @@ export default {
           <svg-icon name="FavouriteIcon" size="lg" class="unfav" />
         </div>
         <div class="more-icon">
-          <svg-icon name="MoreFilledIcon" size="lg" color="var:primary-500" hoverColor="var:primary-400" @click.stop="() => showWordTools = !showWordTools" class="more-inactive" v-if="showWordTools" />
-          <svg-icon name="MoreIcon" size="lg" hoverColor="var:primary-500" @click.stop="() => showWordTools = !showWordTools" class="more-active" v-else />
+          <svg-icon
+            name="MoreFilledIcon"
+            size="lg"
+            color="var:primary-500"
+            hoverColor="var:primary-400"
+            @click.stop="() => (showWordTools = !showWordTools)"
+            class="more-inactive"
+            v-if="showWordTools"
+          />
+          <svg-icon
+            name="MoreIcon"
+            size="lg"
+            hoverColor="var:primary-500"
+            @click.stop="() => (showWordTools = !showWordTools)"
+            class="more-active"
+            v-else
+          />
         </div>
       </div>
     </div>
-    <WordTools :handleClose="() => showWordTools = false" v-if="showWordTools" />
+    <WordTools
+      :handleClose="() => (showWordTools = false)"
+      v-if="showWordTools"
+      :handle-delete="handleDelete"
+      :handle-edit="handleEdit"
+    />
     <div class="card__content" :class="backgroundClasses">
       <div class="card__content--language">
         <img :src="getFlagIcon(word.language)" alt="Icon" class="language-icon" />
@@ -189,7 +231,7 @@ export default {
             size="md"
             color="var:neutrals-600"
             hoverColor="var:primary-700"
-            @click="copyToClipboard(word.text)"
+            @click.stop="copyToClipboard(word.text)"
           />
         </div>
       </div>
@@ -213,7 +255,7 @@ export default {
         color="var:neutrals-600"
         hoverColor="var:primary-500"
         class="translations-carousel--arrow backward"
-        @click="goToPrevTranslation"
+        @click.stop="goToPrevTranslation"
       />
       <svg-icon
         name="ArrowForwardIcon"
@@ -221,7 +263,7 @@ export default {
         color="var:neutrals-600"
         hoverColor="var:primary-500"
         class="translations-carousel--arrow forward"
-        @click="goToNextTranslation"
+        @click.stop="goToNextTranslation"
       />
       <div class="translations-carousel--counter">
         <span class="translations-counter">
@@ -230,6 +272,36 @@ export default {
       </div>
     </div>
   </article>
+  <Modal
+    size="lg"
+    v-if="showEditWordModal"
+    :close-modal="() => (showEditWordModal = false)"
+    title-modal="Редактировать слово"
+    icon="EditIcon"
+    modalContent="NewWordForm"
+    :objectLookup="editWordSlug"
+  />
+  <Modal
+    size="lg"
+    v-if="showDeleteWordModal"
+    :close-modal="() => (showDeleteWordModal = false)"
+    title-modal="Вы уверены, что хотите удалить слово?"
+    icon="InfoIcon"
+    modalContent="DeleteWordForm"
+    :objectLookup="deleteWordSlug"
+  />
+  <Modal
+    size="lg"
+    v-if="showWordProfileModal"
+    :close-modal="() => (showWordProfileModal = false)"
+    title-modal="Профиль слова"
+    icon="WordsIcon"
+    modalContent="WordProfileModal"
+    :objectLookup="word.slug"
+    @favoriteupdate="updateFavorite"
+    @editword="handleEdit"
+    @deleteword="handleDelete"
+  />
 </template>
 
 <style lang="scss" scoped>
@@ -370,23 +442,13 @@ export default {
       }
 
       &--types {
-        @include tag-big;
-        color: $neutrals-700;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        text-align: center;
+        @include word-type;
       }
     }
 
     &--word-tags {
-      display: flex;
-      flex-direction: row;
-      gap: 0.8rem;
-      width: 100%;
+      @include word-tags-list-small;
       justify-content: center;
-      height: 2.4rem;
-      max-height: 2.4rem;
       padding-inline: 1.6rem;
     }
   }
@@ -486,11 +548,11 @@ export default {
   padding: 0;
 
   .more-inactive {
-    height: 100%
+    height: 100%;
   }
 
   .more-active {
-    height: 100%
+    height: 100%;
   }
 }
 </style>

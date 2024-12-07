@@ -1,11 +1,12 @@
 import api from '@/api';
-import type { WordDto, NewWordDto } from '@/dto/vocabulary.dto';
+import type { WordDto, NewWordDto, WordProfileDto } from '@/dto/vocabulary.dto';
 import { isAxiosError } from 'axios';
 import { defineStore } from 'pinia';
 
 export interface VocabularyStore {
   count: number;
   words: WordDto[];
+  wordProfile: WordProfileDto;
   errors: {
     language: string[];
     text: string[];
@@ -22,6 +23,7 @@ export const useVocabularyStore = defineStore('vocabulary', {
     return {
       count: 0,
       words: [],
+      wordProfile: {},
       errors: { language: [], text: [] },
       filterOptions: { language: '', text: '', activity_status: '' },
     };
@@ -43,6 +45,39 @@ export const useVocabularyStore = defineStore('vocabulary', {
     async createWord(word: NewWordDto) {
       try {
         await api.vocabulary.createWord(word);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          this.errors = error.response?.data;
+        }
+        return error;
+      }
+    },
+    async patchWord(wordSlug: string, wordUpdated: NewWordDto) {
+      try {
+        await api.vocabulary.patchWord(wordSlug, wordUpdated);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          this.errors = error.response?.data;
+        }
+        return error;
+      }
+    },
+    async getWordProfile(wordSlug: string) {
+      try {
+        const { data } = await api.vocabulary.getWordProfile(wordSlug);
+        if (data) {
+          this.wordProfile = data as WordProfileDto;
+        }
+      } catch (error) {
+        if (isAxiosError(error)) {
+          this.errors = error.response?.data;
+        }
+        return error;
+      }
+    },
+    async deleteWord(wordSlug: string) {
+      try {
+        await api.vocabulary.deleteWord(wordSlug);
       } catch (error) {
         if (isAxiosError(error)) {
           this.errors = error.response?.data;

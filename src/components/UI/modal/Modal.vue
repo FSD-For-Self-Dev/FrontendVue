@@ -1,42 +1,53 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
+import { useWindowScroll } from '@vueuse/core';
 import { type PropType, type Component, ref } from 'vue';
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from 'vue';
+
+const { y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
+  inheritAttrs: false,
   components: { OnClickOutside },
   props: {
     closeModal: {
       type: Function,
-      required: true
+      required: true,
     },
     titleModal: {
       type: String,
-      required: true
+      required: true,
     },
     icon: {
       type: String,
-      required: false
+      required: false,
     },
     size: {
       type: String as PropType<'md' | 'lg'>,
-      default: 'md'
+      default: 'md',
     },
     modalContent: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
+    objectLookup: {
+      type: String,
+      required: false,
+    },
   },
   setup(props) {
     const title = ref(props.titleModal);
+
+    y.value = 0;
+
     return {
-      title
+      title,
     };
   },
   methods: {
     updateTitle(title: string) {
       this.title = title;
-    }
+    },
   },
   computed: {
     modalSize() {
@@ -46,8 +57,8 @@ export default {
       const modalContent = this.modalContent;
       return defineAsyncComponent(() => import(`./modal-content/${modalContent}.vue`));
     },
-  }
-}
+  },
+};
 </script>
 
 <template>
@@ -56,14 +67,13 @@ export default {
 
     <OnClickOutside @trigger="() => closeModal()">
       <div class="modal" :class="modalSize">
-
         <div class="modal--header">
           <h2 class="modal--title">
             <svg-icon
               v-if="icon"
               size="lg"
               :name="icon"
-              style="stroke-width: 0.03rem;"
+              style="stroke-width: 0.03rem"
             />{{ title }}
           </h2>
 
@@ -77,7 +87,13 @@ export default {
         </div>
 
         <div class="modal--form">
-          <component :is="dynamicComponent" :closeForm="closeModal" :updateTitle="updateTitle" />
+          <component
+            :is="dynamicComponent"
+            :closeForm="closeModal"
+            :updateTitle="updateTitle"
+            :objectLookup="objectLookup"
+            v-bind="{ ...$attrs, onInput: undefined }"
+          />
         </div>
       </div>
     </OnClickOutside>

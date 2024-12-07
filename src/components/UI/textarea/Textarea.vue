@@ -3,6 +3,7 @@ import type { TextareaProps } from "@/types/components/textarea";
 import type { PropType } from "vue";
 
 export default {
+  inheritAttrs: false,
   props: {
     label: {
       type: String as PropType<TextareaProps["label"]>,
@@ -19,14 +20,6 @@ export default {
     },
     serverError: {
       type: String as PropType<TextareaProps["serverError"]>,
-    },
-  },
-  methods: {
-    handleInput(event: InputEvent) {
-      this.$emit(
-        "update:modelValue",
-        (event.target as HTMLTextAreaElement).value
-      );
     },
   },
   computed: {
@@ -63,6 +56,14 @@ export default {
               up: false,
           };
       }
+    },
+  },
+  methods: {
+    handleInput(event: InputEvent) {
+      this.$emit(
+        "update:modelValue",
+        (event.target as HTMLTextAreaElement).value
+      );
     },
   },
 };

@@ -51,6 +51,71 @@
     }
 }
 
+@mixin dropdown-list {
+  box-shadow: $regular-shadow;
+  background-color: $neutrals-100;
+  width: max-content;
+  min-width: 28.8rem;
+  max-width: 52rem;
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+@mixin dropdown-list-item {
+  @include text-2;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  cursor: pointer;
+  width: 100%;
+  padding: 1.6rem 2rem;
+  text-align: left;
+
+  &:nth-child(1) {
+    border-radius: 2rem 2rem 0 0;
+  }
+  &:last-child {
+    border-radius: 0 0 2rem 2rem;
+  }
+
+  &:hover {
+    background-color: $primary-200;
+  }
+
+  &:active {
+    background-color: $primary-300;
+  }
+}
+
+@mixin word-type {
+  @include tag-big;
+  color: $neutrals-700;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+@mixin word-tags-list-small {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  width: 100%;
+  height: 2.4rem;
+  max-height: 2.4rem;
+}
+
+@mixin word-tags-list-big {
+  display: flex;
+  flex-direction: row;
+  gap: 1.2rem;
+  width: 100%;
+  height: 3.2rem;
+  max-height: 3.2rem;
+}
+
 // *** Grid mixins below ***
 
 @mixin grid16($columns: 4) {

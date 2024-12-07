@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { LanguageDto, LearningLanguageDto } from '@/dto/languages.dto';
+import type { LanguageCoverDto, LanguageDto, LearningLanguageDto } from '@/dto/languages.dto';
 import api from '@/api';
 import { isAxiosError } from 'axios';
 
@@ -9,6 +9,7 @@ export interface ILanguagesState {
   global_languages: LanguageDto[];
   all_languages: LanguageDto[];
   count: number;
+  covers: LanguageCoverDto[];
 }
 
 export const useLanguagesStore = defineStore('languages', {
@@ -19,6 +20,7 @@ export const useLanguagesStore = defineStore('languages', {
       count: 0,
       global_languages: [],
       all_languages: [],
+      covers: [],
     };
   },
   actions: {
@@ -45,6 +47,34 @@ export const useLanguagesStore = defineStore('languages', {
         this.count = res.data.count as unknown as number;
         this.learning_languages = res.data.results as unknown as LearningLanguageDto[];
         return res;
+      } catch (error) {
+        if (isAxiosError(error)) {
+          return error;
+        }
+      }
+    },
+    async deleteLanguage(languageSlug: string, delete_words: boolean = false) {
+      try {
+        await api.languages.deleteLanguage(languageSlug, delete_words);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          return error;
+        }
+      }
+    },
+    async getLanguageCovers(languageSlug: string) {
+      try {
+        const res = await api.languages.getLanguageCovers(languageSlug);
+        this.covers = res.data as unknown as LanguageCoverDto[];
+      } catch (error) {
+        if (isAxiosError(error)) {
+          return error;
+        }
+      }
+    },
+    async setLanguageCover(languageSlug: string, data: Object) {
+      try {
+        await api.languages.setLanguageCover(languageSlug, data);
       } catch (error) {
         if (isAxiosError(error)) {
           return error;
