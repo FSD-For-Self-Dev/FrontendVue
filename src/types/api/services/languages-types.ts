@@ -8,4 +8,6 @@ export type Languages = {
     getAllLanguages: () => AxiosPromise<Record<string, string>>;
     postLearningLanguage: (language: LanguageDto[]) => AxiosPromise<Record<string, string>>;
     deleteLanguage: (languageSlug: string, delete_words: boolean) => AxiosPromise<Record<string, string>>;
+    getLanguageCovers: (languageSlug: string) => AxiosPromise<Record<string, string>>;
+    setLanguageCover: (languageSlug: string, data: Object) => AxiosPromise<Record<string, string>>;
 };

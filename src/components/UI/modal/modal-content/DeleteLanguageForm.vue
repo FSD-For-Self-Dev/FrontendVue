@@ -26,7 +26,6 @@ export default {
   data() {
     return {
       submitProcess: false,
-      // delete_words: false,
     };
   },
   setup(props) {

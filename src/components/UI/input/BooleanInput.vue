@@ -50,7 +50,7 @@ export default {
       get() {
         return this.modelValue;
       },
-      set(value) {
+      set(value: boolean | Object) {
         this.$emit("update:modelValue", value);
       }
     },

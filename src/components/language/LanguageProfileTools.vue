@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       showLanguageTools: false,
-      showLanguageCovers: false,
+      showLanguageCoversModal: false,
       showDeleteLanguageModal: false,
       statusWordOptions: [
         {
@@ -79,8 +79,7 @@ export default {
             icon="ImageIcon"
             size="lg"
             variant="lucid"
-            @click.stop="() => (showLanguageCovers = !showLanguageCovers)"
-          :active="showLanguageCovers"
+            @click.stop="() => (showLanguageCoversModal = !showLanguageCoversModal)"
         />
         <IconButton
           icon="MoreIcon"
@@ -120,6 +119,15 @@ export default {
     title-modal="Вы уверены, что хотите удалить язык из изучаемых?"
     icon="InfoIcon"
     modalContent="DeleteLanguageForm"
+    :objectLookup="language.language.name"
+  />
+  <Modal
+    size="lg"
+    v-if="showLanguageCoversModal"
+    :close-modal="() => (showLanguageCoversModal = false)"
+    title-modal="Сменить обложку"
+    icon="ImageIcon"
+    modalContent="LanguageCoverChange"
     :objectLookup="language.language.name"
   />
 </template>
