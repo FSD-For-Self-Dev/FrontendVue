@@ -85,10 +85,14 @@ export default {
   },
   computed: {
     ...mapState(useVocabularyStore, ['count']),
-    ...mapState(useLanguagesStore, ['learning_languages', 'all_languages', 'global_languages']),
+    ...mapState(useLanguagesStore, [
+      'learning_languages',
+      'all_languages',
+      'global_languages',
+    ]),
     getTranslationLanguages() {
       const all_languages_filtered = this.all_languages.filter((lang) => {
-        return (lang.name !== this.language)
+        return lang.name !== this.language;
       });
       return all_languages_filtered.map((lang) => {
         return {
@@ -106,7 +110,7 @@ export default {
             label: lang.name_local,
             icon: lang.flag_icon,
           };
-        })
+        });
       } else {
         return this.learning_languages.map((lang) => {
           return {
@@ -114,8 +118,8 @@ export default {
             label: lang.language.name_local,
             icon: lang.language.flag_icon,
           };
-        })
-      };
+        });
+      }
     },
   },
   methods: {
@@ -130,7 +134,7 @@ export default {
     ...mapActions(useLanguagesStore, ['getLearningLanguages']),
     getLastLanguage() {
       if (this.chosenLanguage) {
-        return this.chosenLanguage
+        return this.chosenLanguage;
       } else {
         try {
           const language = this.words()[0].language;
@@ -318,15 +322,17 @@ export default {
         this.translations = wordProfile.translations ? wordProfile.translations : [];
 
         if (wordProfile.image_associations) {
-          const image_associations_promise = wordProfile.image_associations.map(async (image) => {
-            image.image = image.image ? image.image : ''
-            const base64 = useBase64(await readUrlFile(image.image));
-            return {
-              'id': image.id,
-              'image': await base64.promise.value,
-              'image_url': image.image_url
-            }
-          });
+          const image_associations_promise = wordProfile.image_associations.map(
+            async (image) => {
+              image.image = image.image ? image.image : '';
+              const base64 = useBase64(await readUrlFile(image.image));
+              return {
+                id: image.id,
+                image: await base64.promise.value,
+                image_url: image.image_url,
+              };
+            },
+          );
           this.image_associations = await Promise.all(image_associations_promise);
         }
       });
@@ -348,7 +354,13 @@ export default {
           style="padding-inline: 2.8rem"
         />
         <Input v-model="word" placeholder="Введите слово или фразу..." size="standart" />
-        <Input show-label v-model="note" label="Заметка" />
+        <Input
+          show-label
+          v-model="note"
+          placeholder="Введите полезную заметку, например: Не употребляетя с глаголами чувств..."
+          label="Заметка"
+          style="margin-top: 0.8rem"
+        />
       </div>
 
       <div v-if="step === 2">
