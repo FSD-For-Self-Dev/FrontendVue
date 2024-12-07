@@ -98,7 +98,7 @@ export default {
         <div class="hero-card card-5">
           <div class="card-header">
             <span class="card-status">
-              <svg-icon name="Inactive3StatusIcon" size="md" />Почти активное
+              <svg-icon name="Inactive2StatusIcon" size="md" />Почти активное
             </span>
             <span class="card-actions">
               <svg-icon name="FavouriteIcon" size="md" />

@@ -26,6 +26,7 @@ body {
     min-width: 360px;
     -webkit-overflow-scrolling: touch;
     position: relative;
+    text-overflow: ellipsis;
 }
 
 #app {
@@ -81,9 +82,6 @@ h6 {
     padding: 0;
 }
 
-svg *[fill] {
-    fill: currentColor;
-}
 svg *[stroke] {
     stroke: currentColor;
 }

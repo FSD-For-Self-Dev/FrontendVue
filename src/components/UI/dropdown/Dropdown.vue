@@ -167,6 +167,7 @@ export default {
     max-height: 35rem;
     overflow-y: auto;
     z-index: 1000;
+    @include scroll;
 }
 
 .dropdown-item {

@@ -1,5 +1,5 @@
 import api from '@/api';
-import type { WordDto } from '@/dto/vocabulary.dto';
+import type { WordDto, NewWordDto } from '@/dto/vocabulary.dto';
 import { isAxiosError } from 'axios';
 import { defineStore } from 'pinia';
 
@@ -40,9 +40,29 @@ export const useVocabularyStore = defineStore('vocabulary', {
         this.count = 0;
       }
     },
-    async createWord(word: WordDto) {
+    async createWord(word: NewWordDto) {
       try {
         await api.vocabulary.createWord(word);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          this.errors = error.response?.data;
+        }
+        return error;
+      }
+    },
+    async addWordToFavorite(wordSlug: string) {
+      try {
+        await api.vocabulary.addWordToFavorite(wordSlug);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          this.errors = error.response?.data;
+        }
+        return error;
+      }
+    },
+    async removeWordFromFavorite(wordSlug: string) {
+      try {
+        await api.vocabulary.removeWordFromFavorite(wordSlug);
       } catch (error) {
         if (isAxiosError(error)) {
           this.errors = error.response?.data;

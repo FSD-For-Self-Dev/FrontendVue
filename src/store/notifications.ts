@@ -11,7 +11,7 @@ interface NotificationsStore {
     messages: Notification[];
 }
 
-export const useNotificationsStore = defineStore('notification', {
+export const useNotificationsStore = defineStore('message', {
     state: (): NotificationsStore => ({
         pk: 0,
         messages: [],

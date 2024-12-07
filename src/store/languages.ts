@@ -7,6 +7,7 @@ export interface ILanguagesState {
   available_languages: LanguageDto[];
   learning_languages: LearningLanguageDto[];
   global_languages: LanguageDto[];
+  all_languages: LanguageDto[];
   count: number;
 }
 
@@ -17,15 +18,8 @@ export const useLanguagesStore = defineStore('languages', {
       learning_languages: [],
       count: 0,
       global_languages: [],
+      all_languages: [],
     };
-  },
-  getters: {
-    getAvailableWithOutLearningLanguages(state: ILanguagesState) {
-      return state.available_languages.filter(
-        (lang) =>
-          !state.learning_languages.some((learningLang) => learningLang.id === lang.id),
-      );
-    },
   },
   actions: {
     async getAvailableLanguages() {
@@ -40,6 +34,10 @@ export const useLanguagesStore = defineStore('languages', {
     async getGlobalLanguages() {
       const res = await api.languages.getGlobalLanguages();
       this.global_languages = res.data.results as unknown as LanguageDto[];
+    },
+    async getAllLanguages() {
+      const res = await api.languages.getAllLanguages();
+      this.all_languages = res.data.results as unknown as LanguageDto[];
     },
     async postLearningLanguage(languages: LanguageDto[]) {
       try {

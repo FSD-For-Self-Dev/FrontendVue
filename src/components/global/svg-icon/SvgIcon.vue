@@ -73,18 +73,15 @@ export default {
       type: String,
       required: true
     },
-
     color: {
       type: String,
       default: defaults.color
     },
-
     size: {
       type: String,
       default: defaults.size,
       validator: (val) => Object.keys(sizes).includes(val)
     },
-
     hoverColor: [Boolean, String]
   },
 
@@ -93,27 +90,23 @@ export default {
       const name = this.name;
       return defineAsyncComponent(() => import(`../../icons/${name}.vue`));
     },
-
     colorBind() {
       const color = this.color ? this.color : defaults.color;
 
       return this.getVarOrColorValue(color);
     },
-
     hoverColorBind() {
       if (this.hoverColor === false) return;
 
       if (this.hoverColor === true || !this.hoverColor) return defaults.hoverColor;
       return this.getVarOrColorValue(this.hoverColor);
     },
-
     svgSize() {
       return sizes[this.size].size
     },
-
     strokeWidth() {
       return sizes[this.size].strokeWidth
-    }
+    },
   },
 
   methods: {
