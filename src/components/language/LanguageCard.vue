@@ -130,7 +130,7 @@ export default {
     padding: 5.2rem 5.2rem;
     width: 40rem;
     height: 30rem;
-    border-radius: $radius-xs;
+    border-radius: $radius-md;
 
     .card--name {
       @include heading-2;

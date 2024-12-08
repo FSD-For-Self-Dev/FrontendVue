@@ -44,7 +44,7 @@ export default {
   background-color: $secondary-300;
   outline: $secondary-400 solid 0.1rem;
   color: $secondary-700;
-  border-radius: $radius-xs;
+  border-radius: $radius-md;
   cursor: pointer;
 
   @include hover {

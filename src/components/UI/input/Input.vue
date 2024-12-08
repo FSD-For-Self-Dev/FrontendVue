@@ -223,7 +223,7 @@ export default {
         color: $neutrals-600;
         background-color: $neutrals-100;
         padding-inline: 0.8rem;
-        border-radius: $radius-xs;
+        border-radius: $radius-md;
         padding-block: 0.4rem;
         margin-left: -0.4rem;
     }

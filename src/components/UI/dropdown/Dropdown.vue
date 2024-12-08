@@ -129,7 +129,7 @@ export default {
     align-items: center;
     min-height: 5.6rem;
     max-width: 30rem;
-    border-radius: $radius-md;
+    border-radius: $radius-lg;
     padding-inline: 2rem;
     border: 0.1rem solid $neutrals-400;
     background-color: $neutrals-100;
@@ -171,7 +171,7 @@ export default {
     padding: 0;
     margin: 0;
     width: 100%;
-    border-radius: $radius-xs;
+    border-radius: $radius-md;
     max-height: 35rem;
     overflow-y: auto;
     z-index: 1000;

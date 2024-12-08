@@ -312,7 +312,7 @@ export default {
     .header--avatar {
       width: 4.4rem;
       height: 4.4rem;
-      border-radius: 50%;
+      border-radius: $radius-full;
       object-fit: cover;
       border: none;
       cursor: pointer;
@@ -375,7 +375,7 @@ export default {
 .navbar__item {
   height: 6rem;
   padding: 0.8rem 2.4rem 0.8rem 1.2rem;
-  border-radius: $radius-xs;
+  border-radius: $radius-md;
   cursor: pointer;
   display: flex;
   align-items: center;

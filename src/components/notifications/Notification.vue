@@ -59,7 +59,7 @@ export default {
 .notifications--item {
     padding: 2.4rem 2rem;
     box-shadow: $regular-shadow;
-    border-radius: 2rem;
+    border-radius: $radius-xl;
     background-color: $neutrals-100;
     display: flex;
     align-items: center;

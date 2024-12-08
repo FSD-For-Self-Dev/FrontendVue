@@ -61,7 +61,7 @@ export default {
     width: 100%;
     background-color: $neutrals-100;
     padding: 40px;
-    border-radius: 4rem;
+    border-radius: $radius-2xl;
     box-shadow: $regular-shadow;
     border: 1px solid transparent;
     cursor: pointer;

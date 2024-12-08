@@ -307,7 +307,7 @@ export default {
 <style lang="scss" scoped>
 .ghost,
 .grey {
-  border-radius: $radius-sm;
+  border-radius: $radius-xl;
   border: 0.15rem solid $neutrals-300;
 }
 .ghost {
@@ -329,7 +329,7 @@ export default {
   gap: 1.2rem;
   width: 29.5rem;
   height: 34rem;
-  border-radius: $radius-sm;
+  border-radius: $radius-xl;
   padding-block: 1.6rem;
   padding-inline: 2rem;
   box-shadow: $regular-shadow;
@@ -351,7 +351,7 @@ export default {
     height: 100%;
     inset: 0;
     background-color: $neutrals-100;
-    border-radius: $radius-sm;
+    border-radius: $radius-xl;
     overflow: hidden;
 
     img {

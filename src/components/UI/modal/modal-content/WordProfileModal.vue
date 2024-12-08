@@ -332,7 +332,7 @@ export default {
       height: 100%;
       inset: 0;
       background-color: $neutrals-100;
-      border-radius: $radius-sm;
+      border-radius: $radius-xl;
       overflow: hidden;
 
       img {
@@ -371,7 +371,7 @@ export default {
           align-items: center;
           padding: 1.2rem;
           background-color: $white-lucid;
-          border-radius: $radius-xs;
+          border-radius: $radius-md;
           gap: 0.8rem;
           height: 4.8rem;
           @include text-2;
@@ -391,7 +391,7 @@ export default {
           align-items: center;
           padding: 1.2rem;
           background-color: $white-lucid;
-          border-radius: $radius-xs;
+          border-radius: $radius-md;
           gap: 0.8rem;
           height: 4.8rem;
           @include text-2;
@@ -409,7 +409,7 @@ export default {
           align-items: center;
           padding: 1.2rem;
           background-color: $white-lucid;
-          border-radius: $radius-xs;
+          border-radius: $radius-md;
           gap: 0.4rem;
           height: 4.8rem;
           @include text-2;
@@ -430,7 +430,7 @@ export default {
       gap: 4rem;
       padding-inline: 4rem;
       padding-block: 3.2rem;
-      border-radius: $radius-xs;
+      border-radius: $radius-md;
 
       // Text wrap
       white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */

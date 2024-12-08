@@ -98,7 +98,7 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-radius: $radius-xs;
+  border-radius: $radius-md;
   gap: 4rem;
   background-color: $primary-200;
   height: 12.4rem;

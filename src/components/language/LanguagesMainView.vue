@@ -52,10 +52,10 @@ export default {
 <style lang="scss">
 .languages-main-view {
     background-color: $neutrals-100;
-    padding: 40px;
-    border-radius: 4rem;
+    padding: 4rem;
+    border-radius: $radius-2xl;
     box-shadow: $regular-shadow;
-    border: 1px solid transparent;
+    border: 0.1rem solid transparent;
     cursor: pointer;
     width: 100%;
     max-height: max-content;
@@ -64,7 +64,7 @@ export default {
     flex-direction: column;
 
     @include hover {
-        border: 1px solid $primary-300;
+        border: 0.1rem solid $primary-300;
 
         .languages-main-view--header {
             #forward-arrow {
@@ -74,7 +74,7 @@ export default {
     }
 
     @include active {
-        border: 1px solid $primary-500;
+        border: 0.1rem solid $primary-500;
 
         .languages-main-view--header {
             #forward-arrow {

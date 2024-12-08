@@ -563,7 +563,7 @@ export default {
     height: 22rem;
     padding: 4rem;
     border: 0.1rem solid $neutrals-400;
-    border-radius: $radius-xs;
+    border-radius: $radius-md;
     display: flex;
     flex-direction: column;
     gap: 2rem;

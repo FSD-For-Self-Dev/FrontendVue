@@ -234,7 +234,7 @@ export default {
   height: 62rem;
   background-color: $neutrals-100;
   box-shadow: $regular-shadow;
-  border-radius: $radius-md;
+  border-radius: $radius-lg;
   display: flex;
   justify-content: space-between;
 
@@ -243,7 +243,7 @@ export default {
     background-size: cover;
     min-width: 44rem;
     height: 62rem;
-    border-radius: 0 $radius-md $radius-md 0;
+    border-radius: 0 $radius-lg $radius-lg 0;
   }
 
   .modal-auth--title {

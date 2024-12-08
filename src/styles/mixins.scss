@@ -41,7 +41,7 @@
     }
 
     &::-webkit-scrollbar-thumb {
-        border-radius: $radius-lg;
+        border-radius: $radius-sm;
         background-color: $neutrals-400;
         cursor: pointer;
 
@@ -57,7 +57,7 @@
   width: max-content;
   min-width: 28.8rem;
   max-width: 52rem;
-  border-radius: 2rem;
+  border-radius: $radius-xl;
   overflow: hidden;
 }
 
@@ -74,10 +74,10 @@
   text-align: left;
 
   &:nth-child(1) {
-    border-radius: 2rem 2rem 0 0;
+    border-radius: $radius-xl $radius-xl 0 0;
   }
   &:last-child {
-    border-radius: 0 0 2rem 2rem;
+    border-radius: 0 0 $radius-xl $radius-xl;
   }
 
   &:hover {

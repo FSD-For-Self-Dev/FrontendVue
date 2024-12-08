@@ -42,18 +42,17 @@ export default {};
         @include text-2;
         display: flex;
         align-items: center;
-        padding: 12px 16px;
+        padding: 1.2rem 1.6rem;
         cursor: pointer;
-        border: 1px solid $neutrals-400;
-        border-radius: 40px;
-        line-height: 20px;
+        border: 0.1rem solid $neutrals-400;
+        border-radius: $radius-2xl;
         background-color: $neutrals-100;
         gap: 0.6rem;
         min-width: 15.2rem;
 
         &:hover {
             background-color: $primary-300;
-            border: 1px solid transparent;
+            border: 0.1rem solid transparent;
         }
     }
 }

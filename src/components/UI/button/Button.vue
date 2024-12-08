@@ -124,7 +124,7 @@ export default {
     @include text-1;
     height: 6.4rem;
     padding: 2rem 3.2rem;
-    border-radius: $radius-md;
+    border-radius: $radius-lg;
     column-gap: 0.8rem;
   }
 
@@ -132,7 +132,7 @@ export default {
     @include text-2;
     height: 5.6rem;
     padding: 1.6rem 3.2rem;
-    border-radius: $radius-xs;
+    border-radius: $radius-md;
     column-gap: 0.8rem;
   }
 
@@ -140,7 +140,7 @@ export default {
     @include text-3;
     height: 4.4rem;
     padding: 1.4rem 2.4rem;
-    border-radius: $radius-xs;
+    border-radius: $radius-md;
     column-gap: 0.6rem;
   }
 
@@ -148,7 +148,7 @@ export default {
     @include text-4;
     height: 3.6rem;
     padding: 1rem 2.4rem;
-    border-radius: $radius-xs;
+    border-radius: $radius-md;
     column-gap: 0.6rem;
   }
 

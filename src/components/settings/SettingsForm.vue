@@ -186,11 +186,11 @@ export default {
     display: flex;
     align-items: center;
     flex-direction: column;
-    border-radius: 4rem;
-    border: 1px dashed $primary-300;
+    border-radius: $radius-2xl;
+    border: 0.1rem dashed $primary-300;
 
     &.label--drag {
-      border: 1px dashed $primary-500;
+      border: 0.1rem dashed $primary-500;
       background-color: $primary-200;
       transition: all 0.4s ease;
 
@@ -236,7 +236,7 @@ export default {
         width: 14rem;
         height: 14rem;
         object-fit: cover;
-        border-radius: 50%;
+        border-radius: $radius-full;
         margin-bottom: 2.4rem;
       }
 
@@ -246,7 +246,7 @@ export default {
         border: 0.1rem solid $neutrals-400;
         color: $neutrals-500;
         box-sizing: border-box;
-        border-radius: 50%;
+        border-radius: $radius-full;
         display: flex;
         justify-content: center;
         align-items: center;

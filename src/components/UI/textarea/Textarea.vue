@@ -90,7 +90,7 @@ export default {
 .textarea {
   min-height: 5.6rem;
   min-width: 32rem;
-  border-radius: $radius-md;
+  border-radius: $radius-lg;
   padding-block: 1.6rem;
   padding-inline: 2rem;
   border: 0.1rem solid $neutrals-400;
@@ -144,7 +144,7 @@ export default {
     color: $neutrals-600;
     background-color: $neutrals-100;
     padding-inline: 0.8rem;
-    border-radius: $radius-xs;
+    border-radius: $radius-md;
     padding-block: 0.4rem;
     margin-left: -0.4rem;
   }
