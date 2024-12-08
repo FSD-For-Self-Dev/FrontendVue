@@ -47,7 +47,7 @@ export default {
 .title {
     @include subheading-2;
     color: $neutrals-900;
-    padding: 20px 0;
+    padding: 2rem 0;
 }
 .subtitle {
     @include text-2;

@@ -157,7 +157,7 @@ export default {
       color: $neutrals-900;
       width: 17.5rem;
       height: 4.8rem;
-      border: 1px solid $neutrals-400;
+      border: 0.1rem solid $neutrals-400;
       border-radius: 1.2rem;
       padding: 1.2rem 1.6rem;
       display: flex;
@@ -167,17 +167,17 @@ export default {
 
       &:hover {
         background-color: $primary-200;
-        border: 1px solid $primary-200;
+        border-color: $primary-200;
       }
 
       &:active {
         background-color: $primary-300;
-        border: 1px solid $primary-300;
+        border-color: $primary-300;
       }
 
       &.active {
         background-color: $primary-300;
-        border: 1px solid $primary-300;
+        border-color: $primary-300;
       }
     }
   }

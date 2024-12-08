@@ -388,7 +388,7 @@ export default {
     gap: 1.2rem;
 
     background-color: transparent;
-    border: 1px solid transparent;
+    border: 0.1rem solid transparent;
     cursor: pointer;
 
     .navbar__item-name {

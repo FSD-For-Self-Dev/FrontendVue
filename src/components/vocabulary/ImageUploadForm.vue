@@ -65,7 +65,7 @@ export default {
   align-items: center;
   flex-direction: column;
   border-radius: $radius-2xl;
-  border: 1px dashed $primary-300;
+  border: 0.1rem dashed $primary-300;
 
   .image-form--tip {
     display: flex;
@@ -127,7 +127,7 @@ export default {
 }
 
 .label--drag {
-  border: 1px dashed $primary-500;
+  border: 0.1rem dashed $primary-500;
   background-color: $primary-200;
   transition: all 0.4s ease;
 

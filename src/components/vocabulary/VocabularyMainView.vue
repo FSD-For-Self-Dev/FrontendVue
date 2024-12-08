@@ -60,14 +60,14 @@ export default {
     position: relative;
     width: 100%;
     background-color: $neutrals-100;
-    padding: 40px;
+    padding: 4rem;
     border-radius: $radius-2xl;
     box-shadow: $regular-shadow;
-    border: 1px solid transparent;
+    border: 0.1rem solid transparent;
     cursor: pointer;
 
     @include hover {
-        border: 1px solid $primary-300;
+        border: 0.1rem solid $primary-300;
 
         .vocabulary-main-view--header {
             #forward-arrow {
@@ -77,7 +77,7 @@ export default {
     }
 
     @include active {
-        border: 1px solid $primary-500;
+        border: 0.1rem solid $primary-500;
 
         .vocabulary-main-view--header {
             #forward-arrow {

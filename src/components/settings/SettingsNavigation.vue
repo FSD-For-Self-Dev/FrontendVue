@@ -90,7 +90,7 @@ export default {
   .settings--list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1.6rem;
   }
 }
 </style>
