@@ -36,6 +36,7 @@ export interface LanguageDto {
     name: string;
     name_local: string;
     flag_icon: string;
+    isocode: string;
 }
 
 export interface LanguageCoverDto {

@@ -38,16 +38,6 @@ export default {
   },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
-    activityStatus() {
-      return {
-        Активное: 'Active',
-        Неактивное: 'Inactive',
-        Усвоенное: 'Mastered',
-        Active: 'Active',
-        Inactive: 'Inactive',
-        Mastered: 'Mastered',
-      };
-    },
     counterBind() {
       return this.wordProfile.translations_count ? `${this.wordProfile.translations_count * 100}%` : '';
     },
@@ -198,11 +188,13 @@ export default {
           </div>
           <div class="status-tag" :class="backgroundClasses">
             <svg-icon
-              :name="`${activityStatus[wordProfile.activity_status as keyof typeof activityStatus]}${wordProfile.activity_progress}StatusIcon`"
+              :name="`${wordProfile.activity_status}${wordProfile.activity_progress}StatusIcon`"
               size="nm"
-              v-if="wordProfile.activity_status in activityStatus"
+              v-if="wordProfile.activity_status"
             />
-            <p>{{ wordProfile.activity_status }}</p>
+            <p v-if="wordProfile.activity_status">
+              {{ $t('activityStatus', { status: wordProfile.activity_status }) }}
+            </p>
             <svg-icon name="InfoIcon" size="sm" color="var:neutrals-700" />
           </div>
         </div>

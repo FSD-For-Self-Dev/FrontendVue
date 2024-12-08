@@ -37,16 +37,6 @@ export default {
         ghost: this.word.image,
       };
     },
-    activityStatus() {
-      return {
-        Активное: 'Active',
-        Неактивное: 'Inactive',
-        Усвоенное: 'Mastered',
-        Active: 'Active',
-        Inactive: 'Inactive',
-        Mastered: 'Mastered',
-      };
-    },
     counterBind() {
       return `${this.word.translations_count * 100}%`;
     },
@@ -173,10 +163,10 @@ export default {
     <div class="card__header">
       <div class="card__header--status" :class="backgroundClasses">
         <svg-icon
-          :name="`${activityStatus[word.activity_status]}${word.activity_progress}StatusIcon`"
+          :name="`${word.activity_status}${word.activity_progress}StatusIcon`"
           size="md"
         />
-        <p>{{ word.activity_status }}</p>
+        <p>{{ $t('activityStatus', { status: word.activity_status }) }}</p>
       </div>
       <div class="card__header--actions" :class="backgroundClasses">
         <div @click.stop="handleFavourite" class="fav-icon">
@@ -308,7 +298,7 @@ export default {
 .ghost,
 .grey {
   border-radius: $radius-xl;
-  border: 0.15rem solid $neutrals-300;
+  border: 0.14rem solid $neutrals-300;
 }
 .ghost {
   background-color: rgba(255, 255, 255, 0.8);

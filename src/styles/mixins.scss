@@ -244,6 +244,13 @@
 
 // Tag
 
+@mixin tag-xlarge {
+    font-family: Inter-Light, Inter-Regular, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 2rem;
+    line-height: 2.4rem;
+    text-transform: uppercase;
+}
+
 @mixin tag-large {
     font-family: Inter-Regular, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 1.4rem;

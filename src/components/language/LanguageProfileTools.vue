@@ -101,7 +101,8 @@ export default {
       <div class="language-words-tools--top-left">
         <Dropdown
           placeholder="Все слова"
-          v-model="filterOptions.activity_status" :items="statusWordOptions"
+          v-model="filterOptions.activity_status"
+          :items="statusWordOptions"
         />
       </div>
       <NewWordButton
