@@ -3,7 +3,6 @@ import Logo from '@/components/UI/logo/Logo.vue';
 import Navigation from './Navigation.vue';
 import Language from './Language.vue';
 import Authentication from '@/components/authentication/Authentication.vue';
-import { navbarItems } from '@/constants/wordsMock';
 import type { INavbarItems } from '@/types/components/navbar';
 import { mapState } from 'pinia';
 import { useUserStore } from '@/store/user';
@@ -14,6 +13,16 @@ import IconButton from '../UI/button/IconButton.vue';
 import Search from './Search.vue';
 import AddingTools from './AddingTools.vue';
 import Modal from '../UI/modal/Modal.vue';
+
+export const navbarItems: INavbarItems[] = [
+    { name: 'Главная', link: 'home', icon: 'HomeIcon' },
+    { name: 'Изучаемые языки', link: 'languages', icon: 'LanguageIcon' },
+    { name: 'Словарь', link: 'vocabulary', icon: 'VocabularyIcon' },
+    { name: 'Коллекции', link: 'collections', icon: 'CollectionsIcon' },
+    { name: 'Избранное', link: 'favorites', icon: 'FavouriteIcon' },
+    { name: 'Упражнения', link: 'exercises', icon: 'ExercisesIcon' },
+    { name: 'О платформе', link: 'about', icon: 'InfoIcon' },
+];
 
 export default {
   components: {
@@ -233,12 +242,12 @@ export default {
     <OnClickOutside @trigger="closeNavbar" class="navbar__wrapper">
       <ul class="navbar__list">
         <li v-for="navbarItem in navbarItems" class="navbar__item">
-          <button :to="navbarItem.link" class="navbar__item-content" @click="closeNavbar">
+          <router-link :to="{ name: navbarItem.link }" class="navbar__item-content" @click="closeNavbar">
             <svg-icon :name="navbarItem.icon" size="nm" class="navbar__item-icon" />
             <span class="navbar__item-name">
               {{ navbarItem.name }}
             </span>
-          </button>
+          </router-link>
         </li>
       </ul>
     </OnClickOutside>
@@ -372,6 +381,8 @@ export default {
   align-items: center;
 
   .navbar__item-content {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     gap: 1.2rem;

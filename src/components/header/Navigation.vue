@@ -11,13 +11,13 @@ export default {};
                 </a>
             </li>
             <li>
-                <a class="navigation--item">
+                <a class="navigation--item" @click="$router.push('collections')">
                     <svg-icon name="CollectionsIcon" size="md" style="stroke-width: 0.2;" />Коллекции
                 </a>
 
             </li>
             <li>
-                <a class="navigation--item">
+                <a class="navigation--item" @click="$router.push('exercises')">
                     <svg-icon name="ExercisesIcon" size="md" style="stroke-width: 0.2;" />Упражнения
                 </a>
             </li>
