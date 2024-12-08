@@ -15,14 +15,6 @@ export default {
       type: String,
       required: true,
     },
-    extraToggleModal: {
-      type: Function as PropType<Function | null>,
-      default: null,
-    },
-    extraShowModal: {
-      type: Boolean as PropType<boolean | null>,
-      default: null,
-    },
     buttonSize: {
       type: String as PropType<'normal' | 'medium' | 'small'>,
       default: 'small',
@@ -30,18 +22,10 @@ export default {
   },
   methods: {
     handleOpen() {
-      if (this.extraToggleModal !== null && this.extraShowModal !== null) {
-        this.extraToggleModal(!this.extraShowModal);
-      } else {
-        this.showModal = true;
-      }
+      this.showModal = true;
     },
     handleClose() {
-      if (this.extraToggleModal !== null && this.extraShowModal !== null) {
-        this.extraToggleModal(!this.extraShowModal);
-      } else {
-        this.showModal = false;
-      }
+      this.showModal = false;
     },
   },
 };
@@ -50,7 +34,7 @@ export default {
 <template>
   <Button @click.stop="handleOpen" :size="buttonSize" :text="buttonText" icon="AddIcon" />
   <Modal
-    v-if="showModal || extraShowModal"
+    v-if="showModal"
     :close-modal="handleClose"
     title-modal="Добавить изучаемые языки"
     icon="ExercisesIcon"

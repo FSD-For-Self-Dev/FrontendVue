@@ -11,14 +11,6 @@ export default {
   },
   components: { Button, Modal },
   props: {
-    extraToggleModal: {
-      type: Function as PropType<Function | null>,
-      default: null
-    },
-    extraShowModal: {
-      type: Boolean as PropType<boolean | null>,
-      default: null
-    },
     buttonText: {
       type: String,
       required: true
@@ -34,18 +26,10 @@ export default {
   },
   methods: {
     handleOpen() {
-      if (this.extraToggleModal !== null && this.extraShowModal !== null) {
-        this.extraToggleModal(!this.extraShowModal);
-      } else {
-        this.showModal = true;
-      }
+      this.showModal = true;
     },
     handleClose() {
-      if (this.extraToggleModal !== null && this.extraShowModal !== null) {
-        this.extraToggleModal(!this.extraShowModal);;
-      } else {
-        this.showModal = false;
-      }
+      this.showModal = false;
     }
   }
 }
@@ -53,6 +37,6 @@ export default {
 
 <template>
   <Button @click.stop="handleOpen" :size="buttonSize" :text="buttonText" icon="AddIcon" />
-  <Modal size="lg" v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Новое слово"
+  <Modal size="lg" v-if="showModal" :close-modal="handleClose" title-modal="Новое слово"
     icon="AddIcon" modalContent="NewWordForm" :chosenLanguage="chosenLanguage" />
 </template>
