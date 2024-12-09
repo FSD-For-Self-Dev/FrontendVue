@@ -119,7 +119,7 @@ export default {
           </span>
           <svg-icon
             v-if="item.icon_component"
-            v-bind:name="item.icon_component"
+            :name="item.icon_component"
             :color="item.icon_component_custom_color"
             size="nm"
           />

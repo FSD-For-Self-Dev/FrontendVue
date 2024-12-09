@@ -40,6 +40,9 @@ export default {
       this.getAllLanguages(),
       this.getVocabulary(),
     ]).finally(() => {
+      const { interface_language } = useUserStore();
+
+      this.$i18n.locale = interface_language;
       this.isLoading = false;
     });
   },

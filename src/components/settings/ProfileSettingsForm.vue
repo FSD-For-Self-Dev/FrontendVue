@@ -129,12 +129,14 @@ export default {
         placeholder="Родной язык 1"
         :items="dropDownItems"
         v-model="formNativeLang[0]"
+        style="padding-inline: 2.8rem"
       />
       <Dropdown
         placeholder="Родной язык 2"
         :items="dropDownItems"
         v-model="formNativeLang[1]"
         v-if="formNativeLang[1] || moreNativeLang"
+        style="padding-inline: 2.8rem"
       />
       <TextButton
         text="Добавить еще один родной язык"
@@ -162,6 +164,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 4rem;
+  margin-top: 6.4rem;
 
   .buttons {
     display: inline-flex;

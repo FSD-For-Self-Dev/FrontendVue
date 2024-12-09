@@ -32,6 +32,10 @@ export default {
       type: String as PropType<ButtonProps['additionalIcon']>,
       required: false,
     },
+    active: {
+      type: Boolean,
+      default: false
+    },
   },
   computed: {
     buttonClasses() {
@@ -46,6 +50,9 @@ export default {
         'button--secondary': this.variant === 'secondary',
         'button--success': this.variant === 'success',
         'button--danger': this.variant === 'danger',
+
+        /* States */
+        'active': this.active,
       };
     },
     iconSizes() {
@@ -192,6 +199,10 @@ export default {
 
     @include active {
       outline-color: $primary-500;
+    }
+
+    &.active {
+      outline-color: $primary-400;
     }
 
     &:disabled {

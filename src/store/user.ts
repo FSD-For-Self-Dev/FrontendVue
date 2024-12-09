@@ -10,6 +10,7 @@ export interface IUserState {
   image: string;
   native_languages: string[];
   first_name: string;
+  interface_language: string;
 }
 
 export const useUserStore = defineStore('user', {
@@ -22,6 +23,7 @@ export const useUserStore = defineStore('user', {
       image: '',
       native_languages: [],
       first_name: '',
+      interface_language: '',
     };
   },
   actions: {
@@ -34,6 +36,7 @@ export const useUserStore = defineStore('user', {
         this.image = data.image;
         this.native_languages = data.native_languages as unknown as string[];
         this.first_name = data.first_name;
+        this.interface_language = data.interface_language;
       } catch (e) {
         this.authStatus = false;
       }
@@ -47,6 +50,7 @@ export const useUserStore = defineStore('user', {
         this.image = res.data.image;
         this.native_languages = res.data.native_languages as unknown as string[];
         this.first_name = res.data.first_name;
+        this.interface_language = res.data.interface_language;
       } catch (e) {}
     },
     async deleteUser() {

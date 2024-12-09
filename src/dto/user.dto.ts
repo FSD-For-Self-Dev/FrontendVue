@@ -3,4 +3,5 @@ export interface UserDto {
   first_name?: string;
   image?: string;
   native_languages?: string[];
+  interface_language?: string;
 }

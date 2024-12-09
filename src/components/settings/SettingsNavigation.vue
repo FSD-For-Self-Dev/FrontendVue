@@ -7,8 +7,11 @@ import Button from '@/components/UI/button/Button.vue';
 import Modal from '@/components/UI/modal/Modal.vue';
 export default {
   components: { Button, Modal },
+  emits: ["profileSettings", "appSettings"],
   data() {
     return {
+      showProfileSettingsForm: true,
+      showAppSettingsForm: false,
       showModal: false,
     };
   },
@@ -24,6 +27,16 @@ export default {
       this.clearDataVocabulary();
       this.clearDataLanguages();
       this.$router.push('/');
+    },
+    showProfileSettings() {
+      this.showProfileSettingsForm = true;
+      this.showAppSettingsForm = false;
+      this.$emit("profileSettings");
+    },
+    showAppSettings() {
+      this.showAppSettingsForm = true;
+      this.showProfileSettingsForm = false;
+      this.$emit("appSettings");
     },
   },
 };
@@ -42,8 +55,26 @@ export default {
           variant="secondary"
           text="Профиль"
           icon="ProfileIcon"
+          @click="showProfileSettings"
+          :active="showProfileSettingsForm"
         />
       </li>
+      <li>
+        <Button
+          :style="{
+            width: '100%',
+            justifyContent: 'start',
+          }"
+          size="medium"
+          variant="secondary"
+          text="Персонализация"
+          icon="StarIcon"
+          @click="showAppSettings"
+          :active="showAppSettingsForm"
+        />
+      </li>
+    </ul>
+    <ul class="settings--actions">
       <li>
         <Button
           :style="{
@@ -91,6 +122,13 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 1.6rem;
+  }
+
+  .settings--actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin-top: 4rem;
   }
 }
 </style>
