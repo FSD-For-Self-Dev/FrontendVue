@@ -125,8 +125,8 @@ export default {
         <button v-if="$attrs.type === 'password'"
             :aria-label="inputType === 'password' ? 'Show password' : 'Hide password'" class="password-toggle"
             @click="togglePassword" type="button">
-            <svg-icon name="EyeOnIcon" size="md" v-if="inputType === 'password'" />
-            <svg-icon name="EyeOffIcon" size="md" v-else />
+            <svg-icon name="EyeOnIcon" size="md" hoverColor="var:primary-500" v-if="inputType === 'password'" />
+            <svg-icon name="EyeOffIcon" size="md" hoverColor="var:primary-500" v-else />
         </button>
         <svg-icon
             v-if="icon"
@@ -218,7 +218,7 @@ export default {
 
     & input:focus+label,
     label.up {
-        top: -8%;
+        top: -24%;
         @include text-3;
         color: $neutrals-600;
         background-color: $neutrals-100;

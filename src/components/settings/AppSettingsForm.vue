@@ -3,8 +3,8 @@ import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import Button from '@/components/UI/button/Button.vue';
 import type { UserDto } from '@/dto/user.dto';
 import { useUserStore } from '@/store/user';
-import { mapActions, mapState, mapWritableState } from 'pinia';
-import { computed, ref } from 'vue';
+import { mapActions, mapState } from 'pinia';
+import { ref } from 'vue';
 import { useWindowScroll } from '@vueuse/core';
 import { useNotificationsStore } from '@/store/notifications';
 import { isAxiosError } from 'axios';
@@ -34,7 +34,6 @@ export default {
       const data: UserDto = {
         interface_language: this.formInterfaceLang,
       };
-      console.log(data);
       const res = await this.patchUser(data);
       if (isAxiosError(res)) {
           console.log(res.response?.data);

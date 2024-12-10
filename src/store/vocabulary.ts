@@ -29,9 +29,9 @@ export const useVocabularyStore = defineStore('vocabulary', {
     };
   },
   actions: {
-    async getVocabulary() {
+    async getVocabulary(locale?: string) {
       try {
-        const { data } = await api.vocabulary.getVocabulary();
+        const { data } = await api.vocabulary.getVocabulary(locale);
         if (data && data.results) {
           this.words = data.results as unknown as WordDto[];
           this.count = data.count as unknown as number;
@@ -42,9 +42,9 @@ export const useVocabularyStore = defineStore('vocabulary', {
         this.count = 0;
       }
     },
-    async createWord(word: NewWordDto) {
+    async createWord(word: NewWordDto, locale?: string) {
       try {
-        await api.vocabulary.createWord(word);
+        await api.vocabulary.createWord(word, locale);
       } catch (error) {
         if (isAxiosError(error)) {
           this.errors = error.response?.data;
@@ -52,9 +52,9 @@ export const useVocabularyStore = defineStore('vocabulary', {
         return error;
       }
     },
-    async patchWord(wordSlug: string, wordUpdated: NewWordDto) {
+    async patchWord(wordSlug: string, wordUpdated: NewWordDto, locale?: string) {
       try {
-        await api.vocabulary.patchWord(wordSlug, wordUpdated);
+        await api.vocabulary.patchWord(wordSlug, wordUpdated, locale);
       } catch (error) {
         if (isAxiosError(error)) {
           this.errors = error.response?.data;
@@ -62,9 +62,9 @@ export const useVocabularyStore = defineStore('vocabulary', {
         return error;
       }
     },
-    async getWordProfile(wordSlug: string) {
+    async getWordProfile(wordSlug: string, locale?: string) {
       try {
-        const { data } = await api.vocabulary.getWordProfile(wordSlug);
+        const { data } = await api.vocabulary.getWordProfile(wordSlug, locale);
         if (data) {
           this.wordProfile = data as WordProfileDto;
         }

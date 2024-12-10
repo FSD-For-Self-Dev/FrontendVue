@@ -8,13 +8,12 @@ import { isAxiosError } from 'axios';
 import { ref } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import Button from '@/components/UI/button/Button.vue';
-import BooleanInput from '@/components/UI/input/BooleanInput.vue';
 import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
 import type { LanguageCoverDto } from '@/dto/languages.dto';
 import LanguageCoverItem from '@/components/language/LanguageCoverItem.vue';
 
 export default {
-  components: { Button, WordTagCard, BooleanInput, LanguageCoverItem },
+  components: { Button, WordTagCard, LanguageCoverItem },
   props: {
     closeForm: {
       type: Function,
@@ -62,11 +61,11 @@ export default {
     async handleCoverChange() {
       this.submitProcess = true;
       const data = { "image_id": this.cover_id }
-      const res = await this.setLanguageCover(this.objectLookup, data);
+      const res = await this.setLanguageCover(this.objectLookup, data, this.$i18n.locale);
       if (isAxiosError(res)) {
         console.log(res.response?.data);
       } else {
-        await this.getLearningLanguages();
+        await this.getLearningLanguages(this.$i18n.locale);
         this.closeForm();
         this.addNewMessage({
           type: 'info',
@@ -80,7 +79,9 @@ export default {
     this.cover_id = this.getLanguageObject.cover_id;
 
     if (this.objectLookup) {
-      Promise.all([this.getLanguageCovers(this.objectLookup)]).finally(() => {
+      Promise.all([
+        this.getLanguageCovers(this.objectLookup, this.$i18n.locale)
+      ]).finally(() => {
         const { covers } = useLanguagesStore();
         this.cover_choices = covers;
       });

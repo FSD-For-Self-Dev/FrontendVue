@@ -52,7 +52,7 @@ export default {
       },
       set(value: boolean | Object) {
         this.$emit("update:modelValue", value);
-      }
+      },
     },
   },
 };
@@ -65,6 +65,7 @@ export default {
       id="booleaninput"
       :type="type === 'toggle' ? 'checkbox' : type"
       :disabled="isDisabled" :aria-disabled="isDisabled"
+      v-bind="{ ...$attrs }"
       v-model="model"
       :value="value"
     />

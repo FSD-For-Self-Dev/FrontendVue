@@ -74,7 +74,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useVocabularyStore, ['getVocabulary', 'getWordProfile', 'addWordToFavorite', 'removeWordFromFavorite']),
+    ...mapActions(useVocabularyStore, ['getWordProfile', 'addWordToFavorite', 'removeWordFromFavorite']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     getFlagIcon(neededLang: string | undefined) {
       return this.global_languages.find((lang) => lang.name === neededLang)?.flag_icon;
@@ -160,7 +160,9 @@ export default {
   },
   mounted() {
     if (this.objectLookup) {
-      Promise.all([this.getWordProfile(this.objectLookup)]).finally(() => {
+      Promise.all([
+        this.getWordProfile(this.objectLookup, this.$i18n.locale)
+      ]).finally(() => {
         const { wordProfile } = useVocabularyStore();
         this.wordProfile = wordProfile;
       });

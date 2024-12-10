@@ -38,11 +38,12 @@ export default {
     AddingTools,
     Modal,
   },
+  emits: ["localeUpdated", "loginProcceed"],
   computed: {
+    ...mapState(useUserStore, ['username', 'authStatus', 'image']),
     authorized() {
       return this.$route.path !== '/';
     },
-    ...mapState(useUserStore, ['username', 'authStatus', 'image']),
   },
   data(): {
     showAuth: boolean;
@@ -54,7 +55,7 @@ export default {
     shownBar: boolean;
     showNavbar: boolean;
     navbarItems: INavbarItems[];
-	addIconActive: boolean;
+	  addIconActive: boolean;
   } {
     return {
       showAuth: false,
@@ -66,7 +67,7 @@ export default {
       shownBar: false,
       showNavbar: false,
       navbarItems,
-	  addIconActive: false,
+	    addIconActive: false,
     };
   },
   methods: {
@@ -91,6 +92,12 @@ export default {
     },
     closeNavbar() {
       this.showNavbar = false;
+    },
+    updateLocale() {
+      this.$emit("localeUpdated");
+    },
+    loginProcceedHandle() {
+      this.$emit("loginProcceed");
     },
   },
 };
@@ -136,7 +143,7 @@ export default {
           icon="AddIcon"
           size="lg"
           variant="primary"
-		  :class="{active: addIconActive}"
+		      :class="{active: addIconActive}"
           @click.stop="() => {showAddingTools = !showAddingTools; addIconActive = true}"
         />
       </div>
@@ -196,6 +203,7 @@ export default {
       :show-auth="showAuth"
       :view-auth="viewAuth"
       v-if="!authStatus"
+      @login-procceed="loginProcceedHandle"
     />
 
     <div class="header--right">
@@ -227,7 +235,7 @@ export default {
       </div>
 
       <div class="header--language">
-        <Language />
+        <Language @locale-updated="updateLocale" />
       </div>
 
       <Teleport to="body">

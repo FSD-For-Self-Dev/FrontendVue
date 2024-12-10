@@ -6,7 +6,7 @@ import type { UserDto } from '@/dto/user.dto';
 import { useLanguagesStore } from '@/store/languages';
 import { useUserStore } from '@/store/user';
 import { useBase64 } from '@vueuse/core';
-import { mapActions, mapWritableState } from 'pinia';
+import { mapActions } from 'pinia';
 import { computed, ref } from 'vue';
 import TextButton from '../UI/button/TextButton.vue';
 import { useWindowScroll } from '@vueuse/core';

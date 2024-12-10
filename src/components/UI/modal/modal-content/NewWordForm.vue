@@ -285,8 +285,8 @@ export default {
         note: this.note,
       };
       const res = this.objectLookup
-        ? await this.patchWord(this.objectLookup, data)
-        : await this.createWord(data);
+        ? await this.patchWord(this.objectLookup, data, this.$i18n.locale)
+        : await this.createWord(data, this.$i18n.locale);
       const successMsg = this.objectLookup
         ? 'Изменения сохранены'
         : 'Новое слово добавлено в словарь';
@@ -300,8 +300,8 @@ export default {
           console.log(res.response?.data);
         }
       } else {
-        await this.getVocabulary();
-        await this.getLearningLanguages();
+        await this.getVocabulary(this.$i18n.locale);
+        await this.getLearningLanguages(this.$i18n.locale);
         this.handleClose();
         this.addNewMessage({
           type: 'info',
@@ -313,7 +313,9 @@ export default {
   },
   async mounted() {
     if (this.objectLookup) {
-      Promise.all([this.getWordProfile(this.objectLookup)]).finally(async () => {
+      Promise.all([
+        this.getWordProfile(this.objectLookup, this.$i18n.locale)
+      ]).finally(async () => {
         const { wordProfile } = useVocabularyStore();
 
         this.word = wordProfile.text ? wordProfile.text : '';
@@ -354,13 +356,14 @@ export default {
           style="padding-inline: 2.8rem"
         />
         <Input v-model="word" placeholder="Введите слово или фразу..." size="standart" />
-        <Input
-          show-label
-          v-model="note"
-          placeholder="Введите полезную заметку, например: Не употребляетя с глаголами чувств..."
-          label="Заметка"
-          style="margin-top: 0.8rem"
-        />
+        <div style="margin-top: 0.4rem">
+          <Input
+            show-label
+            v-model="note"
+            placeholder="Введите полезную заметку, например: Не употребляетя с глаголами чувств..."
+            label="Заметка"
+          />
+        </div>
       </div>
 
       <div v-if="step === 2">

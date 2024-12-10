@@ -4,114 +4,181 @@ import Header from '@/components/header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
 import IconButton from '@/components/UI/button/IconButton.vue';
 import NotificationsList from '@/components/notifications/NotificationsList.vue';
+import { mapActions, mapWritableState } from 'pinia';
+import { useVocabularyStore } from '@/store/vocabulary';
+import Preloader from '../preloader/Preloader.vue';
+import { useLanguagesStore } from '@/store/languages';
+import { useUserStore } from '@/store/user';
 
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
-    components: { Header, Footer, IconButton, NotificationsList },
-    props: {
-        landingPage: { type: Boolean, required: false, default: false },
-        noFooterPage: { type: Boolean, required: false, default: false },
+  components: { Header, Footer, IconButton, NotificationsList, Preloader },
+  props: {
+    landingPage: { type: Boolean, required: false, default: false },
+    noFooterPage: { type: Boolean, required: false, default: false },
+  },
+  data() {
+    return {
+      y,
+      isLoading: false,
+    };
+  },
+  computed: {
+    ...mapWritableState(useUserStore, ['authStatus']),
+    isMainpage() {
+      return this.$route.path === '/';
     },
-    data() {
-        return {
-            y,
-        };
+  },
+  methods: {
+    ...mapActions(useVocabularyStore, ['getVocabulary']),
+    ...mapActions(useLanguagesStore, [
+      'getAvailableLanguages',
+      'getLearningLanguages',
+      'getGlobalLanguages',
+      'getAllLanguages',
+    ]),
+    ...mapActions(useUserStore, ['getUser']),
+    handleUpdateLocale() {
+      if (this.authStatus) {
+        this.isLoading = true;
+        Promise.all([
+          this.getVocabulary(this.$i18n.locale),
+          this.getLearningLanguages(this.$i18n.locale),
+        ]).finally(async () => {
+          this.isLoading = false;
+        });
+      };
     },
-    computed: {
-        isMainpage() {
-            return this.$route.path === '/';
-        },
+    async handleLoginProcceed() {
+      this.isLoading = true;
+
+      const { interface_language } = useUserStore();
+      this.$i18n.locale = interface_language;
+
+      await this.getUser(this.$i18n.locale);
+      await this.getVocabulary(this.$i18n.locale);
+      await this.getLearningLanguages(this.$i18n.locale);
+      await this.getAvailableLanguages(this.$i18n.locale);
+      await this.getGlobalLanguages(this.$i18n.locale);
+      await this.getAllLanguages(this.$i18n.locale);
+
+      this.authStatus = true;
+      this.isLoading = false;
     },
-    methods: {
-        goBack() {
-            if (history.state.back) {
-                this.$router.go(-1);
-            } else this.$router.push('/');
-        },
-        scrollToTop() {
-            y.value = 0;
-        },
+    goBack() {
+      if (history.state.back) {
+        this.$router.go(-1);
+      } else this.$router.push('/');
     },
+    scrollToTop() {
+      y.value = 0;
+    },
+  },
 };
 </script>
 
 <template>
-    <div class="layout">
-        <Header />
-        <main class="main">
-            <div :class="{ wrapper: !landingPage }">
-                <IconButton v-if="!isMainpage" @click="goBack" class="back-button" icon="ArrowBackwardIcon" size="lg"
-                    iconSize="nm" variant="shadowed">
-                    <span class="visually-hidden">Назад</span>
-                </IconButton>
-                <slot></slot>
-                <Transition>
-                    <IconButton @click="scrollToTop" v-if="!landingPage && y > 50" class="up-button" icon="ArrowUpIcon"
-                        size="lg" iconSize="nm" variant="shadowed">
-                        <span class="visually-hidden">Наверх</span>
-                    </IconButton>
-                </Transition>
-            </div>
-        </main>
-        <Footer v-if="!noFooterPage" />
-        <NotificationsList />
+  <div class="layout">
+    <Header @locale-updated="handleUpdateLocale" @login-procceed="handleLoginProcceed" />
+    <main class="main" v-if="!isLoading">
+      <div :class="{ wrapper: !landingPage }">
+        <IconButton
+          v-if="!isMainpage"
+          @click="goBack"
+          class="back-button"
+          icon="ArrowBackwardIcon"
+          size="lg"
+          iconSize="nm"
+          variant="shadowed"
+        >
+          <span class="visually-hidden">Назад</span>
+        </IconButton>
+        <slot></slot>
+        <Transition>
+          <IconButton
+            @click="scrollToTop"
+            v-if="!landingPage && y > 50"
+            class="up-button"
+            icon="ArrowUpIcon"
+            size="lg"
+            iconSize="nm"
+            variant="shadowed"
+          >
+            <span class="visually-hidden">Наверх</span>
+          </IconButton>
+        </Transition>
+      </div>
+    </main>
+    <div v-else class="preloader">
+      <Preloader />
     </div>
+    <Footer v-if="!noFooterPage" />
+    <NotificationsList />
+  </div>
 </template>
 
 <style lang="scss" scoped>
+.preloader {
+  width: 100svw;
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .layout {
-    min-height: 100vh;
-    padding-top: 10rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background-color: $neutrals-200;
+  min-height: 100vh;
+  padding-top: 10rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: $neutrals-200;
 }
 
 .main {
-    width: 100%;
-    background-color: $neutrals-200;
+  width: 100%;
+  background-color: $neutrals-200;
 }
 
 .wrapper {
-    max-width: 1600px;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
-    padding: 4rem 10rem 40rem;
-    margin: auto;
+  max-width: 1600px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 4rem 10rem 40rem;
+  margin: auto;
 }
 
 .back-button {
-    position: fixed;
-    top: 13.7rem;
-    left: 1.6rem;
+  position: fixed;
+  top: 13.7rem;
+  left: 1.6rem;
 }
 
 .up-button {
-    position: fixed;
-    bottom: 4rem;
-    right: 1.6rem;
+  position: fixed;
+  bottom: 4rem;
+  right: 1.6rem;
 }
 
 .v-enter-active,
 .v-leave-active {
-    transition:
-        opacity 0.2s,
-        transform 0.4s ease;
+  transition:
+    opacity 0.2s,
+    transform 0.4s ease;
 }
 
 .v-enter-from,
 .v-leave-to {
-    opacity: 0;
-    transform: translateY(100px);
+  opacity: 0;
+  transform: translateY(100px);
 }
 
 .v-enter-to,
 .v-leave-from {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 </style>

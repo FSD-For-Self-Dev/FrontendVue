@@ -3,7 +3,6 @@ import type { UserDto } from '@/dto/user.dto';
 import { defineStore } from 'pinia';
 
 export interface IUserState {
-  token: string;
   authStatus: boolean;
   id: string;
   username: string;
@@ -16,35 +15,34 @@ export interface IUserState {
 export const useUserStore = defineStore('user', {
   state: (): IUserState => {
     return {
-      token: '',
-      authStatus: false,
       id: '',
       username: '',
       image: '',
       native_languages: [],
       first_name: '',
       interface_language: '',
+      authStatus: Boolean(localStorage.getItem('token')),
     };
   },
   actions: {
-    async getUser() {
+    async getUser(locale?: string) {
       try {
-        const { data } = await api.user.getUser();
-        this.authStatus = true;
-        this.id = data.id;
-        this.username = data.username;
-        this.image = data.image;
-        this.native_languages = data.native_languages as unknown as string[];
-        this.first_name = data.first_name;
-        this.interface_language = data.interface_language;
-      } catch (e) {
-        this.authStatus = false;
+        const { data } = await api.user.getUser(locale);
+        if (data) {
+          this.id = data.id;
+          this.username = data.username;
+          this.image = data.image;
+          this.native_languages = data.native_languages as unknown as string[];
+          this.first_name = data.first_name;
+          this.interface_language = data.interface_language;
+        };
+      } catch (error) {
+        console.error('Error fetching user:', error);
       }
     },
     async patchUser(data: UserDto) {
       try {
         const res = await api.user.patchUser(data);
-        this.authStatus = true;
         this.id = res.data.id;
         this.username = res.data.username;
         this.image = res.data.image;
@@ -56,23 +54,22 @@ export const useUserStore = defineStore('user', {
     async deleteUser() {
       try {
         await api.user.deleteUser();
-        this.authStatus = false;
         this.id = '';
         this.username = '';
         this.image = '';
-        this.token = '';
-        localStorage.removeItem('key');
+        localStorage.removeItem('token');
+        this.authStatus = false;
       } catch (e) {
         console.log(e);
       }
     },
     logout() {
-      this.authStatus = false;
       this.id = '';
       this.username = '';
       this.image = '';
-      this.token = '';
-      localStorage.removeItem('key');
+      api.clearToken();
+      localStorage.removeItem('token');
+      this.authStatus = false;
     },
   },
 });

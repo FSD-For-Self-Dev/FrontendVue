@@ -6,7 +6,7 @@ import type { User } from '@/types/api/services';
 import type { Languages } from '@/types/api/services';
 import type { Vocabulary } from '@/types/api/services/vocabulary-types';
 
-const key = localStorage.getItem('key');
+const key = localStorage.getItem('token');
 
 const instance = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -36,7 +36,11 @@ export class Api implements IApi {
     request = instance;
 
     updateToken = (key: string) => {
-        this.request.defaults.headers.common['Authorization'] = `Token ${key}`;
+        this.request.defaults.headers['Authorization'] = `Token ${key}`;
+    };
+
+    clearToken = () => {
+        this.request.defaults.headers['Authorization'] = '';
     };
 }
 

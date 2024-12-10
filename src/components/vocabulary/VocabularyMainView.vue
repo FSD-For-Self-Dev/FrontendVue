@@ -17,9 +17,6 @@ export default {
     ...mapState(useLanguagesStore, ['learning_languages']),
   },
   methods: {
-    handleToggleModal(state: boolean) {
-      this.showModal = state;
-    },
     handleWheel(event: WheelEvent) {
       const container = event.currentTarget as HTMLElement;
       event.preventDefault();
@@ -42,11 +39,7 @@ export default {
     <div class="vocabulary-main-view--content">
       <div class="vocabulary-main-view--not-found" v-if="!words.length">
         В словаре пока нет слов или фраз
-        <NewWordButton
-          :extra-toggle-modal="handleToggleModal"
-          :extra-show-modal="showModal"
-          button-text="Добавить первые слова"
-        />
+        <NewWordButton button-text="Добавить первые слова" />
       </div>
 
       <div class="vocabulary-main-view--words" v-else @wheel.prevent="handleWheel">

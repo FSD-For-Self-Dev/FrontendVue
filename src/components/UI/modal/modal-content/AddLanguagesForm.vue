@@ -59,7 +59,7 @@ export default {
       this.activeLanguage.length = 0;
     },
     async handleSave() {
-      const res = await this.postLearningLanguage(this.activeLanguage);
+      const res = await this.postLearningLanguage(this.activeLanguage, this.$i18n.locale);
       if (isAxiosError(res)) {
         if (res.response?.status === 409) {
           this.addNewMessage({
@@ -79,7 +79,7 @@ export default {
         text: `${addWord} ${lenWords} ${learnWord} ${langWord}`,
       });
 
-      await this.getAvailableLanguages();
+      await this.getAvailableLanguages(this.$i18n.locale);
       this.closeForm();
     },
     handleWheel(event: WheelEvent) {

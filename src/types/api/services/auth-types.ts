@@ -2,7 +2,7 @@ import type { LoginDto, RegistrationDto } from '@/dto/auth.dto';
 import type { AxiosPromise } from 'axios';
 
 export type Auth = {
-    login: (data: LoginDto) => AxiosPromise<Record<string, string>>;
+    login: (data: LoginDto, locale?: string) => AxiosPromise<Record<string, string>>;
     logout: () => void;
-    registration: (data: RegistrationDto) => AxiosPromise<Record<string, string>>;
+    registration: (data: RegistrationDto, locale?: string) => AxiosPromise<Record<string, string>>;
 };

@@ -14,11 +14,6 @@ export default {
   computed: {
     ...mapState(useLanguagesStore, ['learning_languages', 'count']),
   },
-  methods: {
-    handleToggleModal(state: boolean) {
-      this.showModal = state;
-    },
-  },
 };
 </script>
 
@@ -39,11 +34,7 @@ export default {
         v-if="learning_languages.length === 0"
       >
         Нет изучаемых языков
-        <AddLanguagesButton
-          :extra-toggle-modal="handleToggleModal"
-          :extra-show-modal="showModal"
-          button-text="Добавить первый язык"
-        />
+        <AddLanguagesButton button-text="Добавить первый язык" />
       </div>
       <div class="languages-main-view--learning-languages" v-else>
         <div class="languages-main-view--learning-languages-list">

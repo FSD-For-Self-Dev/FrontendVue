@@ -65,8 +65,8 @@ export default {
       if (isAxiosError(res)) {
         console.log(res.response?.data);
       } else {
-        await this.getVocabulary();
-        await this.getLearningLanguages();
+        await this.getVocabulary(this.$i18n.locale);
+        await this.getLearningLanguages(this.$i18n.locale);
         this.closeForm();
         this.addNewMessage({
           type: 'info',
@@ -84,9 +84,10 @@ export default {
   },
   mounted() {
     if (this.objectLookup) {
-      Promise.all([this.getWordProfile(this.objectLookup)]).finally(() => {
+      Promise.all([
+        this.getWordProfile(this.objectLookup, this.$i18n.locale)
+      ]).finally(() => {
         const { wordProfile } = useVocabularyStore();
-
         this.word = wordProfile.text ? wordProfile.text : '';
         this.language = wordProfile.language ? wordProfile.language : '';
         this.activity_status = wordProfile.activity_status ? wordProfile.activity_status : '';

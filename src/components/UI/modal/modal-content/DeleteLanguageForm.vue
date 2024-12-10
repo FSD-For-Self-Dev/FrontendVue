@@ -50,13 +50,13 @@ export default {
     ...mapActions(useVocabularyStore, ['getVocabulary']),
     async handleDelete() {
       this.submitProcess = true;
-      const res = await this.deleteLanguage(this.objectLookup, this.delete_words);
+      const res = await this.deleteLanguage(this.objectLookup, this.delete_words, this.$i18n.locale);
       if (isAxiosError(res)) {
         console.log(res.response?.data);
       } else {
-        await this.getLearningLanguages();
-        await this.getAvailableLanguages();
-        if (this.delete_words) await this.getVocabulary();
+        await this.getLearningLanguages(this.$i18n.locale);
+        await this.getAvailableLanguages(this.$i18n.locale);
+        if (this.delete_words) await this.getVocabulary(this.$i18n.locale);
         this.closeForm();
         this.$router.push('/languages');
         this.addNewMessage({

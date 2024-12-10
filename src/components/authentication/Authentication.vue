@@ -1,20 +1,19 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
-import type { PropType } from 'vue';
+import { ref, type PropType } from 'vue';
 import Input from '@/components/UI/input/Input.vue';
 import Button from '@/components/UI/button/Button.vue';
-import { mapActions, mapWritableState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useAuthStore } from '@/store/auth';
 import { useUserStore } from '@/store/user';
 import { isAxiosError } from 'axios';
-import { useLanguagesStore } from '@/store/languages';
-import { useVocabularyStore } from '@/store/vocabulary';
 import { useNotificationsStore } from '@//store/notifications';
 import IconButton from '../UI/button/IconButton.vue';
 import BooleanInput from '../UI/input/BooleanInput.vue';
 
 export default {
   components: { OnClickOutside, Input, Button, IconButton, BooleanInput },
+  emits: ["loginProcceed"],
   computed: {
     ...mapWritableState(useAuthStore, [
       'email',
@@ -22,9 +21,17 @@ export default {
       'password1',
       'password2',
       'username',
-      'remember',
+      'rememberMe',
       'errors',
     ]),
+  },
+  setup() {
+    const { rememberMe } = useAuthStore();
+    const rememberMeCheck = ref(rememberMe);
+
+    return {
+      rememberMeCheck,
+    }
   },
   props: {
     showAuth: {
@@ -47,8 +54,6 @@ export default {
   methods: {
     ...mapActions(useAuthStore, ['login', 'registration', 'clearState']),
     ...mapActions(useUserStore, ['getUser']),
-    ...mapActions(useLanguagesStore, ['getAvailableLanguages', 'getLearningLanguages']),
-    ...mapActions(useVocabularyStore, ['getVocabulary']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     switchFormHandler(form: 'login' | 'register') {
       this.clearState();
@@ -59,7 +64,7 @@ export default {
       this.closeAuth();
     },
     async registrationSubmitHandler() {
-      await this.registration().then((res) => {
+      await this.registration(this.$i18n.locale).then((res) => {
         if (!isAxiosError(res)) {
           this.password = this.password1;
           this.loginSubmitHandler();
@@ -72,14 +77,12 @@ export default {
       });
     },
     async loginSubmitHandler() {
-      await this.login().then((res) => {
+      this.rememberMe = this.rememberMeCheck;
+      await this.login(this.$i18n.locale).then(async (res) => {
         if (!isAxiosError(res)) {
-          Promise.all([
-            this.getUser(),
-            this.getAvailableLanguages(),
-            this.getLearningLanguages(),
-            this.getVocabulary(),
-          ]);
+          Promise.all([this.getUser()]).finally(async () => {
+            this.$emit('loginProcceed')
+          });
           this.closeFormHandler();
         } else {
           this.addNewMessage({
@@ -127,7 +130,7 @@ export default {
                 label="Запомнить меня"
                 type="checkbox"
                 size="small"
-                v-model="remember"
+                v-model="rememberMeCheck"
                 checked
               />
               <a class="modal-auth--link">Забыли пароль?</a>
@@ -268,14 +271,14 @@ export default {
     &--inputs {
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1.6rem;
     }
 
     &--actions {
       display: flex;
       flex-direction: column;
       gap: 2.4rem;
-      margin-top: 1.6rem;
+      margin-top: 2.4rem;
     }
   }
 

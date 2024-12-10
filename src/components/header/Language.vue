@@ -3,6 +3,12 @@ import Dropdown from '../UI/dropdown/Dropdown.vue';
 
 export default {
   components: { Dropdown },
+  emits: ["localeUpdated"],
+  methods: {
+    updateLocale() {
+      this.$emit("localeUpdated");
+    },
+  },
 };
 </script>
 
@@ -17,6 +23,7 @@ export default {
         };
       })
     "
+    @update:modelValue="updateLocale"
     :noChevron="true"
     style="padding-inline: 0; border: 0; min-height: 0"
     class="language-changer"
