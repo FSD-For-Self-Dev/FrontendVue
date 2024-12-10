@@ -10,8 +10,6 @@
 import { mapActions } from 'pinia';
 import { useGlobalActionsStore } from '@/store/global-ations';
 import Preloader from '@/components/UI/preloader/Preloader.vue';
-import { useLanguagesStore } from './store/languages';
-import { useVocabularyStore } from './store/vocabulary';
 import HomePage from '@/views/HomePage.vue';
 
 export default {
@@ -19,18 +17,9 @@ export default {
   data() {
     return {
       isLoading: true,
-      isLoading: true,
     };
   },
   methods: {
-    ...mapActions(useUserStore, ['getUser']),
-    ...mapActions(useLanguagesStore, [
-      'getAvailableLanguages',
-      'getLearningLanguages',
-      'getGlobalLanguages',
-      'getAllLanguages',
-    ]),
-    ...mapActions(useVocabularyStore, ['getVocabulary']),
     ...mapActions(useGlobalActionsStore, ['global_init']),
   },
   mounted() {

@@ -10,6 +10,6 @@ export interface VocabularyQuery {
 export type Vocabulary = {
   getVocabulary: (query?: VocabularyQuery) => AxiosPromise<Record<string, string>>;
   createWord: (word: NewWordDto) => AxiosPromise<Record<string, string>>;
-    addWordToFavorite: (wordSlug: string) => AxiosPromise<Record<string, string>>;
-    removeWordFromFavorite: (wordSlug: string) => AxiosPromise<Record<string, string>>;
+  addWordToFavorite: (wordSlug: string) => AxiosPromise<Record<string, string>>;
+  removeWordFromFavorite: (wordSlug: string) => AxiosPromise<Record<string, string>>;
 };
