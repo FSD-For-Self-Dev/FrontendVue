@@ -1,9 +1,7 @@
 <script lang="ts">
-import { useUserStore } from '@/store/user';
-import { useLanguagesStore } from '@/store/languages';
-import { useVocabularyStore } from '@/store/vocabulary';
 import { OnClickOutside } from '@vueuse/components';
 import { mapActions, mapState } from 'pinia';
+import { useGlobalActionsStore } from '@/store/global-ations';
 
 export default {
   components: {
@@ -15,19 +13,12 @@ export default {
       required: true,
     },
   },
-  computed: {
-    ...mapState(useUserStore, ['username']),
-  },
   methods: {
-    ...mapActions(useUserStore, ['logout']),
-    ...mapActions(useVocabularyStore, ['clearDataVocabulary']),
-    ...mapActions(useLanguagesStore, ['clearDataLanguages']),
+    ...mapActions(useGlobalActionsStore, ['global_clear']),
     handleExit() {
-      this.logout();
-      this.clearDataVocabulary();
-      this.clearDataLanguages();
-      this.handleClose();
-      this.$router.push('/');
+      this.global_clear().finally(() => {
+        this.$router.push('/');
+      });
     },
     handleSettings() {
       this.$router.push('/settings');

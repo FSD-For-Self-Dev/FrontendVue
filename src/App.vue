@@ -8,10 +8,8 @@
 
 <script lang="ts">
 import { mapActions } from 'pinia';
-import { useUserStore } from './store/user';
+import { useGlobalActionsStore } from '@/store/global-ations';
 import Preloader from '@/components/UI/preloader/Preloader.vue';
-import { useLanguagesStore } from './store/languages';
-import { useVocabularyStore } from './store/vocabulary';
 import HomePage from '@/views/HomePage.vue';
 
 export default {
@@ -22,24 +20,10 @@ export default {
     };
   },
   methods: {
-    ...mapActions(useUserStore, ['getUser']),
-    ...mapActions(useLanguagesStore, [
-      'getAvailableLanguages',
-      'getLearningLanguages',
-      'getGlobalLanguages',
-      'getAllLanguages',
-    ]),
-    ...mapActions(useVocabularyStore, ['getVocabulary']),
+    ...mapActions(useGlobalActionsStore, ['global_init']),
   },
   mounted() {
-    Promise.all([
-      this.getUser(),
-      this.getGlobalLanguages(),
-      this.getAvailableLanguages(),
-      this.getLearningLanguages(),
-      this.getAllLanguages(),
-      this.getVocabulary(),
-    ]).finally(() => {
+    this.global_init().finally(() => {
       this.isLoading = false;
     });
   },

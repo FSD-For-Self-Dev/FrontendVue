@@ -5,17 +5,18 @@ import { numWord } from '@/utils/numWord';
 import { mapState } from 'pinia';
 import IconButton from '../UI/button/IconButton.vue';
 import WordCard from './WordCard.vue';
+import Preloader from '@/components/UI/preloader/Preloader.vue';
 
 export default {
-  components: { IconButton, WordCard },
+  components: { IconButton, WordCard, Preloader },
   computed: {
-    ...mapState(useVocabularyStore, ["words", "count", "filterOptions"]),
-    ...mapState(useLanguagesStore, ["learning_languages"]),
+    ...mapState(useVocabularyStore, ['words', 'count', 'filterOptions', 'isLoading']),
+    ...mapState(useLanguagesStore, ['learning_languages']),
     textInfo() {
       return `Найдено ${this.count} ${numWord(this.count, ['слово', 'слова', 'слов'])} или ${numWord(this.count, ['фраза', 'фразы', 'фраз'])}`;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>
@@ -27,10 +28,11 @@ export default {
         <IconButton icon="SortIcon" size="md" iconSize="nm" variant="tertiary" />
       </div>
     </header>
-    <div class="vocabulary-content--cards">
-      <div v-for="word in words">
-        <WordCard :word="word"/>
-      </div>
+    <div v-if="!isLoading" class="vocabulary-content--cards">
+      <WordCard v-for="word in words" :word="word" />
+    </div>
+    <div v-else class="vocabulary-content--preloader">
+      <Preloader />
     </div>
   </div>
 </template>
@@ -42,7 +44,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-
   }
 
   &--info {
@@ -60,6 +61,13 @@ export default {
     grid-template-columns: repeat(4, 29.5rem);
     justify-content: space-between;
     gap: 2rem;
+  }
+
+  &--preloader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20%;
   }
 }
 </style>

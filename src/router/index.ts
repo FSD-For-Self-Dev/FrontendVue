@@ -6,37 +6,62 @@ import Languages from '@/views/Languages.vue';
 import Error404 from '@/views/Error404.vue';
 // import Test from '@/views/Test.vue';
 import Settings from '@/views/Settings.vue';
+import { useUserStore } from '@/store/user';
 
 const routes = [
-    {
-        path: '/',
-        component: HomePage,
+  {
+    path: '/',
+    component: HomePage,
+  },
+  {
+    path: '/vocabulary',
+    component: Vocabulary,
+    beforeEnter: (to, from, next) => {
+      const { authStatus } = useUserStore();
+      if (!authStatus) {
+        next('/');
+      } else {
+        next();
+      }
     },
-    {
-        path: '/vocabulary',
-        component: Vocabulary,
+  },
+  {
+    path: '/languages',
+    component: Languages,
+    beforeEnter: (to, from, next) => {
+      const { authStatus } = useUserStore();
+      if (!authStatus) {
+        next('/');
+      } else {
+        next();
+      }
     },
-    {
-        path: '/languages',
-        component: Languages,
+  },
+  // {
+  //     path: '/test',
+  //     component: Test,
+  // },
+  {
+    path: '/settings',
+    component: Settings,
+    beforeEnter: (to, from, next) => {
+      const { authStatus } = useUserStore();
+      if (!authStatus) {
+        next('/');
+      } else {
+        next();
+      }
     },
-    // {
-    //     path: '/test',
-    //     component: Test,
-    // },
-    {
-        path: '/settings',
-        component: Settings,
-    },
-    {
-        path: '/:catchAll(.*)',
-        component: Error404,
-    }
+  },
+  {
+    path: '/:catchAll(.*)',
+    component: Error404,
+  },
 ] as RouteRecordRaw[];
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes,
+  history: createWebHistory(),
+  routes,
 });
 
 export default router;
