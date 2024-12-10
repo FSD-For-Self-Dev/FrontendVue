@@ -2,13 +2,16 @@
 import Input from '../UI/input/Input.vue';
 
 export default {
-    components: { Input },
+  components: { Input },
 };
 </script>
 
 <template>
-    <Input style="width: 100%; display: flex" placeholder="Найти слово или фразу..." icon="SearchIcon" />
+  <Input
+    style="width: 100%; display: flex"
+    placeholder="Найти слово или фразу..."
+    icon="SearchIcon"
+  />
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

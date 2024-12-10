@@ -111,6 +111,7 @@ export default {
             this.$emit("update:modelValue", (event.target as HTMLInputElement).value);
         },
     },
+    emits: ["update:modelValue"],
 };
 </script>
 

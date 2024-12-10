@@ -3,16 +3,18 @@ import Input from '@/components/UI/input/Input.vue';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import NewWordButton from './NewWordButton.vue';
 import { useLanguagesStore } from '@/store/languages';
-import { mapState, mapWritableState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useVocabularyStore } from '@/store/vocabulary';
 import Search from './Search.vue';
-
 
 export default {
   components: { NewWordButton, Input, Dropdown, Search },
   computed: {
-    ...mapState(useLanguagesStore, ["learning_languages"]),
-    ...mapWritableState(useVocabularyStore, ["filterOptions"]),
+    ...mapState(useLanguagesStore, ['learning_languages']),
+    ...mapWritableState(useVocabularyStore, ['filterOptions']),
+  },
+  methods: {
+    ...mapActions(useVocabularyStore, ['getVocabulary']),
   },
   data() {
     return {
@@ -40,8 +42,8 @@ export default {
           label: 'Все слова',
           icon_component: 'WordsIcon',
         },
-      ]
-    }
+      ],
+    };
   },
 };
 </script>
@@ -52,23 +54,39 @@ export default {
       <div class="vocabulary-tools--top-left">
         <Dropdown
           placeholder="Все языки"
-          :default_item="{value: '', label: 'Все языки', icon_component: 'LanguageIcon', is_default_item: true}"
-          v-model="filterOptions.language" :items="learning_languages.map(({ language }) => {
-          return {
-            value: language.name,
-            label: language.name_local,
-            icon: language.flag_icon,
-            is_default_item: false
-          }
-        })" />
+          :default_item="{
+            value: '',
+            label: 'Все языки',
+            icon_component: 'LanguageIcon',
+            is_default_item: true,
+          }"
+          v-model="filterOptions.language"
+          :items="
+            learning_languages.map(({ language }) => {
+              return {
+                value: language.name,
+                label: language.name_local,
+                icon: language.flag_icon,
+                is_default_item: false,
+              };
+            })
+          "
+        />
         <Dropdown
           placeholder="Все слова"
-          v-model="filterOptions.activity_status" :items="statusWordOptions"
+          v-model="filterOptions.activity_status"
+          :items="statusWordOptions"
         />
       </div>
       <NewWordButton button-size="medium" button-text="Новое слово или фраза" />
     </div>
-    <Search v-model="filterOptions.text" />
+    <Input
+      v-model="filterOptions.search"
+      style="width: 100%; display: flex"
+      placeholder="Найти слово или фразу..."
+      icon="SearchIcon"
+      @update:model-value="getVocabulary"
+    />
   </div>
 </template>
 

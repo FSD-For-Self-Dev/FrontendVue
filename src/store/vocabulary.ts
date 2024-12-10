@@ -1,20 +1,18 @@
 import api from '@/api';
 import type { WordDto } from '@/dto/vocabulary.dto';
+import type { VocabularyQuery } from '@/types/api/services';
 import { isAxiosError } from 'axios';
 import { defineStore } from 'pinia';
 
 export interface VocabularyStore {
   count: number;
   words: WordDto[];
+  en_words: WordDto[];
   errors: {
     language: string[];
     text: string[];
   };
-  filterOptions: {
-    language: string;
-    text: string;
-    activity_status: string;
-  };
+  filterOptions: VocabularyQuery;
 }
 
 export const useVocabularyStore = defineStore('vocabulary', {
@@ -23,13 +21,18 @@ export const useVocabularyStore = defineStore('vocabulary', {
       count: 0,
       words: [],
       errors: { language: [], text: [] },
-      filterOptions: { language: '', text: '', activity_status: '' },
+      filterOptions: {
+        language: '',
+        search: '',
+        activity_status: '',
+      },
+      en_words: []
     };
   },
   actions: {
     async getVocabulary() {
       try {
-        const { data } = await api.vocabulary.getVocabulary();
+        const { data } = await api.vocabulary.getVocabulary(this.filterOptions);
         if (data && data.results) {
           this.words = data.results as unknown as WordDto[];
           this.count = data.count as unknown as number;
