@@ -4,10 +4,9 @@ import Input from '@/components/UI/input/Input.vue';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import NewWordButton from './NewWordButton.vue';
 import { useLanguagesStore } from '@/store/languages';
-import { mapActions, mapState, mapWritableState } from 'pinia';
+import { mapState } from 'pinia';
 import { useVocabularyStore } from '@/store/vocabulary';
 import Search from './Search.vue';
-import { ref } from 'vue';
 
 export default {
   components: { NewWordButton, Input, Dropdown, Search },
@@ -17,8 +16,6 @@ export default {
   setup() {
     const { filterOptions, getVocabulary } = useVocabularyStore();
 
-    const serchRef = ref(filterOptions.search);
-
     watchDebounced(
       () => filterOptions.search,
       () => {
@@ -27,7 +24,7 @@ export default {
       { debounce: 1000, maxWait: 5000 },
     );
 
-    return { filterOptions, getVocabulary, serchRef };
+    return { filterOptions, getVocabulary };
   },
   data() {
     return {

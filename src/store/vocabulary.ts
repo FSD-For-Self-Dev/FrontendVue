@@ -7,7 +7,6 @@ import { defineStore } from 'pinia';
 export interface VocabularyStore {
   count: number;
   words: WordDto[];
-  en_words: WordDto[];
   errors: {
     language: string[];
     text: string[];
@@ -27,7 +26,6 @@ export const useVocabularyStore = defineStore('vocabulary', {
         search: '',
         activity_status: '',
       },
-      en_words: [],
       isLoading: false,
     };
   },
