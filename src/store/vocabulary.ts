@@ -13,6 +13,7 @@ export interface VocabularyStore {
     text: string[];
   };
   filterOptions: VocabularyQuery;
+  isLoading: boolean;
 }
 
 export const useVocabularyStore = defineStore('vocabulary', {
@@ -26,11 +27,13 @@ export const useVocabularyStore = defineStore('vocabulary', {
         search: '',
         activity_status: '',
       },
-      en_words: []
+      en_words: [],
+      isLoading: false,
     };
   },
   actions: {
     async getVocabulary() {
+      this.isLoading = true;
       try {
         const { data } = await api.vocabulary.getVocabulary(this.filterOptions);
         if (data && data.results) {
@@ -42,6 +45,7 @@ export const useVocabularyStore = defineStore('vocabulary', {
         this.words = [];
         this.count = 0;
       }
+      this.isLoading = false;
     },
     async createWord(word: NewWordDto) {
       try {

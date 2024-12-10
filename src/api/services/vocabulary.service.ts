@@ -8,7 +8,7 @@ export default (api: IApi) => {
         return api.request.get('/api/vocabulary/');
       }
 
-      const url = `/api/vocabulary/${query.search ? `?search=${query.search}` : ''}${query.activity_status ? `?activity_status=${query.activity_status}` : ''}${query.language ? `?language=${query.language}` : ''}`;
+      const url = `/api/vocabulary/${query.search ? `?search=${query.search}` : ''}${query.activity_status ? `${query.search ? '&' : '?'}activity_status=${query.activity_status}` : ''}${query.language ? `${query.search || query.activity_status ? '&' : '?'}language=${query.language}` : ''}`;
 
       return api.request.get(url);
     },

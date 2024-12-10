@@ -1,4 +1,5 @@
 <script lang="ts">
+import { watchDebounced } from '@vueuse/core';
 import Input from '@/components/UI/input/Input.vue';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import NewWordButton from './NewWordButton.vue';
@@ -6,33 +7,45 @@ import { useLanguagesStore } from '@/store/languages';
 import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useVocabularyStore } from '@/store/vocabulary';
 import Search from './Search.vue';
+import { ref } from 'vue';
 
 export default {
   components: { NewWordButton, Input, Dropdown, Search },
   computed: {
     ...mapState(useLanguagesStore, ['learning_languages']),
-    ...mapWritableState(useVocabularyStore, ['filterOptions']),
   },
-  methods: {
-    ...mapActions(useVocabularyStore, ['getVocabulary']),
+  setup() {
+    const { filterOptions, getVocabulary } = useVocabularyStore();
+
+    const serchRef = ref(filterOptions.search);
+
+    watchDebounced(
+      () => filterOptions.search,
+      () => {
+        getVocabulary();
+      },
+      { debounce: 1000, maxWait: 5000 },
+    );
+
+    return { filterOptions, getVocabulary, serchRef };
   },
   data() {
     return {
       statusWordOptions: [
         {
-          value: 'inactive',
+          value: 'I',
           label: 'Неактивные',
           icon_component: 'Inactive1StatusIcon',
           icon_component_custom_color: 'var:neutrals-600',
         },
         {
-          value: 'active',
+          value: 'A',
           label: 'Активные',
           icon_component: 'ActiveStatusIcon',
           icon_component_custom_color: 'var:primary-500',
         },
         {
-          value: 'mastered',
+          value: 'M',
           label: 'Усвоенные',
           icon_component: 'MasteredStatusIcon',
           icon_component_custom_color: 'var:success-600',
@@ -64,18 +77,20 @@ export default {
           :items="
             learning_languages.map(({ language }) => {
               return {
-                value: language.name,
+                value: language.isocode,
                 label: language.name_local,
                 icon: language.flag_icon,
                 is_default_item: false,
               };
             })
           "
+          @update:model-value="getVocabulary"
         />
         <Dropdown
           placeholder="Все слова"
           v-model="filterOptions.activity_status"
           :items="statusWordOptions"
+          @update:model-value="getVocabulary"
         />
       </div>
       <NewWordButton button-size="medium" button-text="Новое слово или фраза" />
@@ -85,7 +100,6 @@ export default {
       style="width: 100%; display: flex"
       placeholder="Найти слово или фразу..."
       icon="SearchIcon"
-      @update:model-value="getVocabulary"
     />
   </div>
 </template>
