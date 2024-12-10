@@ -72,6 +72,8 @@ export default {
     color: $neutrals-900;
     max-width: 35rem;
     margin-right: 2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .notification__close {

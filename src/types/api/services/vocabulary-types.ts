@@ -1,5 +1,5 @@
 import type { AxiosPromise } from 'axios';
-import type { WordDto } from '@/dto/vocabulary.dto';
+import type { NewWordDto } from '@/dto/vocabulary.dto';
 
 export interface VocabularyQuery {
   search: string;
@@ -9,5 +9,7 @@ export interface VocabularyQuery {
 
 export type Vocabulary = {
   getVocabulary: (query?: VocabularyQuery) => AxiosPromise<Record<string, string>>;
-  createWord: (word: WordDto) => AxiosPromise<Record<string, string>>;
+  createWord: (word: NewWordDto) => AxiosPromise<Record<string, string>>;
+    addWordToFavorite: (wordSlug: string) => AxiosPromise<Record<string, string>>;
+    removeWordFromFavorite: (wordSlug: string) => AxiosPromise<Record<string, string>>;
 };

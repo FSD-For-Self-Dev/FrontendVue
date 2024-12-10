@@ -41,15 +41,16 @@ export default {
       variant="secondary"
       @click="() => closeForm()"
       text="Отменить"
+      size="medium"
     />
-    <Button type="submit" variant="danger" text="Подтвердить" />
+    <Button type="submit" variant="danger" text="Подтвердить" size="medium" />
   </form>
 </template>
 
 <style lang="scss">
 .delete-account-form {
   display: flex;
-  gap: 1.2rem;
+  gap: 1.6rem;
   justify-content: flex-end;
 }
 </style>

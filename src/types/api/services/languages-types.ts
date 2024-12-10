@@ -5,6 +5,6 @@ export type Languages = {
     getAvailableLanguages: () => AxiosPromise<Record<string, string>>;
     getLearningLanguages: () => AxiosPromise<Record<string, string>>; 
     getGlobalLanguages: () => AxiosPromise<Record<string, string>>;
+    getAllLanguages: () => AxiosPromise<Record<string, string>>;
     postLearningLanguage: (language: LanguageDto[]) => AxiosPromise<Record<string, string>>;
-
 };

@@ -1,35 +1,35 @@
 <script lang="ts">
-import type { PropType } from "vue";
-import type { ButtonProps } from "@/types/components/button";
+import type { PropType } from 'vue';
+import type { ButtonProps } from '@/types/components/button';
 
 export default {
   props: {
     text: {
-      type: String as PropType<ButtonProps["text"]>,
+      type: String as PropType<ButtonProps['text']>,
       required: false,
     },
     size: {
-      type: String as PropType<ButtonProps["size"]>,
-      default: "normal",
+      type: String as PropType<ButtonProps['size']>,
+      default: 'medium',
     },
     variant: {
-      type: String as PropType<ButtonProps["variant"]>,
-      default: "primary",
+      type: String as PropType<ButtonProps['variant']>,
+      default: 'primary',
     },
     icon: {
-      type: String as PropType<ButtonProps["icon"]>,
+      type: String as PropType<ButtonProps['icon']>,
       required: false,
     },
     iconPos: {
-      type: String as PropType<ButtonProps["iconPos"]>,
-      default: "left",
+      type: String as PropType<ButtonProps['iconPos']>,
+      default: 'left',
     },
     additionalLabel: {
-      type: String as PropType<ButtonProps["additionalLabel"]>,
+      type: String as PropType<ButtonProps['additionalLabel']>,
       required: false,
     },
     additionalIcon: {
-      type: String as PropType<ButtonProps["additionalIcon"]>,
+      type: String as PropType<ButtonProps['additionalIcon']>,
       required: false,
     },
   },
@@ -37,22 +37,22 @@ export default {
     buttonClasses() {
       return {
         /* Sizes */
-        "button--normal": this.size === "normal",
-        "button--medium": this.size === "medium",
-        "button--small": this.size === "small",
+        'button--normal': this.size === 'normal',
+        'button--medium': this.size === 'medium',
+        'button--small': this.size === 'small',
 
         /* Variants */
-        "button--primary": this.variant === "primary",
-        "button--secondary": this.variant === "secondary",
-        "button--success": this.variant === "success",
-        "button--danger": this.variant === "danger",
+        'button--primary': this.variant === 'primary',
+        'button--secondary': this.variant === 'secondary',
+        'button--success': this.variant === 'success',
+        'button--danger': this.variant === 'danger',
       };
     },
     iconSizes() {
       return {
-        "normal": "lg",
-        "medium": "md",
-        "small": "sm",
+        normal: 'lg',
+        medium: 'md',
+        small: 'sm',
       };
     },
   },
@@ -61,20 +61,38 @@ export default {
 
 <template>
   <button class="button" :class="buttonClasses">
-    <svg-icon v-if="icon && iconPos === 'left'" v-bind:name="icon" :size="iconSizes[size]" class="icon" />
-    <svg-icon v-if="additionalIcon && iconPos === 'right'" v-bind:name="additionalIcon" :size="iconSizes[size]"
-      class="icon" />
+    <svg-icon
+      v-if="icon && iconPos === 'left'"
+      v-bind:name="icon"
+      :size="iconSizes[size]"
+      class="icon"
+    />
+    <svg-icon
+      v-if="additionalIcon && iconPos === 'right'"
+      v-bind:name="additionalIcon"
+      :size="iconSizes[size]"
+      class="icon"
+    />
 
-    <span v-if="text" style="float: left; text-align: left;">
+    <span v-if="text" style="float: left; text-align: left">
       {{ text }}
     </span>
     <span v-if="additionalLabel" class="additional">
       {{ additionalLabel }}
     </span>
 
-    <svg-icon v-if="icon && iconPos === 'right'" v-bind:name="icon" :size="iconSizes[size]" class="icon" />
-    <svg-icon v-if="additionalIcon && iconPos === 'left'" v-bind:name="additionalIcon" :size="iconSizes[size]"
-      class="icon" />
+    <svg-icon
+      v-if="icon && iconPos === 'right'"
+      v-bind:name="icon"
+      :size="iconSizes[size]"
+      class="icon"
+    />
+    <svg-icon
+      v-if="additionalIcon && iconPos === 'left'"
+      v-bind:name="additionalIcon"
+      :size="iconSizes[size]"
+      class="icon"
+    />
   </button>
 </template>
 
@@ -85,7 +103,6 @@ export default {
   min-width: 16rem;
   align-items: center;
   justify-content: center;
-  // border: 0.1rem solid transparent;
   outline: 0.1rem solid transparent;
   text-decoration: none;
 

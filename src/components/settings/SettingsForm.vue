@@ -10,6 +10,7 @@ import { mapActions, mapWritableState } from 'pinia';
 import { computed, ref } from 'vue';
 import TextButton from '../UI/button/TextButton.vue';
 import { useWindowScroll } from '@vueuse/core';
+import { useNotificationsStore } from '@/store/notifications';
 
 const { y } = useWindowScroll({ behavior: 'instant' });
 
@@ -33,7 +34,7 @@ export default {
     const formImage = ref(image);
     const formFirstName = ref(first_name);
     const formUserName = ref(username);
-    const formNativeLang = ref(native_languages.length > 0 ? native_languages : ['']);
+    const formNativeLang = ref(native_languages.length > 0 ? native_languages.slice() : ['']);
 
     return {
       onDrag,
@@ -52,6 +53,7 @@ export default {
   },
   methods: {
     ...mapActions(useUserStore, ['patchUser']),
+    ...mapActions(useNotificationsStore, ["addNewMessage"]),
     handleSubmit() {
       const data: UserDto = {
         username: this.formUserName,
@@ -60,6 +62,10 @@ export default {
         image: this.formImage,
       };
       this.patchUser(data);
+      this.addNewMessage({
+        type: 'info',
+        text: 'Данные профиля обновлены',
+      });
     },
     async onFileChanged(event: Event) {
       const target = event.target as HTMLInputElement;
@@ -70,12 +76,12 @@ export default {
         this.formImage = await base64.promise.value;
       }
     },
-    cancelChanges() {
+    async cancelChanges() {
+      y.value = 0;
       this.formImage = this.image;
       this.formFirstName = this.first_name;
       this.formUserName = this.username;
-      this.formNativeLang =
-        this.native_languages.length === 0 ? this.native_languages : [''];
+      this.formNativeLang = this.native_languages.slice();
     },
   },
 };
@@ -160,7 +166,7 @@ export default {
   .buttons {
     display: inline-flex;
     justify-content: right;
-    gap: 1.2rem;
+    gap: 1.6rem;
   }
 
   .settings--label-form {
