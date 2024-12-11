@@ -24,7 +24,7 @@ export default {
   <OnClickOutside @trigger.stop="() => handleClose()" class="click-wrapper">
     <div class="language-tools">
       <button @click.stop="() => handleDelete()" class="language-tools__button">
-        <p>Удалить</p>
+        <p>{{ $t('action.delete') }}</p>
       </button>
     </div>
   </OnClickOutside>

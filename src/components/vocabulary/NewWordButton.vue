@@ -7,21 +7,21 @@ export default {
   data() {
     return {
       showModal: false,
-    }
+    };
   },
   components: { Button, Modal },
   props: {
     buttonText: {
       type: String,
-      required: true
+      required: true,
     },
     buttonSize: {
       type: String as PropType<'normal' | 'medium' | 'small'>,
-      default: 'small'
+      default: 'small',
     },
     chosenLanguage: {
       type: String,
-      required: false
+      required: false,
     },
   },
   methods: {
@@ -30,13 +30,20 @@ export default {
     },
     handleClose() {
       this.showModal = false;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <template>
   <Button @click.stop="handleOpen" :size="buttonSize" :text="buttonText" icon="AddIcon" />
-  <Modal size="lg" v-if="showModal" :close-modal="handleClose" title-modal="Новое слово"
-    icon="AddIcon" modalContent="NewWordForm" :chosenLanguage="chosenLanguage" />
+  <Modal
+    size="lg"
+    v-if="showModal"
+    :close-modal="handleClose"
+    :title-modal="$t('title.newWord')"
+    icon="AddIcon"
+    modalContent="NewWordForm"
+    :chosenLanguage="chosenLanguage"
+  />
 </template>

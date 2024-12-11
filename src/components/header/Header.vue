@@ -15,13 +15,13 @@ import AddingTools from './AddingTools.vue';
 import Modal from '../UI/modal/Modal.vue';
 
 export const navbarItems: INavbarItems[] = [
-    { name: 'Главная', link: 'home', icon: 'HomeIcon' },
-    { name: 'Изучаемые языки', link: 'languages', icon: 'LanguageIcon' },
-    { name: 'Словарь', link: 'vocabulary', icon: 'VocabularyIcon' },
-    { name: 'Коллекции', link: 'collections', icon: 'CollectionsIcon' },
-    { name: 'Избранное', link: 'favorites', icon: 'FavouriteIcon' },
-    { name: 'Упражнения', link: 'exercises', icon: 'ExercisesIcon' },
-    { name: 'О платформе', link: 'about', icon: 'InfoIcon' },
+    { name: 'navigation.homePage', link: 'home', icon: 'HomeIcon' },
+    { name: 'navigation.learningLanguages', link: 'languages', icon: 'LanguageIcon' },
+    { name: 'navigation.vocabulary', link: 'vocabulary', icon: 'VocabularyIcon' },
+    { name: 'navigation.collections', link: 'collections', icon: 'CollectionsIcon' },
+    { name: 'navigation.favorites', link: 'favorites', icon: 'FavouriteIcon' },
+    { name: 'navigation.exercises', link: 'exercises', icon: 'ExercisesIcon' },
+    { name: 'navigation.aboutUs', link: 'about', icon: 'InfoIcon' },
 ];
 
 export default {
@@ -169,7 +169,7 @@ export default {
         size="lg"
         v-if="showNewWordModal"
         :close-modal="() => (showNewWordModal = false)"
-        title-modal="Новое слово"
+        :title-modal="$t('title.newWord')"
         icon="AddIcon"
         modalContent="NewWordForm"
       />
@@ -177,7 +177,7 @@ export default {
         size="md"
         v-if="showAddLanguageModal"
         :close-modal="() => (showAddLanguageModal = false)"
-        title-modal="Добавить изучаемые языки"
+        :title-modal="$t('title.newLearningLanguages')"
         icon="ExercisesIcon"
         modalContent="AddLanguagesForm"
       />
@@ -208,9 +208,9 @@ export default {
 
     <div class="header--right">
       <div class="header--auth-buttons" v-if="!authStatus">
-        <Button text="Войти" size="normal" @click="() => openAuth('login')" />
+        <Button :text="$t('auth.logIn')" size="normal" @click="() => openAuth('login')" />
         <Button
-          text="Зарегистрироваться"
+          :text="$t('auth.signUp')"
           size="normal"
           variant="secondary"
           @click="() => openAuth('register')"
@@ -253,7 +253,7 @@ export default {
           <router-link :to="{ name: navbarItem.link }" class="navbar__item-content" @click="closeNavbar">
             <svg-icon :name="navbarItem.icon" size="nm" class="navbar__item-icon" />
             <span class="navbar__item-name">
-              {{ navbarItem.name }}
+              {{ $t(navbarItem.name) }}
             </span>
           </router-link>
         </li>

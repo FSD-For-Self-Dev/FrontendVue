@@ -46,21 +46,27 @@ export default {
     },
     getCoverImage() {
       try {
-        return this.cover_choices?.filter((cover) => {return cover.id === this.cover_id})[0].image
+        return this.cover_choices?.filter((cover) => {
+          return cover.id === this.cover_id;
+        })[0].image;
       } catch {
-        return this.getLanguageObject.cover
+        return this.getLanguageObject.cover;
       }
     },
   },
   methods: {
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapActions(useLanguagesStore, ['getLearningLanguages', 'setLanguageCover', 'getLanguageCovers']),
+    ...mapActions(useLanguagesStore, [
+      'getLearningLanguages',
+      'setLanguageCover',
+      'getLanguageCovers',
+    ]),
     handleChoose(id: string) {
       this.cover_id = this.cover_id === id ? '' : id;
     },
     async handleCoverChange() {
       this.submitProcess = true;
-      const data = { "image_id": this.cover_id }
+      const data = { image_id: this.cover_id };
       const res = await this.setLanguageCover(this.objectLookup, data, this.$i18n.locale);
       if (isAxiosError(res)) {
         console.log(res.response?.data);
@@ -69,7 +75,7 @@ export default {
         this.closeForm();
         this.addNewMessage({
           type: 'info',
-          text: 'Обложка изучаемого языка обновлена',
+          text: this.$t('infoMessage.changesSaved'),
         });
       }
       this.submitProcess = false;
@@ -79,12 +85,12 @@ export default {
     this.cover_id = this.getLanguageObject.cover_id;
 
     if (this.objectLookup) {
-      Promise.all([
-        this.getLanguageCovers(this.objectLookup, this.$i18n.locale)
-      ]).finally(() => {
-        const { covers } = useLanguagesStore();
-        this.cover_choices = covers;
-      });
+      Promise.all([this.getLanguageCovers(this.objectLookup, this.$i18n.locale)]).finally(
+        () => {
+          const { covers } = useLanguagesStore();
+          this.cover_choices = covers;
+        },
+      );
     }
   },
 };
@@ -107,19 +113,25 @@ export default {
       <Button
         type="button"
         variant="secondary"
-        @click="() => closeForm()"
-        text="Отменить"
+        :text="$t('buttons.cancel')"
         size="medium"
+        @click="() => closeForm()"
       />
       <div>
         <Button
           v-if="!submitProcess"
           type="submit"
           variant="primary"
-          text="Сохранить"
+          :text="$t('buttons.save')"
           size="medium"
         />
-        <Button v-else type="submit" text="Удаление..." size="medium" disabled />
+        <Button
+          v-else
+          type="submit"
+          :text="$t('tip.saveProcceed')"
+          size="medium"
+          disabled
+        />
       </div>
     </div>
   </form>
@@ -139,6 +151,10 @@ export default {
     display: flex;
     flex-wrap: wrap;
     gap: 1.2rem;
+    max-height: 48rem;
+    overflow: auto;
+    @include scroll;
+    padding: 0.5rem;
   }
 
   .buttons {

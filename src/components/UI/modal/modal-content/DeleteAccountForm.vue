@@ -27,7 +27,7 @@ export default {
       this.deleteUser();
       this.addNewMessage({
         type: 'info',
-        text: 'Аккаунт успешно удален',
+        text: this.$t('infoMessage.deleteAccount'),
       });
       this.clearDataVocabulary();
       this.clearDataLanguages();
@@ -51,14 +51,14 @@ export default {
           <p id="username">@{{ username }}</p>
         </div>
         <div class="languages">
-          <p class="small-title">Родные языки:</p>
+          <p class="small-title">{{ $t('title.nativeLanguages') }}:</p>
           <div class="languages--item" v-for="language in native_languages">
             <img :src="getFlagIcon(language)" alt="Icon" class="language-icon" />
             <p>{{ language }}</p>
           </div>
         </div>
         <div class="languages">
-          <p class="small-title">Словарь:</p>
+          <p class="small-title">{{ $t('title.vocabulary') }}:</p>
           <div class="languages--item" v-for="language in learning_languages">
             <img :src="getFlagIcon(language.language.name)" alt="Icon" class="language-icon" />
             <p>{{ language.words_count }}</p>
@@ -69,16 +69,21 @@ export default {
     <div class="buttons">
       <div class="tip" style="width: 100%;">
         <svg-icon name="InfoIcon" size="md" color="var:danger-600" style="stroke-width: 0.02rem;" />
-        <p>Это действие нельзя будет обратить</p>
+        <p>{{ $t('tip.dangerAction') }}</p>
       </div>
       <Button
         type="button"
         variant="secondary"
+        :text="$t('buttons.cancel')"
+        size="medium"
         @click="() => closeForm()"
-        text="Отменить"
+      />
+      <Button
+        type="submit"
+        variant="danger"
+        :text="$t('buttons.confirm')"
         size="medium"
       />
-      <Button type="submit" variant="danger" text="Подтвердить" size="medium" />
     </div>
   </form>
 </template>

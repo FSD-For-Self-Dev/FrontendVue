@@ -27,25 +27,25 @@ export default {
       statusWordOptions: [
         {
           value: 'inactive',
-          label: 'Неактивные',
+          label: this.$t('activityStatus', { status: 'Inactive' }),
           icon_component: 'Inactive1StatusIcon',
           icon_component_custom_color: 'var:neutrals-600',
         },
         {
           value: 'active',
-          label: 'Активные',
+          label: this.$t('activityStatus', { status: 'Active' }),
           icon_component: 'ActiveStatusIcon',
           icon_component_custom_color: 'var:primary-500',
         },
         {
           value: 'mastered',
-          label: 'Усвоенные',
+          label: this.$t('activityStatus', { status: 'Mastered' }),
           icon_component: 'MasteredStatusIcon',
           icon_component_custom_color: 'var:success-600',
         },
         {
           value: '',
-          label: 'Все слова',
+          label: this.$t('filter.allWords'),
           icon_component: 'WordsIcon',
         },
       ]
@@ -59,8 +59,8 @@ export default {
     <div class="vocabulary-tools--top">
       <div class="vocabulary-tools--top-left">
         <Dropdown
-          placeholder="Все языки"
-          :default_item="{value: '', label: 'Все языки', icon_component: 'LanguageIcon', is_default_item: true}"
+          :placeholder="$t('filter.allLanguages')"
+          :default_item="{value: '', label: $t('filter.allLanguages'), icon_component: 'LanguageIcon', is_default_item: true}"
           v-model="filterOptions.language" :items="learning_languages.map(({ language }) => {
           return {
             value: language.name,
@@ -70,14 +70,14 @@ export default {
           }
         })" />
         <Dropdown
-          placeholder="Все слова"
+          :placeholder="$t('filter.allWords')"
           v-model="filterOptions.activity_status" :items="statusWordOptions"
           v-if="wordsCounter > 0"
         />
       </div>
       <NewWordButton
         button-size="medium"
-        button-text="Новое слово или фраза"
+        :button-text="$t('buttons.addNewWord')"
         :chosenLanguage="filterOptions.language"
         v-if="wordsCounter > 0"
       />

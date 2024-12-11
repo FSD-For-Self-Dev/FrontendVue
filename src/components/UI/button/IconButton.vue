@@ -213,6 +213,7 @@ export default {
 
     @include hover {
       background-color: $primary-100;
+      outline-color: $primary-100;
       
       #icon {
         color: $primary-700;
@@ -220,7 +221,8 @@ export default {
     }
 
     @include active {
-      background-color: $primary-300;
+      background-color: $primary-400;
+      outline-color: $primary-400;
       
       #icon {
         color: $primary-700;
@@ -229,6 +231,7 @@ export default {
 
     &.active {
       background-color: $primary-400;
+      outline-color: $primary-400;
 
       #icon {
         color: $primary-700;

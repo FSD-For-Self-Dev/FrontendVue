@@ -1,9 +1,7 @@
 <script lang="ts">
-import type { PropType } from 'vue';
 import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapActions, mapState } from 'pinia';
-import type { WordTagDto } from '@/dto/vocabulary.dto';
 import { isAxiosError } from 'axios';
 import { ref } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
@@ -54,14 +52,15 @@ export default {
       if (isAxiosError(res)) {
         console.log(res.response?.data);
       } else {
-        await this.getLearningLanguages(this.$i18n.locale);
-        await this.getAvailableLanguages(this.$i18n.locale);
-        if (this.delete_words) await this.getVocabulary(this.$i18n.locale);
+        const locale = this.$i18n.locale;
+        await this.getLearningLanguages(locale);
+        await this.getAvailableLanguages(locale);
+        if (this.delete_words) await this.getVocabulary(locale);
         this.closeForm();
         this.$router.push('/languages');
         this.addNewMessage({
           type: 'info',
-          text: 'Язык удален из изучаемых',
+          text: this.$t('infoMessage.deleteLanguage'),
         });
       }
       this.submitProcess = false;
@@ -88,7 +87,7 @@ export default {
     <div class="language-info--summary">
       <div class="language-info--summary-item">
         <div id="words-counter-common">
-          <p>Слова:</p>
+          <p>{{ $t('title.words') }}:</p>
           <p>{{ getLanguageObject.words_count }}</p>
         </div>
         <div class="words-counters-summary">
@@ -109,14 +108,14 @@ export default {
     </div>
     <div class="delete-words-checkbox">
       <BooleanInput
-        label="Удалить слова"
+        :label="$t('action.deleteLanguageWords')"
         type="checkbox"
         size="medium"
         v-model="delete_words"
       />
       <div class="delete-words-checkbox-tip">
         <svg-icon name="InfoIcon" size="sm" color="var:neutrals-700" style="stroke-width: 0.02rem;" />
-        <p>Слова этого языка будут удалены из вашего словаря</p>
+        <p>{{ $t('tip.deleteLanguageWords') }}</p>
       </div>
     </div>
     <div class="buttons">
@@ -124,7 +123,7 @@ export default {
         type="button"
         variant="secondary"
         @click="() => closeForm()"
-        text="Отменить"
+        :text="$t('buttons.cancel')"
         size="medium"
       />
       <div>
@@ -132,10 +131,16 @@ export default {
           v-if="!submitProcess"
           type="submit"
           variant="danger"
-          text="Подтвердить"
+          :text="$t('buttons.confirm')"
           size="medium"
         />
-        <Button v-else type="submit" text="Удаление..." size="medium" disabled />
+        <Button
+          v-else
+          type="submit"
+          :text="$t('tip.deleteProcceed')"
+          size="medium"
+          disabled
+        />
       </div>
     </div>
   </form>

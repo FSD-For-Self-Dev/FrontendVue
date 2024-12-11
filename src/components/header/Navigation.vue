@@ -7,18 +7,21 @@ export default {};
         <ul class="navigation--list">
             <li>
                 <a class="navigation--item" @click="$router.push('vocabulary')">
-                    <svg-icon name="VocabularyIcon" size="md" style="stroke-width: 0.2;" />Словарь
+                    <svg-icon name="VocabularyIcon" size="md" style="stroke-width: 0.2;" />
+                    {{ $t('navigation.vocabulary') }}
                 </a>
             </li>
             <li>
                 <a class="navigation--item" @click="$router.push('collections')">
-                    <svg-icon name="CollectionsIcon" size="md" style="stroke-width: 0.2;" />Коллекции
+                    <svg-icon name="CollectionsIcon" size="md" style="stroke-width: 0.2;" />
+                    {{ $t('navigation.collections') }}
                 </a>
 
             </li>
             <li>
                 <a class="navigation--item" @click="$router.push('exercises')">
-                    <svg-icon name="ExercisesIcon" size="md" style="stroke-width: 0.2;" />Упражнения
+                    <svg-icon name="ExercisesIcon" size="md" style="stroke-width: 0.2;" />
+                    {{ $t('navigation.exercises') }}
                 </a>
             </li>
         </ul>

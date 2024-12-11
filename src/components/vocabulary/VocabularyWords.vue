@@ -1,7 +1,6 @@
 <script lang="ts">
 import { useVocabularyStore } from '@/store/vocabulary';
 import { useLanguagesStore } from '@/store/languages';
-import { numWord } from '@/utils/numWord';
 import { mapState } from 'pinia';
 import IconButton from '../UI/button/IconButton.vue';
 import WordCard from './WordCard.vue';
@@ -14,40 +13,43 @@ export default {
   props: {
     chosenLanguage: {
       type: Object as PropType<LearningLanguageDto>,
-      required: false
+      required: false,
     },
   },
   data() {
     return {
       words_count: 0,
       tip: '',
-    }
+    };
   },
   computed: {
-    ...mapState(useVocabularyStore, ["words", "count", "filterOptions"]),
-    ...mapState(useLanguagesStore, ["learning_languages"]),
-    textInfo() {
-      return `Найдено ${this.count} ${numWord(this.count, ['слово', 'слова', 'слов'])} и ${numWord(this.count, ['фраза', 'фразы', 'фраз'])}`;
-    },
+    ...mapState(useVocabularyStore, ['words', 'count', 'filterOptions']),
+    ...mapState(useLanguagesStore, ['learning_languages']),
     wordsCounter() {
-      const chosen_lang = this.chosenLanguage ? this.chosenLanguage : this.learning_languages.filter((lang) => { return lang.language.name === this.filterOptions.language})[0];
+      const chosen_lang = this.chosenLanguage
+        ? this.chosenLanguage
+        : this.learning_languages.filter((lang) => {
+            return lang.language.name === this.filterOptions.language;
+          })[0];
       try {
         this.words_count = chosen_lang.words_count;
-        this.tip = 'В вашем словаре пока нет слов этого языка';
+        this.tip = this.$t('emptyTip.vocabularyByLanguage');
       } catch {
         this.words_count = this.count;
-        this.tip = 'В вашем словаре пока нет слов';
+        this.tip = this.$t('emptyTip.vocabulary');
       }
       return this.words_count;
     },
-  }
-}
+  },
+};
 </script>
 
 <template>
   <div class="vocabulary-content" v-if="wordsCounter > 0">
     <header class="vocabulary-content--header">
-      <span class="vocabulary-content--info">{{ textInfo }}</span>
+      <span class="vocabulary-content--info">
+        {{ $t('counter.words', wordsCounter, { named: { n: wordsCounter } }) }}
+      </span>
       <div class="vocabulary-content--filters">
         <IconButton icon="FilterIcon" size="md" iconSize="nm" variant="tertiary" />
         <IconButton icon="SortIcon" size="md" iconSize="nm" variant="tertiary" />
@@ -55,13 +57,19 @@ export default {
     </header>
     <div class="vocabulary-content--cards">
       <div v-for="word in words">
-        <WordCard :word="word"/>
+        <WordCard :word="word" />
       </div>
     </div>
   </div>
-  <div class="empty-tip" v-else >
+  <div class="empty-tip" v-else>
     <p class="tip">{{ tip }}</p>
-    <NewWordButton button-size="medium" button-text="Новое слово или фраза" :chosenLanguage="chosenLanguage ? chosenLanguage.language.name : filterOptions.language" />
+    <NewWordButton
+      button-size="medium"
+      :button-text="$t('buttons.addNewWord')"
+      :chosenLanguage="
+        chosenLanguage ? chosenLanguage.language.name : filterOptions.language
+      "
+    />
   </div>
 </template>
 
@@ -72,7 +80,6 @@ export default {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
-
   }
 
   &--info {

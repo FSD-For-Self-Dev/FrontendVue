@@ -103,7 +103,7 @@ export default {
       navigator.clipboard.writeText(text);
       this.addNewMessage({
         type: 'info',
-        text: `Слово скопировано: ${text.slice(0, 20)}`,
+        text: `${this.$t('infoMessage.wordCopied')}: ${text.slice(0, 20)}`,
       });
     },
     async handleFavourite() {
@@ -113,7 +113,7 @@ export default {
           if (res.response?.status === 409) {
             this.addNewMessage({
               type: 'error',
-              text: 'Слово уже не находится в вашем избранном',
+              text: this.$t('errorMessage.wordAlreadyNotFavorite'),
             });
           } else {
             console.log(res.response?.data);
@@ -123,7 +123,7 @@ export default {
           this.$emit("favoriteupdate", false);
           this.addNewMessage({
             type: 'info',
-            text: `Слово удалено из избранного: ${this.wordProfile.text}`,
+            text: `${this.$t('infoMessage.wordRemovedFromFavorite')}: ${this.wordProfile.text}`,
           });
         }
       } else if (this.wordProfile.slug) {
@@ -132,7 +132,7 @@ export default {
           if (res.response?.status === 409) {
             this.addNewMessage({
               type: 'error',
-              text: 'Слово уже находится в вашем избранном',
+              text: this.$t('errorMessage.wordAlreadyFavorite'),
             });
           } else {
             console.log(res.response?.data);
@@ -142,7 +142,7 @@ export default {
           this.$emit("favoriteupdate", true);
           this.addNewMessage({
             type: 'info',
-            text: `Слово добавлено в избранное: ${this.wordProfile.text}`,
+            text: `${this.$t('infoMessage.wordAddedToFavorite')}: ${this.wordProfile.text}`,
           });
         }
       }
@@ -176,7 +176,8 @@ export default {
     <div class="word-profile--word">
       <div class="word-profile--word-background" :class="{ 'with-image': wordProfile.image_associations }" v-if="wordProfile.image_associations && wordProfile.image_associations.length > 0">
         <div class="background-overlay" />
-        <img :src="wordProfile.image_associations[0].image" alt="Word image" />
+        <img :src="wordProfile.image_associations[0].image" alt="Word image" v-if="wordProfile.image_associations[0].image" />
+        <img :src="wordProfile.image_associations[0].image_url" alt="Word image" v-else-if="wordProfile.image_associations[0].image_url" />
       </div>
       <div class="word-profile--word-header">
         <div class="word-profile--word-header-tags">
@@ -271,8 +272,8 @@ export default {
     </div>
     <div class="word-profile--word-additions">
       <div class="word-profile--word-additions-tabs">
-        <Tab :active="tab === 1" @click="() => changeTab(1)" title="Переводы" />
-        <Tab :active="tab === 2" @click="() => changeTab(2)" title="Ассоциации" />
+        <Tab :active="tab === 1" @click="() => changeTab(1)" :title="$t('title.translations')" />
+        <Tab :active="tab === 2" @click="() => changeTab(2)" :title="$t('title.associations')" />
       </div>
 
       <div v-if="tab === 1" class="additions-list">
@@ -282,15 +283,19 @@ export default {
           v-for="translation in wordProfile.translations"
           :editable=false
         />
-        <p class="additions-list-empty-tip" v-if="wordProfile.translations?.length === 0">Нет переводов</p>
+        <p class="additions-list-empty-tip" v-if="wordProfile.translations?.length === 0">
+          {{ $t('emptyTip.translations') }}
+        </p>
       </div>
       <div v-if="tab === 2" class="additions-list" style="max-height: 54.4rem;">
         <WordImageItem
-          :image="image.image"
+          :image="image.image ? image.image : image.image_url"
           v-for="image in wordProfile.image_associations"
           :editable=false
         />
-        <p class="additions-list-empty-tip" v-if="wordProfile.image_associations?.length === 0">Нет ассоциаций</p>
+        <p class="additions-list-empty-tip" v-if="wordProfile.image_associations?.length === 0">
+          {{ $t('emptyTip.associations') }}
+        </p>
       </div>
     </div>
   </div>

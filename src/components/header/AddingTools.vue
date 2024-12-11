@@ -30,13 +30,13 @@ export default {
   <OnClickOutside @trigger.stop="() => handleClose()" class="click-wrapper2">
     <div class="adding-tools">
       <button @click="() => handleAddWord()" class="adding-tools__button">
-        <p>Слово или фраза</p>
+        <p>{{ $t('addNew.word') }}</p>
       </button>
       <button @click="() => handleAddWordsMultiple ? handleAddWordsMultiple() : {}" class="adding-tools__button">
-        <p>Несколько слов или фраз подряд</p>
+        <p>{{ $t('addNew.severalWords') }}</p>
       </button>
       <button @click="() => handleAddLanguage()" class="adding-tools__button">
-        <p>Изучаемый язык</p>
+        <p>{{ $t('addNew.learningLanguage') }}</p>
       </button>
     </div>
   </OnClickOutside>

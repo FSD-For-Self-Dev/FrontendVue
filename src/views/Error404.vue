@@ -1,6 +1,9 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
 import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
+import { useWindowScroll } from '@vueuse/core';
+
+const { y } = useWindowScroll({ behavior: 'instant' });
 
 export default {
   name: 'Error404',
@@ -10,6 +13,9 @@ export default {
       return new URL(`/src/assets/images/error404.svg`, import.meta.url).href;
     },
   },
+  setup() {
+    y.value = 0;
+  },
 };
 </script>
 
@@ -17,10 +23,10 @@ export default {
   <PageLayout>
     <div class="page-wrapper">
       <img :src="err404" alt="error image" class="img" width="399" height="238" />
-      <h1 class="title">Мы не нашли страницу, которую вы ищете</h1>
-      <p class="subtitle">Но мы знаем, что вас может заинтересовать</p>
+      <h1 class="title">{{ $t('error.notFoundTitle') }}</h1>
+      <p class="subtitle">{{ $t('error.notFoundSubTitle') }}</p>
       <div class="btn">
-        <Button text="На главную" size="medium" @click="$router.push('/')" />
+        <Button :text="$t('buttons.toHome')" size="medium" @click="$router.push('/')" />
       </div>
     </div>
   </PageLayout>

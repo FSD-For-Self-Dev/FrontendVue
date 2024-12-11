@@ -36,7 +36,7 @@ export default {
   <Modal
     v-if="showModal"
     :close-modal="handleClose"
-    title-modal="Добавить изучаемые языки"
+    :title-modal="$t('title.newLearningLanguages')"
     icon="ExercisesIcon"
     modalContent="AddLanguagesForm"
     size="md"

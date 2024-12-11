@@ -7,7 +7,7 @@ export default {
 </script>
 
 <template>
-    <Input style="width: 100%; display: flex" placeholder="Найти слово или фразу..." icon="SearchIcon" />
+    <Input style="width: 100%; display: flex" :placeholder="$t('search.vocabulary')" icon="SearchIcon" />
 </template>
 
 <style lang="scss">

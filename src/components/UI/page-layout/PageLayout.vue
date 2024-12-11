@@ -9,19 +9,32 @@ import { useVocabularyStore } from '@/store/vocabulary';
 import Preloader from '../preloader/Preloader.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { useUserStore } from '@/store/user';
+import { ref } from 'vue';
 
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
   components: { Header, Footer, IconButton, NotificationsList, Preloader },
   props: {
-    landingPage: { type: Boolean, required: false, default: false },
-    noFooterPage: { type: Boolean, required: false, default: false },
+    landingPage: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    noFooterPage: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
   },
   data() {
+    const hideFooter = ref(this.noFooterPage);
+
     return {
       y,
       isLoading: false,
+      hideHeader: false,
+      hideFooter,
     };
   },
   computed: {
@@ -48,9 +61,11 @@ export default {
         ]).finally(async () => {
           this.isLoading = false;
         });
-      };
+      }
     },
     async handleLoginProcceed() {
+      this.hideHeader = true;
+      this.hideFooter = true;
       this.isLoading = true;
 
       const { interface_language } = useUserStore();
@@ -64,6 +79,8 @@ export default {
       await this.getAllLanguages(this.$i18n.locale);
 
       this.authStatus = true;
+      this.hideHeader = false;
+      this.hideFooter = false;
       this.isLoading = false;
     },
     goBack() {
@@ -80,7 +97,11 @@ export default {
 
 <template>
   <div class="layout">
-    <Header @locale-updated="handleUpdateLocale" @login-procceed="handleLoginProcceed" />
+    <Header
+      @locale-updated="handleUpdateLocale"
+      @login-procceed="handleLoginProcceed"
+      v-if="!hideHeader"
+    />
     <main class="main" v-if="!isLoading">
       <div :class="{ wrapper: !landingPage }">
         <IconButton
@@ -92,7 +113,7 @@ export default {
           iconSize="nm"
           variant="shadowed"
         >
-          <span class="visually-hidden">Назад</span>
+          <span class="visually-hidden">{{ $t('buttons.previous') }}</span>
         </IconButton>
         <slot></slot>
         <Transition>

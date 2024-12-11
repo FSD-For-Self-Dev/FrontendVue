@@ -23,8 +23,8 @@ export default {
     <div class="vocabulary-tools--top">
       <div class="vocabulary-tools--top-left">
         <Dropdown
-          placeholder="Все языки"
-          :default_item="{value: '', label: 'Все языки', icon_component: 'LanguageIcon', is_default_item: true}"
+          :placeholder="$t('filter.allLanguages')"
+          :default_item="{value: '', label: $t('filter.allLanguages'), icon_component: 'LanguageIcon', is_default_item: true}"
           v-model="filterOptions.language"
           :items="learning_languages.map(({ language }) => {
             return {

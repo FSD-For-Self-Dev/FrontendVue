@@ -146,13 +146,13 @@ export default {
     },
     handleNext() {
       if (this.step === 1) {
-        this.updateTitle('Кастомизируйте слово, чтобы лучше его запомнить');
+        this.updateTitle(this.$t('title.wordCustomization'));
       }
       this.step++;
     },
     handlePrev() {
       if (this.step === 2) {
-        this.updateTitle('Новое слово');
+        this.updateTitle(this.$t('title.newWord'));
       }
       this.step--;
     },
@@ -288,13 +288,13 @@ export default {
         ? await this.patchWord(this.objectLookup, data, this.$i18n.locale)
         : await this.createWord(data, this.$i18n.locale);
       const successMsg = this.objectLookup
-        ? 'Изменения сохранены'
-        : 'Новое слово добавлено в словарь';
+        ? this.$t('infoMessage.changesSaved')
+        : this.$t('infoMessage.newWordCreated');
       if (isAxiosError(res)) {
         if (res.response?.status === 409) {
           this.addNewMessage({
             type: 'error',
-            text: 'Слово уже было добавлено в словарь',
+            text: this.$t('errorMessage.wordAlreadyExist'),
           });
         } else {
           console.log(res.response?.data);
@@ -313,31 +313,33 @@ export default {
   },
   async mounted() {
     if (this.objectLookup) {
-      Promise.all([
-        this.getWordProfile(this.objectLookup, this.$i18n.locale)
-      ]).finally(async () => {
-        const { wordProfile } = useVocabularyStore();
+      Promise.all([this.getWordProfile(this.objectLookup, this.$i18n.locale)]).finally(
+        async () => {
+          const { wordProfile } = useVocabularyStore();
 
-        this.word = wordProfile.text ? wordProfile.text : '';
-        this.language = wordProfile.language ? wordProfile.language : '';
-        this.note = wordProfile.note ? wordProfile.note : '';
-        this.translations = wordProfile.translations ? wordProfile.translations : [];
+          this.word = wordProfile.text ? wordProfile.text : '';
+          this.language = wordProfile.language ? wordProfile.language : '';
+          this.note = wordProfile.note ? wordProfile.note : '';
+          this.translations = wordProfile.translations ? wordProfile.translations : [];
 
-        if (wordProfile.image_associations) {
-          const image_associations_promise = wordProfile.image_associations.map(
-            async (image) => {
-              image.image = image.image ? image.image : '';
-              const base64 = useBase64(await readUrlFile(image.image));
-              return {
-                id: image.id,
-                image: await base64.promise.value,
-                image_url: image.image_url,
-              };
-            },
-          );
-          this.image_associations = await Promise.all(image_associations_promise);
-        }
-      });
+          if (wordProfile.image_associations) {
+            const image_associations_promise = wordProfile.image_associations.map(
+              async (image) => {
+                if (image.image) {
+                  const base64 = useBase64(await readUrlFile(image.image));
+                  image.image = await base64.promise.value
+                }
+                return {
+                  id: image.id,
+                  image: image.image,
+                  image_url: image.image_url,
+                };
+              },
+            );
+            this.image_associations = await Promise.all(image_associations_promise);
+          }
+        },
+      );
     } else {
       this.language = this.getLastLanguage();
     }
@@ -350,18 +352,22 @@ export default {
     <form class="vocabulary-modal--form" @submit.prevent="submitForm">
       <div v-if="step === 1" class="vocabulary-modal--step1">
         <Dropdown
-          placeholder="Изучаемый язык"
+          :placeholder="$t('input.learningLanguage')"
           v-model="language"
           :items="getWordLanguages"
           style="padding-inline: 2.8rem"
         />
-        <Input v-model="word" placeholder="Введите слово или фразу..." size="standart" />
+        <Input
+          v-model="word"
+          :placeholder="$t('input.word')"
+          size="standart"
+        />
         <div style="margin-top: 0.4rem">
           <Input
             show-label
             v-model="note"
-            placeholder="Введите полезную заметку, например: Не употребляетя с глаголами чувств..."
-            label="Заметка"
+            :placeholder="$t('input.note')"
+            :label="$t('title.note')"
           />
         </div>
       </div>
@@ -370,28 +376,28 @@ export default {
         <h3 class="vocabulary-modal--word">{{ word }}</h3>
 
         <div class="vocabulary-modal--tabs">
-          <Tab :active="tab === 1" @click="() => changeTab(1)" title="Переводы" />
-          <Tab :active="tab === 2" @click="() => changeTab(2)" title="Ассоциации" />
+          <Tab :active="tab === 1" @click="() => changeTab(1)" :title="$t('title.translations')" />
+          <Tab :active="tab === 2" @click="() => changeTab(2)" :title="$t('title.associations')" />
         </div>
 
         <div v-if="tab === 1">
           <p class="vocabulary-modal--info-tip">
             <svg-icon name="TranslationIcon" size="md" color="var:primary-700" />
-            Переводите слово или фразу на родной язык или другой изучаемый
+            {{ $t('tip.translations') }}
           </p>
           <div v-if="translationFormOpen" class="vocabulary-modal--translation-form">
             <Dropdown
-              placeholder="Язык перевода"
+              :placeholder="$t('input.translationLanguage')"
               v-model="newTranslationLanguage"
               :items="getTranslationLanguages"
               style="padding-inline: 2.8rem"
-              emptyTip="Нет родных или других изучаемых языков"
+              :emptyTip="$t('emptyTip.translationLanguages')"
             />
             <div class="vocabulary-modal--translation-form-input">
               <Input
                 style="width: 100%"
                 v-model="newTranslation"
-                placeholder="Введите перевод..."
+                :placeholder="$t('input.translation')"
               />
               <IconButton
                 icon="ConfirmIcon"
@@ -424,7 +430,7 @@ export default {
                 color="var:primary-500"
                 style="stroke-width: 0.05rem; padding-left: 0"
               />
-              <span>Добавить перевод</span>
+              <span>{{ $t('buttons.addTranslation') }}</span>
             </button>
             <WordTranslationItem
               :translation-text="translation.text"
@@ -440,7 +446,7 @@ export default {
         <div v-if="tab === 2">
           <p class="vocabulary-modal--info-tip">
             <svg-icon name="AssociationIcon" size="md" color="var:primary-700" />
-            Добавьте свои ассоциации с этим словом
+            {{ $t('tip.associations') }}
           </p>
           <ImageUploadForm
             @change.stop="handleSubmitNewImage"
@@ -464,10 +470,10 @@ export default {
                 color="var:primary-500"
                 style="stroke-width: 0.05rem; padding-left: 0"
               />
-              <span>Добавить ассоциацию</span>
+              <span>{{ $t('buttons.addAssociation') }}</span>
             </button>
             <WordImageItem
-              :image="image.image"
+              :image="image.image ? image.image : image.image_url"
               :editIndex="index"
               v-for="(image, index) in image_associations"
               :handleEdit="handleEditImage"
@@ -482,13 +488,13 @@ export default {
         <Button
           size="medium"
           variant="secondary"
-          text="Отменить"
+          :text="$t('buttons.cancel')"
           @click="handleClose"
           type="button"
         />
         <Button
           size="medium"
-          text="Далее"
+          :text="$t('buttons.next')"
           @click="handleNext"
           :disabled="word.length === 0 || language.length === 0"
           type="button"
@@ -499,21 +505,26 @@ export default {
           <Button
             size="medium"
             variant="secondary"
-            text="Отменить"
+            :text="$t('buttons.cancel')"
             @click="handleClose"
             type="button"
           />
         </div>
         <Button
           size="medium"
-          text="Назад"
+          :text="$t('buttons.previous')"
           variant="secondary"
           @click="handlePrev"
           type="button"
         />
         <div>
-          <Button v-if="!submitProcess" size="medium" type="submit" text="Сохранить" />
-          <Button v-else size="medium" text="Сохранение..." disabled />
+          <Button
+            v-if="!submitProcess"
+            size="medium"
+            type="submit"
+            :text="$t('buttons.save')"
+          />
+          <Button v-else size="medium" :text="$t('tip.saveProcceed')" disabled />
         </div>
       </div>
     </form>

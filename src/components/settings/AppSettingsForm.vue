@@ -41,7 +41,7 @@ export default {
           this.$i18n.locale = this.formInterfaceLang;
           this.addNewMessage({
             type: 'info',
-            text: 'Данные обновлены',
+            text: this.$t('infoMessage.changesSaved'),
           });
         }
     },
@@ -60,9 +60,9 @@ export default {
 <template>
   <form class="settings--form" @submit.prevent="handleSubmit">
     <div class="settings--label-form">
-      Язык интерфейса по умолчанию
+      {{ $t('settings.interfaceLanguage') }}
       <Dropdown
-        placeholder="Язык интерфейса"
+        :placeholder="$t('input.interfaceLanguage')"
         :items="$i18n.availableLocales.map((locale) => {
             return {
             value: locale,
@@ -75,13 +75,13 @@ export default {
     </div>
     <div class="buttons">
       <Button
-        text="Сбросить"
+        :text="$t('buttons.reset')"
         size="medium"
         variant="secondary"
         type="button"
         @click="cancelChanges()"
       />
-      <Button text="Сохранить" size="medium" type="submit" />
+      <Button :text="$t('buttons.save')" size="medium" type="submit" />
     </div>
   </form>
 </template>

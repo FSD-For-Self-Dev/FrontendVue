@@ -35,7 +35,7 @@ export default {
 <style lang="scss">
 .cover-choices-list-item {
   position: relative;
-  width: 20rem;
+  width: 19.6rem;
   height: 15rem;
   overflow: hidden;
   display: flex;

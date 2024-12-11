@@ -31,17 +31,16 @@ export default {
     <div class="vocabulary-main-view--header">
       <h2 class="vocabulary-main-view--title">
         <svg-icon name="VocabularyIcon" size="lg" style="stroke-width: 0.2" />
-        {{ $t('message.vocabulary') }}
+        {{ $t('title.vocabulary') }}
         <span class="counter">{{ count }}</span>
       </h2>
       <svg-icon id="forward-arrow" name="ArrowForwardLineIcon" size="lg" />
     </div>
     <div class="vocabulary-main-view--content">
       <div class="vocabulary-main-view--not-found" v-if="!words.length">
-        В словаре пока нет слов или фраз
-        <NewWordButton button-text="Добавить первые слова" />
+        {{ $t('emptyTip.vocabulary') }}
+        <NewWordButton :button-text="$t('buttons.addFirstWords')" />
       </div>
-
       <div class="vocabulary-main-view--words" v-else @wheel.prevent="handleWheel">
         <div v-for="word in words">
           <WordCard :word="word" />

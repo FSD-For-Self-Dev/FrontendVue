@@ -64,7 +64,7 @@ export default {
       this.patchUser(data);
       this.addNewMessage({
         type: 'info',
-        text: 'Данные профиля обновлены',
+        text: this.$t('infoMessage.changesSaved'),
       });
     },
     async onFileChanged(event: Event) {
@@ -108,38 +108,40 @@ export default {
           <svg-icon name="ProfileIcon" size="lg" color="var:neutral-500" />
         </div>
         <img v-else class="settings--avatar" width="140" :src="formImage" />
-        <span class="settings--sub1"
-          >Перетащите файл сюда или
-          <span class="settings--highlighted">выберите с компьютера</span></span
-        >
-        <span class="settings--sub2">Картинка (jpg, jpeg, png, gif)</span>
+        <span class="settings--sub1">
+          {{ $t('tip.fileUpload1') }}
+          <span class="settings--highlighted">
+            {{ $t('tip.fileUpload2') }}
+          </span>
+        </span>
+        <span class="settings--sub2">{{ $t('tip.fileUpload3') }}</span>
       </div>
     </label>
     <label class="settings--label-form">
-      Имя
+      {{ $t('user.firstName') }}
       <Input v-model="formFirstName" />
     </label>
     <label class="settings--label-form">
-      Логин (отображается как @your_login)
+      {{ $t('user.username') }}
       <Input v-model="formUserName" />
     </label>
     <div class="settings--label-form">
-      Родной язык
+      {{ $t('user.nativeLanguage') }}
       <Dropdown
-        placeholder="Родной язык 1"
+        :placeholder="$t('user.nativeLanguage1')"
         :items="dropDownItems"
         v-model="formNativeLang[0]"
         style="padding-inline: 2.8rem"
       />
       <Dropdown
-        placeholder="Родной язык 2"
+        :placeholder="$t('user.nativeLanguage2')"
         :items="dropDownItems"
         v-model="formNativeLang[1]"
         v-if="formNativeLang[1] || moreNativeLang"
         style="padding-inline: 2.8rem"
       />
       <TextButton
-        text="Добавить еще один родной язык"
+        :text="$t('user.addNativeLanguage')"
         icon="AddIcon"
         type="button"
         @click="moreNativeLang = true"
@@ -148,13 +150,13 @@ export default {
     </div>
     <div class="buttons">
       <Button
-        text="Сбросить"
+        :text="$t('buttons.reset')"
         size="medium"
         variant="secondary"
         type="button"
         @click="cancelChanges()"
       />
-      <Button text="Сохранить" size="medium" type="submit" />
+      <Button :text="$t('buttons.save')" size="medium" type="submit" />
     </div>
   </form>
 </template>

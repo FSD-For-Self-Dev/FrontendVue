@@ -87,7 +87,7 @@ export default {
       navigator.clipboard.writeText(text);
       this.addNewMessage({
         type: 'info',
-        text: `Слово скопировано: ${text.slice(0, 20)}`,
+        text: `${this.$t('infoMessage.wordCopied')}: ${text.slice(0, 20)}`,
       });
     },
     async handleFavourite() {
@@ -97,7 +97,7 @@ export default {
           if (res.response?.status === 409) {
             this.addNewMessage({
               type: 'error',
-              text: 'Слово уже не находится в вашем избранном',
+              text: this.$t('errorMessage.wordAlreadyNotFavorite'),
             });
           } else {
             console.log(res.response?.data);
@@ -106,7 +106,7 @@ export default {
           this.word.favorite = false;
           this.addNewMessage({
             type: 'info',
-            text: `Слово удалено из избранного: ${this.word.text}`,
+            text: `${this.$t('infoMessage.wordRemovedFromFavorite')}: ${this.word.text}`,
           });
         }
       } else {
@@ -115,7 +115,7 @@ export default {
           if (res.response?.status === 409) {
             this.addNewMessage({
               type: 'error',
-              text: 'Слово уже находится в вашем избранном',
+              text: this.$t('errorMessage.wordAlreadyFavorite'),
             });
           } else {
             console.log(res.response?.data);
@@ -124,7 +124,7 @@ export default {
           this.word.favorite = true;
           this.addNewMessage({
             type: 'info',
-            text: `Слово добавлено в избранное: ${this.word.text}`,
+            text: `${this.$t('infoMessage.wordAddedToFavorite')}: ${this.word.text}`,
           });
         }
       }
@@ -266,7 +266,7 @@ export default {
     size="lg"
     v-if="showEditWordModal"
     :close-modal="() => (showEditWordModal = false)"
-    title-modal="Редактировать слово"
+    :title-modal="$t('title.editWord')"
     icon="EditIcon"
     modalContent="NewWordForm"
     :objectLookup="editWordSlug"
@@ -275,7 +275,7 @@ export default {
     size="lg"
     v-if="showDeleteWordModal"
     :close-modal="() => (showDeleteWordModal = false)"
-    title-modal="Вы уверены, что хотите удалить слово?"
+    :title-modal="$t('title.deleteWord')"
     icon="InfoIcon"
     modalContent="DeleteWordForm"
     :objectLookup="deleteWordSlug"
@@ -284,7 +284,7 @@ export default {
     size="lg"
     v-if="showWordProfileModal"
     :close-modal="() => (showWordProfileModal = false)"
-    title-modal="Профиль слова"
+    :title-modal="$t('title.wordProfile')"
     icon="WordsIcon"
     modalContent="WordProfileModal"
     :objectLookup="word.slug"

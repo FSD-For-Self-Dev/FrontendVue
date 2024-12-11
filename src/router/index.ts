@@ -10,7 +10,6 @@ import Favorites from '@/views/Favorites.vue';
 import Collections from '@/views/Collections.vue';
 import Exercises from '@/views/Exercises.vue';
 import About from '@/views/About.vue';
-// import Test from '@/views/Test.vue';
 
 const routes = [
     {
@@ -63,10 +62,6 @@ const routes = [
         name: '404',
         component: Error404,
     },
-    // {
-    //     path: '/test',
-    //     component: Test,
-    // },
 ] as RouteRecordRaw[];
 
 const router = createRouter({

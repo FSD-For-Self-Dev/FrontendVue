@@ -31,14 +31,17 @@ export default {
     <div class="learning-languages--header">
       <h2 class="learning-languages--header--title" v-if="count > 0">
         <svg-icon name="LanguageIcon" size="lg" style="stroke-width: 0.2" />
-        Изучаемые языки
+        {{ $t('title.learningLanguages') }}
         <span class="counter">{{ count }}</span>
       </h2>
       <h2 class="learning-languages--header--title" v-else>
         <svg-icon name="LanguageIcon" size="lg" style="stroke-width: 0.2" />
-        Нет изучаемых языков
+        {{ $t('emptyTip.learningLanguages') }}
       </h2>
-      <AddLanguagesButton button-size="medium" button-text="Добавить язык" />
+      <AddLanguagesButton
+        button-size="medium"
+        :button-text="$t('buttons.addLearningLanguage')"
+      />
     </div>
     <div class="learning-languages--content" v-if="count > 0">
       <LanguageCard
@@ -50,13 +53,18 @@ export default {
     <div class="learning-languages--empty" v-else>
       <img :src="emptyImage" alt="empty" class="img" width="240" height="180" />
       <div class="learning-languages--empty-tip">
-        <p class="learning-languages--empty-tip-title">Здесь будут ваши изучаемые языки</p>
+        <p class="learning-languages--empty-tip-title">
+          {{ $t('tip.learningLanguages') }}
+        </p>
         <p class="learning-languages--empty-tip-text">
-          Начните добавлять слова в свой словарь, и ваши языки отобразятся здесь
-          автоматически, или добавьте изучаемые языки вручную
+          {{ $t('tip.learningLanguagesWords') }}
         </p>
       </div>
-      <Button text="Перейти в словарь" variant="secondary" @click="$router.push('vocabulary')" />
+      <Button
+        :text="$t('buttons.toVocabulary')"
+        variant="secondary"
+        @click="$router.push('vocabulary')"
+      />
     </div>
   </div>
 </template>
@@ -111,6 +119,7 @@ export default {
 
       &-text {
         @include text-2;
+        max-width: 60rem;
       }
     }
   }

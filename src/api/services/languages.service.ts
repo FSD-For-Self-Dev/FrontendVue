@@ -10,7 +10,7 @@ export default (api: IApi) => {
     },
     getLearningLanguages(locale?: string) {
       if (locale) {
-        return api.request.get(`/${locale}/api/languages/`);
+        return api.request.get(`/${locale}/api/languages/?no_words`);
       }
       return api.request.get('/api/languages/');
     },

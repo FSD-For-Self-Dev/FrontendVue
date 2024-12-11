@@ -27,25 +27,25 @@ export default {
       statusWordOptions: [
         {
           value: 'inactive',
-          label: 'Неактивные',
+          label: this.$t('activityStatus', { status: 'Inactive' }),
           icon_component: 'Inactive1StatusIcon',
           icon_component_custom_color: 'var:neutrals-600',
         },
         {
           value: 'active',
-          label: 'Активные',
+          label: this.$t('activityStatus', { status: 'Active' }),
           icon_component: 'ActiveStatusIcon',
           icon_component_custom_color: 'var:primary-500',
         },
         {
           value: 'mastered',
-          label: 'Усвоенные',
+          label: this.$t('activityStatus', { status: 'Mastered' }),
           icon_component: 'MasteredStatusIcon',
           icon_component_custom_color: 'var:success-600',
         },
         {
           value: '',
-          label: 'Все слова',
+          label: this.$t('filter.allWords'),
           icon_component: 'WordsIcon',
         },
       ],
@@ -100,14 +100,14 @@ export default {
     <div class="language-words-tools--top">
       <div class="language-words-tools--top-left">
         <Dropdown
-          placeholder="Все слова"
+          :placeholder="$t('filter.allWords')"
           v-model="filterOptions.activity_status"
           :items="statusWordOptions"
         />
       </div>
       <NewWordButton
         button-size="medium"
-        button-text="Новое слово или фраза"
+        :button-text="$t('buttons.addNewWord')"
         :chosenLanguage="filterOptions.language"
       />
     </div>
@@ -117,7 +117,7 @@ export default {
     size="lg"
     v-if="showDeleteLanguageModal"
     :close-modal="() => (showDeleteLanguageModal = false)"
-    title-modal="Вы уверены, что хотите удалить язык из изучаемых?"
+    :title-modal="$t('title.deleteLanguage')"
     icon="InfoIcon"
     modalContent="DeleteLanguageForm"
     :objectLookup="language.language.name"
@@ -126,7 +126,7 @@ export default {
     size="lg"
     v-if="showLanguageCoversModal"
     :close-modal="() => (showLanguageCoversModal = false)"
-    title-modal="Сменить обложку"
+    :title-modal="$t('title.languageCover')"
     icon="ImageIcon"
     modalContent="LanguageCoverChange"
     :objectLookup="language.language.name"

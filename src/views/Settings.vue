@@ -4,6 +4,9 @@ import PageLayout from '@/components/UI/page-layout/PageLayout.vue';
 import ProfileSettingsForm from '@/components/settings/ProfileSettingsForm.vue';
 import SettingsNavigation from '@/components/settings/SettingsNavigation.vue';
 import AppSettingsForm from '@/components/settings/AppSettingsForm.vue';
+import { useWindowScroll } from '@vueuse/core';
+
+const { y } = useWindowScroll({ behavior: 'instant' });
 
 export default {
   components: {
@@ -18,6 +21,9 @@ export default {
       showProfileSettingsForm: true,
       showAppSettingsForm: false,
     }
+  },
+  setup() {
+    y.value = 0;
   },
   methods: {
     showProfileSettings() {
@@ -34,7 +40,7 @@ export default {
 
 <template>
   <PageLayout noFooterPage>
-    <PageTitle text="Настройки" icon="SettingsIcon" style="position: fixed;" />
+    <PageTitle :text="$t('title.settings')" icon="SettingsIcon" style="position: fixed;" />
     <div class="settings--container">
       <div></div>
       <SettingsNavigation

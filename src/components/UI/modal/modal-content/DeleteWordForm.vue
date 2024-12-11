@@ -44,16 +44,6 @@ export default {
   },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
-    activityStatus() {
-      return {
-        Активное: 'Active',
-        Неактивное: 'Inactive',
-        Усвоенное: 'Mastered',
-        Active: 'Active',
-        Inactive: 'Inactive',
-        Mastered: 'Mastered',
-      };
-    },
   },
   methods: {
     ...mapActions(useVocabularyStore, ['getVocabulary', 'getWordProfile', 'deleteWord']),
@@ -70,9 +60,9 @@ export default {
         this.closeForm();
         this.addNewMessage({
           type: 'info',
-          text: 'Слово удалено из вашего словаря',
+          text: this.$t('infoMessage.deleteWord'),
         });
-      };
+      }
       this.submitProcess = false;
     },
     getFlagIcon(neededLang: string | undefined) {
@@ -84,21 +74,27 @@ export default {
   },
   mounted() {
     if (this.objectLookup) {
-      Promise.all([
-        this.getWordProfile(this.objectLookup, this.$i18n.locale)
-      ]).finally(() => {
-        const { wordProfile } = useVocabularyStore();
-        this.word = wordProfile.text ? wordProfile.text : '';
-        this.language = wordProfile.language ? wordProfile.language : '';
-        this.activity_status = wordProfile.activity_status ? wordProfile.activity_status : '';
-        this.activity_progress = wordProfile.activity_progress ? wordProfile.activity_progress : 0;
-        this.types = wordProfile.types ? wordProfile.types : [];
-        this.tags = wordProfile.tags ? wordProfile.tags : [];
-        this.translations_count = wordProfile.translations_count ? wordProfile.translations_count : 0;
-        this.image_associations_count = wordProfile.image_associations_count
-          ? wordProfile.image_associations_count
-          : 0;
-      });
+      Promise.all([this.getWordProfile(this.objectLookup, this.$i18n.locale)]).finally(
+        () => {
+          const { wordProfile } = useVocabularyStore();
+          this.word = wordProfile.text ? wordProfile.text : '';
+          this.language = wordProfile.language ? wordProfile.language : '';
+          this.activity_status = wordProfile.activity_status
+            ? wordProfile.activity_status
+            : '';
+          this.activity_progress = wordProfile.activity_progress
+            ? wordProfile.activity_progress
+            : 0;
+          this.types = wordProfile.types ? wordProfile.types : [];
+          this.tags = wordProfile.tags ? wordProfile.tags : [];
+          this.translations_count = wordProfile.translations_count
+            ? wordProfile.translations_count
+            : 0;
+          this.image_associations_count = wordProfile.image_associations_count
+            ? wordProfile.image_associations_count
+            : 0;
+        },
+      );
     }
   },
 };
@@ -107,10 +103,10 @@ export default {
 <template>
   <form @submit.prevent="handleDelete" class="delete-word-form">
     <div class="word-info--language">
-        <div class="word-info--language-icon">
-            <img :src="getFlagIcon(language)" alt="Icon" class="language-icon" />
-        </div>
-        <p>{{ language }}</p>
+      <div class="word-info--language-icon">
+        <img :src="getFlagIcon(language)" alt="Icon" class="language-icon" />
+      </div>
+      <p>{{ language }}</p>
     </div>
     <div class="word-info">
       <div class="word-info--types" v-if="types.length > 0">
@@ -122,39 +118,50 @@ export default {
       </div>
     </div>
     <div class="word-info--summary">
-        <div class="word-info--summary-item">
-          <p>Переводов</p>
-          <p>{{ translations_count }}</p>
+      <div class="word-info--summary-item">
+        <p>{{ $t('title.translations') }}</p>
+        <p>{{ translations_count }}</p>
+      </div>
+      <div class="word-info--summary-item">
+        <p>{{ $t('title.associations') }}</p>
+        <p>{{ image_associations_count }}</p>
+      </div>
+      <div class="word-info--summary-item">
+        <p>{{ $t('title.status') }}</p>
+        <div id="activity-status">
+          <svg-icon
+            :name="`${activity_status}${activity_progress}StatusIcon`"
+            size="nm"
+          />
+          <p>{{ activity_status }}</p>
         </div>
-        <div class="word-info--summary-item">
-          <p>Ассоциаций</p>
-          <p>{{ image_associations_count }}</p>
-        </div>
-        <div class="word-info--summary-item">
-          <p>Текущий статус</p>
-          <div id="activity-status">
-            <svg-icon
-              :name="`${activityStatus[activity_status as keyof typeof activityStatus]}${activity_progress}StatusIcon`"
-              size="nm"
-              v-if="activity_status in activityStatus"
-            />
-            <p>{{ activity_status }}</p>
-          </div>
-        </div>
+      </div>
     </div>
     <div class="buttons">
       <Button
-         type="button"
-         variant="secondary"
-         @click="() => closeForm()"
-         text="Отменить"
-         size="medium"
+        type="button"
+        variant="secondary"
+        @click="() => closeForm()"
+        :text="$t('buttons.cancel')"
+        size="medium"
       />
       <div>
-        <Button v-if="!submitProcess" type="submit" variant="danger" text="Подтвердить" size="medium" />
-        <Button v-else type="submit" text="Удаление..." size="medium" disabled />
+        <Button
+          v-if="!submitProcess"
+          type="submit"
+          variant="danger"
+          :text="$t('buttons.confirm')"
+          size="medium"
+        />
+        <Button
+          v-else
+          type="submit"
+          :text="$t('tip.deleteProcceed')"
+          size="medium"
+          disabled
+        />
       </div>
-   </div>
+    </div>
   </form>
 </template>
 
@@ -173,7 +180,7 @@ export default {
       @include subheading-2;
     }
 
-   &--language {
+    &--language {
       @include subheading-3;
       display: flex;
       flex-direction: row;
@@ -181,9 +188,9 @@ export default {
       align-items: center;
       width: max-content;
       height: max-content;
-   }
+    }
 
-   &--language-icon {
+    &--language-icon {
       width: 2.4rem;
       height: 2.4rem;
       display: flex;
@@ -236,12 +243,12 @@ export default {
         gap: 0.8rem;
       }
     }
-   }
+  }
 
-   .buttons {
-      display: flex;
-      gap: 1.6rem;
-      justify-content: flex-end;
-   }
+  .buttons {
+    display: flex;
+    gap: 1.6rem;
+    justify-content: flex-end;
+  }
 }
 </style>

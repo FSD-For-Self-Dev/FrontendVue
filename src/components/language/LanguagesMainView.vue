@@ -14,6 +14,13 @@ export default {
   computed: {
     ...mapState(useLanguagesStore, ['learning_languages', 'count']),
   },
+  methods: {
+    handleWheel(event: WheelEvent) {
+      const container = event.currentTarget as HTMLElement;
+      event.preventDefault();
+      container.scrollLeft += event.deltaY;
+    },
+  },
 };
 </script>
 
@@ -22,7 +29,7 @@ export default {
     <div class="languages-main-view--header">
       <h2 class="languages-main-view--title">
         <svg-icon name="LanguageIcon" size="lg" style="stroke-width: 0.2" />
-        {{ $t('message.learningLanguages') }}
+        {{ $t('title.learningLanguages') }}
         <span class="counter">{{ count }}</span>
       </h2>
       <svg-icon id="forward-arrow" name="ArrowForwardLineIcon" size="lg" />
@@ -33,11 +40,11 @@ export default {
         class="languages-main-view--not-found-learning-languages"
         v-if="learning_languages.length === 0"
       >
-        Нет изучаемых языков
-        <AddLanguagesButton button-text="Добавить первый язык" />
+        {{ $t('emptyTip.learningLanguages') }}
+        <AddLanguagesButton :button-text="$t('buttons.addFirstLanguage')" />
       </div>
       <div class="languages-main-view--learning-languages" v-else>
-        <div class="languages-main-view--learning-languages-list">
+        <div class="languages-main-view--learning-languages-list" @wheel.prevent="handleWheel">
           <LanguageCard :language="language" v-for="language in learning_languages" />
         </div>
       </div>

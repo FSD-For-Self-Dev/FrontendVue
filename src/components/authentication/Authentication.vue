@@ -107,18 +107,18 @@ export default {
           class="modal-auth--form"
           v-if="viewAuth === 'login'"
         >
-          <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
+          <h2 class="modal-auth--title">{{ $t('auth.welcomeAgain') }}</h2>
           <div class="modal-auth--form--inputs">
             <Input
               type="text"
-              label="Логин"
+              :label="$t('auth.username')"
               :show-label="true"
               v-model="username"
               :server-error="errors.username ? errors.username.toString() : undefined"
             />
             <Input
               type="password"
-              label="Пароль"
+              :label="$t('auth.password')"
               :show-label="true"
               v-model="password"
               :server-error="errors.password ? errors.password.toString() : undefined"
@@ -127,25 +127,25 @@ export default {
           <div class="modal-auth--form--actions">
             <div class="modal-auth--tools">
               <BooleanInput
-                label="Запомнить меня"
+                :label="$t('auth.rememberMe')"
                 type="checkbox"
                 size="small"
                 v-model="rememberMeCheck"
                 checked
               />
-              <a class="modal-auth--link">Забыли пароль?</a>
+              <a class="modal-auth--link">{{ $t('auth.forgotPassword') }}</a>
             </div>
             <Button
-              text="Войти"
+              :text="$t('auth.logIn')"
               style="width: 100%; display: flex; justify-content: center"
               variant="primary"
               size="medium"
             />
             <div class="auth-switcher">
-              Нет аккаунта?
-              <a class="modal-auth--link" @click="() => switchFormHandler('register')"
-                >Зарегистрироваться</a
-              >
+              {{ $t('auth.noAccount') }}
+              <a class="modal-auth--link" @click="() => switchFormHandler('register')">
+                {{ $t('auth.signUp') }}
+              </a>
             </div>
           </div>
         </form>
@@ -155,32 +155,32 @@ export default {
           class="modal-auth--form"
           v-if="viewAuth === 'register'"
         >
-          <h2 class="modal-auth--title">Добро пожаловать!</h2>
+          <h2 class="modal-auth--title">{{ $t('auth.welcome') }}</h2>
           <div class="modal-auth--form--inputs">
             <Input
               type="text"
-              label="Логин"
+              :label="$t('auth.username')"
               :show-label="true"
               v-model="username"
               :server-error="errors.username ? errors.username.toString() : undefined"
             />
             <Input
               type="email"
-              label="Email"
+              :label="$t('auth.email')"
               :show-label="true"
               v-model="email"
               :server-error="errors.email ? errors.email.toString() : undefined"
             />
             <Input
               type="password"
-              label="Пароль"
+              :label="$t('auth.password')"
               :show-label="true"
               v-model="password1"
               :server-error="errors.password1 ? errors.password1.toString() : undefined"
             />
             <Input
               type="password"
-              label="Подтверждение пароля"
+              :label="$t('auth.passwordConfirm')"
               :show-label="true"
               v-model="password2"
               :server-error="errors.password2 ? errors.password2.toString() : undefined"
@@ -188,16 +188,16 @@ export default {
           </div>
           <div class="modal-auth--form--actions">
             <Button
-              text="Создать аккаунт"
+              :text="$t('auth.signUpConfirm')"
               style="width: 100%; display: flex; justify-content: center"
               variant="primary"
               size="medium"
             />
             <div class="auth-switcher">
-              Уже есть аккаунт?
-              <a class="modal-auth--link" @click="() => switchFormHandler('login')"
-                >Войти</a
-              >
+              {{ $t('auth.alreadyHaveAccount') }}
+              <a class="modal-auth--link" @click="() => switchFormHandler('login')">
+                {{ $t('auth.logIn') }}
+              </a>
             </div>
           </div>
         </form>

@@ -41,10 +41,12 @@ export default {
   <OnClickOutside @trigger.stop="() => handleClose()">
     <div class="profile-tools">
       <button @click="handleSettings" class="profile-tools__button">
-        <svg-icon name="SettingsIcon" size="nm" />Настройки
+        <svg-icon name="SettingsIcon" size="nm" />
+        {{ $t('title.settings') }}
       </button>
       <button @click="handleExit" class="profile-tools__button">
-        <svg-icon name="ExitIcon" size="nm" />Выйти
+        <svg-icon name="ExitIcon" size="nm" />
+        {{ $t('auth.logOut') }}
       </button>
     </div>
   </OnClickOutside>

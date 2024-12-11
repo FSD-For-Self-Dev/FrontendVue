@@ -33,17 +33,21 @@ export default {
 <style lang="scss">
 .language-changer {
   span {
-    @include tag-xlarge;
+    @include tag-xxlarge;
   }
 
   .dropdown-item {
     min-width: 4rem;
+
+    span {
+      @include tag-xlarge;
+    }
   }
 
   .dropdown-menu {
     width: max-content;
     top: 140%;
-    left: -55%;
+    left: -50%;
   }
 
   .dropdown-content {

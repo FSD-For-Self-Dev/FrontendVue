@@ -46,11 +46,13 @@ export default {
       <div v-else-if="!newImage" class="image-form--empty">
         <img :src="emptyImage" alt="empty" class="img" width="172" height="128" />
       </div>
-      <span class="image-form--sub1"
-        >Перетащите файл сюда или
-        <span class="image-form--highlighted">выберите с компьютера</span></span
-      >
-      <span class="image-form--sub2">Картинка (jpg, jpeg, png, gif)</span>
+      <span class="image-form--sub1">
+        {{ $t('tip.fileUpload1') }}
+        <span class="image-form--highlighted">
+          {{ $t('tip.fileUpload2') }}
+        </span>
+      </span>
+      <span class="image-form--sub2">{{ $t('tip.fileUpload3') }}</span>
     </div>
   </label>
 </template>
