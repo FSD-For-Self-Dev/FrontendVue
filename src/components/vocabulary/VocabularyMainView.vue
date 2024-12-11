@@ -13,7 +13,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useVocabularyStore, ['count', 'words']),
+    ...mapState(useVocabularyStore, ['count', 'vocabularyWords']),
     ...mapState(useLanguagesStore, ['learning_languages']),
   },
   methods: {
@@ -37,12 +37,12 @@ export default {
       <svg-icon id="forward-arrow" name="ArrowForwardLineIcon" size="lg" />
     </div>
     <div class="vocabulary-main-view--content">
-      <div class="vocabulary-main-view--not-found" v-if="!words.length">
+      <div class="vocabulary-main-view--not-found" v-if="!vocabularyWords.length">
         {{ $t('emptyTip.vocabulary') }}
         <NewWordButton :button-text="$t('buttons.addFirstWords')" />
       </div>
       <div class="vocabulary-main-view--words" v-else @wheel.prevent="handleWheel">
-        <div v-for="word in words">
+        <div v-for="word in vocabularyWords">
           <WordCard :word="word" />
         </div>
       </div>

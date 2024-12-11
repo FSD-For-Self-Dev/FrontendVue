@@ -3,8 +3,8 @@ import { mapActions, mapState } from 'pinia';
 import { useUserStore } from './store/user';
 import Preloader from '@/components/UI/preloader/Preloader.vue';
 import { useLanguagesStore } from './store/languages';
-import { useVocabularyStore } from './store/vocabulary';
 import HomePage from '@/views/HomePage.vue';
+import { useGlobalActionsStore } from './store/global-ations';
 
 export default {
   components: { HomePage, Preloader },
@@ -18,13 +18,8 @@ export default {
   },
   methods: {
     ...mapActions(useUserStore, ['getUser']),
-    ...mapActions(useLanguagesStore, [
-      'getAvailableLanguages',
-      'getLearningLanguages',
-      'getGlobalLanguages',
-      'getAllLanguages',
-    ]),
-    ...mapActions(useVocabularyStore, ['getVocabulary']),
+    ...mapActions(useLanguagesStore, ['getGlobalLanguages']),
+    ...mapActions(useGlobalActionsStore, ['global_init']),
   },
   mounted() {
     if (this.authStatus) {
@@ -34,12 +29,7 @@ export default {
         const { interface_language } = useUserStore();
         this.$i18n.locale = interface_language;
 
-        await this.getUser(this.$i18n.locale);
-        await this.getVocabulary(this.$i18n.locale);
-        await this.getLearningLanguages(this.$i18n.locale);
-        await this.getGlobalLanguages(this.$i18n.locale);
-        await this.getAvailableLanguages(this.$i18n.locale);
-        await this.getAllLanguages(this.$i18n.locale);
+        await this.global_init(this.$i18n.locale);
 
         this.isLoading = false;
       });

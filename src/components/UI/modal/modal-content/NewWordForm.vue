@@ -129,7 +129,7 @@ export default {
       'getVocabulary',
       'getWordProfile',
     ]),
-    ...mapState(useVocabularyStore, ['words']),
+    ...mapState(useVocabularyStore, ['vocabularyWords']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useLanguagesStore, ['getLearningLanguages']),
     getLastLanguage() {
@@ -137,7 +137,7 @@ export default {
         return this.chosenLanguage;
       } else {
         try {
-          const language = this.words()[0].language;
+          const language = this.vocabularyWords()[0].language;
           return language ? language : '';
         } catch (error) {
           return '';

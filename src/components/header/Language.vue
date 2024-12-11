@@ -25,7 +25,7 @@ export default {
     "
     @update:modelValue="updateLocale"
     :noChevron="true"
-    style="padding-inline: 0; border: 0; min-height: 0"
+    style="padding-inline: 0; border: 0; min-height: 0; background-color: transparent;"
     class="language-changer"
   />
 </template>

@@ -1,10 +1,8 @@
 <script lang="ts">
 import { mapActions } from 'pinia';
-import { useUserStore } from '@/store/user';
-import { useLanguagesStore } from '@/store/languages';
-import { useVocabularyStore } from '@/store/vocabulary';
 import Button from '@/components/UI/button/Button.vue';
 import Modal from '@/components/UI/modal/Modal.vue';
+import { useGlobalActionsStore } from '@/store/global-ations';
 export default {
   components: { Button, Modal },
   emits: ["profileSettings", "appSettings"],
@@ -16,17 +14,14 @@ export default {
     };
   },
   methods: {
-    ...mapActions(useUserStore, ['logout']),
-    ...mapActions(useVocabularyStore, ['clearDataVocabulary']),
-    ...mapActions(useLanguagesStore, ['clearDataLanguages']),
+    ...mapActions(useGlobalActionsStore, ['global_clear']),
     handleClose() {
       this.showModal = false;
     },
     handleExit() {
-      this.logout();
-      this.clearDataVocabulary();
-      this.clearDataLanguages();
-      this.$router.push('/');
+      this.global_clear().finally(() => {
+        this.$router.push('/');
+      });
     },
     showProfileSettings() {
       this.showProfileSettingsForm = true;

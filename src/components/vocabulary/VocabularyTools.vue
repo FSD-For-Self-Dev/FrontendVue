@@ -1,4 +1,5 @@
 <script lang="ts">
+import { watchDebounced } from '@vueuse/core';
 import Input from '@/components/UI/input/Input.vue';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import NewWordButton from './NewWordButton.vue';
@@ -7,39 +8,61 @@ import { mapState, mapWritableState } from 'pinia';
 import { useVocabularyStore } from '@/store/vocabulary';
 import Search from './Search.vue';
 
-
 export default {
-  components: { NewWordButton, Input, Dropdown, Search },
+  components: {
+    NewWordButton,
+    Input,
+    Dropdown,
+    Search,
+  },
+  props: {
+    locale: {
+      type: String,
+      default: '',
+    },
+  },
   computed: {
     ...mapState(useLanguagesStore, ["learning_languages"]),
-    ...mapWritableState(useVocabularyStore, ["filterOptions", "count"]),
-    wordsCounter() {
-      const chosen_lang = this.learning_languages.filter((lang) => { return lang.language.name === this.filterOptions.language})[0];
-      try {
-        return chosen_lang.words_count;
-      } catch {
-        return this.count;
-      }
-    },
+    ...mapState(useVocabularyStore, ["count"]),
+    ...mapWritableState(useVocabularyStore, ["filterOptions"]),
+  },
+  setup(props, ctx) {
+    const { filterOptions, getVocabulary } = useVocabularyStore();
+    filterOptions.language = ''
+    filterOptions.activity_status = ''
+    filterOptions.search = ''
+
+    watchDebounced(
+      () => filterOptions.search,
+      () => {
+        getVocabulary(props.locale, true);
+      },
+      { debounce: 1000, maxWait: 5000 },
+    );
+
+    return {
+      filterOptions,
+      getVocabulary
+    };
   },
   data() {
     return {
       statusWordOptions: [
         {
-          value: 'inactive',
-          label: this.$t('activityStatus', { status: 'Inactive' }),
+          value: 'I',
+          label: this.$t('activityStatusPlural', { status: 'Inactive' }),
           icon_component: 'Inactive1StatusIcon',
           icon_component_custom_color: 'var:neutrals-600',
         },
         {
-          value: 'active',
-          label: this.$t('activityStatus', { status: 'Active' }),
+          value: 'A',
+          label: this.$t('activityStatusPlural', { status: 'Active' }),
           icon_component: 'ActiveStatusIcon',
           icon_component_custom_color: 'var:primary-500',
         },
         {
-          value: 'mastered',
-          label: this.$t('activityStatus', { status: 'Mastered' }),
+          value: 'M',
+          label: this.$t('activityStatusPlural', { status: 'Mastered' }),
           icon_component: 'MasteredStatusIcon',
           icon_component_custom_color: 'var:success-600',
         },
@@ -48,41 +71,56 @@ export default {
           label: this.$t('filter.allWords'),
           icon_component: 'WordsIcon',
         },
-      ]
-    }
+      ],
+    };
+  },
+  methods: {
+    handleFilter() {
+      this.getVocabulary(this.locale, true);
+    },
   },
 };
 </script>
 
 <template>
-  <div class="vocabulary-tools">
+  <div class="vocabulary-tools" v-if="count > 0">
     <div class="vocabulary-tools--top">
       <div class="vocabulary-tools--top-left">
         <Dropdown
           :placeholder="$t('filter.allLanguages')"
-          :default_item="{value: '', label: $t('filter.allLanguages'), icon_component: 'LanguageIcon', is_default_item: true}"
-          v-model="filterOptions.language" :items="learning_languages.map(({ language }) => {
-          return {
-            value: language.name,
-            label: language.name_local,
-            icon: language.flag_icon,
-            is_default_item: false
-          }
-        })" />
+          :default_item="{
+            value: '',
+            label: $t('filter.allLanguages'),
+            icon_component: 'LanguageIcon',
+            is_default_item: true,
+          }"
+          v-model="filterOptions.language"
+          :items="
+            learning_languages.map(({ language }) => {
+              return {
+                value: language.isocode,
+                label: language.name_local,
+                icon: language.flag_icon,
+                is_default_item: false,
+              };
+            })
+          "
+          @update:model-value="handleFilter"
+        />
         <Dropdown
           :placeholder="$t('filter.allWords')"
-          v-model="filterOptions.activity_status" :items="statusWordOptions"
-          v-if="wordsCounter > 0"
+          v-model="filterOptions.activity_status"
+          :items="statusWordOptions"
+          @update:model-value="handleFilter"
         />
       </div>
       <NewWordButton
         button-size="medium"
         :button-text="$t('buttons.addNewWord')"
         :chosenLanguage="filterOptions.language"
-        v-if="wordsCounter > 0"
       />
     </div>
-    <Search v-model="filterOptions.text" v-if="wordsCounter > 0" />
+    <Search v-model="filterOptions.search" />
   </div>
 </template>
 

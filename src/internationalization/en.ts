@@ -73,6 +73,7 @@ export const en = {
     translationLanguages: 'No native or other learning languages were found',
     translations: 'No translations yet',
     associations: 'No associations yet',
+    filteredWordsEmpty: 'No suitable words were found',
   },
   tip: {
     fileUpload1: 'Drag and drop the file here or',
@@ -164,6 +165,9 @@ export const en = {
     personalDataConsent: 'Personal data consent',
   },
   activityStatus: ({ named }) => {
+    return named('status')
+  },
+  activityStatusPlural: ({ named }) => {
     return named('status')
   },
 }

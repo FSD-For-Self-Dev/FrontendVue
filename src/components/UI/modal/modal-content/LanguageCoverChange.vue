@@ -1,9 +1,7 @@
 <script lang="ts">
 import type { PropType } from 'vue';
 import { useNotificationsStore } from '@/store/notifications';
-import { useVocabularyStore } from '@/store/vocabulary';
 import { mapActions, mapState } from 'pinia';
-import type { WordTagDto } from '@/dto/vocabulary.dto';
 import { isAxiosError } from 'axios';
 import { ref } from 'vue';
 import { useLanguagesStore } from '@/store/languages';

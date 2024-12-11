@@ -26,20 +26,20 @@ export default {
       showDeleteLanguageModal: false,
       statusWordOptions: [
         {
-          value: 'inactive',
-          label: this.$t('activityStatus', { status: 'Inactive' }),
+          value: 'I',
+          label: this.$t('activityStatusPlural', { status: 'Inactive' }),
           icon_component: 'Inactive1StatusIcon',
           icon_component_custom_color: 'var:neutrals-600',
         },
         {
-          value: 'active',
-          label: this.$t('activityStatus', { status: 'Active' }),
+          value: 'A',
+          label: this.$t('activityStatusPlural', { status: 'Active' }),
           icon_component: 'ActiveStatusIcon',
           icon_component_custom_color: 'var:primary-500',
         },
         {
-          value: 'mastered',
-          label: this.$t('activityStatus', { status: 'Mastered' }),
+          value: 'M',
+          label: this.$t('activityStatusPlural', { status: 'Mastered' }),
           icon_component: 'MasteredStatusIcon',
           icon_component_custom_color: 'var:success-600',
         },
@@ -111,7 +111,7 @@ export default {
         :chosenLanguage="filterOptions.language"
       />
     </div>
-    <Search v-model="filterOptions.text" />
+    <Search v-model="filterOptions.search" />
   </div>
   <Modal
     size="lg"

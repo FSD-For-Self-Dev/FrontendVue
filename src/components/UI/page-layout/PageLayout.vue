@@ -5,11 +5,10 @@ import Footer from '@/components/footer/Footer.vue';
 import IconButton from '@/components/UI/button/IconButton.vue';
 import NotificationsList from '@/components/notifications/NotificationsList.vue';
 import { mapActions, mapWritableState } from 'pinia';
-import { useVocabularyStore } from '@/store/vocabulary';
 import Preloader from '../preloader/Preloader.vue';
-import { useLanguagesStore } from '@/store/languages';
 import { useUserStore } from '@/store/user';
 import { ref } from 'vue';
+import { useGlobalActionsStore } from '@/store/global-ations';
 
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
@@ -44,21 +43,11 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useVocabularyStore, ['getVocabulary']),
-    ...mapActions(useLanguagesStore, [
-      'getAvailableLanguages',
-      'getLearningLanguages',
-      'getGlobalLanguages',
-      'getAllLanguages',
-    ]),
-    ...mapActions(useUserStore, ['getUser']),
+    ...mapActions(useGlobalActionsStore, ['global_init']),
     handleUpdateLocale() {
       if (this.authStatus) {
         this.isLoading = true;
-        Promise.all([
-          this.getVocabulary(this.$i18n.locale),
-          this.getLearningLanguages(this.$i18n.locale),
-        ]).finally(async () => {
+        this.global_init(this.$i18n.locale).finally(async () => {
           this.isLoading = false;
         });
       }
@@ -71,12 +60,7 @@ export default {
       const { interface_language } = useUserStore();
       this.$i18n.locale = interface_language;
 
-      await this.getUser(this.$i18n.locale);
-      await this.getVocabulary(this.$i18n.locale);
-      await this.getLearningLanguages(this.$i18n.locale);
-      await this.getAvailableLanguages(this.$i18n.locale);
-      await this.getGlobalLanguages(this.$i18n.locale);
-      await this.getAllLanguages(this.$i18n.locale);
+      await this.global_init(this.$i18n.locale);
 
       this.authStatus = true;
       this.hideHeader = false;

@@ -73,6 +73,7 @@ export const ru = {
     translationLanguages: 'Нет родных или других изучаемых языков',
     translations: 'Нет переводов',
     associations: 'Нет ассоциаций',
+    filteredWordsEmpty: 'В вашем словаре не найдено подходящих слов',
   },
   tip: {
     fileUpload1: 'Перетащите файл сюда или',
@@ -148,7 +149,7 @@ export const ru = {
   },
   counter: {
     languages: 'Нет доступных языков | Доступно {n} язык | Доступно {n} языков',
-    words: 'Найдено {n} слово | Найдено {n} слова | Найдено {n} слов'
+    words: 'Нет подходящих слов | Найдено {n} слово | Найдено {n} слов'
   },
   filter: {
     allWords: 'Все слова',
@@ -170,6 +171,16 @@ export const ru = {
       return 'Активное'
     } else if (named('status') === 'Mastered') {
       return 'Усвоенное'
+    }
+    return ''
+  },
+  activityStatusPlural: ({ named }) => {
+    if (named('status') === 'Inactive') {
+      return 'Неактивные'
+    } else if (named('status') === 'Active') {
+      return 'Активные'
+    } else if (named('status') === 'Mastered') {
+      return 'Усвоенные'
     }
     return ''
   },

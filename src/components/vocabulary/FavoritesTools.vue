@@ -37,7 +37,7 @@ export default {
         />
       </div>
     </div>
-    <Search v-model="filterOptions.text" />
+    <Search v-model="filterOptions.search" />
   </div>
 </template>
 

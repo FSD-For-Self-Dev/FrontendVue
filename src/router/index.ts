@@ -1,5 +1,6 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
+import { useUserStore } from '@/store/user';
 import HomePage from '@/views/HomePage.vue';
 import Vocabulary from '@/views/Vocabulary.vue';
 import Languages from '@/views/Languages.vue';
@@ -12,61 +13,109 @@ import Exercises from '@/views/Exercises.vue';
 import About from '@/views/About.vue';
 
 const routes = [
-    {
-        path: '/',
-        name: 'home',
-        component: HomePage,
+  {
+    path: '/',
+    name: 'home',
+    component: HomePage,
+  },
+  {
+    path: '/vocabulary',
+    name: 'vocabulary',
+    component: Vocabulary,
+    beforeEnter: (to, from, next) => {
+      const { authStatus } = useUserStore();
+      if (!authStatus) {
+        next('/');
+      } else {
+        next();
+      }
     },
-    {
-        path: '/vocabulary',
-        name: 'vocabulary',
-        component: Vocabulary,
+  },
+  {
+    path: '/languages',
+    name: 'languages',
+    component: Languages,
+    beforeEnter: (to, from, next) => {
+      const { authStatus } = useUserStore();
+      if (!authStatus) {
+        next('/');
+      } else {
+        next();
+      }
     },
-    {
-        path: '/languages',
-        name: 'languages',
-        component: Languages,
+  },
+  {
+    path: '/languages/:slug',
+    name: 'language-profile',
+    component: LanguageProfile,
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: Settings,
+    beforeEnter: (to, from, next) => {
+      const { authStatus } = useUserStore();
+      if (!authStatus) {
+        next('/');
+      } else {
+        next();
+      }
     },
-    {
-        path: '/languages/:slug',
-        name: 'language-profile',
-        component: LanguageProfile
+  },
+  {
+    path: '/favorites',
+    name: 'favorites',
+    component: Favorites,
+    beforeEnter: (to, from, next) => {
+      const { authStatus } = useUserStore();
+      if (!authStatus) {
+        next('/');
+      } else {
+        next();
+      }
     },
-    {
-        path: '/settings',
-        name: 'settings',
-        component: Settings,
+  },
+  {
+    path: '/collections',
+    name: 'collections',
+    component: Collections,
+    beforeEnter: (to, from, next) => {
+      const { authStatus } = useUserStore();
+      if (!authStatus) {
+        next('/');
+      } else {
+        next();
+      }
     },
-    {
-        path: '/favorites',
-        name: 'favorites',
-        component: Favorites,
+  },
+  {
+    path: '/exercises',
+    name: 'exercises',
+    component: Exercises,
+    beforeEnter: (to, from, next) => {
+      const { authStatus } = useUserStore();
+      if (!authStatus) {
+        next('/');
+      } else {
+        next();
+      }
     },
-    {
-        path: '/collections',
-        name: 'collections',
-        component: Collections,
-    },
-    {
-        path: '/exercises',
-        name: 'exercises',
-        component: Exercises,
-    },
-    {
-        path: '/about',
-        name: 'about',
-        component: About,
-    },
-    {
-        path: '/:pathMatch(.*)*',
-        name: '404',
-        component: Error404,
-    },
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: About,
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: Error404,
+  },
 ] as RouteRecordRaw[];
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes,
+  history: createWebHistory(),
+  routes,
 });
 
 export default router;

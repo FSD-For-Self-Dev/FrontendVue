@@ -1,46 +1,60 @@
 import api from '@/api';
 import type { WordDto, NewWordDto, WordProfileDto } from '@/dto/vocabulary.dto';
+import type { VocabularyQuery } from '@/types/api/services';
 import { isAxiosError } from 'axios';
 import { defineStore } from 'pinia';
 
 export interface VocabularyStore {
   count: number;
-  words: WordDto[];
+  vocabularyWords: WordDto[];
+  filteredCount: number;
+  filteredWords: WordDto[];
   wordProfile: WordProfileDto;
   errors: {
     language: string[];
     text: string[];
   };
-  filterOptions: {
-    language: string;
-    text: string;
-    activity_status: string;
-  };
+  filterOptions: VocabularyQuery;
+  isLoading: boolean;
 }
 
 export const useVocabularyStore = defineStore('vocabulary', {
   state: (): VocabularyStore => {
     return {
       count: 0,
-      words: [],
+      vocabularyWords: [],
+      filteredCount: 0,
+      filteredWords: [],
       wordProfile: {},
       errors: { language: [], text: [] },
-      filterOptions: { language: '', text: '', activity_status: '' },
+      filterOptions: {
+        language: '',
+        search: '',
+        activity_status: '',
+      },
+      isLoading: false,
     };
   },
   actions: {
-    async getVocabulary(locale?: string) {
+    async getVocabulary(locale?: string, filtered: boolean = false) {
+      this.isLoading = true;
       try {
-        const { data } = await api.vocabulary.getVocabulary(locale);
+        const { data } = await api.vocabulary.getVocabulary(this.filterOptions, locale);
         if (data && data.results) {
-          this.words = data.results as unknown as WordDto[];
-          this.count = data.count as unknown as number;
+          if (filtered) {
+            this.filteredWords = data.results as unknown as WordDto[];
+            this.filteredCount = data.count as unknown as number;
+          } else {
+            this.vocabularyWords = data.results as unknown as WordDto[];
+            this.count = data.count as unknown as number;
+          }
         }
       } catch (error) {
         console.error('Error fetching vocabulary:', error);
-        this.words = [];
+        this.vocabularyWords = [];
         this.count = 0;
       }
+      this.isLoading = false;
     },
     async createWord(word: NewWordDto, locale?: string) {
       try {
@@ -106,7 +120,7 @@ export const useVocabularyStore = defineStore('vocabulary', {
       }
     },
     clearDataVocabulary() {
-      this.words = [];
+      this.vocabularyWords = [];
     },
   },
 });
