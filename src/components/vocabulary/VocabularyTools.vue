@@ -1,17 +1,15 @@
 <script lang="ts">
 import { watchDebounced } from '@vueuse/core';
-import Input from '@/components/UI/input/Input.vue';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import NewWordButton from './NewWordButton.vue';
 import { useLanguagesStore } from '@/store/languages';
-import { mapState, mapWritableState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useVocabularyStore } from '@/store/vocabulary';
 import Search from './Search.vue';
 
 export default {
   components: {
     NewWordButton,
-    Input,
     Dropdown,
     Search,
   },
@@ -20,15 +18,26 @@ export default {
       type: String,
       default: '',
     },
+    hideLanguageFilter: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     ...mapState(useLanguagesStore, ["learning_languages"]),
     ...mapState(useVocabularyStore, ["count"]),
     ...mapWritableState(useVocabularyStore, ["filterOptions"]),
+    languageName(): string {
+      const lang_obj = this.getLanguageObjectByIsocode(this.filterOptions.language);
+      return lang_obj ? lang_obj.language.name : '';
+    },
   },
   setup(props, ctx) {
     const { filterOptions, getVocabulary } = useVocabularyStore();
-    filterOptions.language = ''
+
+    if (!props.hideLanguageFilter) {
+      filterOptions.language = ''
+    }
     filterOptions.activity_status = ''
     filterOptions.search = ''
 
@@ -75,8 +84,13 @@ export default {
     };
   },
   methods: {
+    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
+    ...mapActions(useVocabularyStore, ['getVocabulary']),
     handleFilter() {
       this.getVocabulary(this.locale, true);
+    },
+    updateWords() {
+      this.getVocabulary(this.$i18n.locale, true);
     },
   },
 };
@@ -106,6 +120,7 @@ export default {
             })
           "
           @update:model-value="handleFilter"
+          v-if="!hideLanguageFilter"
         />
         <Dropdown
           :placeholder="$t('filter.allWords')"
@@ -117,7 +132,8 @@ export default {
       <NewWordButton
         button-size="medium"
         :button-text="$t('buttons.addNewWord')"
-        :chosenLanguage="filterOptions.language"
+        :chosenLanguage="languageName"
+        @word-created="updateWords"
       />
     </div>
     <Search v-model="filterOptions.search" />

@@ -12,6 +12,7 @@ import Modal from '../UI/modal/Modal.vue';
 
 export default {
   components: { WordTagCard, WordTools, Modal },
+  emits: ['wordEdited', 'wordDeleted'],
   props: {
     word: {
       type: Object as PropType<WordDto>,
@@ -270,6 +271,7 @@ export default {
     icon="EditIcon"
     modalContent="NewWordForm"
     :objectLookup="editWordSlug"
+    @word-created="$emit('wordEdited')"
   />
   <Modal
     size="lg"
@@ -279,6 +281,7 @@ export default {
     icon="InfoIcon"
     modalContent="DeleteWordForm"
     :objectLookup="deleteWordSlug"
+    @word-deleted="$emit('wordDeleted')"
   />
   <Modal
     size="lg"

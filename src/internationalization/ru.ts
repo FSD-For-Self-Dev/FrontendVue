@@ -19,7 +19,7 @@ export const ru = {
   },
   user: {
     firstName: 'Имя',
-    username: 'Логин (отображается как @your_login)',
+    username: `Логин (отображается как {'@'}your_login)`,
     nativeLanguage: 'Родной язык',
     nativeLanguage1: 'Родной язык 1',
     nativeLanguage2: 'Родной язык 2',

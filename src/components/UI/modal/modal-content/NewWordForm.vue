@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
-import { mapActions, mapState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import type { PropType } from 'vue';
 import type { DropdownItem } from '@/types/components/dropdown';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
@@ -34,6 +34,7 @@ export default {
     WordImageItem,
     WordTranslationItem,
   },
+  emits: ['wordCreated'],
   props: {
     objectLookup: {
       type: String,
@@ -85,6 +86,7 @@ export default {
   },
   computed: {
     ...mapState(useVocabularyStore, ['count']),
+    ...mapWritableState(useVocabularyStore, ['filterOptions']),
     ...mapState(useLanguagesStore, [
       'learning_languages',
       'all_languages',
@@ -300,8 +302,12 @@ export default {
           console.log(res.response?.data);
         }
       } else {
-        await this.getVocabulary(this.$i18n.locale);
-        await this.getLearningLanguages(this.$i18n.locale);
+        this.$emit('wordCreated');
+        this.filterOptions.language = ''
+        this.filterOptions.activity_status = ''
+        this.filterOptions.search = ''
+        this.getVocabulary(this.$i18n.locale);
+        this.getLearningLanguages(this.$i18n.locale);
         this.handleClose();
         this.addNewMessage({
           type: 'info',

@@ -36,11 +36,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(useLanguagesStore, ['learning_languages']),
-    getLanguageObject() {
-      return this.learning_languages.filter((lang) => {
-        return lang.language.name === this.objectLookup;
-      })[0];
+    languageObject() {
+      return this.getLanguageObject(this.objectLookup);
     },
     getCoverImage() {
       try {
@@ -48,7 +45,7 @@ export default {
           return cover.id === this.cover_id;
         })[0].image;
       } catch {
-        return this.getLanguageObject.cover;
+        return this.languageObject?.cover;
       }
     },
   },
@@ -80,7 +77,8 @@ export default {
     },
   },
   async mounted() {
-    this.cover_id = this.getLanguageObject.cover_id;
+    const lang_obj = this.languageObject;
+    this.cover_id = lang_obj ? lang_obj.cover_id : '';
 
     if (this.objectLookup) {
       Promise.all([this.getLanguageCovers(this.objectLookup, this.$i18n.locale)]).finally(

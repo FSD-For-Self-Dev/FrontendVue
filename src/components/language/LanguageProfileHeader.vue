@@ -1,18 +1,12 @@
 <script lang="ts">
 import type { PropType } from 'vue';
-import Input from '@/components/UI/input/Input.vue';
-import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
-import NewWordButton from '@/components/vocabulary/NewWordButton.vue';
-import { mapState } from 'pinia';
-import { useVocabularyStore } from '@/store/vocabulary';
 import type { LearningLanguageDto } from '@/dto/languages.dto';
-import Search from '@/components/vocabulary/Search.vue';
 import IconButton from '../UI/button/IconButton.vue';
 import LanguageTools from './LanguageTools.vue';
 import Modal from '../UI/modal/Modal.vue';
 
 export default {
-  components: { NewWordButton, Input, Dropdown, Search, IconButton, LanguageTools, Modal },
+  components: { IconButton, LanguageTools, Modal },
   props: {
     language: {
       type: Object as PropType<LearningLanguageDto>,
@@ -51,9 +45,6 @@ export default {
       ],
     }
   },
-  computed: {
-    ...mapState(useVocabularyStore, ['filterOptions']),
-  },
   methods: {
     handleDelete() {
       this.showLanguageTools = false;
@@ -65,9 +56,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="language-cover"
-  >
+  <div class="language-cover">
     <img class="cover-image" :src="language.cover" />
     <div class="language-cover-header">
       <div class="language-cover-header-title">
@@ -95,23 +84,6 @@ export default {
         :handle-delete="handleDelete"
       />
     </div>
-  </div>
-  <div class="language-words-tools" v-if="language.words_count > 0">
-    <div class="language-words-tools--top">
-      <div class="language-words-tools--top-left">
-        <Dropdown
-          :placeholder="$t('filter.allWords')"
-          v-model="filterOptions.activity_status"
-          :items="statusWordOptions"
-        />
-      </div>
-      <NewWordButton
-        button-size="medium"
-        :button-text="$t('buttons.addNewWord')"
-        :chosenLanguage="filterOptions.language"
-      />
-    </div>
-    <Search v-model="filterOptions.search" />
   </div>
   <Modal
     size="lg"
@@ -181,24 +153,6 @@ export default {
       flex-direction: row;
       gap: 1.2rem;
       height: max-content;
-    }
-  }
-}
-
-.language-words-tools {
-  display: flex;
-  flex-direction: column;
-  gap: 4rem;
-
-  &--top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    &-left {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
     }
   }
 }

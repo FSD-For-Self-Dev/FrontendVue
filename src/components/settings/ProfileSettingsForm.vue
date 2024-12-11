@@ -11,11 +11,18 @@ import { computed, ref } from 'vue';
 import TextButton from '../UI/button/TextButton.vue';
 import { useWindowScroll } from '@vueuse/core';
 import { useNotificationsStore } from '@/store/notifications';
+import { isAxiosError } from 'axios';
+import { readUrlFile } from '@/utils/readUrlFile';
 
 const { y } = useWindowScroll({ behavior: 'instant' });
 
 export default {
   components: { Dropdown, Input, Button, TextButton },
+  data() {
+    return {
+      submitProcess: false,
+    }
+  },
   setup() {
     const { global_languages } = useLanguagesStore();
     const { first_name, username, image, native_languages } = useUserStore();
@@ -51,21 +58,33 @@ export default {
       native_languages,
     };
   },
+  async mounted() {
+    const base64 = useBase64(await readUrlFile(this.formImage));
+    this.formImage = await base64.promise.value;
+  },
   methods: {
     ...mapActions(useUserStore, ['patchUser']),
+    ...mapActions(useLanguagesStore, ["getAllLanguages"]),
     ...mapActions(useNotificationsStore, ["addNewMessage"]),
-    handleSubmit() {
+    async handleSubmit() {
+      this.submitProcess = true;
       const data: UserDto = {
         username: this.formUserName,
         first_name: this.formFirstName,
         native_languages: this.formNativeLang,
         image: this.formImage,
       };
-      this.patchUser(data);
-      this.addNewMessage({
-        type: 'info',
-        text: this.$t('infoMessage.changesSaved'),
-      });
+      const res = await this.patchUser(data, this.$i18n.locale);
+      if (isAxiosError(res)) {
+        console.log(res.response?.data);
+      } else {
+        this.getAllLanguages(this.$i18n.locale);
+        this.addNewMessage({
+          type: 'info',
+          text: this.$t('infoMessage.changesSaved'),
+        });
+      };
+      this.submitProcess = false;
     },
     async onFileChanged(event: Event) {
       const target = event.target as HTMLInputElement;
@@ -156,7 +175,8 @@ export default {
         type="button"
         @click="cancelChanges()"
       />
-      <Button :text="$t('buttons.save')" size="medium" type="submit" />
+      <Button v-if="!submitProcess" :text="$t('buttons.save')" size="medium" type="submit" />
+      <Button v-else :text="$t('tip.saveProcceed')" size="medium" type="submit" disabled />
     </div>
   </form>
 </template>

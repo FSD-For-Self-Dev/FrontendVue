@@ -4,12 +4,8 @@ import Modal from '@/components/UI/modal/Modal.vue';
 import { type PropType } from 'vue';
 
 export default {
-  data() {
-    return {
-      showModal: false,
-    };
-  },
   components: { Button, Modal },
+  emits: ['wordCreated'],
   props: {
     buttonText: {
       type: String,
@@ -23,6 +19,11 @@ export default {
       type: String,
       required: false,
     },
+  },
+  data() {
+    return {
+      showModal: false,
+    };
   },
   methods: {
     handleOpen() {
@@ -45,5 +46,6 @@ export default {
     icon="AddIcon"
     modalContent="NewWordForm"
     :chosenLanguage="chosenLanguage"
+    @word-created="$emit('wordCreated')"
   />
 </template>

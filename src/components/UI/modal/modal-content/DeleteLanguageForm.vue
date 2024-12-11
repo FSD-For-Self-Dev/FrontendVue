@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
-import { mapActions, mapState } from 'pinia';
+import { mapActions } from 'pinia';
 import { isAxiosError } from 'axios';
 import { ref } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
@@ -35,11 +35,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(useLanguagesStore, ['learning_languages']),
-    getLanguageObject() {
-      return this.learning_languages.filter((lang) => {
-        return lang.language.name === this.objectLookup;
-      })[0];
+    languageObject() {
+      return this.getLanguageObject(this.objectLookup);
     },
   },
   methods: {
@@ -72,15 +69,15 @@ export default {
 <template>
   <form @submit.prevent="handleDelete" class="delete-language-form">
     <div class="language-cover">
-      <img class="cover-image" :src="getLanguageObject.cover" />
+      <img class="cover-image" :src="languageObject?.cover" />
       <div class="language-cover-header">
         <div class="language-cover-header-title">
           <img
-            :src="getLanguageObject.language.flag_icon"
+            :src="languageObject?.language.flag_icon"
             alt="Icon"
             class="language-icon"
           />
-          <p>{{ getLanguageObject.language.name_local }}</p>
+          <p>{{ languageObject?.language.name_local }}</p>
         </div>
       </div>
     </div>
@@ -88,20 +85,20 @@ export default {
       <div class="language-info--summary-item">
         <div id="words-counter-common">
           <p>{{ $t('title.words') }}:</p>
-          <p>{{ getLanguageObject.words_count }}</p>
+          <p>{{ languageObject?.words_count }}</p>
         </div>
         <div class="words-counters-summary">
           <div class="words-counter-status">
             <svg-icon name="ActiveStatusIcon" size="nm" />
-            <p>{{ getLanguageObject.active_words_count }}</p>
+            <p>{{ languageObject?.active_words_count }}</p>
           </div>
           <div class="words-counter-status">
             <svg-icon name="Inactive0StatusIcon" size="nm" />
-            <p>{{ getLanguageObject.inactive_words_count }}</p>
+            <p>{{ languageObject?.inactive_words_count }}</p>
           </div>
           <div class="words-counter-status">
             <svg-icon name="MasteredStatusIcon" size="nm" />
-            <p>{{ getLanguageObject.mastered_words_count }}</p>
+            <p>{{ languageObject?.mastered_words_count }}</p>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
-import { mapActions, mapState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import Button from '@/components/UI/button/Button.vue';
 import { ref } from 'vue';
 import type { PropType } from 'vue';
@@ -12,6 +12,7 @@ import { isAxiosError } from 'axios';
 
 export default {
   components: { Button, WordTagCard },
+  emits: ['wordDeleted'],
   props: {
     closeForm: {
       type: Function,
@@ -44,6 +45,7 @@ export default {
   },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
+    ...mapWritableState(useVocabularyStore, ['filterOptions']),
   },
   methods: {
     ...mapActions(useVocabularyStore, ['getVocabulary', 'getWordProfile', 'deleteWord']),
@@ -55,8 +57,12 @@ export default {
       if (isAxiosError(res)) {
         console.log(res.response?.data);
       } else {
-        await this.getVocabulary(this.$i18n.locale);
-        await this.getLearningLanguages(this.$i18n.locale);
+        this.$emit('wordDeleted');
+        this.filterOptions.language = ''
+        this.filterOptions.activity_status = ''
+        this.filterOptions.search = ''
+        this.getVocabulary(this.$i18n.locale);
+        this.getLearningLanguages(this.$i18n.locale);
         this.closeForm();
         this.addNewMessage({
           type: 'info',
@@ -74,7 +80,9 @@ export default {
   },
   mounted() {
     if (this.objectLookup) {
-      Promise.all([this.getWordProfile(this.objectLookup, this.$i18n.locale)]).finally(
+      Promise.all([
+        this.getWordProfile(this.objectLookup, this.$i18n.locale)
+      ]).finally(
         () => {
           const { wordProfile } = useVocabularyStore();
           this.word = wordProfile.text ? wordProfile.text : '';
@@ -132,6 +140,7 @@ export default {
           <svg-icon
             :name="`${activity_status}${activity_progress}StatusIcon`"
             size="nm"
+            v-if="activity_status"
           />
           <p>{{ activity_status }}</p>
         </div>

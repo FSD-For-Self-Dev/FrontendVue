@@ -40,16 +40,18 @@ export const useUserStore = defineStore('user', {
         console.error('Error fetching user:', error);
       }
     },
-    async patchUser(data: UserDto) {
+    async patchUser(data: UserDto, locale?: string) {
       try {
-        const res = await api.user.patchUser(data);
+        const res = await api.user.patchUser(data, locale);
         this.id = res.data.id;
         this.username = res.data.username;
         this.image = res.data.image;
         this.native_languages = res.data.native_languages as unknown as string[];
         this.first_name = res.data.first_name;
         this.interface_language = res.data.interface_language;
-      } catch (e) {}
+      } catch (error) {
+        console.error('Error patching user:', error);
+      }
     },
     async deleteUser() {
       try {

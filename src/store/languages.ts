@@ -81,6 +81,22 @@ export const useLanguagesStore = defineStore('languages', {
         }
       }
     },
+    getLanguageObject(langName: string) {
+      const lang_obj = this.learning_languages.filter((lang) => { return lang.language.name === langName})[0];
+      if (lang_obj) {
+        return lang_obj
+      } else {
+        return
+      }
+    },
+    getLanguageObjectByIsocode(langCode: string) {
+      const lang_obj = this.learning_languages.filter((lang) => { return lang.language.isocode === langCode})[0];
+      if (lang_obj) {
+        return lang_obj
+      } else {
+        return
+      }
+    },
     clearDataLanguages() {
       this.available_languages = [];
       this.learning_languages = [];

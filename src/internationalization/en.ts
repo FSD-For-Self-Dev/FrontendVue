@@ -19,10 +19,10 @@ export const en = {
   },
   user: {
     firstName: 'First name',
-    username: 'Username (displayed as @your_username)',
+    username: `Username (displayed as {'@'}your_username)`,
     nativeLanguage: 'Native language',
     nativeLanguage1: 'Native language 1',
-    nativeLanguage2: 'Native language2',
+    nativeLanguage2: 'Native language 2',
     addNativeLanguage: 'Add native language',
   },
   settings: {
