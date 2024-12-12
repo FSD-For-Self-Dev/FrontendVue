@@ -5,6 +5,9 @@ import ProfileSettingsForm from '@/components/settings/ProfileSettingsForm.vue';
 import SettingsNavigation from '@/components/settings/SettingsNavigation.vue';
 import AppSettingsForm from '@/components/settings/AppSettingsForm.vue';
 import { useWindowScroll } from '@vueuse/core';
+import { useUserStore } from '@/store/user';
+import { mapActions, mapState } from 'pinia';
+import { useGlobalActionsStore } from '@/store/global-ations';
 
 const { y } = useWindowScroll({ behavior: 'instant' });
 
@@ -20,12 +23,17 @@ export default {
     return {
       showProfileSettingsForm: true,
       showAppSettingsForm: false,
+      isLoading: false,
     }
   },
   setup() {
     y.value = 0;
   },
+  computed: {
+    ...mapState(useUserStore, ['authStatus']),
+  },
   methods: {
+    ...mapActions(useGlobalActionsStore, ['global_init']),
     showProfileSettings() {
       this.showProfileSettingsForm = true;
       this.showAppSettingsForm = false;
@@ -34,7 +42,14 @@ export default {
       this.showAppSettingsForm = true;
       this.showProfileSettingsForm = false;
     },
-  }
+    handleUpdateLocale() {
+      this.isLoading = true;
+      if (this.authStatus) {
+        this.global_init(this.$i18n.locale).finally(async () => {});
+      };
+      this.isLoading = false;
+    },
+  },
 }
 </script>
 
@@ -48,7 +63,7 @@ export default {
         @appSettings="showAppSettings"
       />
       <ProfileSettingsForm v-if="showProfileSettingsForm" />
-      <AppSettingsForm v-if="showAppSettingsForm" />
+      <AppSettingsForm v-if="showAppSettingsForm" @locale-updated="handleUpdateLocale" />
     </div>
   </PageLayout>
 </template>

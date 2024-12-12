@@ -14,6 +14,12 @@ const { y } = useWindowScroll({ behavior: 'instant' });
 
 export default {
   components: { Dropdown, Button },
+  emits: ['localeUpdated'],
+  data() {
+    return {
+      submitProcess: false,
+    }
+  },
   setup() {
     const { interface_language } = useUserStore();
 
@@ -31,20 +37,23 @@ export default {
     ...mapActions(useUserStore, ['patchUser']),
     ...mapActions(useNotificationsStore, ["addNewMessage"]),
     async handleSubmit() {
+      this.submitProcess = true;
       const data: UserDto = {
         interface_language: this.formInterfaceLang,
       };
       const res = await this.patchUser(data);
       if (isAxiosError(res)) {
-          console.log(res.response?.data);
-        } else {
-          this.$i18n.locale = this.formInterfaceLang;
-          localStorage.setItem('locale', this.formInterfaceLang);
-          this.addNewMessage({
-            type: 'info',
-            text: this.$t('infoMessage.changesSaved'),
-          });
-        }
+        console.log(res.response?.data);
+      } else {
+        this.$i18n.locale = this.formInterfaceLang;
+        localStorage.setItem('locale', this.formInterfaceLang);
+        this.addNewMessage({
+          type: 'info',
+          text: this.$t('infoMessage.changesSaved'),
+        });
+      };
+      this.$emit("localeUpdated");
+      this.submitProcess = false;
     },
     async cancelChanges() {
       y.value = 0;
@@ -82,11 +91,8 @@ export default {
         type="button"
         @click="cancelChanges()"
       />
-      <Button
-        :text="$t('buttons.save')"
-        size="medium"
-        type="submit"
-      />
+      <Button v-if="!submitProcess" :text="$t('buttons.save')" size="medium" type="submit" />
+      <Button v-else :text="$t('tip.saveProcceed')" size="medium" type="submit" disabled />
     </div>
   </form>
 </template>
