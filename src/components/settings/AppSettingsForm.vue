@@ -39,6 +39,7 @@ export default {
           console.log(res.response?.data);
         } else {
           this.$i18n.locale = this.formInterfaceLang;
+          localStorage.setItem('locale', this.formInterfaceLang);
           this.addNewMessage({
             type: 'info',
             text: this.$t('infoMessage.changesSaved'),
@@ -81,7 +82,11 @@ export default {
         type="button"
         @click="cancelChanges()"
       />
-      <Button :text="$t('buttons.save')" size="medium" type="submit" />
+      <Button
+        :text="$t('buttons.save')"
+        size="medium"
+        type="submit"
+      />
     </div>
   </form>
 </template>

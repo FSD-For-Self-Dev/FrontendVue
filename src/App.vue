@@ -26,8 +26,13 @@ export default {
       Promise.all([
         this.getUser(),
       ]).finally(async () => {
-        const { interface_language } = useUserStore();
-        this.$i18n.locale = interface_language;
+        const localeLocal = localStorage.getItem('locale');
+        if (localeLocal) {
+          this.$i18n.locale = localeLocal;
+        } else {
+          const { interface_language } = useUserStore();
+          this.$i18n.locale = interface_language;
+        };
 
         await this.global_init(this.$i18n.locale);
 
@@ -37,6 +42,10 @@ export default {
       Promise.all([
         this.getGlobalLanguages(),
       ]).finally(() => {
+        const localeLocal = localStorage.getItem('locale');
+        if (localeLocal) {
+          this.$i18n.locale = localeLocal;
+        };
         this.isLoading = false;
       })
     };

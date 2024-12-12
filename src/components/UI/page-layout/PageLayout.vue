@@ -45,12 +45,13 @@ export default {
   methods: {
     ...mapActions(useGlobalActionsStore, ['global_init']),
     handleUpdateLocale() {
+      this.isLoading = true;
+      localStorage.setItem('locale', this.$i18n.locale);
       if (this.authStatus) {
-        this.isLoading = true;
         this.global_init(this.$i18n.locale).finally(async () => {
-          this.isLoading = false;
         });
-      }
+      };
+      this.isLoading = false;
     },
     async handleLoginProcceed() {
       this.hideHeader = true;

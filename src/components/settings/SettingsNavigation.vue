@@ -3,6 +3,10 @@ import { mapActions } from 'pinia';
 import Button from '@/components/UI/button/Button.vue';
 import Modal from '@/components/UI/modal/Modal.vue';
 import { useGlobalActionsStore } from '@/store/global-ations';
+import { useWindowScroll } from '@vueuse/core';
+
+const { y } = useWindowScroll({ behavior: 'smooth' });
+
 export default {
   components: { Button, Modal },
   emits: ["profileSettings", "appSettings"],
@@ -26,11 +30,13 @@ export default {
     showProfileSettings() {
       this.showProfileSettingsForm = true;
       this.showAppSettingsForm = false;
+      y.value = 0;
       this.$emit("profileSettings");
     },
     showAppSettings() {
       this.showAppSettingsForm = true;
       this.showProfileSettingsForm = false;
+      y.value = 0;
       this.$emit("appSettings");
     },
   },
