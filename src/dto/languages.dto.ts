@@ -14,6 +14,7 @@ export interface LearningLanguageDto {
     language: LanguageDto;
     level: string;
     cover: string;
+    cover_id: string;
     words_count: number;
     inactive_words_count: number;
     active_words_count: number;
@@ -36,4 +37,9 @@ export interface LanguageDto {
     name_local: string;
     flag_icon: string;
     isocode: string;
+}
+
+export interface LanguageCoverDto {
+    id: string;
+    image: string;
 }

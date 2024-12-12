@@ -16,7 +16,6 @@ export default {
     };
   },
   setup(props) {
-    console.log('@@', props.image);
     const onDrag = ref(false);
     return {
       onDrag,
@@ -47,11 +46,13 @@ export default {
       <div v-else-if="!newImage" class="image-form--empty">
         <img :src="emptyImage" alt="empty" class="img" width="172" height="128" />
       </div>
-      <span class="image-form--sub1"
-        >Перетащите файл сюда или
-        <span class="image-form--highlighted">выберите с компьютера</span></span
-      >
-      <span class="image-form--sub2">Картинка (jpg, jpeg, png, gif)</span>
+      <span class="image-form--sub1">
+        {{ $t('tip.fileUpload1') }}
+        <span class="image-form--highlighted">
+          {{ $t('tip.fileUpload2') }}
+        </span>
+      </span>
+      <span class="image-form--sub2">{{ $t('tip.fileUpload3') }}</span>
     </div>
   </label>
 </template>
@@ -66,7 +67,7 @@ export default {
   align-items: center;
   flex-direction: column;
   border-radius: $radius-2xl;
-  border: 1px dashed $primary-300;
+  border: 0.1rem dashed $primary-300;
 
   .image-form--tip {
     display: flex;
@@ -128,7 +129,7 @@ export default {
 }
 
 .label--drag {
-  border: 1px dashed $primary-500;
+  border: 0.1rem dashed $primary-500;
   background-color: $primary-200;
   transition: all 0.4s ease;
 

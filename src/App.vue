@@ -1,16 +1,10 @@
-<template>
-  <RouterView v-if="!isLoading" />
-  <RouterView name="helper" v-if="!isLoading" />
-  <div v-else class="preloader">
-    <Preloader />
-  </div>
-</template>
-
 <script lang="ts">
-import { mapActions } from 'pinia';
-import { useGlobalActionsStore } from '@/store/global-ations';
+import { mapActions, mapState } from 'pinia';
+import { useUserStore } from './store/user';
 import Preloader from '@/components/UI/preloader/Preloader.vue';
+import { useLanguagesStore } from './store/languages';
 import HomePage from '@/views/HomePage.vue';
+import { useGlobalActionsStore } from './store/global-ations';
 
 export default {
   components: { HomePage, Preloader },
@@ -19,16 +13,53 @@ export default {
       isLoading: true,
     };
   },
+  computed: {
+    ...mapState(useUserStore, ['authStatus']),
+  },
   methods: {
+    ...mapActions(useUserStore, ['getUser']),
+    ...mapActions(useLanguagesStore, ['getGlobalLanguages']),
     ...mapActions(useGlobalActionsStore, ['global_init']),
   },
   mounted() {
-    this.global_init().finally(() => {
-      this.isLoading = false;
-    });
+    if (this.authStatus) {
+      Promise.all([
+        this.getUser(),
+      ]).finally(async () => {
+        const localeLocal = localStorage.getItem('locale');
+        if (localeLocal) {
+          this.$i18n.locale = localeLocal;
+        } else {
+          const { interface_language } = useUserStore();
+          this.$i18n.locale = interface_language;
+        };
+
+        await this.global_init(this.$i18n.locale);
+
+        this.isLoading = false;
+      });
+    } else {
+      Promise.all([
+        this.getGlobalLanguages(),
+      ]).finally(() => {
+        const localeLocal = localStorage.getItem('locale');
+        if (localeLocal) {
+          this.$i18n.locale = localeLocal;
+        };
+        this.isLoading = false;
+      })
+    };
   },
 };
 </script>
+
+<template>
+  <RouterView v-if="!isLoading" />
+  <RouterView name="helper" v-if="!isLoading" />
+  <div v-else class="preloader">
+    <Preloader />
+  </div>
+</template>
 
 <style scoped lang="scss">
 .preloader {

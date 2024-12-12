@@ -52,3 +52,13 @@
         url('@/assets/fonts/inter/inter-semi-bold.woff2') format('woff2'),
         url('@/assets/fonts/inter/inter-semi-bold.woff') format('woff');
 }
+
+@font-face {
+    font-family: 'Inter-Light';
+    font-weight: 300;
+    font-style: normal;
+    font-display: auto;
+    src:
+        local('Inter-Light'),
+        url('@/assets/fonts/inter/inter-light.woff2') format('woff2');
+}

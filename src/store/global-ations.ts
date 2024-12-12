@@ -5,19 +5,19 @@ import { defineStore } from 'pinia';
 
 export const useGlobalActionsStore = defineStore('global-actions', {
   actions: {
-    async global_init() {
+    async global_init(locale?: string) {
       const { getUser } = useUserStore();
       const { getAvailableLanguages, getLearningLanguages, getGlobalLanguages, getAllLanguages } =
         useLanguagesStore();
       const { getVocabulary } = useVocabularyStore();
 
       await Promise.all([
-        getUser(),
-        getGlobalLanguages(),
-        getAvailableLanguages(),
-        getLearningLanguages(),
-        getAllLanguages(),
-        getVocabulary(),
+        getUser(locale),
+        getGlobalLanguages(locale),
+        getAvailableLanguages(locale),
+        getLearningLanguages(locale),
+        getAllLanguages(locale),
+        getVocabulary(locale),
       ]);
     },
     async global_clear() {

@@ -7,7 +7,7 @@ export default {
 </script>
 
 <template>
-    <Input style="width: 100%; display: flex" placeholder="Поиск..." icon="SearchIcon" />
+    <Input style="width: 100%; display: flex" :placeholder="$t('search.search')" icon="SearchIcon" />
 </template>
 
 <style lang="scss">

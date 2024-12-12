@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { LanguageDto, LearningLanguageDto } from '@/dto/languages.dto';
+import type { LanguageCoverDto, LanguageDto, LearningLanguageDto } from '@/dto/languages.dto';
 import api from '@/api';
 import { isAxiosError } from 'axios';
 
@@ -9,6 +9,7 @@ export interface ILanguagesState {
   global_languages: LanguageDto[];
   all_languages: LanguageDto[];
   count: number;
+  covers: LanguageCoverDto[];
 }
 
 export const useLanguagesStore = defineStore('languages', {
@@ -19,29 +20,30 @@ export const useLanguagesStore = defineStore('languages', {
       count: 0,
       global_languages: [],
       all_languages: [],
+      covers: [],
     };
   },
   actions: {
-    async getAvailableLanguages() {
-      const res = await api.languages.getAvailableLanguages();
+    async getAvailableLanguages(locale?: string) {
+      const res = await api.languages.getAvailableLanguages(locale);
       this.available_languages = res.data.results as unknown as LanguageDto[];
     },
-    async getLearningLanguages() {
-      const res = await api.languages.getLearningLanguages();
+    async getLearningLanguages(locale?: string) {
+      const res = await api.languages.getLearningLanguages(locale);
       this.count = res.data.count as unknown as number;
       this.learning_languages = res.data.results as unknown as LearningLanguageDto[];
     },
-    async getGlobalLanguages() {
-      const res = await api.languages.getGlobalLanguages();
+    async getGlobalLanguages(locale?: string) {
+      const res = await api.languages.getGlobalLanguages(locale);
       this.global_languages = res.data.results as unknown as LanguageDto[];
     },
-    async getAllLanguages() {
-      const res = await api.languages.getAllLanguages();
+    async getAllLanguages(locale?: string) {
+      const res = await api.languages.getAllLanguages(locale);
       this.all_languages = res.data.results as unknown as LanguageDto[];
     },
-    async postLearningLanguage(languages: LanguageDto[]) {
+    async postLearningLanguage(languages: LanguageDto[], locale?: string) {
       try {
-        const res = await api.languages.postLearningLanguage(languages);
+        const res = await api.languages.postLearningLanguage(languages, locale);
         this.count = res.data.count as unknown as number;
         this.learning_languages = res.data.results as unknown as LearningLanguageDto[];
         return res;
@@ -49,6 +51,50 @@ export const useLanguagesStore = defineStore('languages', {
         if (isAxiosError(error)) {
           return error;
         }
+      }
+    },
+    async deleteLanguage(languageSlug: string, delete_words: boolean = false, locale?: string) {
+      try {
+        await api.languages.deleteLanguage(languageSlug, delete_words, locale);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          return error;
+        }
+      }
+    },
+    async getLanguageCovers(languageSlug: string, locale?: string) {
+      try {
+        const res = await api.languages.getLanguageCovers(languageSlug, locale);
+        this.covers = res.data as unknown as LanguageCoverDto[];
+      } catch (error) {
+        if (isAxiosError(error)) {
+          return error;
+        }
+      }
+    },
+    async setLanguageCover(languageSlug: string, data: Object, locale?: string) {
+      try {
+        await api.languages.setLanguageCover(languageSlug, data, locale);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          return error;
+        }
+      }
+    },
+    getLanguageObject(langName: string) {
+      const lang_obj = this.learning_languages.filter((lang) => { return lang.language.name === langName})[0];
+      if (lang_obj) {
+        return lang_obj
+      } else {
+        return
+      }
+    },
+    getLanguageObjectByIsocode(langCode: string) {
+      const lang_obj = this.learning_languages.filter((lang) => { return lang.language.isocode === langCode})[0];
+      if (lang_obj) {
+        return lang_obj
+      } else {
+        return
       }
     },
     clearDataLanguages() {

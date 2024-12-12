@@ -6,17 +6,17 @@ export default {
     data() {
         return {
             privacyPolicies: [
-                { name: 'Правила и условия', link: '#' },
-                { name: 'Политика конфиденциальности', link: '#' },
+                { name: this.$t('footer.terms'), link: '#' },
+                { name: this.$t('footer.privacyPolicy'), link: '#' },
                 {
-                    name: 'Согласие на обработку персональных данных',
+                    name: this.$t('footer.personalDataConsent'),
                     link: '#',
                 },
             ] as Array<{ name: string; link: string }>,
             navigationLinks: [
-                { name: 'О платформе', link: '#' },
-                { name: 'Контакты', link: '#' },
-                { name: 'Отзывы', link: '#' },
+                { name: this.$t('footer.aboutUs'), link: '#' },
+                { name: this.$t('footer.contacts'), link: '#' },
+                { name: this.$t('footer.reviews'), link: '#' },
             ] as Array<{ name: string; link: string }>,
             socialLinks: [
                 { name: 'YouTube', icon: 'YoutubeIcon', link: '#' },
@@ -74,7 +74,7 @@ export default {
                         </a>
                     </div>
                     <p class="footer__rights text">
-                        © {{ year }} Linguista. Все права защищены.
+                        © {{ year }} Linguista. {{ $t('footer.rights') }}
                     </p>
                 </div>
             </div>
