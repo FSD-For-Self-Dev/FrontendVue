@@ -1,15 +1,11 @@
 <script>
-import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide } from 'vue3-carousel';
-import SlideOne from '@/components/landing/slides/SlideOne.vue';
-import SlideTwo from '@/components/landing/slides/SlideTwo.vue';
+import Carousel from '@/components/landing/carousel/Carousel.vue';
+import Button from '@/components/UI/button/Button.vue';
 
 export default {
   components: {
     Carousel,
-    Slide,
-    SlideOne,
-    SlideTwo,
+    Button
   },
 };
 </script>
@@ -32,29 +28,10 @@ export default {
       </h2>
     </div>
 
-    <div class="landing__carousel">
-      <Carousel
-        :wrap-around="true"
-        :items-to-show="5"
-        :autoplay="0"
-        :gap="16"
-        pauseAutoplayOnHove
-        snapAlign="end"
-      >
-        <SlideOne />
+    <Carousel />
 
-        <SlideTwo />
-
-        <Slide><div class="landing__slide">2</div></Slide>
-
-        <Slide><div class="landing__slide">2</div></Slide>
-
-        <Slide><div class="landing__slide">2</div></Slide>
-
-        <Slide><div class="landing__slide">2</div></Slide>
-
-        <Slide><div class="landing__slide">2</div></Slide>
-      </Carousel>
+    <div class="landing__button-vacabulary landing__wrapper">
+      <Button text="Создать собственный словарь" />
     </div>
   </div>
 </template>
@@ -65,6 +42,7 @@ export default {
 
   .landing__wrapper {
     padding: 0 15.2rem;
+    width: 100vw;
   }
 
   .landing__header {
@@ -94,25 +72,13 @@ export default {
       color: $primary-600;
     }
   }
-}
 
-.landing__carousel {
-  height: 54.5rem;
-  position: relative;
-  overflow: hidden;
-
-  .warraper {
-    padding: 0;
+  .landing__button-vacabulary {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5.7rem 0 12rem;
   }
-}
-
-.landing__slide {
-  width: 34.5rem;
-  height: 54.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0.6rem 0 0;
-  gap: 1.6rem;
 }
 </style>
