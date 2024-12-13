@@ -10,13 +10,13 @@ export default {
   components: { PageLayout, LanguagesMainView, VocabularyMainView, Landing },
   computed: {
     ...mapState(useUserStore, ['authStatus', 'username']),
-  }
+  },
 };
 </script>
 
 <template>
-  <PageLayout>
-    <div class="home-page" v-if="authStatus">
+  <PageLayout v-if="authStatus">
+    <div class="home-page">
       <div class="home-page-top">
         <div class="home-page-top--left-section">
           <LanguagesMainView />
@@ -24,12 +24,12 @@ export default {
       </div>
       <VocabularyMainView />
     </div>
-    <Landing v-else />
   </PageLayout>
+  <PageLayout v-else landing-page><Landing /></PageLayout>
 </template>
 
 <style lang="scss" scoped>
-.home-page {
+.home-page {  
   display: flex;
   flex-direction: column;
   gap: 4rem;
