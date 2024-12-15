@@ -94,11 +94,11 @@ export default {
     ]),
     getTranslationLanguages() {
       const all_languages_filtered = this.all_languages.filter((lang) => {
-        return lang.name !== this.language;
+        return lang.isocode !== this.language;
       });
       return all_languages_filtered.map((lang) => {
         return {
-          value: lang.name,
+          value: lang.isocode,
           label: lang.name_local,
           icon: lang.flag_icon,
         };
@@ -108,7 +108,7 @@ export default {
       if (this.learning_languages.length === 0) {
         return this.global_languages.map((lang) => {
           return {
-            value: lang.name,
+            value: lang.isocode,
             label: lang.name_local,
             icon: lang.flag_icon,
           };
@@ -116,7 +116,7 @@ export default {
       } else {
         return this.learning_languages.map((lang) => {
           return {
-            value: lang.language.name,
+            value: lang.language.isocode,
             label: lang.language.name_local,
             icon: lang.language.flag_icon,
           };
@@ -530,7 +530,12 @@ export default {
             type="submit"
             :text="$t('buttons.save')"
           />
-          <Button v-else size="medium" :text="$t('tip.saveProcceed')" disabled />
+          <Button
+            v-else
+            size="medium"
+            :text="$t('tip.saveProcceed')"
+            disabled
+          />
         </div>
       </div>
     </form>

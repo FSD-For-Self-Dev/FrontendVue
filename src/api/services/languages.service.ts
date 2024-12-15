@@ -14,7 +14,8 @@ export default (api: IApi) => {
       }
       return api.request.get('/api/languages/');
     },
-    getGlobalLanguages(locale?: string) {
+    getGlobalLanguages(locale?: string, anonymous: boolean = false) {
+      if (anonymous) api.clearToken();
       if (locale) {
         return api.request.get(`/${locale}/api/global-languages/`);
       }
@@ -29,7 +30,7 @@ export default (api: IApi) => {
     postLearningLanguage(languages, locale?: string) {
       const data = languages.map((language) => {
         return {
-          language: language.name,
+          language: language.isocode,
         };
       });
 

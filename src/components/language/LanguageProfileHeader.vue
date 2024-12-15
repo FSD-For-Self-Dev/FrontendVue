@@ -92,7 +92,7 @@ export default {
     :title-modal="$t('title.deleteLanguage')"
     icon="InfoIcon"
     modalContent="DeleteLanguageForm"
-    :objectLookup="language.language.name"
+    :objectLookup="language.language.isocode"
   />
   <Modal
     size="lg"
@@ -101,7 +101,7 @@ export default {
     :title-modal="$t('title.languageCover')"
     icon="ImageIcon"
     modalContent="LanguageCoverChange"
-    :objectLookup="language.language.name"
+    :objectLookup="language.language.isocode"
   />
 </template>
 

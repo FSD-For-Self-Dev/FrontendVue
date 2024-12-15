@@ -65,7 +65,7 @@ export default {
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useVocabularyStore, ['addWordToFavorite', 'removeWordFromFavorite']),
     getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.name === neededLang)?.flag_icon;
+      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
     },
     goToNextTranslation() {
       if (this.translationCurrentIndex >= this.word.translations_count - 1) {
@@ -402,6 +402,7 @@ export default {
       justify-content: center;
       width: 2.4rem;
       height: 2.4rem;
+      padding: 0.1rem;
 
       .language-icon {
         width: 100%;

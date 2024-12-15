@@ -36,31 +36,39 @@ export default {
   },
   computed: {
     languageObject() {
-      return this.getLanguageObject(this.objectLookup);
+      return this.getLanguageObjectByIsocode(this.objectLookup);
     },
   },
   methods: {
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapActions(useLanguagesStore, ['getLearningLanguages', 'deleteLanguage', 'getAvailableLanguages']),
+    ...mapActions(useLanguagesStore, [
+      'getLearningLanguages',
+      'deleteLanguage',
+      'getAvailableLanguages',
+      'getLanguageObjectByIsocode',
+    ]),
     ...mapActions(useVocabularyStore, ['getVocabulary']),
     async handleDelete() {
       this.submitProcess = true;
-      const res = await this.deleteLanguage(this.objectLookup, this.delete_words, this.$i18n.locale);
-      if (isAxiosError(res)) {
-        console.log(res.response?.data);
-      } else {
-        const locale = this.$i18n.locale;
-        await this.getLearningLanguages(locale);
-        await this.getAvailableLanguages(locale);
-        if (this.delete_words) await this.getVocabulary(locale);
-        this.closeForm();
-        this.$router.push('/languages');
-        this.addNewMessage({
-          type: 'info',
-          text: this.$t('infoMessage.deleteLanguage'),
-        });
-      }
-      this.submitProcess = false;
+      await this.deleteLanguage(this.objectLookup, this.delete_words, this.$i18n.locale).then(
+        async (res) => {
+          if (isAxiosError(res)) {
+            console.log(res.response?.data);
+          } else {
+            const locale = this.$i18n.locale;
+            this.getLearningLanguages(locale);
+            this.getAvailableLanguages(locale);
+            if (this.delete_words) this.getVocabulary(locale);
+            this.closeForm();
+            this.$router.push('/languages');
+            this.addNewMessage({
+              type: 'info',
+              text: this.$t('infoMessage.deleteLanguage'),
+            });
+          }
+          this.submitProcess = false;
+        }
+      );
     },
   },
 };
@@ -111,7 +119,12 @@ export default {
         v-model="delete_words"
       />
       <div class="delete-words-checkbox-tip">
-        <svg-icon name="InfoIcon" size="sm" color="var:neutrals-700" style="stroke-width: 0.02rem;" />
+        <svg-icon
+          name="InfoIcon"
+          size="sm"
+          color="var:neutrals-700"
+          style="stroke-width: 0.02rem"
+        />
         <p>{{ $t('tip.deleteLanguageWords') }}</p>
       </div>
     </div>

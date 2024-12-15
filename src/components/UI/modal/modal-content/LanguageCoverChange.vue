@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     languageObject() {
-      return this.getLanguageObject(this.objectLookup);
+      return this.getLanguageObjectByIsocode(this.objectLookup);
     },
     getCoverImage() {
       try {
@@ -55,6 +55,7 @@ export default {
       'getLearningLanguages',
       'setLanguageCover',
       'getLanguageCovers',
+      'getLanguageObjectByIsocode',
     ]),
     handleChoose(id: string) {
       this.cover_id = this.cover_id === id ? '' : id;

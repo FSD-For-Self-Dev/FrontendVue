@@ -37,7 +37,7 @@ export default {
     :class="cardClasses"
     :style="{ backgroundImage: `url(${language.cover})` }"
     @click.stop="
-      $router.push({ name: 'language-profile', params: { slug: language.language.name } })
+      $router.push({ name: 'language-profile', params: { slug: language.language.isocode } })
     "
   >
     <div class="card--content">
@@ -199,15 +199,9 @@ export default {
   }
 
   @include hover {
-    outline: 0.5 solid $primary-500;
-
     .card--content {
-      outline: $primary-500 0.1rem solid;
+      outline: $white-barely-lucid 0.5rem solid;
       background-color: $white-barely-lucid;
-    }
-
-    .card--overlay {
-      opacity: 6%;
     }
   }
 }

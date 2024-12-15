@@ -16,7 +16,7 @@ export default {
     ...mapWritableState(useVocabularyStore, ["filterOptions"]),
     languageObject() {
       if (typeof this.$route.params.slug === 'string') {
-        const lang_obj = this.getLanguageObject(this.$route.params.slug);
+        const lang_obj = this.getLanguageObjectByIsocode(this.$route.params.slug);
         if (lang_obj) {
           return lang_obj
         } else {
@@ -30,7 +30,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useLanguagesStore, ['getLanguageObject']),
+    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
   },
   setup() {
     y.value = 0;

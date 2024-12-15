@@ -76,8 +76,9 @@ export default {
   methods: {
     ...mapActions(useVocabularyStore, ['getWordProfile', 'addWordToFavorite', 'removeWordFromFavorite']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
+    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
     getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.name === neededLang)?.flag_icon;
+      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
     },
     joinTypes(word_types: string[]) {
       return word_types.join(', ');
@@ -158,7 +159,7 @@ export default {
       return;
     },
   },
-  mounted() {
+  beforeMount() {
     if (this.objectLookup) {
       Promise.all([
         this.getWordProfile(this.objectLookup, this.$i18n.locale)
@@ -187,7 +188,7 @@ export default {
           </div>
           <div class="language-tag" :class="backgroundClasses">
             <img :src="getFlagIcon(wordProfile.language)" alt="Icon" class="language-icon" />
-            <p>{{ wordProfile.language }}</p>
+            <p>{{ getLanguageObjectByIsocode(wordProfile.language)?.language.name }}</p>
           </div>
           <div class="status-tag" :class="backgroundClasses">
             <svg-icon
@@ -230,8 +231,8 @@ export default {
             <p>{{ joinTypes(wordProfile.types) }}</p>
           </div>
           <div id="word-info--word">
-            <p>{{ wordProfile.text }}</p>
-            <IconButton icon="CopyIcon" size="md" variant="secondary" @click.stop="copyToClipboard(wordProfile.text ? wordProfile.text : '')" />
+            <p id="word-info--word-text" >{{ wordProfile.text }}</p>
+            <div><IconButton icon="CopyIcon" size="md" variant="secondary" @click.stop="copyToClipboard(wordProfile.text ? wordProfile.text : '')" /></div>
           </div>
           <div class="word-tags" v-if="wordProfile.tags && wordProfile.tags.length > 0">
             <WordTagCard :tag="tag.name" v-for="tag in wordProfile.tags" size="medium" />
@@ -246,26 +247,26 @@ export default {
               {{ translation.text }}
             </div>
           </div>
-          <svg-icon
-            name="ArrowBackwardIcon"
-            size="md"
-            color="var:neutrals-600"
-            hoverColor="var:primary-500"
-            class="translations-carousel--arrow backward"
-            @click.stop="goToPrevTranslation"
-          />
-          <svg-icon
-            name="ArrowForwardIcon"
-            size="md"
-            color="var:neutrals-600"
-            hoverColor="var:primary-500"
-            class="translations-carousel--arrow forward"
-            @click.stop="goToNextTranslation"
-          />
           <div class="translations-carousel--counter">
+            <svg-icon
+              name="ArrowBackwardIcon"
+              size="sm"
+              color="var:neutrals-600"
+              hoverColor="var:primary-500"
+              class="translations-carousel--arrow backward"
+              @click.stop="goToPrevTranslation"
+            />
             <span class="translations-counter">
               {{ translationCurrentIndex + 1 }}/{{ wordProfile.translations_count }}
             </span>
+            <svg-icon
+              name="ArrowForwardIcon"
+              size="sm"
+              color="var:neutrals-600"
+              hoverColor="var:primary-500"
+              class="translations-carousel--arrow forward"
+              @click.stop="goToNextTranslation"
+            />
           </div>
         </div>
       </div>
@@ -466,9 +467,13 @@ export default {
         #word-info--word {
           @include subheading-1;
           display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 1.2rem;
+          gap: 1.6rem;
+
+          #word-info--word-text {
+            min-height: 4.4rem;
+            align-items: center;
+            display: flex;
+          }
         }
       }
 
@@ -509,16 +514,16 @@ export default {
           position: absolute;
           cursor: pointer;
           display: block;
+          top: 50%;
+          transform: translate(0, -50%);
 
           &.backward {
             position: absolute;
-            top: 36%;
             left: 0.8rem;
           }
 
           &.forward {
             position: absolute;
-            top: 36%;
             right: 0.8rem;
           }
         }
@@ -529,6 +534,7 @@ export default {
           display: flex;
           width: 100%;
           justify-content: center;
+          position: relative;
         }
       }
     }

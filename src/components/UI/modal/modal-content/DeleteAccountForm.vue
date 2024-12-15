@@ -35,7 +35,7 @@ export default {
       this.$router.push('/');
     },
     getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.name === neededLang)?.flag_icon;
+      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
     },
   },
 };
@@ -60,7 +60,7 @@ export default {
         <div class="languages">
           <p class="small-title">{{ $t('title.vocabulary') }}:</p>
           <div class="languages--item" v-for="language in learning_languages">
-            <img :src="getFlagIcon(language.language.name)" alt="Icon" class="language-icon" />
+            <img :src="getFlagIcon(language.language.isocode)" alt="Icon" class="language-icon" />
             <p>{{ language.words_count }}</p>
           </div>
         </div>

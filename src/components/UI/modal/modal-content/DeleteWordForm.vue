@@ -72,7 +72,7 @@ export default {
       this.submitProcess = false;
     },
     getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.name === neededLang)?.flag_icon;
+      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
     },
     joinTypes(word_types: string[]) {
       return word_types.join(', ');

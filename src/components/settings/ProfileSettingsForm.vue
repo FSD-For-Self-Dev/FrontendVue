@@ -29,7 +29,7 @@ export default {
     const dropDownItems = computed(() => {
       return global_languages.map((lang) => {
         return {
-          value: lang.name,
+          value: lang.isocode,
           label: lang.name_local,
           icon: lang.flag_icon,
         };

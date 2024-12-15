@@ -39,13 +39,13 @@ export default {
         this.isLoading = false;
       });
     } else {
-      Promise.all([
-        this.getGlobalLanguages(),
-      ]).finally(() => {
-        const localeLocal = localStorage.getItem('locale');
+      const localeLocal = localStorage.getItem('locale');
         if (localeLocal) {
           this.$i18n.locale = localeLocal;
         };
+      Promise.all([
+        this.getGlobalLanguages(this.$i18n.locale, true),
+      ]).finally(() => {
         this.isLoading = false;
       })
     };

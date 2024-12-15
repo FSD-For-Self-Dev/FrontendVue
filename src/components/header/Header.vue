@@ -108,7 +108,7 @@ export default {
     <div class="header--left">
       <div style="width: 3.2rem; display: flex; align-items: center">
         <svg-icon
-          @click="openNavbar"
+          @click.stop="openNavbar"
           v-if="!showNavbar"
           name="BurgerMenuIcon"
           size="lg"
@@ -116,7 +116,7 @@ export default {
           style="cursor: pointer"
         />
         <svg-icon
-          @click="closeNavbar"
+          @click.stop="closeNavbar"
           v-if="showNavbar"
           name="CloseIcon"
           size="lg"
@@ -136,7 +136,7 @@ export default {
           icon="SearchIcon"
           size="lg"
           variant="secondary"
-          @click="showSearchBar"
+          @click.stop="showSearchBar"
         />
         <IconButton
           style="min-width: 5.6rem"
@@ -208,12 +208,16 @@ export default {
 
     <div class="header--right">
       <div class="header--auth-buttons" v-if="!authStatus">
-        <Button :text="$t('auth.logIn')" size="normal" @click="() => openAuth('login')" />
+        <Button
+          :text="$t('auth.logIn')"
+          size="normal"
+          @click.stop="() => openAuth('login')"
+        />
         <Button
           :text="$t('auth.signUp')"
           size="normal"
           variant="secondary"
-          @click="() => openAuth('register')"
+          @click.stop="() => openAuth('register')"
         />
       </div>
 
@@ -250,7 +254,7 @@ export default {
     <OnClickOutside @trigger="closeNavbar" class="navbar__wrapper">
       <ul class="navbar__list">
         <li v-for="navbarItem in navbarItems" class="navbar__item">
-          <router-link :to="{ name: navbarItem.link }" class="navbar__item-content" @click="closeNavbar">
+          <router-link :to="{ name: navbarItem.link }" class="navbar__item-content" @click.stop="closeNavbar">
             <svg-icon :name="navbarItem.icon" size="nm" class="navbar__item-icon" />
             <span class="navbar__item-name">
               {{ $t(navbarItem.name) }}

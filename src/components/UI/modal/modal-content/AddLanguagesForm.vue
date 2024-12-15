@@ -21,6 +21,7 @@ export default {
     return {
       searchLanguage: '',
       activeLanguage: [] as LanguageDto[],
+      submitProcess: false,
     };
   },
   computed: {
@@ -48,25 +49,27 @@ export default {
       this.activeLanguage.length = 0;
     },
     async handleSave() {
-      const res = await this.postLearningLanguage(this.activeLanguage, this.$i18n.locale);
-      if (isAxiosError(res)) {
-        if (res.response?.status === 409) {
+      this.submitProcess = true;
+      await this.postLearningLanguage(this.activeLanguage, this.$i18n.locale).then(async (res) => {
+        if (isAxiosError(res)) {
+          if (res.response?.status === 409) {
+            this.addNewMessage({
+              type: 'error',
+              text: this.$t('errorMessage.languagesAmountLimit'),
+            });
+          }
+          return;
+        } else {
+          this.closeForm();
+          const lenLanguages = this.activeLanguage.length;
           this.addNewMessage({
-            type: 'error',
-            text: this.$t('errorMessage.languagesAmountLimit'),
+            type: 'info',
+            text: this.$t('infoMessage.newLanguagesAdded', lenLanguages, { named: { n: lenLanguages } }),
           });
+          await this.getAvailableLanguages(this.$i18n.locale);
         }
-
-        return;
-      }
-      const lenWords = this.activeLanguage.length;
-      this.addNewMessage({
-        type: 'info',
-        text: this.$t('infoMessage.newLanguagesAdded'),
       });
-
-      await this.getAvailableLanguages(this.$i18n.locale);
-      this.closeForm();
+      this.submitProcess = false;
     },
   },
 };
@@ -104,10 +107,17 @@ export default {
         @click="() => closeForm()"
       />
       <Button
+        v-if="!submitProcess"
         :text="$t('buttons.add')"
         variant="primary"
         size="medium"
         type="submit"
+      />
+      <Button
+        v-else
+        size="medium"
+        :text="$t('tip.saveProcceed')"
+        disabled
       />
     </div>
   </form>

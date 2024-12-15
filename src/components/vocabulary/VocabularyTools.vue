@@ -27,10 +27,6 @@ export default {
     ...mapState(useLanguagesStore, ["learning_languages"]),
     ...mapState(useVocabularyStore, ["count"]),
     ...mapWritableState(useVocabularyStore, ["filterOptions"]),
-    languageName(): string {
-      const lang_obj = this.getLanguageObjectByIsocode(this.filterOptions.language);
-      return lang_obj ? lang_obj.language.name : '';
-    },
   },
   setup(props, ctx) {
     const { filterOptions, getVocabulary } = useVocabularyStore();
@@ -121,6 +117,7 @@ export default {
           "
           @update:model-value="handleFilter"
           v-if="!hideLanguageFilter"
+          style="min-width: 18.6rem;"
         />
         <Dropdown
           :placeholder="$t('filter.allWords')"
@@ -132,7 +129,7 @@ export default {
       <NewWordButton
         button-size="medium"
         :button-text="$t('buttons.addNewWord')"
-        :chosenLanguage="languageName"
+        :chosenLanguage="this.filterOptions.language"
         @word-created="updateWords"
       />
     </div>
