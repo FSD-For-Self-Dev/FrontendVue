@@ -5,28 +5,36 @@ export default {
     components: { Logo },
     data() {
         return {
-            privacyPolicies: [
+            year: new Date().getFullYear(),
+        };
+    },
+    computed: {
+        privacyPolicies() {
+            return [
                 { name: this.$t('footer.terms'), link: '#' },
                 { name: this.$t('footer.privacyPolicy'), link: '#' },
                 {
                     name: this.$t('footer.personalDataConsent'),
                     link: '#',
                 },
-            ] as Array<{ name: string; link: string }>,
-            navigationLinks: [
+            ] as Array<{ name: string; link: string }>
+        },
+        navigationLinks() {
+            return [
                 { name: this.$t('footer.aboutUs'), link: '#' },
                 { name: this.$t('footer.contacts'), link: '#' },
                 { name: this.$t('footer.reviews'), link: '#' },
-            ] as Array<{ name: string; link: string }>,
-            socialLinks: [
+            ] as Array<{ name: string; link: string }>
+        },
+        socialLinks() {
+            return [
                 { name: 'YouTube', icon: 'YoutubeIcon', link: '#' },
                 { name: 'Telegram', icon: 'TelegramIcon', link: '#' },
                 { name: 'VK', icon: 'VkIcon', link: '#' },
                 { name: 'GitHub', icon: 'GithubIcon', link: '#' },
-            ] as Array<{ name: string; icon: string; link: string }>,
-            year: new Date().getFullYear(),
-        };
-    },
+            ] as Array<{ name: string; icon: string; link: string }>
+        },
+    }
 };
 </script>
 
