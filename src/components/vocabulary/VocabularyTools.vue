@@ -124,12 +124,13 @@ export default {
           v-model="filterOptions.activity_status"
           :items="statusWordOptions"
           @update:model-value="handleFilter"
+          style="min-width: 18.6rem;"
         />
       </div>
       <NewWordButton
         button-size="medium"
         :button-text="$t('buttons.addNewWord')"
-        :chosenLanguage="this.filterOptions.language"
+        :chosenLanguage="filterOptions.language"
         @word-created="updateWords"
       />
     </div>
