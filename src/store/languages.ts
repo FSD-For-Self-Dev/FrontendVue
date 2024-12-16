@@ -89,13 +89,14 @@ export const useLanguagesStore = defineStore('languages', {
         return
       }
     },
-    getLanguageObjectByIsocode(langCode: string) {
+    getLanguageObjectByIsocode(langCode: string | undefined) {
+      if (!langCode) return;
       const lang_obj = this.learning_languages.filter((lang) => { return lang.language.isocode === langCode})[0];
       if (lang_obj) {
         return lang_obj
       } else {
         return
-      }
+      };
     },
     clearDataLanguages() {
       this.available_languages = [];

@@ -319,7 +319,7 @@ export default {
   },
   async mounted() {
     if (this.objectLookup) {
-      Promise.all([this.getWordProfile(this.objectLookup, this.$i18n.locale)]).finally(
+      await this.getWordProfile(this.objectLookup, this.$i18n.locale).finally(
         async () => {
           const { wordProfile } = useVocabularyStore();
 
