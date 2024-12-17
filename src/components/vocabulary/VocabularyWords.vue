@@ -1,39 +1,78 @@
 <script lang="ts">
 import { useVocabularyStore } from '@/store/vocabulary';
 import { useLanguagesStore } from '@/store/languages';
-import { numWord } from '@/utils/numWord';
-import { mapState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import IconButton from '../UI/button/IconButton.vue';
 import WordCard from './WordCard.vue';
+import NewWordButton from './NewWordButton.vue';
 import Preloader from '@/components/UI/preloader/Preloader.vue';
 
 export default {
-  components: { IconButton, WordCard, Preloader },
+  components: { IconButton, WordCard, NewWordButton, Preloader },
+  props: {
+    makeRequest: {
+      type: Boolean,
+      required: false,
+    },
+  },
+  mounted() {
+    if (this.makeRequest) {
+      this.getVocabulary(true)
+    } else {
+      this.filteredWords = this.vocabularyWords;
+      this.filteredCount = this.count;
+    }
+  },
   computed: {
-    ...mapState(useVocabularyStore, ['words', 'count', 'filterOptions', 'isLoading']),
+    ...mapState(useVocabularyStore, ['vocabularyWords', 'count', 'filterOptions', 'isLoading']),
+    ...mapWritableState(useVocabularyStore, ['filteredWords', 'filteredCount']),
     ...mapState(useLanguagesStore, ['learning_languages']),
-    textInfo() {
-      return `Найдено ${this.count} ${numWord(this.count, ['слово', 'слова', 'слов'])} или ${numWord(this.count, ['фраза', 'фразы', 'фраз'])}`;
+    noResults(): string {
+      return new URL(`/src/assets/images/noResults.svg`, import.meta.url).href;
+    },
+  },
+  methods: {
+    ...mapActions(useVocabularyStore, ['getVocabulary']),
+    updateWords() {
+      this.getVocabulary(true);
     },
   },
 };
 </script>
 
 <template>
-  <div class="vocabulary-content">
+  <div class="vocabulary-content" v-if="count > 0">
     <header class="vocabulary-content--header">
-      <span class="vocabulary-content--info">{{ textInfo }}</span>
+      <span class="vocabulary-content--info">
+        {{ $t('counter.words', filteredCount, { named: { n: filteredCount } }) }}
+      </span>
       <div class="vocabulary-content--filters">
         <IconButton icon="FilterIcon" size="md" iconSize="nm" variant="tertiary" />
         <IconButton icon="SortIcon" size="md" iconSize="nm" variant="tertiary" />
       </div>
     </header>
     <div v-if="!isLoading" class="vocabulary-content--cards">
-      <WordCard v-for="word in words" :word="word" />
+      <WordCard
+        :word="word"
+        v-for="word in filteredWords"
+        @word-edited="updateWords"
+        @word-deleted="updateWords"
+      />
     </div>
     <div v-else class="vocabulary-content--preloader">
       <Preloader />
     </div>
+    <div class="empty-tip" v-if="filteredCount === 0">
+      <img :src="noResults" alt="No results" class="img" width="574" height="400" />
+      <p class="tip">{{ $t('emptyTip.filteredWordsEmpty') }}</p>
+    </div>
+  </div>
+  <div class="empty-tip" v-else>
+    <p class="tip">{{ $t('emptyTip.vocabulary') }}</p>
+    <NewWordButton
+      button-size="medium"
+      :button-text="$t('buttons.addNewWord')"
+    />
   </div>
 </template>
 
@@ -43,12 +82,12 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
   }
 
   &--info {
     @include tag-big;
-    color: $neutrals-600;
+    color: $neutrals-700;
   }
 
   &--filters {
@@ -68,6 +107,19 @@ export default {
     justify-content: center;
     align-items: center;
     margin-top: 20%;
+  }
+}
+
+.empty-tip {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+
+  .tip {
+    @include subheading-2;
+    color: $primary-700;
   }
 }
 </style>

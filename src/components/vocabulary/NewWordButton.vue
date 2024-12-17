@@ -4,51 +4,48 @@ import Modal from '@/components/UI/modal/Modal.vue';
 import { type PropType } from 'vue';
 
 export default {
-  data() {
-    return {
-      showModal: false,
-    }
-  },
   components: { Button, Modal },
+  emits: ['wordCreated'],
   props: {
-    extraToggleModal: {
-      type: Function as PropType<Function | null>,
-      default: null
-    },
-    extraShowModal: {
-      type: Boolean as PropType<boolean | null>,
-      default: null
-    },
     buttonText: {
       type: String,
-      required: true
+      required: true,
     },
     buttonSize: {
       type: String as PropType<'normal' | 'medium' | 'small'>,
-      default: 'small'
-    }
+      default: 'small',
+    },
+    chosenLanguage: {
+      type: String,
+      required: false,
+    },
+  },
+  data() {
+    return {
+      showModal: false,
+    };
   },
   methods: {
     handleOpen() {
-      if (this.extraToggleModal !== null && this.extraShowModal !== null) {
-        this.extraToggleModal(!this.extraShowModal);
-      } else {
-        this.showModal = true;
-      }
+      this.showModal = true;
     },
     handleClose() {
-      if (this.extraToggleModal !== null && this.extraShowModal !== null) {
-        this.extraToggleModal(!this.extraShowModal);;
-      } else {
-        this.showModal = false;
-      }
-    }
-  }
-}
+      this.showModal = false;
+    },
+  },
+};
 </script>
 
 <template>
   <Button @click.stop="handleOpen" :size="buttonSize" :text="buttonText" icon="AddIcon" />
-  <Modal size="lg" v-if="showModal || extraShowModal" :close-modal="handleClose" title-modal="Новое слово"
-    icon="AddIcon" modalContent="NewWordForm" />
+  <Modal
+    size="lg"
+    v-if="showModal"
+    :close-modal="handleClose"
+    :title-modal="$t('title.newWord')"
+    icon="AddIcon"
+    modalContent="NewWordForm"
+    :chosenLanguage="chosenLanguage"
+    @word-created="$emit('wordCreated')"
+  />
 </template>

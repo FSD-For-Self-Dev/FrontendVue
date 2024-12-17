@@ -1,3 +1,4 @@
+import api from '@/api';
 import { useUserStore } from '@/store/user';
 import { useLanguagesStore } from '@/store/languages';
 import { useVocabularyStore } from '@/store/vocabulary';
@@ -30,6 +31,9 @@ export const useGlobalActionsStore = defineStore('global-actions', {
         clearDataVocabulary(),
         logout(),
       ]);
+    },
+    update_locale(locale: string) {
+      api.updateLocale(locale);
     },
   },
 });

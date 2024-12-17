@@ -1,72 +1,102 @@
 <script lang="ts">
 import { watchDebounced } from '@vueuse/core';
-import Input from '@/components/UI/input/Input.vue';
 import Dropdown from '@/components/UI/dropdown/Dropdown.vue';
 import NewWordButton from './NewWordButton.vue';
 import { useLanguagesStore } from '@/store/languages';
-import { mapState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useVocabularyStore } from '@/store/vocabulary';
 import Search from './Search.vue';
 
 export default {
-  components: { NewWordButton, Input, Dropdown, Search },
-  computed: {
-    ...mapState(useLanguagesStore, ['learning_languages']),
+  components: {
+    NewWordButton,
+    Dropdown,
+    Search,
   },
-  setup() {
+  props: {
+    hideLanguageFilter: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    ...mapState(useLanguagesStore, ["learning_languages"]),
+    ...mapState(useVocabularyStore, ["count"]),
+    ...mapWritableState(useVocabularyStore, ["filterOptions"]),
+  },
+  setup(props, ctx) {
     const { filterOptions, getVocabulary } = useVocabularyStore();
+
+    if (!props.hideLanguageFilter) {
+      filterOptions.language = ''
+    }
+    filterOptions.activity_status = ''
+    filterOptions.search = ''
 
     watchDebounced(
       () => filterOptions.search,
       () => {
-        getVocabulary();
+        getVocabulary(true);
       },
       { debounce: 1000, maxWait: 5000 },
     );
 
-    return { filterOptions, getVocabulary };
+    return {
+      filterOptions,
+      getVocabulary
+    };
   },
   data() {
     return {
       statusWordOptions: [
         {
           value: 'I',
-          label: 'Неактивные',
+          label: this.$t('activityStatusPlural', { status: 'Inactive' }),
           icon_component: 'Inactive1StatusIcon',
           icon_component_custom_color: 'var:neutrals-600',
         },
         {
           value: 'A',
-          label: 'Активные',
+          label: this.$t('activityStatusPlural', { status: 'Active' }),
           icon_component: 'ActiveStatusIcon',
           icon_component_custom_color: 'var:primary-500',
         },
         {
           value: 'M',
-          label: 'Усвоенные',
+          label: this.$t('activityStatusPlural', { status: 'Mastered' }),
           icon_component: 'MasteredStatusIcon',
           icon_component_custom_color: 'var:success-600',
         },
         {
           value: '',
-          label: 'Все слова',
+          label: this.$t('filter.allWords'),
           icon_component: 'WordsIcon',
         },
       ],
     };
   },
+  methods: {
+    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
+    ...mapActions(useVocabularyStore, ['getVocabulary']),
+    handleFilter() {
+      this.getVocabulary(true);
+    },
+    updateWords() {
+      this.getVocabulary(true);
+    },
+  },
 };
 </script>
 
 <template>
-  <div class="vocabulary-tools">
+  <div class="vocabulary-tools" v-if="count > 0">
     <div class="vocabulary-tools--top">
       <div class="vocabulary-tools--top-left">
         <Dropdown
-          placeholder="Все языки"
+          :placeholder="$t('filter.allLanguages')"
           :default_item="{
             value: '',
-            label: 'Все языки',
+            label: $t('filter.allLanguages'),
             icon_component: 'LanguageIcon',
             is_default_item: true,
           }"
@@ -81,23 +111,26 @@ export default {
               };
             })
           "
-          @update:model-value="getVocabulary"
+          @update:model-value="handleFilter"
+          v-if="!hideLanguageFilter"
+          style="min-width: 18.6rem;"
         />
         <Dropdown
-          placeholder="Все слова"
+          :placeholder="$t('filter.allWords')"
           v-model="filterOptions.activity_status"
           :items="statusWordOptions"
-          @update:model-value="getVocabulary"
+          @update:model-value="handleFilter"
+          style="min-width: 18.6rem;"
         />
       </div>
-      <NewWordButton button-size="medium" button-text="Новое слово или фраза" />
+      <NewWordButton
+        button-size="medium"
+        :button-text="$t('buttons.addNewWord')"
+        :chosenLanguage="filterOptions.language"
+        @word-created="updateWords"
+      />
     </div>
-    <Input
-      v-model="filterOptions.search"
-      style="width: 100%; display: flex"
-      placeholder="Найти слово или фразу..."
-      icon="SearchIcon"
-    />
+    <Search v-model="filterOptions.search" />
   </div>
 </template>
 

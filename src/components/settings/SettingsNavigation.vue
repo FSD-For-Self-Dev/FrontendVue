@@ -2,11 +2,18 @@
 import { mapActions } from 'pinia';
 import Button from '@/components/UI/button/Button.vue';
 import Modal from '@/components/UI/modal/Modal.vue';
-import { useGlobalActionsStore } from '@/store/global-ations';
+import { useGlobalActionsStore } from '@/store/global-actions';
+import { useWindowScroll } from '@vueuse/core';
+
+const { y } = useWindowScroll({ behavior: 'smooth' });
+
 export default {
   components: { Button, Modal },
+  emits: ["profileSettings", "appSettings"],
   data() {
     return {
+      showProfileSettingsForm: true,
+      showAppSettingsForm: false,
       showModal: false,
     };
   },
@@ -19,6 +26,18 @@ export default {
       this.global_clear().finally(() => {
         this.$router.push('/');
       });
+    },
+    showProfileSettings() {
+      this.showProfileSettingsForm = true;
+      this.showAppSettingsForm = false;
+      y.value = 0;
+      this.$emit("profileSettings");
+    },
+    showAppSettings() {
+      this.showAppSettingsForm = true;
+      this.showProfileSettingsForm = false;
+      y.value = 0;
+      this.$emit("appSettings");
     },
   },
 };
@@ -35,8 +54,10 @@ export default {
           }"
           size="medium"
           variant="secondary"
-          text="Профиль"
+          :text="$t('title.profile')"
           icon="ProfileIcon"
+          @click="showProfileSettings"
+          :active="showProfileSettingsForm"
         />
       </li>
       <li>
@@ -47,7 +68,23 @@ export default {
           }"
           size="medium"
           variant="secondary"
-          text="Выйти из аккаунта"
+          :text="$t('title.personalization')"
+          icon="StarIcon"
+          @click="showAppSettings"
+          :active="showAppSettingsForm"
+        />
+      </li>
+    </ul>
+    <ul class="settings--actions">
+      <li>
+        <Button
+          :style="{
+            width: '100%',
+            justifyContent: 'start',
+          }"
+          size="medium"
+          variant="secondary"
+          :text="$t('auth.logOut')"
           icon="ExitIcon"
           @click="handleExit"
         />
@@ -60,7 +97,7 @@ export default {
           }"
           size="medium"
           variant="danger"
-          text="Удалить аккаунт"
+          :text="$t('auth.deleteAccount')"
           icon="DeleteIcon"
           @click="showModal = true"
         />
@@ -70,7 +107,7 @@ export default {
   <Modal
     v-if="showModal"
     :close-modal="handleClose"
-    title-modal="Вы уверены, что хотите удалить аккаунт?"
+    :title-modal="$t('title.deleteAccountConfirm')"
     icon="InfoIcon"
     modal-content="DeleteAccountForm"
     size="lg"
@@ -85,7 +122,14 @@ export default {
   .settings--list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1.6rem;
+  }
+
+  .settings--actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin-top: 4rem;
   }
 }
 </style>

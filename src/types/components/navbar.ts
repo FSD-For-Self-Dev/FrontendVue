@@ -1,5 +1,5 @@
 export interface INavbarItems {
-    name: String,
-    link: String,
-    icon: String
+    name: string,
+    link: string,
+    icon: string
 }
