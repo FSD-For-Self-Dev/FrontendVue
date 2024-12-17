@@ -45,7 +45,7 @@ export default {
 <template>
   <PageLayout>
     <LanguageProfileHeader :language="languageObject" v-if="languageObject" />
-    <VocabularyTools :locale="$i18n.locale" :hideLanguageFilter="true" />
+    <VocabularyTools :hideLanguageFilter="true" />
     <VocabularyWords :makeRequest="true" />
   </PageLayout>
 </template>

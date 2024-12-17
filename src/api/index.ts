@@ -42,6 +42,11 @@ export class Api implements IApi {
     clearToken = () => {
         this.request.defaults.headers['Authorization'] = '';
     };
+
+    updateLocale = (locale: string) => {
+        const baseUrl = import.meta.env.VITE_BASE_URL;
+        this.request.defaults.baseURL = `${baseUrl}/${locale}`;
+    };
 }
 
 export default new Api();

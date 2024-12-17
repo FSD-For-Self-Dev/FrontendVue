@@ -14,10 +14,6 @@ export default {
     Search,
   },
   props: {
-    locale: {
-      type: String,
-      default: '',
-    },
     hideLanguageFilter: {
       type: Boolean,
       default: false,
@@ -40,7 +36,7 @@ export default {
     watchDebounced(
       () => filterOptions.search,
       () => {
-        getVocabulary(props.locale, true);
+        getVocabulary(true);
       },
       { debounce: 1000, maxWait: 5000 },
     );
@@ -83,10 +79,10 @@ export default {
     ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
     ...mapActions(useVocabularyStore, ['getVocabulary']),
     handleFilter() {
-      this.getVocabulary(this.locale, true);
+      this.getVocabulary(true);
     },
     updateWords() {
-      this.getVocabulary(this.$i18n.locale, true);
+      this.getVocabulary(true);
     },
   },
 };

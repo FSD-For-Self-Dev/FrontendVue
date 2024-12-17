@@ -287,8 +287,8 @@ export default {
         note: this.note,
       };
       const res = this.objectLookup
-        ? await this.patchWord(this.objectLookup, data, this.$i18n.locale)
-        : await this.createWord(data, this.$i18n.locale);
+        ? await this.patchWord(this.objectLookup, data)
+        : await this.createWord(data);
       const successMsg = this.objectLookup
         ? this.$t('infoMessage.changesSaved')
         : this.$t('infoMessage.newWordCreated');
@@ -306,8 +306,8 @@ export default {
         this.filterOptions.language = ''
         this.filterOptions.activity_status = ''
         this.filterOptions.search = ''
-        this.getVocabulary(this.$i18n.locale);
-        this.getLearningLanguages(this.$i18n.locale);
+        this.getVocabulary();
+        this.getLearningLanguages();
         this.handleClose();
         this.addNewMessage({
           type: 'info',
@@ -319,7 +319,7 @@ export default {
   },
   async mounted() {
     if (this.objectLookup) {
-      await this.getWordProfile(this.objectLookup, this.$i18n.locale).finally(
+      await this.getWordProfile(this.objectLookup).finally(
         async () => {
           const { wordProfile } = useVocabularyStore();
 

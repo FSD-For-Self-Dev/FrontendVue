@@ -1,7 +1,7 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
 import { mapActions, mapState } from 'pinia';
-import { useGlobalActionsStore } from '@/store/global-ations';
+import { useGlobalActionsStore } from '@/store/global-actions';
 
 export default {
   components: {

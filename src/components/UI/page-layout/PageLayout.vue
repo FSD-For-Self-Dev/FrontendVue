@@ -8,7 +8,7 @@ import { mapActions, mapWritableState } from 'pinia';
 import Preloader from '../preloader/Preloader.vue';
 import { useUserStore } from '@/store/user';
 import { ref } from 'vue';
-import { useGlobalActionsStore } from '@/store/global-ations';
+import { useGlobalActionsStore } from '@/store/global-actions';
 
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
@@ -43,12 +43,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useGlobalActionsStore, ['global_init']),
+    ...mapActions(useGlobalActionsStore, ['global_init', 'update_locale']),
     handleUpdateLocale() {
       this.isLoading = true;
       localStorage.setItem('locale', this.$i18n.locale);
       if (this.authStatus) {
-        this.global_init(this.$i18n.locale).finally(async () => {
+        this.update_locale(this.$i18n.locale);
+        this.global_init().finally(async () => {
         });
       };
       this.isLoading = false;
@@ -58,10 +59,7 @@ export default {
       this.hideFooter = true;
       this.isLoading = true;
 
-      const { interface_language } = useUserStore();
-      this.$i18n.locale = interface_language;
-
-      await this.global_init(this.$i18n.locale);
+      await this.global_init();
 
       this.authStatus = true;
       this.hideHeader = false;

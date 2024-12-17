@@ -60,7 +60,7 @@ export default {
       this.formInterfaceLang = this.interface_language;
     },
     getLanguageName(neededLang: string): string {
-      const lang_name = this.global_languages.find((lang) => lang.isocode === neededLang)?.name_local;
+      const lang_name = this.global_languages.find((lang) => lang.isocode.includes(neededLang))?.name_local;
       return lang_name ? lang_name : neededLang;
     },
   },

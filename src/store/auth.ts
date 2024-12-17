@@ -39,14 +39,14 @@ export const useAuthStore = defineStore('auth', {
     };
   },
   actions: {
-    async login(locale?: string) {
+    async login() {
       try {
+        api.clearToken();
         const res = await api.auth.login(
           {
             username: this.username,
             password: this.password,
-          },
-          locale,
+          }
         );
         if (this.rememberMe) {
           localStorage.setItem('token', res.data.key);
@@ -60,7 +60,7 @@ export const useAuthStore = defineStore('auth', {
         }
       }
     },
-    async registration(locale?: string) {
+    async registration() {
       try {
         const res = await api.auth.registration(
           {
@@ -68,8 +68,7 @@ export const useAuthStore = defineStore('auth', {
             email: this.email,
             password1: this.password1,
             password2: this.password2,
-          },
-          locale,
+          }
         );
         return res;
       } catch (error) {

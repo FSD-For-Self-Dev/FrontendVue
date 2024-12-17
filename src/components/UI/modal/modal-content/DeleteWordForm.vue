@@ -61,8 +61,8 @@ export default {
         this.filterOptions.language = ''
         this.filterOptions.activity_status = ''
         this.filterOptions.search = ''
-        this.getVocabulary(this.$i18n.locale);
-        this.getLearningLanguages(this.$i18n.locale);
+        this.getVocabulary();
+        this.getLearningLanguages();
         this.closeForm();
         this.addNewMessage({
           type: 'info',
@@ -81,7 +81,7 @@ export default {
   mounted() {
     if (this.objectLookup) {
       Promise.all([
-        this.getWordProfile(this.objectLookup, this.$i18n.locale)
+        this.getWordProfile(this.objectLookup)
       ]).finally(
         () => {
           const { wordProfile } = useVocabularyStore();

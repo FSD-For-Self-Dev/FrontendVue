@@ -7,7 +7,7 @@ import AppSettingsForm from '@/components/settings/AppSettingsForm.vue';
 import { useWindowScroll } from '@vueuse/core';
 import { useUserStore } from '@/store/user';
 import { mapActions, mapState } from 'pinia';
-import { useGlobalActionsStore } from '@/store/global-ations';
+import { useGlobalActionsStore } from '../store/global-actions';
 
 const { y } = useWindowScroll({ behavior: 'instant' });
 
@@ -33,7 +33,7 @@ export default {
     ...mapState(useUserStore, ['authStatus']),
   },
   methods: {
-    ...mapActions(useGlobalActionsStore, ['global_init']),
+    ...mapActions(useGlobalActionsStore, ['global_init', 'update_locale']),
     showProfileSettings() {
       this.showProfileSettingsForm = true;
       this.showAppSettingsForm = false;
@@ -45,7 +45,8 @@ export default {
     handleUpdateLocale() {
       this.isLoading = true;
       if (this.authStatus) {
-        this.global_init(this.$i18n.locale).finally(async () => {});
+        this.update_locale(this.$i18n.locale);
+        this.global_init().finally(async () => {});
       };
       this.isLoading = false;
     },

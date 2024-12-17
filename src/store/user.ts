@@ -25,9 +25,9 @@ export const useUserStore = defineStore('user', {
     };
   },
   actions: {
-    async getUser(locale?: string) {
+    async getUser() {
       try {
-        const { data } = await api.user.getUser(locale);
+        const { data } = await api.user.getUser();
         if (data) {
           this.id = data.id;
           this.username = data.username;
@@ -40,9 +40,9 @@ export const useUserStore = defineStore('user', {
         console.error('Error fetching user:', error);
       }
     },
-    async patchUser(data: UserDto, locale?: string) {
+    async patchUser(data: UserDto) {
       try {
-        const res = await api.user.patchUser(data, locale);
+        const res = await api.user.patchUser(data);
         this.id = res.data.id;
         this.username = res.data.username;
         this.image = res.data.image;

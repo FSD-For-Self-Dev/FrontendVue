@@ -50,7 +50,7 @@ export default {
     },
     async handleSave() {
       this.submitProcess = true;
-      await this.postLearningLanguage(this.activeLanguage, this.$i18n.locale).then(async (res) => {
+      await this.postLearningLanguage(this.activeLanguage).then(async (res) => {
         if (isAxiosError(res)) {
           if (res.response?.status === 409) {
             this.addNewMessage({
@@ -66,7 +66,7 @@ export default {
             type: 'info',
             text: this.$t('infoMessage.newLanguagesAdded', lenLanguages, { named: { n: lenLanguages } }),
           });
-          await this.getAvailableLanguages(this.$i18n.locale);
+          await this.getAvailableLanguages();
         }
       });
       this.submitProcess = false;

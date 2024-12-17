@@ -28,7 +28,7 @@ export default {
 <template>
   <PageLayout>
     <PageTitle :text="$t('title.vocabulary')" icon="VocabularyIcon" />
-    <VocabularyTools :locale="$i18n.locale" />
+    <VocabularyTools />
     <VocabularyWords />
   </PageLayout>
 </template>

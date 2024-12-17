@@ -17,7 +17,7 @@ export default {
   },
   mounted() {
     if (this.makeRequest) {
-      this.getVocabulary(this.$i18n.locale, true)
+      this.getVocabulary(true)
     } else {
       this.filteredWords = this.vocabularyWords;
       this.filteredCount = this.count;
@@ -34,7 +34,7 @@ export default {
   methods: {
     ...mapActions(useVocabularyStore, ['getVocabulary']),
     updateWords() {
-      this.getVocabulary(this.$i18n.locale, true);
+      this.getVocabulary(true);
     },
   },
 };

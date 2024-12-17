@@ -2,64 +2,37 @@ import type { IApi } from '@/types/api/api-types';
 
 export default (api: IApi) => {
   api.languages = {
-    getAvailableLanguages(locale?: string) {
-      if (locale) {
-        return api.request.get(`/${locale}/api/languages/learning-available/`);
-      }
+    getAvailableLanguages() {
       return api.request.get('/api/languages/learning-available/');
     },
-    getLearningLanguages(locale?: string) {
-      if (locale) {
-        return api.request.get(`/${locale}/api/languages/?no_words`);
-      }
+    getLearningLanguages() {
       return api.request.get('/api/languages/');
     },
-    getGlobalLanguages(locale?: string, anonymous: boolean = false) {
-      if (anonymous) api.clearToken();
-      if (locale) {
-        return api.request.get(`/${locale}/api/global-languages/`);
-      }
+    getGlobalLanguages() {
       return api.request.get('/api/global-languages/');
     },
-    getAllLanguages(locale?: string) {
-      if (locale) {
-        return api.request.get(`/${locale}/api/languages/all/`);
-      }
+    getAllLanguages() {
       return api.request.get('/api/languages/all/');
     },
-    postLearningLanguage(languages, locale?: string) {
+    postLearningLanguage(languages) {
       const data = languages.map((language) => {
         return {
           language: language.isocode,
         };
       });
-
-      if (locale) {
-        return api.request.post(`/${locale}/api/languages/`, data);
-      }
       return api.request.post('/api/languages/', data);
     },
-    deleteLanguage(languageSlug, delete_words, locale?: string) {
-      if (locale && delete_words) {
-        return api.request.delete(`/${locale}/api/languages/${languageSlug}/?delete_words`);
-      } else if (locale) {
-        return api.request.delete(`/${locale}/api/languages/${languageSlug}/`);
-      } else if (delete_words) {
+    deleteLanguage(languageSlug, delete_words) {
+      if (delete_words) {
         return api.request.delete(`/api/languages/${languageSlug}/?delete_words`);
       } else {
         return api.request.delete(`/api/languages/${languageSlug}/`);
       }
     },
-    getLanguageCovers(languageSlug, locale?: string) {
-      if (locale) {
-        return api.request.get(`/${locale}/api/languages/${languageSlug}/cover-choices/`);
-      }
+    getLanguageCovers(languageSlug) {
       return api.request.get(`/api/languages/${languageSlug}/cover-choices/`);
     },
-    setLanguageCover(languageSlug, data, locale?: string) {
-      if (locale) {
-        return api.request.post(`/${locale}/api/languages/${languageSlug}/set-cover/`, data);
-      }
+    setLanguageCover(languageSlug, data) {
       return api.request.post(`/api/languages/${languageSlug}/set-cover/`, data);
     },
   };

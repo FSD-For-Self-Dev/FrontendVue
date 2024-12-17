@@ -10,6 +10,7 @@ import { isAxiosError } from 'axios';
 import { useNotificationsStore } from '@//store/notifications';
 import IconButton from '../UI/button/IconButton.vue';
 import BooleanInput from '../UI/input/BooleanInput.vue';
+import { useGlobalActionsStore } from '@/store/global-actions';
 
 export default {
   components: { OnClickOutside, Input, Button, IconButton, BooleanInput },
@@ -55,6 +56,7 @@ export default {
     ...mapActions(useAuthStore, ['login', 'registration', 'clearState']),
     ...mapActions(useUserStore, ['getUser']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
+    ...mapActions(useGlobalActionsStore, ['update_locale']),
     switchFormHandler(form: 'login' | 'register') {
       this.clearState();
       this.switchForm(form);
@@ -64,7 +66,7 @@ export default {
       this.closeAuth();
     },
     async registrationSubmitHandler() {
-      await this.registration(this.$i18n.locale).then((res) => {
+      await this.registration().then((res) => {
         if (!isAxiosError(res)) {
           this.password = this.password1;
           this.loginSubmitHandler();
@@ -78,9 +80,12 @@ export default {
     },
     async loginSubmitHandler() {
       this.rememberMe = this.rememberMeCheck;
-      await this.login(this.$i18n.locale).then(async (res) => {
+      await this.login().then(async (res) => {
         if (!isAxiosError(res)) {
-          Promise.all([this.getUser()]).finally(async () => {
+          await this.getUser().finally(() => {
+            const { interface_language } = useUserStore();
+            this.$i18n.locale = interface_language;
+            this.update_locale(this.$i18n.locale);
             this.$emit('loginProcceed')
           });
           this.closeFormHandler();

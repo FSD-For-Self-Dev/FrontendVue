@@ -1,10 +1,10 @@
 <script lang="ts">
 import { mapActions, mapState } from 'pinia';
-import { useUserStore } from './store/user';
+import { useUserStore } from '@/store/user';
 import Preloader from '@/components/UI/preloader/Preloader.vue';
 import { useLanguagesStore } from './store/languages';
 import HomePage from '@/views/HomePage.vue';
-import { useGlobalActionsStore } from './store/global-ations';
+import { useGlobalActionsStore } from '@/store/global-actions';
 
 export default {
   components: { HomePage, Preloader },
@@ -19,7 +19,7 @@ export default {
   methods: {
     ...mapActions(useUserStore, ['getUser']),
     ...mapActions(useLanguagesStore, ['getGlobalLanguages']),
-    ...mapActions(useGlobalActionsStore, ['global_init']),
+    ...mapActions(useGlobalActionsStore, ['global_init', 'update_locale']),
   },
   mounted() {
     if (this.authStatus) {
@@ -34,17 +34,19 @@ export default {
           this.$i18n.locale = interface_language;
         };
 
-        await this.global_init(this.$i18n.locale);
+        this.update_locale(this.$i18n.locale);
+        await this.global_init();
 
         this.isLoading = false;
       });
     } else {
       const localeLocal = localStorage.getItem('locale');
-        if (localeLocal) {
-          this.$i18n.locale = localeLocal;
-        };
+      if (localeLocal) {
+        this.$i18n.locale = localeLocal;
+      };
+      this.update_locale(this.$i18n.locale);
       Promise.all([
-        this.getGlobalLanguages(this.$i18n.locale, true),
+        this.getGlobalLanguages(),
       ]).finally(() => {
         this.isLoading = false;
       })

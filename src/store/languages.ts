@@ -24,26 +24,26 @@ export const useLanguagesStore = defineStore('languages', {
     };
   },
   actions: {
-    async getAvailableLanguages(locale?: string) {
-      const res = await api.languages.getAvailableLanguages(locale);
+    async getAvailableLanguages() {
+      const res = await api.languages.getAvailableLanguages();
       this.available_languages = res.data.results as unknown as LanguageDto[];
     },
-    async getLearningLanguages(locale?: string) {
-      const res = await api.languages.getLearningLanguages(locale);
+    async getLearningLanguages() {
+      const res = await api.languages.getLearningLanguages();
       this.count = res.data.count as unknown as number;
       this.learning_languages = res.data.results as unknown as LearningLanguageDto[];
     },
-    async getGlobalLanguages(locale?: string) {
-      const res = await api.languages.getGlobalLanguages(locale);
+    async getGlobalLanguages() {
+      const res = await api.languages.getGlobalLanguages();
       this.global_languages = res.data.results as unknown as LanguageDto[];
     },
-    async getAllLanguages(locale?: string) {
-      const res = await api.languages.getAllLanguages(locale);
+    async getAllLanguages() {
+      const res = await api.languages.getAllLanguages();
       this.all_languages = res.data.results as unknown as LanguageDto[];
     },
-    async postLearningLanguage(languages: LanguageDto[], locale?: string) {
+    async postLearningLanguage(languages: LanguageDto[]) {
       try {
-        const res = await api.languages.postLearningLanguage(languages, locale);
+        const res = await api.languages.postLearningLanguage(languages);
         this.count = res.data.count as unknown as number;
         this.learning_languages = res.data.results as unknown as LearningLanguageDto[];
         return res;
@@ -53,18 +53,18 @@ export const useLanguagesStore = defineStore('languages', {
         }
       }
     },
-    async deleteLanguage(languageSlug: string, delete_words: boolean = false, locale?: string) {
+    async deleteLanguage(languageSlug: string, delete_words: boolean = false) {
       try {
-        await api.languages.deleteLanguage(languageSlug, delete_words, locale);
+        await api.languages.deleteLanguage(languageSlug, delete_words);
       } catch (error) {
         if (isAxiosError(error)) {
           return error;
         }
       }
     },
-    async getLanguageCovers(languageSlug: string, locale?: string) {
+    async getLanguageCovers(languageSlug: string) {
       try {
-        const res = await api.languages.getLanguageCovers(languageSlug, locale);
+        const res = await api.languages.getLanguageCovers(languageSlug);
         this.covers = res.data as unknown as LanguageCoverDto[];
       } catch (error) {
         if (isAxiosError(error)) {
@@ -72,9 +72,9 @@ export const useLanguagesStore = defineStore('languages', {
         }
       }
     },
-    async setLanguageCover(languageSlug: string, data: Object, locale?: string) {
+    async setLanguageCover(languageSlug: string, data: Object) {
       try {
-        await api.languages.setLanguageCover(languageSlug, data, locale);
+        await api.languages.setLanguageCover(languageSlug, data);
       } catch (error) {
         if (isAxiosError(error)) {
           return error;

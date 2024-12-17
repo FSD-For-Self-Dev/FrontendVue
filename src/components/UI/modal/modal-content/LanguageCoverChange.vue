@@ -63,11 +63,11 @@ export default {
     async handleCoverChange() {
       this.submitProcess = true;
       const data = { image_id: this.cover_id };
-      const res = await this.setLanguageCover(this.objectLookup, data, this.$i18n.locale);
+      const res = await this.setLanguageCover(this.objectLookup, data);
       if (isAxiosError(res)) {
         console.log(res.response?.data);
       } else {
-        await this.getLearningLanguages(this.$i18n.locale);
+        await this.getLearningLanguages();
         this.closeForm();
         this.addNewMessage({
           type: 'info',
@@ -82,7 +82,7 @@ export default {
     this.cover_id = lang_obj ? lang_obj.cover_id : '';
 
     if (this.objectLookup) {
-      Promise.all([this.getLanguageCovers(this.objectLookup, this.$i18n.locale)]).finally(
+      await this.getLanguageCovers(this.objectLookup).finally(
         () => {
           const { covers } = useLanguagesStore();
           this.cover_choices = covers;

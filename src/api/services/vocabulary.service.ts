@@ -5,8 +5,8 @@ export const wordsPerPage = 40;
 
 export default (api: IApi) => {
   api.vocabulary = {
-    getVocabulary: (query?: VocabularyQuery, locale?: string) => {
-      const url = locale ? `/${locale}/api/vocabulary/` : '/api/vocabulary/';
+    getVocabulary: (query?: VocabularyQuery) => {
+      const url = '/api/vocabulary/';
 
       const paginationQuery = `?limit=${wordsPerPage}`;
       const searchQuery = `${query?.search ? `&search=${query.search}` : ''}`
@@ -17,24 +17,15 @@ export default (api: IApi) => {
       return api.request.get(url + queryParams);
     },
 
-    createWord: (word, locale?: string) => {
-      if (locale) {
-        return api.request.post(`/${locale}/api/vocabulary/`, word);
-      }
+    createWord: (word) => {
       return api.request.post('/api/vocabulary/', word);
     },
 
-    getWordProfile: (wordSlug, locale?: string) => {
-      if (locale) {
-        return api.request.get(`/${locale}/api/vocabulary/${wordSlug}/`);
-      }
+    getWordProfile: (wordSlug) => {
       return api.request.get(`/api/vocabulary/${wordSlug}/`);
     },
 
-    patchWord: (wordSlug, wordUpdated, locale?: string) => {
-      if (locale) {
-        return api.request.patch(`/${locale}/api/vocabulary/${wordSlug}/`, wordUpdated);
-      }
+    patchWord: (wordSlug, wordUpdated) => {
       return api.request.patch(`/api/vocabulary/${wordSlug}/`, wordUpdated);
     },
 

@@ -2,7 +2,7 @@
 import { mapActions } from 'pinia';
 import Button from '@/components/UI/button/Button.vue';
 import Modal from '@/components/UI/modal/Modal.vue';
-import { useGlobalActionsStore } from '@/store/global-ations';
+import { useGlobalActionsStore } from '@/store/global-actions';
 import { useWindowScroll } from '@vueuse/core';
 
 const { y } = useWindowScroll({ behavior: 'smooth' });

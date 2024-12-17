@@ -74,11 +74,11 @@ export default {
         native_languages: this.formNativeLang,
         image: this.formImage,
       };
-      const res = await this.patchUser(data, this.$i18n.locale);
+      const res = await this.patchUser(data);
       if (isAxiosError(res)) {
         console.log(res.response?.data);
       } else {
-        this.getAllLanguages(this.$i18n.locale);
+        this.getAllLanguages();
         this.addNewMessage({
           type: 'info',
           text: this.$t('infoMessage.changesSaved'),
