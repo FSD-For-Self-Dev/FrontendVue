@@ -475,7 +475,6 @@ export default {
     &--arrow {
       position: absolute;
       cursor: pointer;
-      z-index: 2;
       display: block;
 
       &.backward {
