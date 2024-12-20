@@ -30,6 +30,7 @@ export const useLanguagesStore = defineStore('languages', {
     },
     async getLearningLanguages() {
       const res = await api.languages.getLearningLanguages();
+      console.log(res.data.results[1]);
       this.count = res.data.count as unknown as number;
       this.learning_languages = res.data.results as unknown as LearningLanguageDto[];
     },

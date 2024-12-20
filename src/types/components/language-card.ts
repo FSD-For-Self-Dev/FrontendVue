@@ -1,3 +1,3 @@
 export interface LanguageCardProps {
-    size: "large" | "small";
+    size: "large" | "small" | "extra-small";
 }

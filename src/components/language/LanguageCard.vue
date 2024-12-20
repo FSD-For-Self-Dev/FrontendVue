@@ -17,14 +17,15 @@ export default {
     cardClasses() {
       return {
         /* Sizes */
+        "card--extra-small": this.size === "extra-small",
         'card--large': this.size === 'large',
         'card--small': this.size === 'small',
       };
     },
     iconSizes() {
       return {
-        large: 'lg',
-        small: 'md',
+        "large": "lg",
+        "small": "md",
       };
     },
   },
@@ -88,6 +89,43 @@ export default {
   background-color: $neutrals-100;
   outline: 0.1 solid $neutrals-400;
   cursor: pointer;
+
+  &--extra-small {
+    padding: 2.9rem 2.1rem;
+    width: 22.7rem;
+    height: 17.1rem;
+    border-radius: $radius-xl;
+
+    .card--content {
+      gap: 1.2rem;
+      padding: 2.6rem 2.7rem;
+      width: 18.3rem;
+      height: 11.2rem;
+      border-radius: $radius-xl;
+    }
+
+    .card--overlay {
+      width: 25.2rem;
+      height: 18.8rem;
+      border-radius: $radius-xl;
+    }
+
+    .card--name {
+      @include heading-5;
+    }
+
+    .card--status-counters {
+      gap: 0.8rem;
+    }
+
+    .card--status-counters-item {
+      gap: 0;
+
+      &--counter {
+        @include heading-6;
+      }
+    }
+  }
 
   &--small {
     padding: 3.2rem 3.2rem;
@@ -199,9 +237,15 @@ export default {
   }
 
   @include hover {
+    outline: 0.5 solid $primary-500;
+
     .card--content {
-      outline: $white-barely-lucid 0.5rem solid;
+      outline: $primary-500 0.1rem solid;
       background-color: $white-barely-lucid;
+    }
+
+    .card--overlay {
+      opacity: 6%;
     }
   }
 }
