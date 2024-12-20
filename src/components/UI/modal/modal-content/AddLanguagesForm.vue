@@ -50,25 +50,24 @@ export default {
     },
     async handleSave() {
       this.submitProcess = true;
-      await this.postLearningLanguage(this.activeLanguage).then(async (res) => {
-        if (isAxiosError(res)) {
-          if (res.response?.status === 409) {
-            this.addNewMessage({
-              type: 'error',
-              text: this.$t('errorMessage.languagesAmountLimit'),
-            });
-          }
-          return;
-        } else {
-          this.closeForm();
-          const lenLanguages = this.activeLanguage.length;
+      const res = await this.postLearningLanguage(this.activeLanguage);
+      if (isAxiosError(res)) {
+        if (res.response?.status === 409) {
           this.addNewMessage({
-            type: 'info',
-            text: this.$t('infoMessage.newLanguagesAdded', lenLanguages, { named: { n: lenLanguages } }),
+            type: 'error',
+            text: this.$t('errorMessage.languagesAmountLimit'),
           });
-          await this.getAvailableLanguages();
         }
-      });
+        return;
+      } else {
+        this.closeForm();
+        const lenLanguages = this.activeLanguage.length;
+        this.addNewMessage({
+          type: 'info',
+          text: this.$t('infoMessage.newLanguagesAdded', lenLanguages, { named: { n: lenLanguages } }),
+        });
+        await this.getAvailableLanguages();
+      };
       this.submitProcess = false;
     },
   },

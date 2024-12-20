@@ -50,7 +50,7 @@ export default {
   methods: {
     ...mapActions(useVocabularyStore, ['getVocabulary', 'getWordProfile', 'deleteWord']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapActions(useLanguagesStore, ['getLearningLanguages']),
+    ...mapActions(useLanguagesStore, ['getLearningLanguages', 'getLanguageObjectByIsocode']),
     async handleDelete() {
       this.submitProcess = true;
       const res = await this.deleteWord(this.objectLookup);
@@ -78,31 +78,26 @@ export default {
       return word_types.join(', ');
     },
   },
-  mounted() {
+  async mounted() {
     if (this.objectLookup) {
-      Promise.all([
-        this.getWordProfile(this.objectLookup)
-      ]).finally(
-        () => {
-          const { wordProfile } = useVocabularyStore();
-          this.word = wordProfile.text ? wordProfile.text : '';
-          this.language = wordProfile.language ? wordProfile.language : '';
-          this.activity_status = wordProfile.activity_status
-            ? wordProfile.activity_status
-            : '';
-          this.activity_progress = wordProfile.activity_progress
-            ? wordProfile.activity_progress
-            : 0;
-          this.types = wordProfile.types ? wordProfile.types : [];
-          this.tags = wordProfile.tags ? wordProfile.tags : [];
-          this.translations_count = wordProfile.translations_count
-            ? wordProfile.translations_count
-            : 0;
-          this.image_associations_count = wordProfile.image_associations_count
-            ? wordProfile.image_associations_count
-            : 0;
-        },
-      );
+      await this.getWordProfile(this.objectLookup);
+      const { wordProfile } = useVocabularyStore();
+      this.word = wordProfile.text ? wordProfile.text : '';
+      this.language = wordProfile.language ? wordProfile.language : '';
+      this.activity_status = wordProfile.activity_status
+        ? wordProfile.activity_status
+        : '';
+      this.activity_progress = wordProfile.activity_progress
+        ? wordProfile.activity_progress
+        : 0;
+      this.types = wordProfile.types ? wordProfile.types : [];
+      this.tags = wordProfile.tags ? wordProfile.tags : [];
+      this.translations_count = wordProfile.translations_count
+        ? wordProfile.translations_count
+        : 0;
+      this.image_associations_count = wordProfile.image_associations_count
+        ? wordProfile.image_associations_count
+        : 0;
     }
   },
 };
@@ -114,7 +109,7 @@ export default {
       <div class="word-info--language-icon">
         <img :src="getFlagIcon(language)" alt="Icon" class="language-icon" />
       </div>
-      <p>{{ language }}</p>
+      <p>{{ getLanguageObjectByIsocode(language)?.language.name }}</p>
     </div>
     <div class="word-info">
       <div class="word-info--types" v-if="types.length > 0">

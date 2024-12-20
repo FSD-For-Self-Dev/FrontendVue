@@ -82,12 +82,9 @@ export default {
     this.cover_id = lang_obj ? lang_obj.cover_id : '';
 
     if (this.objectLookup) {
-      await this.getLanguageCovers(this.objectLookup).finally(
-        () => {
-          const { covers } = useLanguagesStore();
-          this.cover_choices = covers;
-        },
-      );
+      await this.getLanguageCovers(this.objectLookup);
+      const { covers } = useLanguagesStore();
+      this.cover_choices = covers;
     }
   },
 };

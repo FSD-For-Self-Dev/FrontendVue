@@ -49,8 +49,7 @@ export default {
       localStorage.setItem('locale', this.$i18n.locale);
       if (this.authStatus) {
         this.update_locale(this.$i18n.locale);
-        this.global_init().finally(async () => {
-        });
+        this.global_init();
       };
       this.isLoading = false;
     },

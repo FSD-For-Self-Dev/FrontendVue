@@ -161,10 +161,9 @@ export default {
   },
   async beforeMount() {
     if (this.objectLookup) {
-      await this.getWordProfile(this.objectLookup).finally(() => {
-        const { wordProfile } = useVocabularyStore();
-        this.wordProfile = wordProfile;
-      });
+      await this.getWordProfile(this.objectLookup);
+      const { wordProfile } = useVocabularyStore();
+      this.wordProfile = wordProfile;
     }
   },
 };

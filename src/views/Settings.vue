@@ -46,7 +46,7 @@ export default {
       this.isLoading = true;
       if (this.authStatus) {
         this.update_locale(this.$i18n.locale);
-        this.global_init().finally(async () => {});
+        this.global_init();
       };
       this.isLoading = false;
     },

@@ -319,33 +319,30 @@ export default {
   },
   async mounted() {
     if (this.objectLookup) {
-      await this.getWordProfile(this.objectLookup).finally(
-        async () => {
-          const { wordProfile } = useVocabularyStore();
+      await this.getWordProfile(this.objectLookup);
+      const { wordProfile } = useVocabularyStore();
 
-          this.word = wordProfile.text ? wordProfile.text : '';
-          this.language = wordProfile.language ? wordProfile.language : '';
-          this.note = wordProfile.note ? wordProfile.note : '';
-          this.translations = wordProfile.translations ? wordProfile.translations : [];
+      this.word = wordProfile.text ? wordProfile.text : '';
+      this.language = wordProfile.language ? wordProfile.language : '';
+      this.note = wordProfile.note ? wordProfile.note : '';
+      this.translations = wordProfile.translations ? wordProfile.translations : [];
 
-          if (wordProfile.image_associations) {
-            const image_associations_promise = wordProfile.image_associations.map(
-              async (image) => {
-                if (image.image) {
-                  const base64 = useBase64(await readUrlFile(image.image));
-                  image.image = await base64.promise.value
-                }
-                return {
-                  id: image.id,
-                  image: image.image,
-                  image_url: image.image_url,
-                };
-              },
-            );
-            this.image_associations = await Promise.all(image_associations_promise);
-          }
-        },
-      );
+      if (wordProfile.image_associations) {
+        const image_associations_promise = wordProfile.image_associations.map(
+          async (image) => {
+            if (image.image) {
+              const base64 = useBase64(await readUrlFile(image.image));
+              image.image = await base64.promise.value
+            }
+            return {
+              id: image.id,
+              image: image.image,
+              image_url: image.image_url,
+            };
+          },
+        );
+        this.image_associations = await Promise.all(image_associations_promise);
+      };
     } else {
       this.language = this.getLastLanguage();
     }

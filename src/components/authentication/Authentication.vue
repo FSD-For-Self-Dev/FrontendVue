@@ -66,36 +66,33 @@ export default {
       this.closeAuth();
     },
     async registrationSubmitHandler() {
-      await this.registration().then((res) => {
-        if (!isAxiosError(res)) {
-          this.password = this.password1;
-          this.loginSubmitHandler();
-        } else {
-          this.addNewMessage({
-            type: 'error',
-            text: res.response?.data['non_field_errors'][0],
-          });
-        }
-      });
+      const res = await this.registration();
+      if (!isAxiosError(res)) {
+        this.password = this.password1;
+        this.loginSubmitHandler();
+      } else {
+        this.addNewMessage({
+          type: 'error',
+          text: res.response?.data['non_field_errors'][0],
+        });
+      };
     },
     async loginSubmitHandler() {
       this.rememberMe = this.rememberMeCheck;
-      await this.login().then(async (res) => {
-        if (!isAxiosError(res)) {
-          await this.getUser().finally(() => {
-            const { interface_language } = useUserStore();
-            this.$i18n.locale = interface_language;
-            this.update_locale(this.$i18n.locale);
-            this.$emit('loginProcceed')
-          });
-          this.closeFormHandler();
-        } else {
-          this.addNewMessage({
-            type: 'error',
-            text: res.response?.data['non_field_errors'][0],
-          });
-        }
-      });
+      const res = await this.login();
+      if (!isAxiosError(res)) {
+        await this.getUser();
+        const { interface_language } = useUserStore();
+        this.$i18n.locale = interface_language;
+        this.update_locale(this.$i18n.locale);
+        this.$emit('loginProcceed');
+        this.closeFormHandler();
+      } else {
+        this.addNewMessage({
+          type: 'error',
+          text: res.response?.data['non_field_errors'][0],
+        });
+      };
     },
   },
 };

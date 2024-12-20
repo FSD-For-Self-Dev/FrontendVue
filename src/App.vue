@@ -21,35 +21,32 @@ export default {
     ...mapActions(useLanguagesStore, ['getGlobalLanguages']),
     ...mapActions(useGlobalActionsStore, ['global_init', 'update_locale']),
   },
-  mounted() {
+  async mounted() {
     if (this.authStatus) {
-      Promise.all([
-        this.getUser(),
-      ]).finally(async () => {
-        const localeLocal = localStorage.getItem('locale');
-        if (localeLocal) {
-          this.$i18n.locale = localeLocal;
-        } else {
-          const { interface_language } = useUserStore();
-          this.$i18n.locale = interface_language;
-        };
+      await this.getUser();
 
-        this.update_locale(this.$i18n.locale);
-        await this.global_init();
+      const localeLocal = localStorage.getItem('locale');
+      if (localeLocal) {
+        this.$i18n.locale = localeLocal;
+      } else {
+        const { interface_language } = useUserStore();
+        this.$i18n.locale = interface_language;
+      };
 
-        this.isLoading = false;
-      });
+      this.update_locale(this.$i18n.locale);
+      await this.global_init();
+
+      this.isLoading = false;
     } else {
       const localeLocal = localStorage.getItem('locale');
       if (localeLocal) {
         this.$i18n.locale = localeLocal;
       };
       this.update_locale(this.$i18n.locale);
-      Promise.all([
-        this.getGlobalLanguages(),
-      ]).finally(() => {
-        this.isLoading = false;
-      })
+
+      await this.getGlobalLanguages();
+
+      this.isLoading = false;
     };
   },
 };
