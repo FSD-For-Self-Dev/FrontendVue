@@ -18,7 +18,7 @@ export default {
       id: '8ed43223-58dc-488d-b0c3-2d9fa12zzz23',
       image: Img1,
       is_problematic: false,
-      language: 'Italian',
+      language: 'it-it',
       modified: '2024-12-06 16:04',
       slug: 'spiaggia-user',
       tags: ['Отпуск', 'А1'],

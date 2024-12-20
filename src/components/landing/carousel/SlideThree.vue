@@ -17,7 +17,7 @@ export default {
       id: '8ed43223-58dc-488d-b0c3-2d9fa12ccc23',
       image: Img1,
       is_problematic: false,
-      language: 'English',
+      language: 'en-gb',
       modified: '2024-12-06 16:04',
       slug: 'spiaggia-user',
       tags: ['IT', 'WORK'],

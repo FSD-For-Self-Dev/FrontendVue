@@ -18,7 +18,7 @@ export default {
       id: '8ed43223-58dc-488d-b0c3-2d9fa12zzz23',
       image: Img3,
       is_problematic: false,
-      language: 'English',
+      language: 'en-gb',
       modified: '2024-12-06 16:04',
       slug: 'spiaggia-user',
       tags: ['Легкое', 'Meal'],
