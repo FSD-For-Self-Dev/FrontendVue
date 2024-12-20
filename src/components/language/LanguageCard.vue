@@ -240,12 +240,8 @@ export default {
     outline: 0.5 solid $primary-500;
 
     .card--content {
-      outline: $primary-500 0.1rem solid;
+      outline: $white-barely-lucid 0.5rem solid;
       background-color: $white-barely-lucid;
-    }
-
-    .card--overlay {
-      opacity: 6%;
     }
   }
 }

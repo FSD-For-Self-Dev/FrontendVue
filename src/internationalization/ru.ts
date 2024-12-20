@@ -104,6 +104,7 @@ export const ru = {
     next: 'Далее',
     toVocabulary: 'Перейти в словарь',
     toHome: 'На главную',
+    uploadImage: 'Загрузить свою',
   },
   action: {
     delete: 'Удалить',
