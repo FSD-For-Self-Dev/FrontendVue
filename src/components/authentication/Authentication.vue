@@ -11,6 +11,9 @@ import { useNotificationsStore } from '@//store/notifications';
 import IconButton from '../UI/button/IconButton.vue';
 import BooleanInput from '../UI/input/BooleanInput.vue';
 import { useGlobalActionsStore } from '@/store/global-actions';
+import { useWindowScroll } from '@vueuse/core';
+
+const { y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
   components: { OnClickOutside, Input, Button, IconButton, BooleanInput },
@@ -33,6 +36,9 @@ export default {
     return {
       rememberMeCheck,
     }
+  },
+  updated() {
+    y.value = 0;
   },
   props: {
     showAuth: {
