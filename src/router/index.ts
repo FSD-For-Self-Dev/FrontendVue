@@ -53,10 +53,10 @@ const routes = [
       }
     },
   },
-  {
-    path: '/:catchAll(.*)',
-    component: Error404,
-  },
+  // {
+  //   path: '/:catchAll(.*)',
+  //   component: Error404,
+  // },
 ] as RouteRecordRaw[];
 
 const router = createRouter({
