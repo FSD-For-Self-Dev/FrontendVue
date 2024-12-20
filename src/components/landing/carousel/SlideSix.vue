@@ -10,7 +10,7 @@ export default {
   setup() {
     const word: WordDto = {
       activity_progress: 0,
-      activity_status: 'Активное',
+      activity_status: 'Active',
       author: 'user',
       created: '2024-12-06 16:04',
       favorite: false,

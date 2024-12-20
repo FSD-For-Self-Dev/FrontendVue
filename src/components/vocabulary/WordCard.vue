@@ -156,7 +156,7 @@ export default {
 </script>
 
 <template>
-  <article class="card" @click.stop="handleWordProfile">
+  <article class="card" v-bind="{ ...$attrs }" @click.stop="handleWordProfile">
     <div class="card__background" :class="{ 'with-image': word.image }">
       <div class="card__background--overlay" v-if="word.image" />
       <img :src="word.image" alt="Word image" v-if="word.image" />

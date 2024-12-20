@@ -9,9 +9,7 @@ export interface WordDto {
   tags: string[];
   favorite: boolean;
   is_problematic: boolean;
-  // activity_status: string;
-  // activity_status: "Inactive" | "Active" | "Mastered";
-  activity_status: 'Неактивное' | 'Активное' | 'Усвоенное';
+  activity_status: "Inactive" | "Active" | "Mastered";
   activity_progress: number;
   last_exercise_date?: string;
   types: string[];
