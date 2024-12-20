@@ -1,20 +1,20 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
-import type { PropType } from 'vue';
+import { ref, type PropType } from 'vue';
 import Input from '@/components/UI/input/Input.vue';
 import Button from '@/components/UI/button/Button.vue';
-import { mapActions, mapWritableState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useAuthStore } from '@/store/auth';
 import { useUserStore } from '@/store/user';
 import { isAxiosError } from 'axios';
-import { useLanguagesStore } from '@/store/languages';
-import { useVocabularyStore } from '@/store/vocabulary';
 import { useNotificationsStore } from '@//store/notifications';
 import IconButton from '../UI/button/IconButton.vue';
 import BooleanInput from '../UI/input/BooleanInput.vue';
+import { useGlobalActionsStore } from '@/store/global-actions';
 
 export default {
   components: { OnClickOutside, Input, Button, IconButton, BooleanInput },
+  emits: ["loginProcceed"],
   computed: {
     ...mapWritableState(useAuthStore, [
       'email',
@@ -22,9 +22,17 @@ export default {
       'password1',
       'password2',
       'username',
-      'remember',
+      'rememberMe',
       'errors',
     ]),
+  },
+  setup() {
+    const { rememberMe } = useAuthStore();
+    const rememberMeCheck = ref(rememberMe);
+
+    return {
+      rememberMeCheck,
+    }
   },
   props: {
     showAuth: {
@@ -47,9 +55,8 @@ export default {
   methods: {
     ...mapActions(useAuthStore, ['login', 'registration', 'clearState']),
     ...mapActions(useUserStore, ['getUser']),
-    ...mapActions(useLanguagesStore, ['getAvailableLanguages', 'getLearningLanguages']),
-    ...mapActions(useVocabularyStore, ['getVocabulary']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
+    ...mapActions(useGlobalActionsStore, ['update_locale']),
     switchFormHandler(form: 'login' | 'register') {
       this.clearState();
       this.switchForm(form);
@@ -59,35 +66,33 @@ export default {
       this.closeAuth();
     },
     async registrationSubmitHandler() {
-      await this.registration().then((res) => {
-        if (!isAxiosError(res)) {
-          this.password = this.password1;
-          this.loginSubmitHandler();
-        } else {
-          this.addNewMessage({
-            type: 'error',
-            text: res.response?.data['non_field_errors'][0],
-          });
-        }
-      });
+      const res = await this.registration();
+      if (!isAxiosError(res)) {
+        this.password = this.password1;
+        this.loginSubmitHandler();
+      } else {
+        this.addNewMessage({
+          type: 'error',
+          text: res.response?.data['non_field_errors'][0],
+        });
+      };
     },
     async loginSubmitHandler() {
-      await this.login().then((res) => {
-        if (!isAxiosError(res)) {
-          Promise.all([
-            this.getUser(),
-            this.getAvailableLanguages(),
-            this.getLearningLanguages(),
-            this.getVocabulary(),
-          ]);
-          this.closeFormHandler();
-        } else {
-          this.addNewMessage({
-            type: 'error',
-            text: res.response?.data['non_field_errors'][0],
-          });
-        }
-      });
+      this.rememberMe = this.rememberMeCheck;
+      const res = await this.login();
+      if (!isAxiosError(res)) {
+        await this.getUser();
+        const { interface_language } = useUserStore();
+        this.$i18n.locale = interface_language;
+        this.update_locale(this.$i18n.locale);
+        this.$emit('loginProcceed');
+        this.closeFormHandler();
+      } else {
+        this.addNewMessage({
+          type: 'error',
+          text: res.response?.data['non_field_errors'][0],
+        });
+      };
     },
   },
 };
@@ -104,18 +109,18 @@ export default {
           class="modal-auth--form"
           v-if="viewAuth === 'login'"
         >
-          <h2 class="modal-auth--title">Рады видеть вас снова!</h2>
+          <h2 class="modal-auth--title">{{ $t('auth.welcomeAgain') }}</h2>
           <div class="modal-auth--form--inputs">
             <Input
               type="text"
-              label="Логин"
+              :label="$t('auth.username')"
               :show-label="true"
               v-model="username"
               :server-error="errors.username ? errors.username.toString() : undefined"
             />
             <Input
               type="password"
-              label="Пароль"
+              :label="$t('auth.password')"
               :show-label="true"
               v-model="password"
               :server-error="errors.password ? errors.password.toString() : undefined"
@@ -124,25 +129,25 @@ export default {
           <div class="modal-auth--form--actions">
             <div class="modal-auth--tools">
               <BooleanInput
-                label="Запомнить меня"
+                :label="$t('auth.rememberMe')"
                 type="checkbox"
                 size="small"
-                v-model="remember"
+                v-model="rememberMeCheck"
                 checked
               />
-              <a class="modal-auth--link">Забыли пароль?</a>
+              <a class="modal-auth--link">{{ $t('auth.forgotPassword') }}</a>
             </div>
             <Button
-              text="Войти"
+              :text="$t('auth.logIn')"
               style="width: 100%; display: flex; justify-content: center"
               variant="primary"
               size="medium"
             />
             <div class="auth-switcher">
-              Нет аккаунта?
-              <a class="modal-auth--link" @click="() => switchFormHandler('register')"
-                >Зарегистрироваться</a
-              >
+              {{ $t('auth.noAccount') }}
+              <a class="modal-auth--link" @click="() => switchFormHandler('register')">
+                {{ $t('auth.signUp') }}
+              </a>
             </div>
           </div>
         </form>
@@ -152,32 +157,32 @@ export default {
           class="modal-auth--form"
           v-if="viewAuth === 'register'"
         >
-          <h2 class="modal-auth--title">Добро пожаловать!</h2>
+          <h2 class="modal-auth--title">{{ $t('auth.welcome') }}</h2>
           <div class="modal-auth--form--inputs">
             <Input
               type="text"
-              label="Логин"
+              :label="$t('auth.username')"
               :show-label="true"
               v-model="username"
               :server-error="errors.username ? errors.username.toString() : undefined"
             />
             <Input
               type="email"
-              label="Email"
+              :label="$t('auth.email')"
               :show-label="true"
               v-model="email"
               :server-error="errors.email ? errors.email.toString() : undefined"
             />
             <Input
               type="password"
-              label="Пароль"
+              :label="$t('auth.password')"
               :show-label="true"
               v-model="password1"
               :server-error="errors.password1 ? errors.password1.toString() : undefined"
             />
             <Input
               type="password"
-              label="Подтверждение пароля"
+              :label="$t('auth.passwordConfirm')"
               :show-label="true"
               v-model="password2"
               :server-error="errors.password2 ? errors.password2.toString() : undefined"
@@ -185,16 +190,16 @@ export default {
           </div>
           <div class="modal-auth--form--actions">
             <Button
-              text="Создать аккаунт"
+              :text="$t('auth.signUpConfirm')"
               style="width: 100%; display: flex; justify-content: center"
               variant="primary"
               size="medium"
             />
             <div class="auth-switcher">
-              Уже есть аккаунт?
-              <a class="modal-auth--link" @click="() => switchFormHandler('login')"
-                >Войти</a
-              >
+              {{ $t('auth.alreadyHaveAccount') }}
+              <a class="modal-auth--link" @click="() => switchFormHandler('login')">
+                {{ $t('auth.logIn') }}
+              </a>
             </div>
           </div>
         </form>
@@ -234,7 +239,7 @@ export default {
   height: 62rem;
   background-color: $neutrals-100;
   box-shadow: $regular-shadow;
-  border-radius: $radius-md;
+  border-radius: $radius-lg;
   display: flex;
   justify-content: space-between;
 
@@ -243,7 +248,7 @@ export default {
     background-size: cover;
     min-width: 44rem;
     height: 62rem;
-    border-radius: 0 $radius-md $radius-md 0;
+    border-radius: 0 $radius-lg $radius-lg 0;
   }
 
   .modal-auth--title {
@@ -268,14 +273,14 @@ export default {
     &--inputs {
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1.6rem;
     }
 
     &--actions {
       display: flex;
       flex-direction: column;
       gap: 2.4rem;
-      margin-top: 1.6rem;
+      margin-top: 2.4rem;
     }
   }
 

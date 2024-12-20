@@ -6,19 +6,22 @@ export default {};
     <nav class="navigation">
         <ul class="navigation--list">
             <li>
-                <a class="navigation--item" @click="$router.push('vocabulary')">
-                    <svg-icon name="VocabularyIcon" size="md" style="stroke-width: 0.2;" />Словарь
+                <a class="navigation--item" @click.stop="$router.push('vocabulary')">
+                    <svg-icon name="VocabularyIcon" size="md" style="stroke-width: 0.2;" />
+                    {{ $t('navigation.vocabulary') }}
                 </a>
             </li>
             <li>
-                <a class="navigation--item">
-                    <svg-icon name="CollectionsIcon" size="md" style="stroke-width: 0.2;" />Коллекции
+                <a class="navigation--item" @click.stop="$router.push('collections')">
+                    <svg-icon name="CollectionsIcon" size="md" style="stroke-width: 0.2;" />
+                    {{ $t('navigation.collections') }}
                 </a>
 
             </li>
             <li>
-                <a class="navigation--item">
-                    <svg-icon name="ExercisesIcon" size="md" style="stroke-width: 0.2;" />Упражнения
+                <a class="navigation--item" @click.stop="$router.push('exercises')">
+                    <svg-icon name="ExercisesIcon" size="md" style="stroke-width: 0.2;" />
+                    {{ $t('navigation.exercises') }}
                 </a>
             </li>
         </ul>
@@ -42,18 +45,17 @@ export default {};
         @include text-2;
         display: flex;
         align-items: center;
-        padding: 12px 16px;
+        padding: 1.2rem 1.6rem;
         cursor: pointer;
-        border: 1px solid $neutrals-400;
-        border-radius: 40px;
-        line-height: 20px;
+        border: 0.1rem solid $neutrals-400;
+        border-radius: $radius-2xl;
         background-color: $neutrals-100;
         gap: 0.6rem;
         min-width: 15.2rem;
 
         &:hover {
             background-color: $primary-300;
-            border: 1px solid transparent;
+            border: 0.1rem solid transparent;
         }
     }
 }

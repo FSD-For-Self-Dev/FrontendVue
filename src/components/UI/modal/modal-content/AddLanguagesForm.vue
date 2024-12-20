@@ -1,7 +1,6 @@
 <script lang="ts">
 import { useLanguagesStore } from '@/store/languages';
 import { mapActions, mapState } from 'pinia';
-import { numWord } from '@/utils/numWord';
 import { useNotificationsStore } from '@/store/notifications';
 import type { LanguageDto } from '@/dto/languages.dto';
 import Button from '@/components/UI/button/Button.vue';
@@ -22,20 +21,11 @@ export default {
     return {
       searchLanguage: '',
       activeLanguage: [] as LanguageDto[],
+      submitProcess: false,
     };
   },
   computed: {
     ...mapState(useLanguagesStore, ['available_languages']),
-    count() {
-      return this.filteredLanguages.length;
-    },
-    available_info() {
-      return (
-        numWord(this.count, ['Доступен ', 'Доступно ', 'Доступно ']) +
-        this.count +
-        numWord(this.count, [' язык', ' языка', ' языков'])
-      );
-    },
     filteredLanguages() {
       return this.available_languages.filter((lang) => {
         return (
@@ -59,33 +49,26 @@ export default {
       this.activeLanguage.length = 0;
     },
     async handleSave() {
+      this.submitProcess = true;
       const res = await this.postLearningLanguage(this.activeLanguage);
       if (isAxiosError(res)) {
         if (res.response?.status === 409) {
           this.addNewMessage({
             type: 'error',
-            text: 'Максимальное количество изучаемых языков',
+            text: this.$t('errorMessage.languagesAmountLimit'),
           });
         }
-
         return;
-      }
-      const lenWords = this.activeLanguage.length;
-      const addWord = numWord(lenWords, ['Добавлен', 'Добавлено', 'Добавлено']);
-      const learnWord = numWord(lenWords, ['изучаемый', 'изучаемых', 'изучаемых']);
-      const langWord = numWord(lenWords, ['язык', 'языка', 'языков']);
-      this.addNewMessage({
-        type: 'info',
-        text: `${addWord} ${lenWords} ${learnWord} ${langWord}`,
-      });
-
-      await this.getAvailableLanguages();
-      this.closeForm();
-    },
-    handleWheel(event: WheelEvent) {
-      const container = event.currentTarget as HTMLElement;
-      event.preventDefault();
-      container.scrollTop += event.deltaX;
+      } else {
+        this.closeForm();
+        const lenLanguages = this.activeLanguage.length;
+        this.addNewMessage({
+          type: 'info',
+          text: this.$t('infoMessage.newLanguagesAdded', lenLanguages, { named: { n: lenLanguages } }),
+        });
+        await this.getAvailableLanguages();
+      };
+      this.submitProcess = false;
     },
   },
 };
@@ -95,13 +78,15 @@ export default {
   <form class="languages-form" @submit.prevent="() => handleSave()">
     <Search v-model="searchLanguage" />
     <div class="languages-from--counters-info">
-      <span class="languages-form--available-info">{{ available_info }} </span>
+      <span class="languages-form--available-info">
+        {{ $t('counter.languages', filteredLanguages.length, { named: { n: filteredLanguages.length } }) }}
+      </span>
       <Counter
         :value="activeLanguage.length"
         :clear-active-items="clearActiveLanguages"
       />
     </div>
-    <div class="languages-form--list" @wheel.prevent="handleWheel">
+    <div class="languages-form--list">
       <div
         class="languages-form--list-item"
         @click="() => toggleActiveLanguage(lang)"
@@ -115,12 +100,24 @@ export default {
     </div>
     <div class="languages-form--actions">
       <Button
-        text="Отменить"
+        :text="$t('buttons.cancel')"
         variant="secondary"
         size="medium"
         @click="() => closeForm()"
       />
-      <Button text="Добавить" variant="primary" size="medium" type="submit" />
+      <Button
+        v-if="!submitProcess"
+        :text="$t('buttons.add')"
+        variant="primary"
+        size="medium"
+        type="submit"
+      />
+      <Button
+        v-else
+        size="medium"
+        :text="$t('tip.saveProcceed')"
+        disabled
+      />
     </div>
   </form>
 </template>
@@ -157,7 +154,7 @@ export default {
       color: $neutrals-900;
       width: 17.5rem;
       height: 4.8rem;
-      border: 1px solid $neutrals-400;
+      border: 0.1rem solid $neutrals-400;
       border-radius: 1.2rem;
       padding: 1.2rem 1.6rem;
       display: flex;
@@ -167,17 +164,17 @@ export default {
 
       &:hover {
         background-color: $primary-200;
-        border: 1px solid $primary-200;
+        border-color: $primary-200;
       }
 
       &:active {
         background-color: $primary-300;
-        border: 1px solid $primary-300;
+        border-color: $primary-300;
       }
 
       &.active {
         background-color: $primary-300;
-        border: 1px solid $primary-300;
+        border-color: $primary-300;
       }
     }
   }

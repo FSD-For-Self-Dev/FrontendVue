@@ -20,6 +20,10 @@ export default {
       type: String as PropType<IconButtonProps["variant"]>,
       default: "secondary",
     },
+    active: {
+      type: Boolean,
+      default: false
+    },
   },
   computed: {
     buttonClasses() {
@@ -29,13 +33,22 @@ export default {
         "button--xsmall": this.size === "xs",
         "button--small": this.size === "sm",
         "button--medium": this.size === "md",
+        "button--normal": this.size === "nm",
         "button--large": this.size === "lg",
+        "button--xlarge": this.size === "xl",
 
         /* Variants */
         "button--primary": this.variant === "primary",
         "button--secondary": this.variant === "secondary",
         "button--tertiary": this.variant === "tertiary",
         "button--shadowed": this.variant === "shadowed",
+        "button--lucid": this.variant === "lucid",
+        "button--ghost": this.variant === "ghost",
+        "button--favorite": this.variant === "favorite",
+        "button--favorite-lucid": this.variant === "favorite-lucid",
+
+        /* EXtra states */
+        "active": this.active,
       };
     },
     iconSizeComputes() {
@@ -88,6 +101,10 @@ export default {
     @include focus {
       background-color: $primary-700;
     }
+
+    &.active {
+      background-color: $primary-700;
+    }
   }
 
   &--secondary {
@@ -105,7 +122,15 @@ export default {
       #icon {
         color: $primary-700;
       };
-      
+    }
+
+    &.active {
+      background-color: $primary-400;
+      outline-color: $primary-400;
+
+      #icon {
+        color: $primary-700;
+      };
     }
 
     @include active {
@@ -178,6 +203,43 @@ export default {
   }
 
   &--lucid {
+    background-color: $white-lucid;
+    box-shadow: $regular-shadow;
+    outline: $white-lucid 0.1rem solid;
+
+    #icon {
+      color: $neutrals-800;
+    };
+
+    @include hover {
+      background-color: $primary-100;
+      outline-color: $primary-100;
+      
+      #icon {
+        color: $primary-700;
+      };
+    }
+
+    @include active {
+      background-color: $primary-400;
+      outline-color: $primary-400;
+      
+      #icon {
+        color: $primary-700;
+      };
+    }
+
+    &.active {
+      background-color: $primary-400;
+      outline-color: $primary-400;
+
+      #icon {
+        color: $primary-700;
+      };
+    }
+  }
+
+  &--ghost {
     background-color: #ffffff30;
     box-shadow: $regular-shadow;
 
@@ -211,6 +273,56 @@ export default {
       };
     }
   }
+
+  &--favorite {
+    background-color: $neutrals-100;
+    outline: $neutrals-400 0.1rem solid;
+
+    #icon {
+      color: $neutrals-800;
+    };
+
+    @include hover {
+      background-color: $danger-100;
+      outline-color: $danger-100;
+
+      #icon {
+        color: $danger-400;
+      };
+    }
+
+    &.active {
+
+      #icon {
+        color: $danger-500;
+      };
+    }
+  }
+
+  &--favorite-lucid {
+    background-color: $white-lucid;
+    box-shadow: $regular-shadow;
+    outline: $white-lucid 0.1rem solid;
+
+    #icon {
+      color: $neutrals-800;
+    };
+
+    @include hover {
+      background-color: $danger-100;
+      
+      #icon {
+        color: $danger-400;
+      };
+    }
+
+    &.active {
+
+      #icon {
+        color: $danger-500;
+      };
+    }
+  }
   
   &--xxsmall {
     width: 2.8rem;
@@ -240,11 +352,25 @@ export default {
     min-height: 4.4rem;
   }
 
+  &--normal {
+    width: 4.8rem;
+    height: 4.8rem;
+    min-width: 4.8rem;
+    min-height: 4.8rem;
+  }
+
   &--large {
     width: 5.6rem;
     height: 5.6rem;
     min-width: 5.6rem;
     min-height: 5.6rem;
+  }
+
+  &--xlarge {
+    width: 6.4rem;
+    height: 6.4rem;
+    min-width: 6.4rem;
+    min-height: 6.4rem;
   }
 }
 

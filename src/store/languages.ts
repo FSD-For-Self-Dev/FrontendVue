@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import type { LanguageDto, LearningLanguageDto } from '@/dto/languages.dto';
+import type { LanguageCoverDto, LanguageDto, LearningLanguageDto } from '@/dto/languages.dto';
 import api from '@/api';
 import { isAxiosError } from 'axios';
 
@@ -9,6 +9,7 @@ export interface ILanguagesState {
   global_languages: LanguageDto[];
   all_languages: LanguageDto[];
   count: number;
+  covers: LanguageCoverDto[];
 }
 
 export const useLanguagesStore = defineStore('languages', {
@@ -19,6 +20,7 @@ export const useLanguagesStore = defineStore('languages', {
       count: 0,
       global_languages: [],
       all_languages: [],
+      covers: [],
     };
   },
   actions: {
@@ -51,6 +53,51 @@ export const useLanguagesStore = defineStore('languages', {
           return error;
         }
       }
+    },
+    async deleteLanguage(languageSlug: string, delete_words: boolean = false) {
+      try {
+        await api.languages.deleteLanguage(languageSlug, delete_words);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          return error;
+        }
+      }
+    },
+    async getLanguageCovers(languageSlug: string) {
+      try {
+        const res = await api.languages.getLanguageCovers(languageSlug);
+        this.covers = res.data.results as unknown as LanguageCoverDto[];
+      } catch (error) {
+        if (isAxiosError(error)) {
+          return error;
+        }
+      }
+    },
+    async setLanguageCover(languageSlug: string, data: Object) {
+      try {
+        await api.languages.setLanguageCover(languageSlug, data);
+      } catch (error) {
+        if (isAxiosError(error)) {
+          return error;
+        }
+      }
+    },
+    getLanguageObject(langName: string) {
+      const lang_obj = this.learning_languages.filter((lang) => { return lang.language.name === langName})[0];
+      if (lang_obj) {
+        return lang_obj
+      } else {
+        return
+      }
+    },
+    getLanguageObjectByIsocode(langCode: string | undefined) {
+      if (!langCode) return;
+      const lang_obj = this.learning_languages.filter((lang) => { return lang.language.isocode === langCode})[0];
+      if (lang_obj) {
+        return lang_obj
+      } else {
+        return
+      };
     },
     clearDataLanguages() {
       this.available_languages = [];

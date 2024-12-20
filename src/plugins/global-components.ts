@@ -5,7 +5,9 @@ const globalComponentsPaths = import.meta.glob('/src/components/global/**/*.vue'
 
 Object.entries(globalComponentsPaths).forEach(([path, module]) => {
   // "./components/SvgIcon.vue" -> "SvgIcon"
-  const componentName = path.split('/').pop().replace(/\.vue$/, '');
+  const componentName = path.split('/').pop()?.replace(/\.vue$/, '');
 
-  app.component(componentName, defineAsyncComponent(module));
+  if (componentName) {
+    app.component(componentName, defineAsyncComponent(module))
+  };
 });

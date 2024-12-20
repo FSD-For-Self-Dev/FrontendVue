@@ -6,23 +6,30 @@ import type { UserDto } from '@/dto/user.dto';
 import { useLanguagesStore } from '@/store/languages';
 import { useUserStore } from '@/store/user';
 import { useBase64 } from '@vueuse/core';
-import { mapActions, mapWritableState } from 'pinia';
+import { mapActions } from 'pinia';
 import { computed, ref } from 'vue';
 import TextButton from '../UI/button/TextButton.vue';
 import { useWindowScroll } from '@vueuse/core';
 import { useNotificationsStore } from '@/store/notifications';
+import { isAxiosError } from 'axios';
+import { readUrlFile } from '@/utils/readUrlFile';
 
 const { y } = useWindowScroll({ behavior: 'instant' });
 
 export default {
   components: { Dropdown, Input, Button, TextButton },
+  data() {
+    return {
+      submitProcess: false,
+    }
+  },
   setup() {
     const { global_languages } = useLanguagesStore();
     const { first_name, username, image, native_languages } = useUserStore();
     const dropDownItems = computed(() => {
       return global_languages.map((lang) => {
         return {
-          value: lang.name,
+          value: lang.isocode,
           label: lang.name_local,
           icon: lang.flag_icon,
         };
@@ -51,21 +58,33 @@ export default {
       native_languages,
     };
   },
+  async mounted() {
+    const base64 = useBase64(await readUrlFile(this.formImage));
+    this.formImage = await base64.promise.value;
+  },
   methods: {
     ...mapActions(useUserStore, ['patchUser']),
+    ...mapActions(useLanguagesStore, ["getAllLanguages"]),
     ...mapActions(useNotificationsStore, ["addNewMessage"]),
-    handleSubmit() {
+    async handleSubmit() {
+      this.submitProcess = true;
       const data: UserDto = {
         username: this.formUserName,
         first_name: this.formFirstName,
         native_languages: this.formNativeLang,
         image: this.formImage,
       };
-      this.patchUser(data);
-      this.addNewMessage({
-        type: 'info',
-        text: 'Данные профиля обновлены',
-      });
+      const res = await this.patchUser(data);
+      if (isAxiosError(res)) {
+        console.log(res.response?.data);
+      } else {
+        this.getAllLanguages();
+        this.addNewMessage({
+          type: 'info',
+          text: this.$t('infoMessage.changesSaved'),
+        });
+      };
+      this.submitProcess = false;
     },
     async onFileChanged(event: Event) {
       const target = event.target as HTMLInputElement;
@@ -108,36 +127,40 @@ export default {
           <svg-icon name="ProfileIcon" size="lg" color="var:neutral-500" />
         </div>
         <img v-else class="settings--avatar" width="140" :src="formImage" />
-        <span class="settings--sub1"
-          >Перетащите файл сюда или
-          <span class="settings--highlighted">выберите с компьютера</span></span
-        >
-        <span class="settings--sub2">Картинка (jpg, jpeg, png, gif)</span>
+        <span class="settings--sub1">
+          {{ $t('tip.fileUpload1') }}
+          <span class="settings--highlighted">
+            {{ $t('tip.fileUpload2') }}
+          </span>
+        </span>
+        <span class="settings--sub2">{{ $t('tip.fileUpload3') }}</span>
       </div>
     </label>
     <label class="settings--label-form">
-      Имя
+      {{ $t('user.firstName') }}
       <Input v-model="formFirstName" />
     </label>
     <label class="settings--label-form">
-      Логин (отображается как @your_login)
+      {{ $t('user.username') }}
       <Input v-model="formUserName" />
     </label>
     <div class="settings--label-form">
-      Родной язык
+      {{ $t('user.nativeLanguage') }}
       <Dropdown
-        placeholder="Родной язык 1"
+        :placeholder="$t('user.nativeLanguage1')"
         :items="dropDownItems"
         v-model="formNativeLang[0]"
+        style="padding-inline: 2.8rem"
       />
       <Dropdown
-        placeholder="Родной язык 2"
+        :placeholder="$t('user.nativeLanguage2')"
         :items="dropDownItems"
         v-model="formNativeLang[1]"
         v-if="formNativeLang[1] || moreNativeLang"
+        style="padding-inline: 2.8rem"
       />
       <TextButton
-        text="Добавить еще один родной язык"
+        :text="$t('user.addNativeLanguage')"
         icon="AddIcon"
         type="button"
         @click="moreNativeLang = true"
@@ -146,13 +169,14 @@ export default {
     </div>
     <div class="buttons">
       <Button
-        text="Сбросить"
+        :text="$t('buttons.reset')"
         size="medium"
         variant="secondary"
         type="button"
         @click="cancelChanges()"
       />
-      <Button text="Сохранить" size="medium" type="submit" />
+      <Button v-if="!submitProcess" :text="$t('buttons.save')" size="medium" type="submit" />
+      <Button v-else :text="$t('tip.saveProcceed')" size="medium" type="submit" disabled />
     </div>
   </form>
 </template>
@@ -162,6 +186,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 4rem;
+  margin-top: 6.4rem;
 
   .buttons {
     display: inline-flex;
@@ -186,11 +211,11 @@ export default {
     display: flex;
     align-items: center;
     flex-direction: column;
-    border-radius: 4rem;
-    border: 1px dashed $primary-300;
+    border-radius: $radius-2xl;
+    border: 0.1rem dashed $primary-300;
 
     &.label--drag {
-      border: 1px dashed $primary-500;
+      border: 0.1rem dashed $primary-500;
       background-color: $primary-200;
       transition: all 0.4s ease;
 
@@ -236,7 +261,7 @@ export default {
         width: 14rem;
         height: 14rem;
         object-fit: cover;
-        border-radius: 50%;
+        border-radius: $radius-full;
         margin-bottom: 2.4rem;
       }
 
@@ -246,7 +271,7 @@ export default {
         border: 0.1rem solid $neutrals-400;
         color: $neutrals-500;
         box-sizing: border-box;
-        border-radius: 50%;
+        border-radius: $radius-full;
         display: flex;
         justify-content: center;
         align-items: center;

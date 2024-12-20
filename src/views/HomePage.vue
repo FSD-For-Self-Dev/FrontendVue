@@ -5,11 +5,17 @@ import VocabularyMainView from '@/components/vocabulary/VocabularyMainView.vue';
 import Landing from '@/components/landing/Landing.vue';
 import { mapState } from 'pinia';
 import { useUserStore } from '@/store/user';
+import { useWindowScroll } from '@vueuse/core';
+
+const { y } = useWindowScroll({ behavior: 'instant' });
 
 export default {
   components: { PageLayout, LanguagesMainView, VocabularyMainView, Landing },
   computed: {
     ...mapState(useUserStore, ['authStatus', 'username']),
+  },
+  setup() {
+    y.value = 0;
   },
 };
 </script>

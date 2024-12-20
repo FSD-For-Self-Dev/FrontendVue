@@ -1,21 +1,63 @@
 <script lang="ts">
-export default {};
+import Dropdown from '../UI/dropdown/Dropdown.vue';
+
+export default {
+  components: { Dropdown },
+  emits: ["localeUpdated"],
+  methods: {
+    updateLocale() {
+      this.$emit("localeUpdated");
+    },
+  },
+};
 </script>
 
 <template>
-    <button class="language--button">
-        <svg-icon name="RuIcon" size="lg" hoverColor="var:primary-500" />
-    </button>
+  <Dropdown
+    v-model="$i18n.locale"
+    :items="
+      $i18n.availableLocales.map((locale) => {
+        return {
+          value: locale,
+          label: locale,
+        };
+      })
+    "
+    @update:modelValue="updateLocale"
+    :noChevron="true"
+    style="padding-inline: 0; border: 0; min-height: 0; background-color: transparent;"
+    class="language-changer"
+  />
 </template>
 
 <style lang="scss">
-.language--button {
-    padding: 0;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.language-changer {
+  span {
+    @include tag-xxlarge;
+  }
+
+  .dropdown-item {
+    min-width: 4rem;
+
+    span {
+      @include tag-xlarge;
+    }
+  }
+
+  .dropdown-menu {
+    width: max-content;
+    top: 140%;
+    left: -50%;
+  }
+
+  .dropdown-content {
+    width: max-content;
+  }
+
+  &:hover {
+    .selected-span {
+      color: $primary-500;
+    }
+  }
 }
 </style>

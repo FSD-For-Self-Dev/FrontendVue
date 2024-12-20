@@ -54,6 +54,16 @@
 }
 
 @font-face {
+    font-family: 'Inter-Light';
+    font-weight: 300;
+    font-style: normal;
+    font-display: auto;
+    src:
+        local('Inter-Light'),
+        url('@/assets/fonts/inter/inter-light.woff2') format('woff2');
+}
+
+@font-face {
     font-family: 'Inter-Bold';
     font-weight: 700;
     font-style: normal;
