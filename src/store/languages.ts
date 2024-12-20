@@ -65,7 +65,7 @@ export const useLanguagesStore = defineStore('languages', {
     async getLanguageCovers(languageSlug: string) {
       try {
         const res = await api.languages.getLanguageCovers(languageSlug);
-        this.covers = res.data as unknown as LanguageCoverDto[];
+        this.covers = res.data.results as unknown as LanguageCoverDto[];
       } catch (error) {
         if (isAxiosError(error)) {
           return error;

@@ -62,7 +62,9 @@ export default {
     },
     async handleCoverChange() {
       this.submitProcess = true;
-      const data = { image_id: this.cover_id };
+      const data = {
+        'id': this.cover_id
+      };
       const res = await this.setLanguageCover(this.objectLookup, data);
       if (isAxiosError(res)) {
         console.log(res.response?.data);
