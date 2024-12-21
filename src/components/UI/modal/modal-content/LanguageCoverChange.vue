@@ -4,7 +4,6 @@ import { useNotificationsStore } from '@/store/notifications';
 import { mapActions, mapState } from 'pinia';
 import { isAxiosError } from 'axios';
 import { ref } from 'vue';
-import { useBase64 } from '@vueuse/core';
 import { useLanguagesStore } from '@/store/languages';
 import Button from '@/components/UI/button/Button.vue';
 import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
@@ -12,6 +11,7 @@ import type { LanguageCoverDto, LanguageDeleteCoverDto, LanguageSetCoverDto } fr
 import LanguageCoverItem from '@/components/language/LanguageCoverItem.vue';
 import ImageUploadForm from '@/components/vocabulary/ImageUploadForm.vue';
 import { useUserStore } from '@/store/user';
+import { uploadFile } from '@/utils/uploadFileB64';
 
 export default {
   components: {
@@ -78,17 +78,10 @@ export default {
       this.cover_id = id;
     },
     async handleSubmitNewImage(event: Event) {
-      const target = event.target as HTMLInputElement;
-      const files = target.files;
-
-      if (files) {
-        const base64 = useBase64(files[0]);
-        this.newImage = await base64.promise.value;
-        this.setData = {
-          'image': this.newImage
-        };
-      }
-
+      this.newImage = await uploadFile(event.target as HTMLInputElement);
+      this.setData = {
+        'image': this.newImage
+      };
       this.imageFormOpen = false;
       this.cover_id = '';
     },

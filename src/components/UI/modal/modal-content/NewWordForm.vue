@@ -22,6 +22,7 @@ import ImageUploadForm from '@/components/vocabulary/ImageUploadForm.vue';
 import WordImageItem from '@/components/vocabulary/WordImageItem.vue';
 import WordTranslationItem from '@/components/vocabulary/WordTranslationItem.vue';
 import { readUrlFile } from '@/utils/readUrlFile';
+import { uploadFile } from '@/utils/uploadFileB64';
 
 export default {
   components: {
@@ -224,13 +225,7 @@ export default {
       this.newTranslationLanguage = '';
     },
     async handleSubmitNewImage(event: Event) {
-      const target = event.target as HTMLInputElement;
-      const files = target.files;
-
-      if (files) {
-        const base64 = useBase64(files[0]);
-        this.newImage = await base64.promise.value;
-      }
+      this.newImage = await uploadFile(event.target as HTMLInputElement);
 
       if (typeof this.editIndex != 'undefined') {
         let image_associations_updated = this.image_associations.slice(0, this.editIndex);
