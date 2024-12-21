@@ -10,6 +10,8 @@ export interface VocabularyStore {
   filteredCount: number;
   filteredWords: WordDto[];
   wordProfile: WordProfileDto;
+  favoriteCount: number;
+  favoriteWords: WordDto[];
   errors: {
     language: string[];
     text: string[];
@@ -26,6 +28,8 @@ export const useVocabularyStore = defineStore('vocabulary', {
       filteredCount: 0,
       filteredWords: [],
       wordProfile: {},
+      favoriteCount: 0,
+      favoriteWords: [],
       errors: { language: [], text: [] },
       filterOptions: {
         language: '',
@@ -118,6 +122,26 @@ export const useVocabularyStore = defineStore('vocabulary', {
         }
         return error;
       }
+    },
+    async getFavoriteWords(filtered: boolean = false) {
+      this.isLoading = true;
+      try {
+        const { data } = await api.vocabulary.getFavorite(this.filterOptions);
+        if (data && data.results) {
+          if (filtered) {
+            this.filteredWords = data.results as unknown as WordDto[];
+            this.filteredCount = data.count as unknown as number;
+          } else {
+            this.favoriteWords = data.results as unknown as WordDto[];
+            this.favoriteCount = data.count as unknown as number;
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching vocabulary:', error);
+        this.favoriteWords = [];
+        this.favoriteCount = 0;
+      }
+      this.isLoading = false;
     },
     clearDataVocabulary() {
       this.vocabularyWords = [];

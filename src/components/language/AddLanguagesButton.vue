@@ -32,7 +32,13 @@ export default {
 </script>
 
 <template>
-  <Button @click.stop="handleOpen" :size="buttonSize" :text="buttonText" icon="AddIcon" />
+  <Button
+    @click.stop="handleOpen"
+    :size="buttonSize"
+    :text="buttonText"
+    icon="AddIcon"
+    v-bind="{ ...$attrs }"
+  />
   <Modal
     v-if="showModal"
     :close-modal="handleClose"

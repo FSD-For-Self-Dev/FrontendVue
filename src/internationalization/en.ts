@@ -67,13 +67,17 @@ export const en = {
     vocabulary: 'Search for word or phrase...',
   },
   emptyTip: {
-    vocabulary: 'No words or phrases in your vocabulary yet',
+    vocabularyTitle: 'No words or phrases in your vocabulary yet',
+    vocabularyText: 'Write down the words that are relevant to you, which you already know or want to remember, for any language you are learning',
     vocabularyByLanguage: 'No words or phrases with this language yet',
-    learningLanguages: 'No learning languages here yet',
+    learningLanguagesTitle: 'No learning languages here yet',
+    learningLanguagesText: 'Start adding words to your vocabulary and your languages will be displayed here automatically, or add the languages you are learning manually',
     translationLanguages: 'No native or other learning languages were found',
     translations: 'No translations yet',
     associations: 'No associations yet',
     filteredWordsEmpty: 'No suitable words were found',
+    favoriteWordsTitle: 'No favorite words yet',
+    favoriteWordsText: 'Add words to your favorites and they will be displayed here',
   },
   tip: {
     fileUpload1: 'Drag and drop the file here or',
@@ -84,8 +88,6 @@ export const en = {
     dangerAction: 'This action cannot be reversed',
     deleteProcceed: 'Deletion...',
     saveProcceed: 'Saving...',
-    learningLanguages: 'Your learning languages will be here',
-    learningLanguagesWords: 'Start adding words to your vocabulary and your languages will be displayed here automatically, or add the languages you are learning manually',
     deleteLanguageWords: 'The words of this language will be deleted from your vocabulary',
   },
   buttons: {

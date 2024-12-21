@@ -6,6 +6,8 @@ import IconButton from '../UI/button/IconButton.vue';
 import WordCard from './WordCard.vue';
 import NewWordButton from './NewWordButton.vue';
 import Preloader from '@/components/UI/preloader/Preloader.vue';
+import type { PropType } from 'vue';
+import type { WordDto } from '@/dto/vocabulary.dto';
 
 export default {
   components: { IconButton, WordCard, NewWordButton, Preloader },
@@ -14,13 +16,25 @@ export default {
       type: Boolean,
       required: false,
     },
+    getWords: {
+      type: Function,
+      required: false,
+    },
+    words: {
+      type: Array as PropType<WordDto[]>,
+      required: false,
+    },
+    wordsCount: {
+      type: Number,
+      required: false,
+    }
   },
   mounted() {
     if (this.makeRequest) {
-      this.getVocabulary(true)
+      this.getWords ? this.getWords(true) : this.getVocabulary(true)
     } else {
-      this.filteredWords = this.vocabularyWords;
-      this.filteredCount = this.count;
+      this.filteredWords = this.words ? this.words : this.vocabularyWords;
+      this.filteredCount = this.wordsCount? this.wordsCount : this.count;
     }
   },
   computed: {
@@ -30,11 +44,14 @@ export default {
     noResults(): string {
       return new URL(`/src/assets/images/noResults.svg`, import.meta.url).href;
     },
+    emptyImage(): string {
+      return new URL(`/src/assets/images/emptyImage.svg`, import.meta.url).href;
+    },
   },
   methods: {
     ...mapActions(useVocabularyStore, ['getVocabulary']),
     updateWords() {
-      this.getVocabulary(true);
+      this.getWords ? this.getWords(true) : this.getVocabulary(true);
     },
   },
 };
@@ -67,11 +84,20 @@ export default {
       <p class="tip">{{ $t('emptyTip.filteredWordsEmpty') }}</p>
     </div>
   </div>
-  <div class="empty-tip" v-else>
-    <p class="tip">{{ $t('emptyTip.vocabulary') }}</p>
+  <div class="vocabulary-empty" v-else>
+    <img :src="emptyImage" alt="empty" class="img" width="240" height="180" />
+    <div class="vocabulary-empty-tip">
+      <p class="vocabulary-empty-tip-title">
+        {{ $t('emptyTip.vocabularyTitle') }}
+      </p>
+      <p class="vocabulary-empty-tip-text">
+        {{ $t('emptyTip.vocabularyText') }}
+      </p>
+    </div>
     <NewWordButton
       button-size="medium"
       :button-text="$t('buttons.addNewWord')"
+      @word-created="updateWords"
     />
   </div>
 </template>
@@ -120,6 +146,31 @@ export default {
   .tip {
     @include subheading-2;
     color: $primary-700;
+  }
+}
+
+.vocabulary-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+
+  &-tip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+
+    &-title {
+      @include subheading-2;
+    }
+
+    &-text {
+      @include text-2;
+      max-width: 60rem;
+    }
   }
 }
 </style>
