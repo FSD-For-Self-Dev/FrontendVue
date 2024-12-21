@@ -6,22 +6,22 @@ export default {};
   <nav class="navigation">
     <ul class="navigation--list">
       <li>
-        <a class="navigation--item" @click.stop="$router.push('vocabulary')">
+        <router-link :to="{ name: 'vocabulary' }" class="navigation--item" >
           <svg-icon name="VocabularyIcon" size="md" style="stroke-width: 0.2" />
           {{ $t('navigation.vocabulary') }}
-        </a>
+        </router-link>
       </li>
       <li>
-        <a class="navigation--item" @click.stop="$router.push('collections')">
+        <router-link :to="{ name: 'collections' }" class="navigation--item" >
           <svg-icon name="CollectionsIcon" size="md" style="stroke-width: 0.2" />
           {{ $t('navigation.collections') }}
-        </a>
+        </router-link>
       </li>
       <li>
-        <a class="navigation--item" @click.stop="$router.push('exercises')">
+        <router-link :to="{ name: 'exercises' }" class="navigation--item" >
           <svg-icon name="ExercisesIcon" size="md" style="stroke-width: 0.2" />
           {{ $t('navigation.exercises') }}
-        </a>
+        </router-link>
       </li>
     </ul>
   </nav>
