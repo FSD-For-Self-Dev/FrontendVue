@@ -13,6 +13,7 @@ import { useWindowScroll } from '@vueuse/core';
 import { useNotificationsStore } from '@/store/notifications';
 import { isAxiosError } from 'axios';
 import { readUrlFile } from '@/utils/readUrlFile';
+import { uploadFile } from '@/utils/uploadFileB64';
 
 const { y } = useWindowScroll({ behavior: 'instant' });
 
@@ -87,13 +88,7 @@ export default {
       this.submitProcess = false;
     },
     async onFileChanged(event: Event) {
-      const target = event.target as HTMLInputElement;
-      const files = target.files;
-
-      if (files) {
-        const base64 = useBase64(files[0]);
-        this.formImage = await base64.promise.value;
-      }
+      this.formImage = await uploadFile(event.target as HTMLInputElement);
     },
     async cancelChanges() {
       y.value = 0;

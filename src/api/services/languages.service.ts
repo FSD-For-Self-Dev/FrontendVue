@@ -35,5 +35,8 @@ export default (api: IApi) => {
     setLanguageCover(languageSlug, data) {
       return api.request.post(`/api/languages/${languageSlug}/set-cover/`, data);
     },
+    deleteLanguageCover(languageSlug, data) {
+      return api.request.post(`/api/languages/${languageSlug}/delete-cover/`, data);
+    },
   };
 };

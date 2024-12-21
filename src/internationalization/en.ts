@@ -104,6 +104,7 @@ export const en = {
     next: 'Next',
     toVocabulary: 'Go to vocabulary',
     toHome: 'Home page',
+    uploadImage: 'Upload image',
   },
   action: {
     delete: 'Delete',

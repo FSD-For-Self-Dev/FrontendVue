@@ -42,4 +42,14 @@ export interface LanguageDto {
 export interface LanguageCoverDto {
     id: string;
     image: string;
+    author: string;
+}
+
+export interface LanguageSetCoverDto {
+    id?: string;
+    image?: string;
+}
+
+export interface LanguageDeleteCoverDto {
+    id: string;
 }
