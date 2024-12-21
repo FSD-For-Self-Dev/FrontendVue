@@ -27,6 +27,7 @@ body {
     -webkit-overflow-scrolling: touch;
     position: relative;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #app {

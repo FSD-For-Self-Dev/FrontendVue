@@ -41,8 +41,12 @@ export default {
       $router.push({ name: 'language-profile', params: { slug: language.language.isocode } })
     "
   >
+    <div class="card--overlay" v-if="language.cover"></div>
     <div class="card--content">
-      <span class="card--name">{{ language.language.name_local }}</span>
+      <div class="card--language">
+        <img :src="language.language.flag_icon" alt="Icon" class="language-icon" />
+        <span class="card--name">{{ language.language.name_local }}</span>
+      </div>
       <ul class="card--status-counters">
         <li class="card--status-counters-item">
           <svg-icon
@@ -76,7 +80,6 @@ export default {
         </li>
       </ul>
     </div>
-    <div class="card--overlay" v-if="language.cover"></div>
   </div>
 </template>
 
@@ -98,7 +101,7 @@ export default {
 
     .card--content {
       gap: 1.2rem;
-      padding: 2.6rem 2.7rem;
+      padding: 0.8rem 0.8rem;
       width: 18.3rem;
       height: 11.2rem;
       border-radius: $radius-xl;
@@ -137,10 +140,19 @@ export default {
       @include heading-5;
     }
 
+    .card--language {
+      max-height: 2.8rem;
+      gap: 0.8rem;
+    }
+
+    .language-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+
     .card--content {
       gap: 1.2rem;
-      padding: 3.6rem 3.2rem;
-      width: 20.4rem;
+      padding: 1.2rem 3.2rem;
       height: 12.4rem;
       border-radius: $radius-xl;
     }
@@ -160,6 +172,7 @@ export default {
 
       &--counter {
         @include heading-6;
+        max-width: 2.8rem;
       }
     }
   }
@@ -174,11 +187,19 @@ export default {
       @include heading-2;
     }
 
+    .card--language {
+      height: 3.8rem;
+      gap: 1.6rem;
+    }
+
+    .language-icon {
+      width: 2.8rem;
+      height: 2.8rem;
+    }
+
     .card--content {
       gap: 2rem;
-      padding: 4rem 4rem;
-      width: 30rem;
-      height: max-content;
+      padding: 4rem 2rem;
       border-radius: $radius-xl;
     }
 
@@ -197,20 +218,38 @@ export default {
 
       &--counter {
         @include heading-4;
+        max-width: 4.4rem;
       }
     }
   }
 
   &--content {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     background-color: $white-lucid;
+    width: 100%;
+  }
+
+  &--language {
+    display: flex;
+    flex-direction: row;
+    gap: 1.2rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
 
   &--name {
     color: $neutrals-900;
-    text-align: center;
+    text-align: left;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-height: 100%;
+    max-width: 100%;
+    height: 100%;
   }
 
   &--status-counters {
@@ -223,6 +262,11 @@ export default {
 
       &--counter {
         color: $neutrals-600;
+        text-align: left;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-height: 100%;
+        max-width: 100%;
       }
     }
   }
