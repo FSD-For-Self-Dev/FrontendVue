@@ -1,11 +1,12 @@
 <script lang="ts">
 import type { PropType } from 'vue';
 import type { LanguageCardProps } from '../../types/components/language-card';
+import type { LearningLanguageDto } from '@/dto/languages.dto';
 
 export default {
   props: {
     language: {
-      type: Object,
+      type: Object as PropType<LearningLanguageDto>,
       required: true,
     },
     size: {
@@ -246,6 +247,7 @@ export default {
     color: $neutrals-900;
     text-align: left;
     text-overflow: ellipsis;
+    white-space: nowrap;
     overflow: hidden;
     max-height: 100%;
     max-width: 100%;
@@ -264,6 +266,7 @@ export default {
         color: $neutrals-600;
         text-align: left;
         text-overflow: ellipsis;
+        white-space: nowrap;
         overflow: hidden;
         max-height: 100%;
         max-width: 100%;
