@@ -73,6 +73,7 @@ export default {
       newImageUrl: '',
       editImage: '',
       editIndex: undefined as number | undefined,
+      favorite: false,
       submitProcess: false,
     };
   },
@@ -131,6 +132,7 @@ export default {
       'patchWord',
       'getVocabulary',
       'getWordProfile',
+      'getFavoriteWords',
     ]),
     ...mapState(useVocabularyStore, ['vocabularyWords']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
@@ -303,6 +305,7 @@ export default {
         this.filterOptions.search = ''
         this.getVocabulary();
         this.getLearningLanguages();
+        if (this.favorite) this.getFavoriteWords();
         this.handleClose();
         this.addNewMessage({
           type: 'info',
@@ -321,6 +324,7 @@ export default {
       this.language = wordProfile.language ? wordProfile.language : '';
       this.note = wordProfile.note ? wordProfile.note : '';
       this.translations = wordProfile.translations ? wordProfile.translations : [];
+      this.favorite = wordProfile.favorite ? wordProfile.favorite : this.favorite;
 
       if (wordProfile.image_associations) {
         const image_associations_promise = wordProfile.image_associations.map(
