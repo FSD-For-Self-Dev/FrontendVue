@@ -15,7 +15,6 @@ export default {
     const frenchUrl = languagesStore.global_languages.find(
       (language) => language.isocode === "fr-fr"
     )?.flag_icon;
-    console.log(englishUrl);
     return {
       englishUrl,
       frenchUrl,
@@ -95,12 +94,12 @@ export default {
       </div>
     </section>
 
-    <Authentication
+    <!-- <Authentication
       :show-auth="showAuth"
       :close-auth="() => (showAuth = false)"
       :view-auth="viewAuth"
       :switch-form="(view: 'login' | 'register') => (viewAuth = view)"
-    />
+    /> -->
   </div>
 </template>
 
