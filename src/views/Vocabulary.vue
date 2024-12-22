@@ -14,9 +14,16 @@ export default {
   setup() {
     y.value = 0;
   },
+  mounted() {
+    this.pageKey = 'vocabulary';
+  },
   computed: {
     ...mapState(useVocabularyStore, ['vocabularyWords', 'count']),
-    ...mapWritableState(useVocabularyStore, ['filteredWords', 'filteredCount']),
+    ...mapWritableState(useVocabularyStore, [
+      'filteredWords',
+      'filteredCount',
+      'pageKey',
+    ]),
   },
 };
 </script>

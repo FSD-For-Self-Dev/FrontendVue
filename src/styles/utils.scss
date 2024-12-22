@@ -1,3 +1,18 @@
 .visually-hidden {
     @include visually-hidden;
 }
+
+.preloader {
+    width: 100svw;
+    height: 100svh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.preloader-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20%;
+}

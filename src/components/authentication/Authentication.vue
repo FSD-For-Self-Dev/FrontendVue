@@ -108,8 +108,12 @@ export default {
   <Teleport to="body">
     <div class="overlay" v-if="showAuth"></div>
 
-    <OnClickOutside :options="{ ignore: ['#notifications'] }" @trigger="closeFormHandler">
-      <div class="modal-auth" v-if="showAuth">
+    <OnClickOutside
+      :options="{ ignore: ['#notifications'] }"
+      @trigger="closeFormHandler"
+      v-if="showAuth"
+    >
+      <div class="modal-auth">
         <form
           @submit.prevent="loginSubmitHandler"
           class="modal-auth--form"

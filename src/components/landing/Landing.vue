@@ -32,6 +32,11 @@ export default {
     Authentication,
     AddIcon,
   },
+  methods: {
+    loginProcceedHandle() {
+      this.$emit("loginProcceed");
+    },
+  }
 };
 </script>
 
@@ -94,12 +99,12 @@ export default {
       </div>
     </section>
 
-    <!-- <Authentication
+    <Authentication
       :show-auth="showAuth"
       :close-auth="() => (showAuth = false)"
       :view-auth="viewAuth"
       :switch-form="(view: 'login' | 'register') => (viewAuth = view)"
-    /> -->
+    />
   </div>
 </template>
 

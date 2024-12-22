@@ -7,11 +7,17 @@ import { ref } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import Button from '@/components/UI/button/Button.vue';
 import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
-import type { LanguageCoverDto, LanguageDeleteCoverDto, LanguageSetCoverDto } from '@/dto/languages.dto';
+import type {
+  LanguageCoverDto,
+  LanguageDeleteCoverDto,
+  LanguageSetCoverDto,
+} from '@/dto/languages.dto';
 import LanguageCoverItem from '@/components/language/LanguageCoverItem.vue';
 import ImageUploadForm from '@/components/vocabulary/ImageUploadForm.vue';
 import { useUserStore } from '@/store/user';
 import { uploadFile } from '@/utils/uploadFileB64';
+import Preloader from '../../preloader/Preloader.vue';
+import { handleElementScroll } from '@/utils/handleInfiniteScroll';
 
 export default {
   components: {
@@ -19,6 +25,7 @@ export default {
     WordTagCard,
     LanguageCoverItem,
     ImageUploadForm,
+    Preloader,
   },
   props: {
     closeForm: {
@@ -49,6 +56,7 @@ export default {
   },
   computed: {
     ...mapState(useUserStore, ['username']),
+    ...mapState(useLanguagesStore, ['isLoadingMore']),
     languageObject() {
       return this.getLanguageObjectByIsocode(this.objectLookup);
     },
@@ -70,24 +78,25 @@ export default {
       'deleteLanguageCover',
       'getLanguageCovers',
       'getLanguageObjectByIsocode',
+      'getLanguageCoversNextPage',
     ]),
     handleChoose(id: string) {
       this.setData = {
-        'id': id
+        id: id,
       };
       this.cover_id = id;
     },
     async handleSubmitNewImage(event: Event) {
       this.newImage = await uploadFile(event.target as HTMLInputElement);
       this.setData = {
-        'image': this.newImage
+        image: this.newImage,
       };
       this.imageFormOpen = false;
       this.cover_id = '';
     },
     async handleDeleteUploadedCover(id: string) {
       this.deleteData = {
-        'id': id
+        id: id,
       };
       this.cover_choices = this.cover_choices?.filter((cover) => {
         return cover.id !== id;
@@ -99,16 +108,16 @@ export default {
         const res = await this.deleteLanguageCover(this.objectLookup, this.deleteData);
         if (isAxiosError(res)) {
           console.log(res.response?.data);
-        };
-      };
+        }
+      }
       if (this.setData['id'] || this.setData['image']) {
         const res = await this.setLanguageCover(this.objectLookup, this.setData);
         if (isAxiosError(res)) {
           console.log(res.response?.data);
         } else {
           await this.getLearningLanguages();
-        };
-      };
+        }
+      }
       this.closeForm();
       this.addNewMessage({
         type: 'info',
@@ -116,11 +125,17 @@ export default {
       });
       this.submitProcess = false;
     },
+    async handleCoversScroll(event: Event) {
+      handleElementScroll(
+        event.target as HTMLElement,
+        this.getLanguageCoversNextPage,
+        24,
+      );
+    },
   },
   async mounted() {
     const lang_obj = this.languageObject;
     this.cover_id = lang_obj ? lang_obj.cover_id : '';
-
     if (this.objectLookup) {
       await this.getLanguageCovers(this.objectLookup);
       const { covers } = useLanguagesStore();
@@ -141,7 +156,7 @@ export default {
       style="margin-bottom: 2rem"
       :image="newImage"
     />
-    <div class="cover-choices-list">
+    <div class="cover-choices-list" v-on:scroll="handleCoversScroll">
       <button
         v-if="!imageFormOpen && !newImage"
         class="cover-choices-list--add-cover-image"
@@ -173,10 +188,15 @@ export default {
         :image="cover.image"
         :active="cover.id === cover_id"
         @click="() => handleChoose(cover.id)"
-        :deleteAllowed="cover.author === username && languageObject?.cover_id !== cover.id"
+        :deleteAllowed="
+          cover.author === username && languageObject?.cover_id !== cover.id
+        "
         :handleDelete="handleDeleteUploadedCover"
         :deleteId="cover.id"
       />
+      <div v-if="isLoadingMore" class="preloader-inner">
+        <Preloader />
+      </div>
     </div>
     <div class="buttons">
       <Button
