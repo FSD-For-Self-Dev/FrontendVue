@@ -8,9 +8,10 @@ import Input from '@/components/UI/input/Input.vue';
 import { isAxiosError } from 'axios';
 import Search from '@/components/language/Search.vue';
 import Counter from '../../counter/Counter.vue';
+import LanguageAddItem from '@/components/language/LanguageAddItem.vue';
 
 export default {
-  components: { Input, Button, Search, Counter },
+  components: { Input, Button, Search, Counter, LanguageAddItem },
   props: {
     closeForm: {
       type: Function,
@@ -38,11 +39,13 @@ export default {
   methods: {
     ...mapActions(useLanguagesStore, ['postLearningLanguage', 'getAvailableLanguages']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    toggleActiveLanguage(lang: LanguageDto) {
-      if (this.activeLanguage.includes(lang)) {
-        this.activeLanguage = this.activeLanguage.filter((item) => item.id !== lang.id);
+    toggleActiveLanguage(language: LanguageDto) {
+      if (this.activeLanguage.includes(language)) {
+        this.activeLanguage = this.activeLanguage.filter((item) => {
+          return item.isocode !== language.isocode
+        });
       } else {
-        this.activeLanguage.push(lang);
+        this.activeLanguage.push(language);
       }
     },
     clearActiveLanguages() {
@@ -87,16 +90,13 @@ export default {
       />
     </div>
     <div class="languages-form--list">
-      <div
-        class="languages-form--list-item"
-        @click="() => toggleActiveLanguage(lang)"
-        :class="activeLanguage.includes(lang) && 'active'"
-        v-for="lang in filteredLanguages"
-        :key="lang.id"
-      >
-        <img :src="lang.flag_icon" />
-        <span>{{ lang.name_local }}</span>
-      </div>
+      <LanguageAddItem
+        :language="language"
+        v-for="language in filteredLanguages"
+        @toggle-active-language="toggleActiveLanguage"
+        :active="activeLanguage.includes(language)"
+        variant="short"
+      />
     </div>
     <div class="languages-form--actions">
       <Button
@@ -111,6 +111,7 @@ export default {
         variant="primary"
         size="medium"
         type="submit"
+        :disabled="activeLanguage.length === 0"
       />
       <Button
         v-else
@@ -148,35 +149,6 @@ export default {
     overflow-y: auto;
     max-height: 18.4rem;
     @include scroll;
-
-    .languages-form--list-item {
-      @include text-2;
-      color: $neutrals-900;
-      width: 17.5rem;
-      height: 4.8rem;
-      border: 0.1rem solid $neutrals-400;
-      border-radius: 1.2rem;
-      padding: 1.2rem 1.6rem;
-      display: flex;
-      gap: 1.2rem;
-      cursor: pointer;
-      user-select: none;
-
-      &:hover {
-        background-color: $primary-200;
-        border-color: $primary-200;
-      }
-
-      &:active {
-        background-color: $primary-300;
-        border-color: $primary-300;
-      }
-
-      &.active {
-        background-color: $primary-300;
-        border-color: $primary-300;
-      }
-    }
   }
 
   .languages-form--actions {

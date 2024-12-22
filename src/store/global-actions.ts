@@ -10,7 +10,7 @@ export const useGlobalActionsStore = defineStore('global-actions', {
       const { getUser } = useUserStore();
       const { getAvailableLanguages, getLearningLanguages, getGlobalLanguages, getAllLanguages } =
         useLanguagesStore();
-      const { getVocabulary } = useVocabularyStore();
+      const { getVocabulary, getFavoriteWords } = useVocabularyStore();
 
       await Promise.all([
         getUser(),
@@ -19,6 +19,7 @@ export const useGlobalActionsStore = defineStore('global-actions', {
         getLearningLanguages(),
         getAllLanguages(),
         getVocabulary(),
+        getFavoriteWords(),
       ]);
     },
     async global_clear() {

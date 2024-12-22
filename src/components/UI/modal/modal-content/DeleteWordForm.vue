@@ -33,6 +33,7 @@ export default {
       types: [] as string[],
       translations_count: 0,
       image_associations_count: 0,
+      favorite: false,
       submitProcess: false,
     };
   },
@@ -48,9 +49,17 @@ export default {
     ...mapWritableState(useVocabularyStore, ['filterOptions']),
   },
   methods: {
-    ...mapActions(useVocabularyStore, ['getVocabulary', 'getWordProfile', 'deleteWord']),
+    ...mapActions(useVocabularyStore, [
+      'getVocabulary',
+      'getWordProfile',
+      'deleteWord',
+      'getFavoriteWords',
+    ]),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapActions(useLanguagesStore, ['getLearningLanguages', 'getLanguageObjectByIsocode']),
+    ...mapActions(useLanguagesStore, [
+      'getLearningLanguages',
+      'getLanguageObjectByIsocode',
+    ]),
     async handleDelete() {
       this.submitProcess = true;
       const res = await this.deleteWord(this.objectLookup);
@@ -58,11 +67,12 @@ export default {
         console.log(res.response?.data);
       } else {
         this.$emit('wordDeleted');
-        this.filterOptions.language = ''
-        this.filterOptions.activity_status = ''
-        this.filterOptions.search = ''
+        this.filterOptions.language = '';
+        this.filterOptions.activity_status = '';
+        this.filterOptions.search = '';
         this.getVocabulary();
         this.getLearningLanguages();
+        if (this.favorite) this.getFavoriteWords();
         this.closeForm();
         this.addNewMessage({
           type: 'info',
@@ -98,6 +108,7 @@ export default {
       this.image_associations_count = wordProfile.image_associations_count
         ? wordProfile.image_associations_count
         : 0;
+      this.favorite = wordProfile.favorite ? wordProfile.favorite : this.favorite;
     }
   },
 };
