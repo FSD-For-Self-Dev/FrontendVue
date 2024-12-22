@@ -23,7 +23,7 @@ export default {
       required: false,
     },
     size: {
-      type: String as PropType<'md' | 'lg'>,
+      type: String as PropType<'md' | 'lg' | 'xl'>,
       default: 'md',
     },
     modalContent: {
@@ -51,7 +51,11 @@ export default {
   },
   computed: {
     modalSize() {
-      return this.size === 'lg' ? 'modal--lg' : 'modal--md';
+      return {
+        'modal--xl': this.size === 'xl',
+        'modal--lg': this.size === 'lg',
+        'modal--md': this.size === 'md',
+      }
     },
     dynamicComponent() {
       const modalContent = this.modalContent;
@@ -129,6 +133,10 @@ export default {
 
   &.modal--lg {
     width: 96rem;
+  }
+
+  &.modal--xl {
+    width: 108rem;
   }
 
   .modal--header {

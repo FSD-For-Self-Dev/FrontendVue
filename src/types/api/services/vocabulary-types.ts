@@ -15,4 +15,5 @@ export type Vocabulary = {
     deleteWord: (wordSlug: string) => AxiosPromise<Record<string, string>>;
     addWordToFavorite: (wordSlug: string) => AxiosPromise<Record<string, string>>;
     removeWordFromFavorite: (wordSlug: string) => AxiosPromise<Record<string, string>>;
+    getFavorite: (query?: VocabularyQuery) => AxiosPromise<Record<string, string>>;
 }

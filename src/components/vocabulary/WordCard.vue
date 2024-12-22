@@ -2,7 +2,7 @@
 import type { WordDto } from '@/dto/vocabulary.dto';
 import type { PropType } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
-import { mapActions, mapState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import WordTagCard from './WordTagCard.vue';
 import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
@@ -32,6 +32,7 @@ export default {
   },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
+    ...mapWritableState(useVocabularyStore, ['favoriteWords', 'favoriteCount', 'vocabularyWords']),
     backgroundClasses() {
       return {
         grey: !this.word.image,
@@ -104,7 +105,7 @@ export default {
             console.log(res.response?.data);
           }
         } else {
-          this.word.favorite = false;
+          this.updateFavorite(false);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordRemovedFromFavorite')}: ${this.word.text}`,
@@ -122,7 +123,7 @@ export default {
             console.log(res.response?.data);
           }
         } else {
-          this.word.favorite = true;
+          this.updateFavorite(true);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordAddedToFavorite')}: ${this.word.text}`,
@@ -131,7 +132,22 @@ export default {
       }
     },
     updateFavorite(value: boolean) {
+      if (value) {
+        this.favoriteWords.unshift(this.word);
+        this.favoriteCount += 1;
+      } else {
+        this.favoriteWords = this.favoriteWords.filter((word) => {
+          return word.id !== this.word.id
+        });
+        this.favoriteCount -= 1;
+      }
       this.word.favorite = value;
+      const vocabularyWord = this.vocabularyWords.find((word) => {
+        return word.id === this.word.id
+      });
+      if (vocabularyWord) {
+        vocabularyWord.favorite = value;
+      }
     },
     handleDelete() {
       this.showWordTools = false;

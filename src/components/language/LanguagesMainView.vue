@@ -40,7 +40,7 @@ export default {
         class="languages-main-view--not-found-learning-languages"
         v-if="learning_languages.length === 0"
       >
-        {{ $t('emptyTip.learningLanguages') }}
+        {{ $t('emptyTip.learningLanguagesTitle') }}
         <AddLanguagesButton :button-text="$t('buttons.addFirstLanguage')" />
       </div>
       <div class="languages-main-view--learning-languages" v-else>

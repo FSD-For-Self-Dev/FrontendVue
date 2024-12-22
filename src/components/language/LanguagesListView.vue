@@ -27,16 +27,12 @@ export default {
 </script>
 
 <template>
-  <div class="learning-languages">
+  <div class="learning-languages" v-if="count > 0">
     <div class="learning-languages--header">
-      <h2 class="learning-languages--header--title" v-if="count > 0">
+      <h2 class="learning-languages--header--title">
         <svg-icon name="LanguageIcon" size="lg" style="stroke-width: 0.2" />
         {{ $t('title.learningLanguages') }}
         <span class="counter">{{ count }}</span>
-      </h2>
-      <h2 class="learning-languages--header--title" v-else>
-        <svg-icon name="LanguageIcon" size="lg" style="stroke-width: 0.2" />
-        {{ $t('emptyTip.learningLanguages') }}
       </h2>
       <AddLanguagesButton
         button-size="medium"
@@ -50,20 +46,28 @@ export default {
         size="large"
       />
     </div>
-    <div class="learning-languages--empty" v-else>
-      <img :src="emptyImage" alt="empty" class="img" width="240" height="180" />
-      <div class="learning-languages--empty-tip">
-        <p class="learning-languages--empty-tip-title">
-          {{ $t('tip.learningLanguages') }}
-        </p>
-        <p class="learning-languages--empty-tip-text">
-          {{ $t('tip.learningLanguagesWords') }}
-        </p>
-      </div>
+  </div>
+  <div class="learning-languages--empty" v-else>
+    <img :src="emptyImage" alt="empty" class="img" width="240" height="180" />
+    <div class="learning-languages--empty-tip">
+      <p class="learning-languages--empty-tip-title">
+        {{ $t('emptyTip.learningLanguagesTitle') }}
+      </p>
+      <p class="learning-languages--empty-tip-text">
+        {{ $t('emptyTip.learningLanguagesText') }}
+      </p>
+    </div>
+    <div class="learning-languages--empty-buttons">
       <Button
         :text="$t('buttons.toVocabulary')"
         variant="secondary"
         @click="$router.push('vocabulary')"
+        icon="ArrowForwardLineIcon"
+      />
+      <AddLanguagesButton
+        button-size="medium"
+        :button-text="$t('buttons.addLearningLanguage')"
+        style="min-width: 22.5rem;"
       />
     </div>
   </div>
@@ -121,6 +125,12 @@ export default {
         @include text-2;
         max-width: 60rem;
       }
+    }
+
+    &-buttons {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
     }
   }
 }

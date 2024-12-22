@@ -40,5 +40,17 @@ export default (api: IApi) => {
     removeWordFromFavorite: (wordSlug) => {
       return api.request.delete(`/api/vocabulary/${wordSlug}/favorite/`);
     },
+
+    getFavorite: (query?: VocabularyQuery) => {
+      const url = '/api/vocabulary/favorites/';
+
+      const paginationQuery = `?limit=${wordsPerPage}`;
+      const searchQuery = `${query?.search ? `&search=${query.search}` : ''}`
+      const filterByStatusQuery = `${query?.activity_status ? `&activity_status=${query.activity_status}` : ''}`
+      const filterByLanguageQuery = `${query?.language ? `&language=${query.language}` : ''}`
+      const queryParams = paginationQuery + searchQuery + filterByStatusQuery + filterByLanguageQuery;
+
+      return api.request.get(url + queryParams);
+    },
   };
 };
