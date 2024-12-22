@@ -60,12 +60,4 @@ export default {
   </div>
 </template>
 
-<style scoped lang="scss">
-.preloader {
-  width: 100svw;
-  height: 100svh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>
+<style scoped lang="scss"></style>

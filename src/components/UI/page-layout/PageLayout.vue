@@ -122,14 +122,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.preloader {
-  width: 100svw;
-  height: 100svh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .layout {
   min-height: 100vh;
   padding-top: 10rem;

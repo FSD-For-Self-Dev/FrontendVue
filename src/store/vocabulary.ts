@@ -12,12 +12,28 @@ export interface VocabularyStore {
   wordProfile: WordProfileDto;
   favoriteCount: number;
   favoriteWords: WordDto[];
+  nextPageLink: {
+    'vocabulary': {
+      'constant': string,
+      'variable': string,
+    };
+    'favorites': {
+      'constant': string,
+      'variable': string,
+    };
+    'languageProfile': {
+      'constant': string,
+      'variable': string,
+    };
+  };
+  pageKey: string;
   errors: {
     language: string[];
     text: string[];
   };
   filterOptions: VocabularyQuery;
   isLoading: boolean;
+  isLoadingMore: boolean;
 }
 
 export const useVocabularyStore = defineStore('vocabulary', {
@@ -36,7 +52,23 @@ export const useVocabularyStore = defineStore('vocabulary', {
         search: '',
         activity_status: '',
       },
+      nextPageLink: {
+        'vocabulary': {
+          'constant': '',
+          'variable': '',
+        },
+        'favorites': {
+          'constant': '',
+          'variable': '',
+        },
+        'languageProfile': {
+          'constant': '',
+          'variable': '',
+        },
+      },
+      pageKey: 'vocabulary',
       isLoading: false,
+      isLoadingMore: false,
     };
   },
   actions: {
@@ -52,6 +84,10 @@ export const useVocabularyStore = defineStore('vocabulary', {
             this.vocabularyWords = data.results as unknown as WordDto[];
             this.count = data.count as unknown as number;
           }
+          this.nextPageLink[this.pageKey as keyof typeof this.nextPageLink]['constant'] =
+            data.next as unknown as string;
+          this.nextPageLink[this.pageKey as keyof typeof this.nextPageLink]['variable'] =
+            this.nextPageLink[this.pageKey as keyof typeof this.nextPageLink]['constant'];
         }
       } catch (error) {
         console.error('Error fetching vocabulary:', error);
@@ -59,6 +95,25 @@ export const useVocabularyStore = defineStore('vocabulary', {
         this.count = 0;
       }
       this.isLoading = false;
+    },
+    async getVocabularyNextPage(filtered: boolean = false) {
+      this.isLoadingMore = true;
+      try {
+        const nextPage = this.nextPageLink[this.pageKey as keyof typeof this.nextPageLink]['variable']
+        const { data } = nextPage ? await api.request.get(nextPage) : {};
+        if (data && data.results) {
+          if (filtered) {
+            this.filteredWords = this.filteredWords.concat(data.results);
+          } else {
+            this.vocabularyWords = this.vocabularyWords.concat(data.results);
+          }
+          this.nextPageLink[this.pageKey as keyof typeof this.nextPageLink]['variable'] =
+            data.next as unknown as string;
+        }
+      } catch (error) {
+        console.error('Error fetching vocabulary:', error);
+      }
+      this.isLoadingMore = false;
     },
     async createWord(word: NewWordDto) {
       try {
@@ -135,6 +190,8 @@ export const useVocabularyStore = defineStore('vocabulary', {
             this.favoriteWords = data.results as unknown as WordDto[];
             this.favoriteCount = data.count as unknown as number;
           }
+          this.nextPageLink['favorites']['constant'] = data.next as unknown as string;
+          this.nextPageLink['favorites']['variable'] = this.nextPageLink['favorites']['constant'];
         }
       } catch (error) {
         console.error('Error fetching vocabulary:', error);
@@ -142,6 +199,10 @@ export const useVocabularyStore = defineStore('vocabulary', {
         this.favoriteCount = 0;
       }
       this.isLoading = false;
+    },
+    resetPage() {
+      this.nextPageLink[this.pageKey as keyof typeof this.nextPageLink]['variable'] =
+        this.nextPageLink[this.pageKey as keyof typeof this.nextPageLink]['constant'];
     },
     clearDataVocabulary() {
       this.vocabularyWords = [];
