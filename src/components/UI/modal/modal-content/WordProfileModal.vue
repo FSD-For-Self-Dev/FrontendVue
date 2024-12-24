@@ -13,6 +13,7 @@ import WordImageItem from '@/components/vocabulary/WordImageItem.vue';
 import WordTools from '@/components/vocabulary/WordTools.vue';
 import { useNotificationsStore } from '@/store/notifications';
 import { useModalStore } from '@/store/modal';
+import { joinWithComma } from '@/utils/joinWithComma';
 
 export default {
   components: {
@@ -29,6 +30,7 @@ export default {
       translationCurrentIndex: 0,
       tab: 1,
       showWordTools: false,
+      joinWithComma,
     };
   },
   computed: {
@@ -91,12 +93,9 @@ export default {
       'updateFavoriteWords',
     ]),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapActions(useLanguagesStore, ['getLearningLanguageByIsocode']),
-    getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
-    },
-    joinTypes(word_types: string[]) {
-      return word_types.join(', ');
+    ...mapActions(useLanguagesStore, ['getLearningLanguageByIsocode', 'getFlagIcon']),
+    changeTab(tab: number) {
+      this.tab = tab;
     },
     goToNextTranslation() {
       if (
@@ -114,9 +113,6 @@ export default {
       } else {
         this.translationCurrentIndex -= 1;
       }
-    },
-    changeTab(tab: number) {
-      this.tab = tab;
     },
     async copyToClipboard(text: string) {
       navigator.clipboard.writeText(text);
@@ -254,7 +250,7 @@ export default {
             class="word-types"
             v-if="wordProfile.types && wordProfile.types.length > 0"
           >
-            <p>{{ joinTypes(wordProfile.types) }}</p>
+            <p>{{ joinWithComma(wordProfile.types) }}</p>
           </div>
           <div id="word-info--word">
             <p id="word-info--word-text">{{ wordProfile.text }}</p>

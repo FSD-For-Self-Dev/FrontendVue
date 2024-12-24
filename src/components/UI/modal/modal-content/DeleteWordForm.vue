@@ -6,9 +6,9 @@ import Button from '@/components/UI/button/Button.vue';
 import type { PropType } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
-import type { WordTagDto } from '@/dto/vocabulary.dto';
 import { isAxiosError } from 'axios';
 import { useModalStore } from '@/store/modal';
+import { joinWithComma } from '@/utils/joinWithComma';
 
 export default {
   components: { Button, WordTagCard },
@@ -24,6 +24,7 @@ export default {
       image_associations_count: 0,
       favorite: false,
       submitProcess: false,
+      joinWithComma,
     };
   },
   computed: {
@@ -43,6 +44,7 @@ export default {
     ...mapActions(useLanguagesStore, [
       'getLearningLanguages',
       'getLearningLanguageByIsocode',
+      'getFlagIcon',
     ]),
     ...mapActions(useModalStore, ['closeModal']),
     async handleDelete() {
@@ -68,12 +70,6 @@ export default {
         }
       }
       this.submitProcess = false;
-    },
-    getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
-    },
-    joinTypes(word_types: string[]) {
-      return word_types.join(', ');
     },
   },
   async mounted() {
@@ -112,7 +108,7 @@ export default {
     </div>
     <div class="word-info">
       <div class="word-info--types" v-if="types.length > 0">
-        <p>{{ joinTypes(types) }}</p>
+        <p>{{ joinWithComma(types) }}</p>
       </div>
       <p id="word">{{ word }}</p>
       <div class="word-info--tags" v-if="tags.length > 0">
@@ -216,7 +212,7 @@ export default {
       p {
         width: 100%;
         text-align: left;
-        @include tag-big;
+        @include tag-large;
       }
     }
 

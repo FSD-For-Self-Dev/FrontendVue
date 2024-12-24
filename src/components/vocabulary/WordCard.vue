@@ -9,6 +9,7 @@ import { useVocabularyStore } from '@/store/vocabulary';
 import { isAxiosError } from 'axios';
 import WordTools from './WordTools.vue';
 import { useModalStore } from '@/store/modal';
+import { joinWithComma } from '@/utils/joinWithComma';
 
 export default {
   components: { WordTagCard, WordTools },
@@ -26,6 +27,7 @@ export default {
     return {
       translationCurrentIndex: 0,
       showWordTools: false,
+      joinWithComma,
     };
   },
   computed: {
@@ -72,9 +74,7 @@ export default {
       'updateFavoriteWords',
     ]),
     ...mapActions(useModalStore, ['openModal']),
-    getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
-    },
+    ...mapActions(useLanguagesStore, ['getFlagIcon']),
     goToNextTranslation() {
       if (this.translationCurrentIndex >= this.word.translations_count - 1) {
         this.translationCurrentIndex = 0;
@@ -88,9 +88,6 @@ export default {
       } else {
         this.translationCurrentIndex -= 1;
       }
-    },
-    joinTypes(word_types: string[]) {
-      return word_types.join(', ');
     },
     async copyToClipboard(text: string) {
       navigator.clipboard.writeText(text);
@@ -222,7 +219,7 @@ export default {
       </div>
       <div class="card__content--word-info">
         <div class="card__content--word--types" v-if="word.types.length > 0">
-          {{ joinTypes(word.types) }}
+          {{ joinWithComma(word.types) }}
         </div>
         <div class="card__content--word">
           <h4 class="word" ref="word" data-word>{{ word.text }}</h4>
@@ -400,7 +397,7 @@ export default {
       flex-direction: row;
       gap: 0.4rem;
       width: max-content;
-      padding-left: 1.6rem;
+      margin-left: 2.8rem;
       align-items: center;
 
       .word {

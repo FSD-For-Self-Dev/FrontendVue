@@ -139,6 +139,9 @@ export const useLanguagesStore = defineStore('languages', {
       })[0];
       return lang_obj ? lang_obj : undefined;
     },
+    getFlagIcon(neededLang: string | undefined) {
+      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
+    },
     clearDataLanguages() {
       this.available_languages = [];
       this.learning_languages = [];

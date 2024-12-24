@@ -17,7 +17,11 @@ export default {
     ...mapActions(useUserStore, ['deleteUser']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useVocabularyStore, ['clearDataVocabulary']),
-    ...mapActions(useLanguagesStore, ['clearDataLanguages', 'getLanguageByIsocode']),
+    ...mapActions(useLanguagesStore, [
+      'clearDataLanguages',
+      'getLanguageByIsocode',
+      'getFlagIcon',
+    ]),
     ...mapActions(useModalStore, ['closeModal']),
     handleDelete() {
       this.deleteUser();
@@ -29,9 +33,6 @@ export default {
       this.clearDataLanguages();
       this.closeModal();
       this.$router.push('/');
-    },
-    getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
     },
   },
 };
@@ -56,15 +57,24 @@ export default {
         <div class="languages">
           <p class="small-title">{{ $t('title.vocabulary') }}:</p>
           <div class="languages--item" v-for="language in learning_languages">
-            <img :src="getFlagIcon(language.language.isocode)" alt="Icon" class="language-icon" />
+            <img
+              :src="getFlagIcon(language.language.isocode)"
+              alt="Icon"
+              class="language-icon"
+            />
             <p>{{ language.words_count }}</p>
           </div>
         </div>
       </div>
     </div>
     <div class="buttons">
-      <div class="tip" style="width: 100%;">
-        <svg-icon name="InfoIcon" size="md" color="var:danger-600" style="stroke-width: 0.02rem;" />
+      <div class="tip" style="width: 100%">
+        <svg-icon
+          name="InfoIcon"
+          size="md"
+          color="var:danger-600"
+          style="stroke-width: 0.02rem"
+        />
         <p>{{ $t('tip.dangerAction') }}</p>
       </div>
       <Button
@@ -133,7 +143,7 @@ export default {
         align-items: center;
         gap: 1.6rem;
         @include text-1;
-        
+
         &--item {
           display: flex;
           flex-direction: row;
