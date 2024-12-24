@@ -149,18 +149,16 @@ export default {
     class="card"
     :class="{ 'card-disabled': disabled }"
     v-bind="{ ...$attrs }"
-    @click.stop="
-      disabled
-        ? () => {}
-        : () => {
-            openModal(
-              'WordProfileModal',
-              $t('title.wordProfile'),
-              'WordsIcon',
-              'lg',
-              word.slug,
-            );
-          }
+    @click.stop="() => {
+      if (!disabled) {
+        openModal(
+          'WordProfileModal',
+          $t('title.wordProfile'),
+          'WordsIcon',
+          'lg',
+          word.slug,
+        );
+      }}
     "
   >
     <div class="card__background" :class="{ 'with-image': word.image }">
@@ -177,7 +175,7 @@ export default {
       </div>
       <div class="card__header--actions" :class="backgroundClasses">
         <div
-          @click.stop="disabled ? () => {} : handleFavourite"
+          @click.stop="disabled ? () => {} : handleFavourite()"
           class="fav-icon"
           :class="{ 'fav-icon-disabled': disabled }"
         >
@@ -196,7 +194,7 @@ export default {
             size="lg"
             color="var:primary-500"
             hoverColor="var:primary-400"
-            @click.stop="disabled ? () => {} : () => (showWordTools = !showWordTools)"
+            @click.stop="() => (showWordTools = !showWordTools)"
             class="more-inactive"
             v-if="showWordTools"
           />
@@ -204,7 +202,9 @@ export default {
             name="MoreIcon"
             size="lg"
             :hoverColor="disabled ? 'var:neutrals-900' : 'var:primary-500'"
-            @click.stop="disabled ? () => {} : () => (showWordTools = !showWordTools)"
+            @click.stop="() => {
+              if (!disabled) showWordTools = !showWordTools
+            }"
             class="more-active"
             v-else
           />
@@ -305,6 +305,7 @@ export default {
   padding-inline: 2rem;
   box-shadow: $regular-shadow;
   cursor: pointer;
+  overflow: hidden;
 
   // Text wrap
   white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
@@ -322,8 +323,6 @@ export default {
     height: 100%;
     inset: 0;
     background-color: $neutrals-100;
-    border-radius: $radius-xl;
-    overflow: hidden;
 
     img {
       width: 100%;
@@ -337,6 +336,7 @@ export default {
       height: 100%;
       background-color: $neutrals-900;
       opacity: 10%;
+      border-radius: $radius-xl;
     }
   }
 
