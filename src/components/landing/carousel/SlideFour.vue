@@ -1,6 +1,7 @@
 <script lang="ts">
 import { Slide } from 'vue3-carousel';
 import LanguageCard from '@/components/language/LanguageCard.vue';
+
 export default {
   components: { Slide, LanguageCard },
   data() {
@@ -11,8 +12,8 @@ export default {
         language: {
           name: 'English',
           name_local: 'English',
-          isocode: 'en',
-          flag_icon: 'https://linguista.online/media/languages/flag_icons/en.svg',
+          isocode: 'en-gb',
+          flag_icon: 'https://linguista.online/media/languages/flag_icons/en-GB_iNJ05Mo.svg',
         },
         level: '',
         cover: 'https://linguista.online/media/languages/images/en-gb/en-GB.jpg',
@@ -31,8 +32,8 @@ export default {
         language: {
           name: 'Italian',
           name_local: 'Italiano',
-          isocode: 'it',
-          flag_icon: 'https://linguista.online/media/languages/flag_icons/it.svg',
+          isocode: 'it-it',
+          flag_icon: 'https://linguista.online/media/languages/flag_icons/it-IT.svg',
         },
         level: '',
         cover: 'https://linguista.online/media/languages/images/it-it/it-IT.jpg',
@@ -51,8 +52,8 @@ export default {
     "language": {
         "name": "French",
         "name_local": "Français",
-        "isocode": "fr",
-        "flag_icon": "https://linguista.online/media/languages/flag_icons/fr.svg"
+        "isocode": "fr-fr",
+        "flag_icon": "https://linguista.online/media/languages/flag_icons/fr-FR_09mjyaZ.svg"
     },
     "level": "",
     "cover": "https://linguista.online/media/languages/images/fr-fr/fr-FR.jpg",

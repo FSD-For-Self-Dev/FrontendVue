@@ -49,7 +49,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: start;
-  border-radius: $radius-lg;
+  border-radius: 1.6rem;
   gap: 1rem;
 }
 

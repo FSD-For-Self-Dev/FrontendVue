@@ -118,6 +118,16 @@ export default {
       @include heading-5;
     }
 
+    .card--language {
+      max-height: 2.8rem;
+      gap: 0.8rem;
+    }
+
+    .language-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+
     .card--status-counters {
       gap: 0.8rem;
     }

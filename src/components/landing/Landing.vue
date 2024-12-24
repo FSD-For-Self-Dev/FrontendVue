@@ -94,12 +94,16 @@ export default {
 
 <style lang="scss" module>
 .landing {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+
   .header {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    padding: 16.4rem 15.2rem 2rem;
+    padding: 4rem 15.2rem 2rem;
 
     .img {
       width: 77.9rem;
@@ -109,7 +113,7 @@ export default {
     .h1 {
       font-family: 'Inter-SemiBold';
       font-size: 6rem;
-      line-height: 7.5rem;
+      line-height: 6.8rem;
       letter-spacing: -1px;
       text-align: center;
       color: $primary-700;
@@ -213,6 +217,7 @@ export default {
         font-size: 4rem;
         line-height: 4.9rem;
         color: $primary-700;
+        text-align: right;
       }
       .p {
         @include subheading-3;
