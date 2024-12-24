@@ -37,7 +37,7 @@ export default {
 <template>
   <Slide :slide-size="{width: '344px', height: '545px'}"
     ><div :class="$style.wrapper">
-      <WordCard :style="{ width: '100%' }" :word="word" />
+      <WordCard :disabled="true" :style="{ width: '100%' }" :word="word" />
       <div :class="$style.sub_images">
         <img :class="$style.image" :src="Img2" />
       </div>

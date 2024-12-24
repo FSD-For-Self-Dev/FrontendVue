@@ -17,6 +17,10 @@ export default {
       type: Object as PropType<WordDto>,
       required: true,
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -143,17 +147,20 @@ export default {
 <template>
   <article
     class="card"
+    :class="{ 'card-disabled': disabled }"
     v-bind="{ ...$attrs }"
     @click.stop="
-      () => {
-        openModal(
-          'WordProfileModal',
-          $t('title.wordProfile'),
-          'WordsIcon',
-          'lg',
-          word.slug,
-        );
-      }
+      disabled
+        ? () => {}
+        : () => {
+            openModal(
+              'WordProfileModal',
+              $t('title.wordProfile'),
+              'WordsIcon',
+              'lg',
+              word.slug,
+            );
+          }
     "
   >
     <div class="card__background" :class="{ 'with-image': word.image }">
@@ -169,7 +176,11 @@ export default {
         <p>{{ $t('activityStatus', { status: word.activity_status }) }}</p>
       </div>
       <div class="card__header--actions" :class="backgroundClasses">
-        <div @click.stop="handleFavourite" class="fav-icon">
+        <div
+          @click.stop="disabled ? () => {} : handleFavourite"
+          class="fav-icon"
+          :class="{ 'fav-icon-disabled': disabled }"
+        >
           <svg-icon
             name="FavouriteFilledIcon"
             size="lg"
@@ -179,21 +190,21 @@ export default {
           />
           <svg-icon name="FavouriteIcon" size="lg" class="unfav" />
         </div>
-        <div class="more-icon">
+        <div class="more-icon" :class="{'more-icon-disabled': disabled}">
           <svg-icon
             name="MoreFilledIcon"
             size="lg"
             color="var:primary-500"
             hoverColor="var:primary-400"
-            @click.stop="() => (showWordTools = !showWordTools)"
+            @click.stop="disabled ? () => {} : () => (showWordTools = !showWordTools)"
             class="more-inactive"
             v-if="showWordTools"
           />
           <svg-icon
             name="MoreIcon"
             size="lg"
-            hoverColor="var:primary-500"
-            @click.stop="() => (showWordTools = !showWordTools)"
+            :hoverColor="disabled ? 'var:neutrals-900' : 'var:primary-500'"
+            @click.stop="disabled ? () => {} : () => (showWordTools = !showWordTools)"
             class="more-active"
             v-else
           />
@@ -221,6 +232,7 @@ export default {
             color="var:neutrals-600"
             hoverColor="var:primary-700"
             @click.stop="copyToClipboard(word.text)"
+            class="copy-icon"
           />
         </div>
       </div>
@@ -401,6 +413,10 @@ export default {
         text-overflow: ellipsis;
       }
 
+      .copy-icon {
+        cursor: pointer;
+      }
+
       &--types {
         @include word-type;
       }
@@ -471,15 +487,19 @@ export default {
     }
   }
 
-  &:hover {
+  &-disabled {
+    cursor: default;
+  }
+
+  &:hover:not(.card-disabled) {
     outline: $primary-400 solid 0.1rem;
   }
 
-  &:hover > .card__background > .card__background--overlay {
+  &:hover:not(.card-disabled) > .card__background > .card__background--overlay {
     opacity: 0%;
   }
 
-  &:active {
+  &:active:not(.card-disabled) {
     outline: $primary-500 solid 0.1rem;
   }
 }
@@ -492,9 +512,13 @@ export default {
     position: absolute;
     opacity: v-bind(getFavOpacity);
   }
+
+  &-disabled {
+    cursor: default;
+  }
 }
 
-.fav-icon:hover {
+.fav-icon:hover:not(.fav-icon-disabled) {
   .fav {
     opacity: 100%;
   }
@@ -512,6 +536,10 @@ export default {
 
   .more-active {
     height: 100%;
+  }
+
+  &-disabled {
+    cursor: default;
   }
 }
 </style>

@@ -13,6 +13,10 @@ export default {
       type: String as PropType<LanguageCardProps['size']>,
       default: 'small',
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     cardClasses() {
@@ -21,6 +25,8 @@ export default {
         "card--extra-small": this.size === "extra-small",
         'card--large': this.size === 'large',
         'card--small': this.size === 'small',
+
+        'card-disabled': this.disabled,
       };
     },
     iconSizes() {
@@ -39,6 +45,7 @@ export default {
     :class="cardClasses"
     :style="{ backgroundImage: `url(${language.cover})` }"
     @click.stop="
+      disabled ? () => {} :
       $router.push({ name: 'language-profile', params: { slug: language.language.isocode } })
     "
   >
@@ -52,7 +59,7 @@ export default {
         <li class="card--status-counters-item">
           <svg-icon
             name="ActiveStatusIcon"
-            :size="iconSizes[size]"
+            :size="iconSizes[size as keyof typeof iconSizes]"
             color="var:primary-500"
           />
           <span class="card--status-counters-item--counter">{{
@@ -62,7 +69,7 @@ export default {
         <li class="card--status-counters-item">
           <svg-icon
             name="Inactive1StatusIcon"
-            :size="iconSizes[size]"
+            :size="iconSizes[size as keyof typeof iconSizes]"
             color="var:neutrals-600"
           />
           <span class="card--status-counters-item--counter">{{
@@ -72,7 +79,7 @@ export default {
         <li class="card--status-counters-item">
           <svg-icon
             name="MasteredStatusIcon"
-            :size="iconSizes[size]"
+            :size="iconSizes[size as keyof typeof iconSizes]"
             color="var:success-600"
           />
           <span class="card--status-counters-item--counter">{{
@@ -293,7 +300,11 @@ export default {
     opacity: 0%;
   }
 
-  @include hover {
+  &-disabled {
+    cursor: default;
+  }
+
+  &:hover:not(.card-disabled) {
     outline: 0.5 solid $primary-500;
 
     .card--content {
