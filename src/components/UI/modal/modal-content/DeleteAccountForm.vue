@@ -5,15 +5,10 @@ import { useVocabularyStore } from '@/store/vocabulary';
 import { useLanguagesStore } from '@/store/languages';
 import { mapActions, mapState } from 'pinia';
 import Button from '@/components/UI/button/Button.vue';
+import { useModalStore } from '@/store/modal';
 
 export default {
   components: { Button },
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-  },
   computed: {
     ...mapState(useUserStore, ['username', 'first_name', 'image', 'native_languages']),
     ...mapState(useLanguagesStore, ['learning_languages', 'global_languages']),
@@ -23,6 +18,7 @@ export default {
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useVocabularyStore, ['clearDataVocabulary']),
     ...mapActions(useLanguagesStore, ['clearDataLanguages']),
+    ...mapActions(useModalStore, ['closeModal']),
     handleDelete() {
       this.deleteUser();
       this.addNewMessage({
@@ -31,7 +27,7 @@ export default {
       });
       this.clearDataVocabulary();
       this.clearDataLanguages();
-      this.closeForm();
+      this.closeModal();
       this.$router.push('/');
     },
     getFlagIcon(neededLang: string | undefined) {
@@ -76,7 +72,7 @@ export default {
         variant="secondary"
         :text="$t('buttons.cancel')"
         size="medium"
-        @click="() => closeForm()"
+        @click="() => closeModal()"
       />
       <Button
         type="submit"

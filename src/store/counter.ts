@@ -13,7 +13,6 @@ export const useCounterStore = defineStore('counter', {
             return state.count ** 2;
         },
     },
-
     actions: {
         increment() {
             this.count++;

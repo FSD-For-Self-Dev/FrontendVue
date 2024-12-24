@@ -3,26 +3,15 @@ import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapActions, mapState, mapWritableState } from 'pinia';
 import Button from '@/components/UI/button/Button.vue';
-import { ref } from 'vue';
 import type { PropType } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
 import type { WordTagDto } from '@/dto/vocabulary.dto';
 import { isAxiosError } from 'axios';
+import { useModalStore } from '@/store/modal';
 
 export default {
   components: { Button, WordTagCard },
-  emits: ['wordDeleted'],
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-    objectLookup: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
       word: '',
@@ -37,16 +26,10 @@ export default {
       submitProcess: false,
     };
   },
-  setup(props) {
-    const objectLookup = ref(props.objectLookup);
-
-    return {
-      objectLookup,
-    };
-  },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
     ...mapWritableState(useVocabularyStore, ['filterOptions']),
+    ...mapWritableState(useModalStore, ['modalObjectLookup']),
   },
   methods: {
     ...mapActions(useVocabularyStore, [
@@ -54,30 +37,35 @@ export default {
       'getWordProfile',
       'deleteWord',
       'getFavoriteWords',
+      'resetFilteredWords',
     ]),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useLanguagesStore, [
       'getLearningLanguages',
       'getLanguageObjectByIsocode',
     ]),
+    ...mapActions(useModalStore, ['closeModal']),
     async handleDelete() {
       this.submitProcess = true;
-      const res = await this.deleteWord(this.objectLookup);
-      if (isAxiosError(res)) {
-        console.log(res.response?.data);
-      } else {
-        this.$emit('wordDeleted');
-        this.filterOptions.language = '';
-        this.filterOptions.activity_status = '';
-        this.filterOptions.search = '';
-        this.getVocabulary();
-        this.getLearningLanguages();
-        if (this.favorite) this.getFavoriteWords();
-        this.closeForm();
-        this.addNewMessage({
-          type: 'info',
-          text: this.$t('infoMessage.deleteWord'),
-        });
+      if (this.modalObjectLookup) {
+        const res = await this.deleteWord(this.modalObjectLookup);
+        if (isAxiosError(res)) {
+          console.log(res.response?.data);
+        } else {
+          this.filterOptions.language = '';
+          this.filterOptions.activity_status = '';
+          this.filterOptions.search = '';
+          const successMsg = this.$t('infoMessage.deleteWord');
+          await this.closeModal();
+          await this.getVocabulary();
+          if (this.favorite) await this.getFavoriteWords();
+          this.resetFilteredWords();
+          this.getLearningLanguages();
+          this.addNewMessage({
+            type: 'info',
+            text: successMsg,
+          });
+        }
       }
       this.submitProcess = false;
     },
@@ -89,8 +77,8 @@ export default {
     },
   },
   async mounted() {
-    if (this.objectLookup) {
-      await this.getWordProfile(this.objectLookup);
+    if (this.modalObjectLookup) {
+      await this.getWordProfile(this.modalObjectLookup);
       const { wordProfile } = useVocabularyStore();
       this.word = wordProfile.text ? wordProfile.text : '';
       this.language = wordProfile.language ? wordProfile.language : '';
@@ -156,7 +144,7 @@ export default {
       <Button
         type="button"
         variant="secondary"
-        @click="() => closeForm()"
+        @click="() => closeModal()"
         :text="$t('buttons.cancel')"
         size="medium"
       />

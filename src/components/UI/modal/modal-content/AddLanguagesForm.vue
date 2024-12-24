@@ -9,15 +9,10 @@ import { isAxiosError } from 'axios';
 import Search from '@/components/language/Search.vue';
 import Counter from '../../counter/Counter.vue';
 import LanguageAddItem from '@/components/language/LanguageAddItem.vue';
+import { useModalStore } from '@/store/modal';
 
 export default {
   components: { Input, Button, Search, Counter, LanguageAddItem },
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-  },
   data() {
     return {
       searchLanguage: '',
@@ -39,6 +34,7 @@ export default {
   methods: {
     ...mapActions(useLanguagesStore, ['postLearningLanguage', 'getAvailableLanguages']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
+    ...mapActions(useModalStore, ['closeModal']),
     toggleActiveLanguage(language: LanguageDto) {
       if (this.activeLanguage.includes(language)) {
         this.activeLanguage = this.activeLanguage.filter((item) => {
@@ -63,7 +59,7 @@ export default {
         }
         return;
       } else {
-        this.closeForm();
+        this.closeModal();
         const lenLanguages = this.activeLanguage.length;
         this.addNewMessage({
           type: 'info',
@@ -103,7 +99,7 @@ export default {
         :text="$t('buttons.cancel')"
         variant="secondary"
         size="medium"
-        @click="() => closeForm()"
+        @click="() => closeModal()"
       />
       <Button
         v-if="!submitProcess"

@@ -12,8 +12,8 @@ import Tab from '../../tab/Tab.vue';
 import WordTranslationItem from '@/components/vocabulary/WordTranslationItem.vue';
 import WordImageItem from '@/components/vocabulary/WordImageItem.vue';
 import WordTools from '@/components/vocabulary/WordTools.vue';
-import Modal from '../Modal.vue';
 import { useNotificationsStore } from '@/store/notifications';
+import { useModalStore } from '@/store/modal';
 
 export default {
   components: {
@@ -23,18 +23,6 @@ export default {
     WordTranslationItem,
     WordImageItem,
     WordTools,
-    Modal,
-  },
-  emits: ['favoriteupdate', 'deleteword', 'editword'],
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-    objectLookup: {
-      type: String,
-      required: true,
-    },
   },
   data() {
     return {
@@ -46,6 +34,7 @@ export default {
   },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
+    ...mapState(useModalStore, ['modalObjectLookup']),
     counterBind() {
       return this.wordProfile.translations_count
         ? `${this.wordProfile.translations_count * 100}%`
@@ -100,6 +89,7 @@ export default {
       'getWordProfile',
       'addWordToFavorite',
       'removeWordFromFavorite',
+      'updateFavoriteWords',
     ]),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
@@ -150,7 +140,7 @@ export default {
           }
         } else {
           this.wordProfile.favorite = false;
-          this.$emit('favoriteupdate', false);
+          if (this.wordProfile.id) this.updateFavoriteWords(false, this.wordProfile.id);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordRemovedFromFavorite')}: ${this.wordProfile.text}`,
@@ -169,7 +159,7 @@ export default {
           }
         } else {
           this.wordProfile.favorite = true;
-          this.$emit('favoriteupdate', true);
+          if (this.wordProfile.id) this.updateFavoriteWords(true, this.wordProfile.id);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordAddedToFavorite')}: ${this.wordProfile.text}`,
@@ -177,20 +167,10 @@ export default {
         }
       }
     },
-    handleDelete() {
-      this.showWordTools = false;
-      this.$emit('deleteword');
-      return;
-    },
-    handleEdit() {
-      this.showWordTools = false;
-      this.$emit('editword');
-      return;
-    },
   },
   async beforeMount() {
-    if (this.objectLookup) {
-      await this.getWordProfile(this.objectLookup);
+    if (this.modalObjectLookup) {
+      await this.getWordProfile(this.modalObjectLookup);
       const { wordProfile } = useVocabularyStore();
       this.wordProfile = wordProfile;
     }
@@ -264,10 +244,9 @@ export default {
           />
         </div>
         <WordTools
-          :handleClose="() => (showWordTools = false)"
           v-if="showWordTools"
-          :handle-delete="handleDelete"
-          :handle-edit="handleEdit"
+          :handleClose="() => (showWordTools = false)"
+          :word-slug="wordProfile.slug ? wordProfile.slug : ''"
         />
       </div>
       <div class="word-profile--word-content" :class="backgroundClasses">

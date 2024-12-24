@@ -1,42 +1,32 @@
 <script lang="ts">
 import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
-import { mapActions } from 'pinia';
+import { mapActions, mapWritableState } from 'pinia';
 import { isAxiosError } from 'axios';
 import { ref } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import Button from '@/components/UI/button/Button.vue';
 import BooleanInput from '@/components/UI/input/BooleanInput.vue';
 import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
+import { useModalStore } from '@/store/modal';
 
 export default {
   components: { Button, WordTagCard, BooleanInput },
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-    objectLookup: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
       submitProcess: false,
     };
   },
-  setup(props) {
-    const objectLookup = ref(props.objectLookup);
+  setup() {
     const delete_words = ref(false);
     return {
-      objectLookup,
       delete_words,
     };
   },
   computed: {
+    ...mapWritableState(useModalStore, ['modalObjectLookup']),
     languageObject() {
-      return this.getLanguageObjectByIsocode(this.objectLookup);
+      return this.getLanguageObjectByIsocode(this.modalObjectLookup);
     },
   },
   methods: {
@@ -48,22 +38,25 @@ export default {
       'getLanguageObjectByIsocode',
     ]),
     ...mapActions(useVocabularyStore, ['getVocabulary']),
+    ...mapActions(useModalStore, ['closeModal']),
     async handleDelete() {
       this.submitProcess = true;
-      const res = await this.deleteLanguage(this.objectLookup, this.delete_words);
-      if (isAxiosError(res)) {
-        console.log(res.response?.data);
-      } else {
-        this.getLearningLanguages();
-        this.getAvailableLanguages();
-        if (this.delete_words) this.getVocabulary();
-        this.closeForm();
-        this.$router.push('/languages');
-        this.addNewMessage({
-          type: 'info',
-          text: this.$t('infoMessage.deleteLanguage'),
-        });
-      };
+      if (this.modalObjectLookup) {
+        const res = await this.deleteLanguage(this.modalObjectLookup, this.delete_words);
+        if (isAxiosError(res)) {
+          console.log(res.response?.data);
+        } else {
+          this.getLearningLanguages();
+          this.getAvailableLanguages();
+          if (this.delete_words) this.getVocabulary();
+          this.closeModal();
+          this.$router.push('/languages');
+          this.addNewMessage({
+            type: 'info',
+            text: this.$t('infoMessage.deleteLanguage'),
+          });
+        };
+      }
       this.submitProcess = false;
     }
   },
@@ -128,7 +121,7 @@ export default {
       <Button
         type="button"
         variant="secondary"
-        @click="() => closeForm()"
+        @click="() => closeModal()"
         :text="$t('buttons.cancel')"
         size="medium"
       />

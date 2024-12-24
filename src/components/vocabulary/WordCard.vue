@@ -8,11 +8,10 @@ import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { isAxiosError } from 'axios';
 import WordTools from './WordTools.vue';
-import Modal from '../UI/modal/Modal.vue';
+import { useModalStore } from '@/store/modal';
 
 export default {
-  components: { WordTagCard, WordTools, Modal },
-  emits: ['wordEdited', 'wordDeleted'],
+  components: { WordTagCard, WordTools },
   props: {
     word: {
       type: Object as PropType<WordDto>,
@@ -23,16 +22,15 @@ export default {
     return {
       translationCurrentIndex: 0,
       showWordTools: false,
-      showEditWordModal: false,
-      showDeleteWordModal: false,
-      showWordProfileModal: false,
-      editWordSlug: '' as string,
-      deleteWordSlug: '' as string,
     };
   },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
-    ...mapWritableState(useVocabularyStore, ['favoriteWords', 'favoriteCount', 'vocabularyWords']),
+    ...mapWritableState(useVocabularyStore, [
+      'favoriteWords',
+      'favoriteCount',
+      'vocabularyWords',
+    ]),
     backgroundClasses() {
       return {
         grey: !this.word.image,
@@ -64,7 +62,12 @@ export default {
   },
   methods: {
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapActions(useVocabularyStore, ['addWordToFavorite', 'removeWordFromFavorite']),
+    ...mapActions(useVocabularyStore, [
+      'addWordToFavorite',
+      'removeWordFromFavorite',
+      'updateFavoriteWords',
+    ]),
+    ...mapActions(useModalStore, ['openModal']),
     getFlagIcon(neededLang: string | undefined) {
       return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
     },
@@ -105,7 +108,8 @@ export default {
             console.log(res.response?.data);
           }
         } else {
-          this.updateFavorite(false);
+          this.word.favorite = false;
+          this.updateFavoriteWords(false, this.word.id);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordRemovedFromFavorite')}: ${this.word.text}`,
@@ -123,7 +127,8 @@ export default {
             console.log(res.response?.data);
           }
         } else {
-          this.updateFavorite(true);
+          this.word.favorite = true;
+          this.updateFavoriteWords(true, this.word.id);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordAddedToFavorite')}: ${this.word.text}`,
@@ -131,48 +136,26 @@ export default {
         }
       }
     },
-    updateFavorite(value: boolean) {
-      if (value) {
-        this.favoriteWords.unshift(this.word);
-        this.favoriteCount += 1;
-      } else {
-        this.favoriteWords = this.favoriteWords.filter((word) => {
-          return word.id !== this.word.id
-        });
-        this.favoriteCount -= 1;
-      }
-      this.word.favorite = value;
-      const vocabularyWord = this.vocabularyWords.find((word) => {
-        return word.id === this.word.id
-      });
-      if (vocabularyWord) {
-        vocabularyWord.favorite = value;
-      }
-    },
-    handleDelete() {
-      this.showWordTools = false;
-      this.showWordProfileModal = false;
-      this.showDeleteWordModal = true;
-      this.deleteWordSlug = this.word.slug;
-      return;
-    },
-    handleEdit() {
-      this.showWordTools = false;
-      this.showWordProfileModal = false;
-      this.showEditWordModal = true;
-      this.editWordSlug = this.word.slug;
-      return;
-    },
-    handleWordProfile() {
-      this.showWordProfileModal = true;
-      return;
-    },
   },
 };
 </script>
 
 <template>
-  <article class="card" v-bind="{ ...$attrs }" @click.stop="handleWordProfile">
+  <article
+    class="card"
+    v-bind="{ ...$attrs }"
+    @click.stop="
+      () => {
+        openModal(
+          'WordProfileModal',
+          $t('title.wordProfile'),
+          'WordsIcon',
+          'lg',
+          word.slug,
+        );
+      }
+    "
+  >
     <div class="card__background" :class="{ 'with-image': word.image }">
       <div class="card__background--overlay" v-if="word.image" />
       <img :src="word.image" alt="Word image" v-if="word.image" />
@@ -218,10 +201,9 @@ export default {
       </div>
     </div>
     <WordTools
-      :handleClose="() => (showWordTools = false)"
       v-if="showWordTools"
-      :handle-delete="handleDelete"
-      :handle-edit="handleEdit"
+      :handleClose="() => (showWordTools = false)"
+      :word-slug="word.slug"
     />
     <div class="card__content" :class="backgroundClasses">
       <div class="card__content--language">
@@ -279,38 +261,6 @@ export default {
       </div>
     </div>
   </article>
-  <Modal
-    size="lg"
-    v-if="showEditWordModal"
-    :close-modal="() => (showEditWordModal = false)"
-    :title-modal="$t('title.editWord')"
-    icon="EditIcon"
-    modalContent="NewWordForm"
-    :objectLookup="editWordSlug"
-    @word-created="$emit('wordEdited')"
-  />
-  <Modal
-    size="lg"
-    v-if="showDeleteWordModal"
-    :close-modal="() => (showDeleteWordModal = false)"
-    :title-modal="$t('title.deleteWord')"
-    icon="InfoIcon"
-    modalContent="DeleteWordForm"
-    :objectLookup="deleteWordSlug"
-    @word-deleted="$emit('wordDeleted')"
-  />
-  <Modal
-    size="lg"
-    v-if="showWordProfileModal"
-    :close-modal="() => (showWordProfileModal = false)"
-    :title-modal="$t('title.wordProfile')"
-    icon="WordsIcon"
-    modalContent="WordProfileModal"
-    :objectLookup="word.slug"
-    @favoriteupdate="updateFavorite"
-    @editword="handleEdit"
-    @deleteword="handleDelete"
-  />
 </template>
 
 <style lang="scss" scoped>
