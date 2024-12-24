@@ -7,11 +7,10 @@ import { ref } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import Button from '@/components/UI/button/Button.vue';
 import BooleanInput from '@/components/UI/input/BooleanInput.vue';
-import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
 import { useModalStore } from '@/store/modal';
 
 export default {
-  components: { Button, WordTagCard, BooleanInput },
+  components: { Button, BooleanInput },
   data() {
     return {
       submitProcess: false,
@@ -26,7 +25,7 @@ export default {
   computed: {
     ...mapWritableState(useModalStore, ['modalObjectLookup']),
     languageObject() {
-      return this.getLanguageObjectByIsocode(this.modalObjectLookup);
+      return this.getLearningLanguageByIsocode(this.modalObjectLookup);
     },
   },
   methods: {
@@ -35,7 +34,7 @@ export default {
       'getLearningLanguages',
       'deleteLanguage',
       'getAvailableLanguages',
-      'getLanguageObjectByIsocode',
+      'getLearningLanguageByIsocode',
     ]),
     ...mapActions(useVocabularyStore, ['getVocabulary']),
     ...mapActions(useModalStore, ['closeModal']),

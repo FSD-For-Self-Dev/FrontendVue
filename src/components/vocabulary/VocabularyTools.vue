@@ -90,7 +90,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
+    ...mapActions(useLanguagesStore, ['getLearningLanguageByIsocode']),
     handleFilter() {
       this.getFilteredWords ? this.getFilteredWords(true) : this.getVocabulary(true);
     },

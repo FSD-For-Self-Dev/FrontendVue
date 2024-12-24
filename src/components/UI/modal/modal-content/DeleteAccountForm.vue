@@ -17,7 +17,7 @@ export default {
     ...mapActions(useUserStore, ['deleteUser']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useVocabularyStore, ['clearDataVocabulary']),
-    ...mapActions(useLanguagesStore, ['clearDataLanguages']),
+    ...mapActions(useLanguagesStore, ['clearDataLanguages', 'getLanguageByIsocode']),
     ...mapActions(useModalStore, ['closeModal']),
     handleDelete() {
       this.deleteUser();
@@ -50,7 +50,7 @@ export default {
           <p class="small-title">{{ $t('title.nativeLanguages') }}:</p>
           <div class="languages--item" v-for="language in native_languages">
             <img :src="getFlagIcon(language)" alt="Icon" class="language-icon" />
-            <p>{{ language }}</p>
+            <p>{{ getLanguageByIsocode(language)?.name_local }}</p>
           </div>
         </div>
         <div class="languages">
@@ -102,6 +102,7 @@ export default {
       height: 20rem;
       min-height: 20rem;
       border-radius: $radius-full;
+      object-fit: cover;
     }
 
     .info {

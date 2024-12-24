@@ -18,7 +18,7 @@ export default {
       language: '',
       activity_status: '',
       activity_progress: 0 as number,
-      tags: [] as WordTagDto[],
+      tags: [] as string[],
       types: [] as string[],
       translations_count: 0,
       image_associations_count: 0,
@@ -42,7 +42,7 @@ export default {
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useLanguagesStore, [
       'getLearningLanguages',
-      'getLanguageObjectByIsocode',
+      'getLearningLanguageByIsocode',
     ]),
     ...mapActions(useModalStore, ['closeModal']),
     async handleDelete() {
@@ -108,7 +108,7 @@ export default {
       <div class="word-info--language-icon">
         <img :src="getFlagIcon(language)" alt="Icon" class="language-icon" />
       </div>
-      <p>{{ getLanguageObjectByIsocode(language)?.language.name }}</p>
+      <p>{{ getLearningLanguageByIsocode(language)?.language.name_local }}</p>
     </div>
     <div class="word-info">
       <div class="word-info--types" v-if="types.length > 0">
@@ -116,7 +116,7 @@ export default {
       </div>
       <p id="word">{{ word }}</p>
       <div class="word-info--tags" v-if="tags.length > 0">
-        <WordTagCard :tag="tag.name" v-for="tag in tags" size="medium" />
+        <WordTagCard :tag="tag" v-for="tag in tags" size="medium" />
       </div>
     </div>
     <div class="word-info--summary">

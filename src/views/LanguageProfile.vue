@@ -26,7 +26,7 @@ export default {
     ...mapWritableState(useVocabularyStore, ['filterOptions', 'pageKey']),
     languageObject() {
       if (typeof this.$route.params.slug === 'string') {
-        const lang_obj = this.getLanguageObjectByIsocode(this.$route.params.slug);
+        const lang_obj = this.getLearningLanguageByIsocode(this.$route.params.slug);
         if (lang_obj) {
           return lang_obj;
         } else {
@@ -40,7 +40,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
+    ...mapActions(useLanguagesStore, ['getLearningLanguageByIsocode']),
   },
 };
 </script>

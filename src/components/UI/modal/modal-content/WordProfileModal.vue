@@ -1,11 +1,10 @@
 <script lang="ts">
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapActions, mapState } from 'pinia';
-import { ref } from 'vue';
 import type { PropType } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
-import type { WordProfileDto, WordTagDto } from '@/dto/vocabulary.dto';
+import type { WordProfileDto } from '@/dto/vocabulary.dto';
 import { isAxiosError } from 'axios';
 import IconButton from '../../button/IconButton.vue';
 import Tab from '../../tab/Tab.vue';
@@ -92,7 +91,7 @@ export default {
       'updateFavoriteWords',
     ]),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
+    ...mapActions(useLanguagesStore, ['getLearningLanguageByIsocode']),
     getFlagIcon(neededLang: string | undefined) {
       return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
     },
@@ -213,7 +212,7 @@ export default {
               alt="Icon"
               class="language-icon"
             />
-            <p>{{ getLanguageObjectByIsocode(wordProfile.language)?.language.name }}</p>
+            <p>{{ getLearningLanguageByIsocode(wordProfile.language)?.language.name_local }}</p>
           </div>
           <div class="status-tag" :class="backgroundClasses">
             <svg-icon
@@ -269,7 +268,7 @@ export default {
             </div>
           </div>
           <div class="word-tags" v-if="wordProfile.tags && wordProfile.tags.length > 0">
-            <WordTagCard :tag="tag.name" v-for="tag in wordProfile.tags" size="medium" />
+            <WordTagCard :tag="tag" v-for="tag in wordProfile.tags" size="medium" />
           </div>
         </div>
         <div

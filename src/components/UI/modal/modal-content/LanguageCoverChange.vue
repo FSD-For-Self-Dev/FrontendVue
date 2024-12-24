@@ -3,10 +3,8 @@ import type { PropType } from 'vue';
 import { useNotificationsStore } from '@/store/notifications';
 import { mapActions, mapState } from 'pinia';
 import { isAxiosError } from 'axios';
-import { ref } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import Button from '@/components/UI/button/Button.vue';
-import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
 import type {
   LanguageCoverDto,
   LanguageDeleteCoverDto,
@@ -23,7 +21,6 @@ import { useModalStore } from '@/store/modal';
 export default {
   components: {
     Button,
-    WordTagCard,
     LanguageCoverItem,
     ImageUploadForm,
     Preloader,
@@ -44,7 +41,7 @@ export default {
     ...mapState(useLanguagesStore, ['isLoadingMore']),
     ...mapState(useModalStore, ['modalObjectLookup']),
     languageObject() {
-      return this.getLanguageObjectByIsocode(this.modalObjectLookup);
+      return this.getLearningLanguageByIsocode(this.modalObjectLookup);
     },
     getCoverImage() {
       try {
@@ -63,7 +60,7 @@ export default {
       'setLanguageCover',
       'deleteLanguageCover',
       'getLanguageCovers',
-      'getLanguageObjectByIsocode',
+      'getLearningLanguageByIsocode',
       'getLanguageCoversNextPage',
     ]),
     ...mapActions(useModalStore, ['closeModal']),

@@ -52,7 +52,7 @@ export interface WordProfileDto {
   activity_status?: activityStatus;
   activity_progress?: number;
   types?: string[];
-  tags?: WordTagDto[];
+  tags?: string[];
   translations?: WordTranslationDto[];
   image_associations?: ImageAssociationsDto[];
   note?: string;

@@ -22,7 +22,7 @@ export default {
 </script>
 
 <template>
-  <div class="tag" :class="tagSize"> {{ tag }} </div>
+  <div class="tag" :class="tagSize">{{ tag }}</div>
 </template>
 
 <style lang="scss" scoped>
