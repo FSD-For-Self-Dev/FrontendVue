@@ -3,63 +3,40 @@ import { OnClickOutside } from '@vueuse/components';
 import { useWindowScroll } from '@vueuse/core';
 import { type PropType, type Component, ref } from 'vue';
 import { defineAsyncComponent } from 'vue';
+import { useModalStore, type ModalStore } from '../../../store/modal';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 
 const { y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
   inheritAttrs: false,
   components: { OnClickOutside },
-  props: {
-    closeModal: {
-      type: Function,
-      required: true,
-    },
-    titleModal: {
-      type: String,
-      required: true,
-    },
-    icon: {
-      type: String,
-      required: false,
-    },
-    size: {
-      type: String as PropType<'md' | 'lg' | 'xl'>,
-      default: 'md',
-    },
-    modalContent: {
-      type: String,
-      required: true,
-    },
-    objectLookup: {
-      type: String,
-      required: false,
-    },
-  },
-  setup(props) {
-    const title = ref(props.titleModal);
-
+  setup() {
     y.value = 0;
-
-    return {
-      title,
-    };
-  },
-  methods: {
-    updateTitle(title: string) {
-      this.title = title;
-    },
   },
   computed: {
-    modalSize() {
+    ...mapState(useModalStore, [
+      'modalContent',
+      'modalIcon',
+      'modalSize',
+    ]),
+    ...mapWritableState(useModalStore, ['modalTitle']),
+    modalClass() {
       return {
-        'modal--xl': this.size === 'xl',
-        'modal--lg': this.size === 'lg',
-        'modal--md': this.size === 'md',
-      }
+        'modal--xl': this.modalSize === 'xl',
+        'modal--lg': this.modalSize === 'lg',
+        'modal--md': this.modalSize === 'md',
+      };
     },
     dynamicComponent() {
       const modalContent = this.modalContent;
       return defineAsyncComponent(() => import(`./modal-content/${modalContent}.vue`));
+    },
+  },
+  methods: {
+    ...mapActions(useModalStore, ['closeModal']),
+    updateTitle(title: string) {
+      this.modalTitle = title;
     },
   },
 };
@@ -70,15 +47,16 @@ export default {
     <div class="overlay"></div>
 
     <OnClickOutside @trigger="() => closeModal()">
-      <div class="modal" :class="modalSize">
+      <div class="modal" :class="modalClass">
         <div class="modal--header">
           <h2 class="modal--title">
             <svg-icon
-              v-if="icon"
+              v-if="modalIcon"
               size="lg"
-              :name="icon"
+              :name="modalIcon"
               style="stroke-width: 0.03rem"
-            />{{ title }}
+            />
+            {{ modalTitle }}
           </h2>
 
           <svg-icon
@@ -93,9 +71,7 @@ export default {
         <div class="modal--form">
           <component
             :is="dynamicComponent"
-            :closeForm="closeModal"
             :updateTitle="updateTitle"
-            :objectLookup="objectLookup"
             v-bind="{ ...$attrs, onInput: undefined }"
           />
         </div>

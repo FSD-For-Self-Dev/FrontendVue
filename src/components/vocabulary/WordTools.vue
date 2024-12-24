@@ -1,25 +1,24 @@
 <script lang="ts">
+import { useModalStore } from '@/store/modal';
 import { OnClickOutside } from '@vueuse/components';
-import Modal from '../UI/modal/Modal.vue';
+import { mapActions } from 'pinia';
 
 export default {
   components: {
     OnClickOutside,
-    Modal,
   },
   props: {
     handleClose: {
       type: Function,
       required: true,
     },
-    handleDelete: {
-      type: Function,
+    wordSlug: {
+      type: String,
       required: true,
     },
-    handleEdit: {
-      type: Function,
-      required: true,
-    },
+  },
+  methods: {
+    ...mapActions(useModalStore, ['openModal']),
   },
 };
 </script>
@@ -27,10 +26,34 @@ export default {
 <template>
   <OnClickOutside @trigger.stop="() => handleClose()" class="click-wrapper">
     <div class="word-tools">
-      <button @click.stop="() => handleEdit()" class="word-tools__button">
+      <button
+        @click.stop="() => {
+          openModal(
+            'NewWordForm',
+            $t('title.editWord'),
+            'EditIcon',
+            'lg',
+            wordSlug
+          );
+          handleClose();
+        }"
+        class="word-tools__button"
+      >
         <p>{{ $t('action.edit') }}</p>
       </button>
-      <button @click.stop="() => handleDelete()" class="word-tools__button">
+      <button
+        @click.stop="() => {
+          openModal(
+            'DeleteWordForm',
+            $t('title.deleteWord'),
+            'InfoIcon',
+            'lg',
+            wordSlug
+          );
+          handleClose();
+        }"
+        class="word-tools__button"
+      >
         <p>{{ $t('action.delete') }}</p>
       </button>
     </div>

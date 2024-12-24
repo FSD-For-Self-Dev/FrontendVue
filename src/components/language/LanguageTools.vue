@@ -1,11 +1,9 @@
 <script lang="ts">
 import { OnClickOutside } from '@vueuse/components';
-import Modal from '../UI/modal/Modal.vue';
 
 export default {
   components: {
     OnClickOutside,
-    Modal,
   },
   props: {
     handleClose: {

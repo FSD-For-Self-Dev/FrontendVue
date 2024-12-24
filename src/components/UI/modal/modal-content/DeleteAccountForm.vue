@@ -5,15 +5,10 @@ import { useVocabularyStore } from '@/store/vocabulary';
 import { useLanguagesStore } from '@/store/languages';
 import { mapActions, mapState } from 'pinia';
 import Button from '@/components/UI/button/Button.vue';
+import { useModalStore } from '@/store/modal';
 
 export default {
   components: { Button },
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-  },
   computed: {
     ...mapState(useUserStore, ['username', 'first_name', 'image', 'native_languages']),
     ...mapState(useLanguagesStore, ['learning_languages', 'global_languages']),
@@ -22,7 +17,12 @@ export default {
     ...mapActions(useUserStore, ['deleteUser']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useVocabularyStore, ['clearDataVocabulary']),
-    ...mapActions(useLanguagesStore, ['clearDataLanguages']),
+    ...mapActions(useLanguagesStore, [
+      'clearDataLanguages',
+      'getLanguageByIsocode',
+      'getFlagIcon',
+    ]),
+    ...mapActions(useModalStore, ['closeModal']),
     handleDelete() {
       this.deleteUser();
       this.addNewMessage({
@@ -31,11 +31,8 @@ export default {
       });
       this.clearDataVocabulary();
       this.clearDataLanguages();
-      this.closeForm();
+      this.closeModal();
       this.$router.push('/');
-    },
-    getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
     },
   },
 };
@@ -54,21 +51,30 @@ export default {
           <p class="small-title">{{ $t('title.nativeLanguages') }}:</p>
           <div class="languages--item" v-for="language in native_languages">
             <img :src="getFlagIcon(language)" alt="Icon" class="language-icon" />
-            <p>{{ language }}</p>
+            <p>{{ getLanguageByIsocode(language)?.name_local }}</p>
           </div>
         </div>
         <div class="languages">
           <p class="small-title">{{ $t('title.vocabulary') }}:</p>
           <div class="languages--item" v-for="language in learning_languages">
-            <img :src="getFlagIcon(language.language.isocode)" alt="Icon" class="language-icon" />
+            <img
+              :src="getFlagIcon(language.language.isocode)"
+              alt="Icon"
+              class="language-icon"
+            />
             <p>{{ language.words_count }}</p>
           </div>
         </div>
       </div>
     </div>
     <div class="buttons">
-      <div class="tip" style="width: 100%;">
-        <svg-icon name="InfoIcon" size="md" color="var:danger-600" style="stroke-width: 0.02rem;" />
+      <div class="tip" style="width: 100%">
+        <svg-icon
+          name="InfoIcon"
+          size="md"
+          color="var:danger-600"
+          style="stroke-width: 0.02rem"
+        />
         <p>{{ $t('tip.dangerAction') }}</p>
       </div>
       <Button
@@ -76,7 +82,7 @@ export default {
         variant="secondary"
         :text="$t('buttons.cancel')"
         size="medium"
-        @click="() => closeForm()"
+        @click="() => closeModal()"
       />
       <Button
         type="submit"
@@ -106,6 +112,7 @@ export default {
       height: 20rem;
       min-height: 20rem;
       border-radius: $radius-full;
+      object-fit: cover;
     }
 
     .info {
@@ -136,7 +143,7 @@ export default {
         align-items: center;
         gap: 1.6rem;
         @include text-1;
-        
+
         &--item {
           display: flex;
           flex-direction: row;

@@ -4,26 +4,38 @@ import Header from '@/components/header/Header.vue';
 import Footer from '@/components/footer/Footer.vue';
 import IconButton from '@/components/UI/button/IconButton.vue';
 import NotificationsList from '@/components/notifications/NotificationsList.vue';
-import { mapActions, mapWritableState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import Preloader from '../preloader/Preloader.vue';
 import { useUserStore } from '@/store/user';
 import { ref } from 'vue';
 import { useGlobalActionsStore } from '@/store/global-actions';
+import Modal from '../modal/Modal.vue';
+import { useModalStore } from '@/store/modal';
+import Authentication from '@/components/authentication/Authentication.vue';
+import { useAuthStore } from '@/store/auth';
 
 const { x, y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
-  components: { Header, Footer, IconButton, NotificationsList, Preloader },
+  components: {
+    Header,
+    Footer,
+    IconButton,
+    NotificationsList,
+    Preloader,
+    Modal,
+    Authentication,
+  },
   props: {
     landingPage: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
     noFooterPage: {
       type: Boolean,
       required: false,
-      default: false
+      default: false,
     },
   },
   data() {
@@ -38,6 +50,8 @@ export default {
   },
   computed: {
     ...mapWritableState(useUserStore, ['authStatus']),
+    ...mapState(useModalStore, ['modalActive']),
+    ...mapState(useAuthStore, ['showAuth']),
     isMainpage() {
       return this.$route.path === '/';
     },
@@ -50,7 +64,7 @@ export default {
       if (this.authStatus) {
         this.update_locale(this.$i18n.locale);
         this.global_init();
-      };
+      }
       this.isLoading = false;
     },
     async handleLoginProcceed() {
@@ -81,7 +95,6 @@ export default {
   <div class="layout">
     <Header
       @locale-updated="handleUpdateLocale"
-      @login-procceed="handleLoginProcceed"
       v-if="!hideHeader"
     />
     <main class="main" v-if="!isLoading">
@@ -118,6 +131,11 @@ export default {
     </div>
     <Footer v-if="!noFooterPage" />
     <NotificationsList />
+    <Modal v-if="modalActive" />
+    <Authentication
+      v-if="!authStatus && showAuth"
+      @login-procceed="handleLoginProcceed"
+    />
   </div>
 </template>
 

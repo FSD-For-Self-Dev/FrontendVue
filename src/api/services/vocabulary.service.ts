@@ -1,7 +1,7 @@
 import type { IApi } from '@/types/api/api-types';
 import type { VocabularyQuery } from '@/types/api/services';
 
-export const wordsPerPage = 40;
+export const wordsPerPage = 32;
 
 export default (api: IApi) => {
   api.vocabulary = {

@@ -85,7 +85,7 @@ export const en = {
     fileUpload3: 'Image file (jpg, jpeg, png, gif)',
     translations: 'Translate the word or phrase into your native language or another language you are learning',
     associations: 'Add your own associations with this word',
-    dangerAction: 'This action cannot be reversed',
+    dangerAction: 'This action cannot be reverted',
     deleteProcceed: 'Deletion...',
     saveProcceed: 'Saving...',
     deleteLanguageWords: 'The words of this language will be deleted from your vocabulary',

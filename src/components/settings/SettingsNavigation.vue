@@ -1,41 +1,35 @@
 <script lang="ts">
 import { mapActions } from 'pinia';
 import Button from '@/components/UI/button/Button.vue';
-import Modal from '@/components/UI/modal/Modal.vue';
 import { useGlobalActionsStore } from '@/store/global-actions';
 import { useWindowScroll } from '@vueuse/core';
+import { useModalStore } from '@/store/modal';
 
 const { y } = useWindowScroll({ behavior: 'smooth' });
 
 export default {
-  components: { Button, Modal },
+  components: { Button },
   emits: ["profileSettings", "appSettings"],
   data() {
     return {
-      showProfileSettingsForm: true,
-      showAppSettingsForm: false,
-      showModal: false,
+      tab: 'profile',
     };
   },
   methods: {
     ...mapActions(useGlobalActionsStore, ['global_clear']),
-    handleClose() {
-      this.showModal = false;
-    },
+    ...mapActions(useModalStore, ['openModal']),
     handleExit() {
       this.global_clear().finally(() => {
         this.$router.push('/');
       });
     },
     showProfileSettings() {
-      this.showProfileSettingsForm = true;
-      this.showAppSettingsForm = false;
+      this.tab = 'profile';
       y.value = 0;
       this.$emit("profileSettings");
     },
     showAppSettings() {
-      this.showAppSettingsForm = true;
-      this.showProfileSettingsForm = false;
+      this.tab = 'app';
       y.value = 0;
       this.$emit("appSettings");
     },
@@ -57,7 +51,7 @@ export default {
           :text="$t('title.profile')"
           icon="ProfileIcon"
           @click="showProfileSettings"
-          :active="showProfileSettingsForm"
+          :active="tab === 'profile'"
         />
       </li>
       <li>
@@ -71,7 +65,7 @@ export default {
           :text="$t('title.personalization')"
           icon="StarIcon"
           @click="showAppSettings"
-          :active="showAppSettingsForm"
+          :active="tab === 'app'"
         />
       </li>
     </ul>
@@ -99,19 +93,18 @@ export default {
           variant="danger"
           :text="$t('auth.deleteAccount')"
           icon="DeleteIcon"
-          @click="showModal = true"
+          @click="() => {
+            openModal(
+              'DeleteAccountForm',
+              $t('title.deleteAccountConfirm'),
+              'InfoIcon',
+              'lg',
+            );
+          }"
         />
       </li>
     </ul>
   </nav>
-  <Modal
-    v-if="showModal"
-    :close-modal="handleClose"
-    :title-modal="$t('title.deleteAccountConfirm')"
-    icon="InfoIcon"
-    modal-content="DeleteAccountForm"
-    size="lg"
-  />
 </template>
 
 <style lang="scss">

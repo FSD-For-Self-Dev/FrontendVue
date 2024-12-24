@@ -17,10 +17,6 @@ export default {
       type: Boolean,
       required: false,
     },
-    getWords: {
-      type: Function,
-      required: false,
-    },
     words: {
       type: Array as PropType<WordDto[]>,
       required: false,
@@ -32,7 +28,7 @@ export default {
   },
   mounted() {
     if (this.makeRequest) {
-      this.getWords ? this.getWords(true) : this.getVocabulary(true);
+      this.updateWords(true);
     } else {
       this.filteredWords = this.words ? this.words : this.vocabularyWords;
       this.filteredCount = this.wordsCount ? this.wordsCount : this.count;
@@ -69,10 +65,8 @@ export default {
       'getVocabulary',
       'getVocabularyNextPage',
       'resetPage',
+      'updateWords',
     ]),
-    updateWords() {
-      this.getWords ? this.getWords(true) : this.getVocabulary(true);
-    },
     async handleWordsScroll() {
       handleScroll(async () => {
         this.getVocabularyNextPage(true);
@@ -94,12 +88,7 @@ export default {
       </div>
     </header>
     <div v-if="!isLoading" class="vocabulary-content--cards">
-      <WordCard
-        :word="word"
-        v-for="word in filteredWords"
-        @word-edited="updateWords"
-        @word-deleted="updateWords"
-      />
+      <WordCard :word="word" v-for="word in filteredWords" />
     </div>
     <div v-if="isLoading || isLoadingMore" class="preloader-inner">
       <Preloader />
@@ -122,7 +111,6 @@ export default {
     <NewWordButton
       button-size="medium"
       :button-text="$t('buttons.addNewWord')"
-      @word-created="updateWords"
     />
   </div>
 </template>

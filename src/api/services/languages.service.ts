@@ -1,6 +1,6 @@
 import type { IApi } from '@/types/api/api-types';
 
-export const coverImagesPerPage = 20;
+export const coverImagesPerPage = 16;
 
 export default (api: IApi) => {
   api.languages = {

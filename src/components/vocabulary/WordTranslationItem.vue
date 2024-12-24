@@ -1,7 +1,7 @@
 <script lang="ts">
 import IconButton from '../UI/button/IconButton.vue';
 import { useLanguagesStore } from '@/store/languages';
-import { mapState } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 
 export default {
   components: { IconButton },
@@ -35,9 +35,7 @@ export default {
     ...mapState(useLanguagesStore, ['global_languages']),
   },
   methods: {
-    getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
-    },
+    ...mapActions(useLanguagesStore, ['getFlagIcon']),
   },
 };
 </script>

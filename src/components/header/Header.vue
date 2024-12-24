@@ -2,9 +2,8 @@
 import Logo from '@/components/UI/logo/Logo.vue';
 import Navigation from './Navigation.vue';
 import Language from './Language.vue';
-import Authentication from '@/components/authentication/Authentication.vue';
 import type { INavbarItems } from '@/types/components/navbar';
-import { mapState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useUserStore } from '@/store/user';
 import { OnClickOutside } from '@vueuse/components';
 import Button from '@/components/UI/button/Button.vue';
@@ -12,7 +11,8 @@ import ProfileTools from './ProfileTools.vue';
 import IconButton from '../UI/button/IconButton.vue';
 import Search from './Search.vue';
 import AddingTools from './AddingTools.vue';
-import Modal from '../UI/modal/Modal.vue';
+import { useModalStore } from '@/store/modal';
+import { useAuthStore } from '@/store/auth';
 
 export const navbarItems: INavbarItems[] = [
     { name: 'navigation.homePage', link: 'home', icon: 'HomeIcon' },
@@ -31,39 +31,30 @@ export default {
     IconButton,
     Navigation,
     Language,
-    Authentication,
     ProfileTools,
     OnClickOutside,
     Search,
     AddingTools,
-    Modal,
   },
-  emits: ["localeUpdated", "loginProcceed"],
+  emits: ["localeUpdated"],
   computed: {
     ...mapState(useUserStore, ['username', 'authStatus', 'image']),
+    ...mapWritableState(useAuthStore, ['authForm']),
     authorized() {
       return this.$route.path !== '/';
     },
   },
   data(): {
-    showAuth: boolean;
-    viewAuth: 'login' | 'register';
     showProfileTools: boolean;
     showAddingTools: boolean;
-    showNewWordModal: boolean;
-    showAddLanguageModal: boolean;
     shownBar: boolean;
     showNavbar: boolean;
     navbarItems: INavbarItems[];
 	  addIconActive: boolean;
   } {
     return {
-      showAuth: false,
-      viewAuth: 'login',
       showProfileTools: false,
       showAddingTools: false,
-      showNewWordModal: false,
-      showAddLanguageModal: false,
       shownBar: false,
       showNavbar: false,
       navbarItems,
@@ -71,16 +62,8 @@ export default {
     };
   },
   methods: {
-    openAuth(view: 'login' | 'register') {
-      this.showAuth = !this.showAuth;
-      this.viewAuth = view;
-    },
-    closeAuth() {
-      this.showAuth = false;
-    },
-    switchForm(view: 'login' | 'register') {
-      this.viewAuth = view;
-    },
+    ...mapActions(useModalStore, ['openModal']),
+    ...mapActions(useAuthStore, ['openAuthModal']),
     showSearchBar(event: MouseEvent) {
       this.shownBar = true;
     },
@@ -93,11 +76,22 @@ export default {
     closeNavbar() {
       this.showNavbar = false;
     },
+    toggleAddingTools() {
+      this.showAddingTools = !this.showAddingTools;
+      this.addIconActive = !this.addIconActive;
+    },
+    closeAddingTools() {
+      this.showAddingTools = false;
+      this.addIconActive = false
+    },
+    toggleProfileTools() {
+      this.showProfileTools = !this.showProfileTools;
+    },
+    closeProfileTools() {
+      this.showProfileTools = false;
+    },
     updateLocale() {
       this.$emit("localeUpdated");
-    },
-    loginProcceedHandle() {
-      this.$emit("loginProcceed");
     },
   },
 };
@@ -144,42 +138,34 @@ export default {
           size="lg"
           variant="primary"
 		      :class="{active: addIconActive}"
-          @click.stop="() => {showAddingTools = !showAddingTools; addIconActive = true}"
+          @click.stop="toggleAddingTools"
         />
       </div>
       <AddingTools
-        :handleClose="() => {showAddingTools = false; addIconActive = false}"
+        :handleClose="closeAddingTools"
         :handle-add-word="
           () => {
-            showNewWordModal = true;
-            showAddingTools = false;
-			addIconActive = false;
+            openModal(
+              'NewWordForm',
+              $t('title.newWord'),
+              'AddIcon',
+              'lg',
+            );
+            closeAddingTools();
           }
         "
         :handle-add-language="
           () => {
-            showAddLanguageModal = true;
-            showAddingTools = false;
-			addIconActive = false;
+            openModal(
+              'AddLanguagesForm',
+              $t('title.newLearningLanguages'),
+              'ExercisesIcon',
+              'md',
+            );
+            closeAddingTools();
           }
         "
         v-if="showAddingTools"
-      />
-      <Modal
-        size="lg"
-        v-if="showNewWordModal"
-        :close-modal="() => (showNewWordModal = false)"
-        :title-modal="$t('title.newWord')"
-        icon="AddIcon"
-        modalContent="NewWordForm"
-      />
-      <Modal
-        size="md"
-        v-if="showAddLanguageModal"
-        :close-modal="() => (showAddLanguageModal = false)"
-        :title-modal="$t('title.newLearningLanguages')"
-        icon="ExercisesIcon"
-        modalContent="AddLanguagesForm"
       />
     </div>
 
@@ -197,27 +183,18 @@ export default {
       </div>
     </div>
 
-    <Authentication
-      :switch-form="switchForm"
-      :close-auth="closeAuth"
-      :show-auth="showAuth"
-      :view-auth="viewAuth"
-      v-if="!authStatus"
-      @login-procceed="loginProcceedHandle"
-    />
-
     <div class="header--right">
       <div class="header--auth-buttons" v-if="!authStatus">
         <Button
           :text="$t('auth.logIn')"
           size="normal"
-          @click.stop="() => openAuth('login')"
+          @click.stop="openAuthModal"
         />
         <Button
           :text="$t('auth.signUp')"
           size="normal"
           variant="secondary"
-          @click.stop="() => openAuth('register')"
+          @click.stop="() => {authForm = 'signup'; openAuthModal()}"
         />
       </div>
 
@@ -227,14 +204,14 @@ export default {
           class="header--avatar"
           :src="image"
           v-if="image"
-          @click.stop="() => (showProfileTools = !showProfileTools)"
+          @click.stop="toggleProfileTools"
         />
         <IconButton
           v-else
           icon="ProfileIcon"
           size="md"
           variant="secondary"
-          @click.stop="() => (showProfileTools = !showProfileTools)"
+          @click.stop="toggleProfileTools"
         />
       </div>
 
@@ -244,12 +221,13 @@ export default {
 
       <Teleport to="body">
         <ProfileTools
-          :handleClose="() => (showProfileTools = false)"
+          :handleClose="closeProfileTools"
           v-if="showProfileTools"
         />
       </Teleport>
     </div>
   </header>
+
   <div class="navbar" :class="{ show: showNavbar }">
     <OnClickOutside @trigger="closeNavbar" class="navbar__wrapper">
       <ul class="navbar__list">
@@ -264,6 +242,7 @@ export default {
       </ul>
     </OnClickOutside>
   </div>
+
 </template>
 
 <style lang="scss">

@@ -113,26 +113,34 @@ export const useLanguagesStore = defineStore('languages', {
         }
       }
     },
-    getLanguageObject(langName: string) {
+    getLearningLanguageByName(langName: string) {
       const lang_obj = this.learning_languages.filter((lang) => {
         return lang.language.name === langName
       })[0];
-      if (lang_obj) {
-        return lang_obj
-      } else {
-        return
-      }
+      return lang_obj ? lang_obj : undefined;
     },
-    getLanguageObjectByIsocode(langCode: string | undefined) {
+    getLanguageByName(langName: string) {
+      const lang_obj = this.global_languages.filter((lang) => {
+        return lang.name === langName
+      })[0];
+      return lang_obj ? lang_obj : undefined;
+    },
+    getLearningLanguageByIsocode(langCode: string | undefined) {
       if (!langCode) return;
       const lang_obj = this.learning_languages.filter((lang) => {
         return lang.language.isocode === langCode
       })[0];
-      if (lang_obj) {
-        return lang_obj
-      } else {
-        return
-      };
+      return lang_obj ? lang_obj : undefined;
+    },
+    getLanguageByIsocode(langCode: string | undefined) {
+      if (!langCode) return;
+      const lang_obj = this.global_languages.filter((lang) => {
+        return lang.isocode === langCode
+      })[0];
+      return lang_obj ? lang_obj : undefined;
+    },
+    getFlagIcon(neededLang: string | undefined) {
+      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
     },
     clearDataLanguages() {
       this.available_languages = [];

@@ -18,6 +18,8 @@ export interface IAuthState {
   password2: string;
   rememberMe: boolean;
   errors: authFormErrors;
+  showAuth: boolean;
+  authForm: 'login' | 'signup',
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -36,6 +38,8 @@ export const useAuthStore = defineStore('auth', {
         password1: [],
         password2: [],
       },
+      showAuth: false,
+      authForm: 'login',
     };
   },
   actions: {
@@ -78,6 +82,12 @@ export const useAuthStore = defineStore('auth', {
         return error;
       }
     },
+    openAuthModal() {
+      this.showAuth = true;
+    },
+    closeAuthModal() {
+      this.showAuth = false;
+    },
     clearState() {
       this.email = '';
       this.username = '';
@@ -92,6 +102,7 @@ export const useAuthStore = defineStore('auth', {
         password1: [],
         password2: [],
       };
+      this.showAuth = false;
     },
   },
 });

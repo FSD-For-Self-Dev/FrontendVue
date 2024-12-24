@@ -15,7 +15,7 @@ import type {
   ImageAssociationsDto,
 } from '@/dto/vocabulary.dto';
 import { useNotificationsStore } from '@/store/notifications';
-import { AxiosError, isAxiosError } from 'axios';
+import { isAxiosError } from 'axios';
 import { ref } from 'vue';
 import { useBase64 } from '@vueuse/core';
 import ImageUploadForm from '@/components/vocabulary/ImageUploadForm.vue';
@@ -23,6 +23,7 @@ import WordImageItem from '@/components/vocabulary/WordImageItem.vue';
 import WordTranslationItem from '@/components/vocabulary/WordTranslationItem.vue';
 import { readUrlFile } from '@/utils/readUrlFile';
 import { uploadFile } from '@/utils/uploadFileB64';
+import { useModalStore } from '@/store/modal';
 
 export default {
   components: {
@@ -35,23 +36,10 @@ export default {
     WordImageItem,
     WordTranslationItem,
   },
-  emits: ['wordCreated'],
   props: {
-    objectLookup: {
-      type: String,
-      required: false,
-    },
-    closeForm: {
-      type: Function,
-      required: true,
-    },
     updateTitle: {
       type: Function,
       default: () => {},
-    },
-    chosenLanguage: {
-      type: String,
-      required: false,
     },
   },
   data() {
@@ -77,23 +65,25 @@ export default {
       submitProcess: false,
     };
   },
-  setup(props) {
+  setup() {
     const onDrag = ref(false);
-    const objectLookup = ref(props.objectLookup);
-
     return {
       onDrag,
-      objectLookup,
     };
   },
   computed: {
-    ...mapState(useVocabularyStore, ['count']),
-    ...mapWritableState(useVocabularyStore, ['filterOptions']),
+    ...mapState(useVocabularyStore, ['vocabularyWords', 'count']),
+    ...mapWritableState(useVocabularyStore, [
+      'filterOptions',
+      'favoriteWords',
+      'favoriteCount',
+    ]),
     ...mapState(useLanguagesStore, [
       'learning_languages',
       'all_languages',
       'global_languages',
     ]),
+    ...mapWritableState(useModalStore, ['modalObjectLookup']),
     getTranslationLanguages() {
       const all_languages_filtered = this.all_languages.filter((lang) => {
         return lang.isocode !== this.language;
@@ -133,16 +123,17 @@ export default {
       'getVocabulary',
       'getWordProfile',
       'getFavoriteWords',
+      'resetFilteredWords',
     ]),
-    ...mapState(useVocabularyStore, ['vocabularyWords']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useLanguagesStore, ['getLearningLanguages']),
+    ...mapActions(useModalStore, ['closeModal']),
     getLastLanguage() {
-      if (this.chosenLanguage) {
-        return this.chosenLanguage;
+      if (this.filterOptions.language) {
+        return this.filterOptions.language;
       } else {
         try {
-          const language = this.vocabularyWords()[0].language;
+          const language = this.vocabularyWords[0].language;
           return language ? language : '';
         } catch (error) {
           return '';
@@ -161,8 +152,8 @@ export default {
       }
       this.step--;
     },
-    handleClose() {
-      this.closeForm();
+    async handleClose() {
+      this.closeModal();
       this.word = '';
       this.note = '';
       this.language = '';
@@ -180,7 +171,7 @@ export default {
       this.editImage = '';
       this.image_associations = [];
       this.editIndex = undefined;
-      this.objectLookup = undefined;
+      this.modalObjectLookup = '';
     },
     async handleSubmitNewTranslation() {
       if (typeof this.editIndex != 'undefined') {
@@ -283,10 +274,10 @@ export default {
         image_associations: this.image_associations,
         note: this.note,
       };
-      const res = this.objectLookup
-        ? await this.patchWord(this.objectLookup, data)
+      const res = this.modalObjectLookup
+        ? await this.patchWord(this.modalObjectLookup, data)
         : await this.createWord(data);
-      const successMsg = this.objectLookup
+      const successMsg = this.modalObjectLookup
         ? this.$t('infoMessage.changesSaved')
         : this.$t('infoMessage.newWordCreated');
       if (isAxiosError(res)) {
@@ -299,14 +290,14 @@ export default {
           console.log(res.response?.data);
         }
       } else {
-        this.$emit('wordCreated');
-        this.filterOptions.language = ''
-        this.filterOptions.activity_status = ''
-        this.filterOptions.search = ''
-        this.getVocabulary();
+        this.filterOptions.language = '';
+        this.filterOptions.activity_status = '';
+        this.filterOptions.search = '';
+        await this.handleClose();
+        await this.getVocabulary();
+        await this.getFavoriteWords();
+        this.resetFilteredWords();
         this.getLearningLanguages();
-        if (this.favorite) this.getFavoriteWords();
-        this.handleClose();
         this.addNewMessage({
           type: 'info',
           text: successMsg,
@@ -316,8 +307,8 @@ export default {
     },
   },
   async mounted() {
-    if (this.objectLookup) {
-      await this.getWordProfile(this.objectLookup);
+    if (this.modalObjectLookup) {
+      await this.getWordProfile(this.modalObjectLookup);
       const { wordProfile } = useVocabularyStore();
 
       this.word = wordProfile.text ? wordProfile.text : '';
@@ -331,7 +322,7 @@ export default {
           async (image) => {
             if (image.image) {
               const base64 = useBase64(await readUrlFile(image.image));
-              image.image = await base64.promise.value
+              image.image = await base64.promise.value;
             }
             return {
               id: image.id,
@@ -341,7 +332,7 @@ export default {
           },
         );
         this.image_associations = await Promise.all(image_associations_promise);
-      };
+      }
     } else {
       this.language = this.getLastLanguage();
     }
@@ -359,11 +350,7 @@ export default {
           :items="getWordLanguages"
           style="padding-inline: 2.8rem"
         />
-        <Input
-          v-model="word"
-          :placeholder="$t('input.word')"
-          size="standart"
-        />
+        <Input v-model="word" :placeholder="$t('input.word')" size="standart" />
         <div style="margin-top: 0.4rem">
           <Input
             show-label
@@ -378,8 +365,16 @@ export default {
         <h3 class="vocabulary-modal--word">{{ word }}</h3>
 
         <div class="vocabulary-modal--tabs">
-          <Tab :active="tab === 1" @click="() => changeTab(1)" :title="$t('title.translations')" />
-          <Tab :active="tab === 2" @click="() => changeTab(2)" :title="$t('title.associations')" />
+          <Tab
+            :active="tab === 1"
+            @click="() => changeTab(1)"
+            :title="$t('title.translations')"
+          />
+          <Tab
+            :active="tab === 2"
+            @click="() => changeTab(2)"
+            :title="$t('title.associations')"
+          />
         </div>
 
         <div v-if="tab === 1">
@@ -526,12 +521,7 @@ export default {
             type="submit"
             :text="$t('buttons.save')"
           />
-          <Button
-            v-else
-            size="medium"
-            :text="$t('tip.saveProcceed')"
-            disabled
-          />
+          <Button v-else size="medium" :text="$t('tip.saveProcceed')" disabled />
         </div>
       </div>
     </form>

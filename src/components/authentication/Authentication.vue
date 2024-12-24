@@ -18,6 +18,16 @@ const { y } = useWindowScroll({ behavior: 'smooth' });
 export default {
   components: { OnClickOutside, Input, Button, IconButton, BooleanInput },
   emits: ["loginProcceed"],
+  setup() {
+    const { rememberMe } = useAuthStore();
+    const rememberMeCheck = ref(rememberMe);
+    return {
+      rememberMeCheck,
+    }
+  },
+  mounted() {
+    y.value = 0;
+  },
   computed: {
     ...mapWritableState(useAuthStore, [
       'email',
@@ -27,51 +37,22 @@ export default {
       'username',
       'rememberMe',
       'errors',
+      'authForm',
     ]),
-  },
-  setup() {
-    const { rememberMe } = useAuthStore();
-    const rememberMeCheck = ref(rememberMe);
-
-    return {
-      rememberMeCheck,
-    }
-  },
-  updated() {
-    y.value = 0;
-  },
-  props: {
-    showAuth: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
-    closeAuth: {
-      type: Function as PropType<() => void>,
-      required: true,
-    },
-    viewAuth: {
-      type: String as PropType<'login' | 'register'>,
-      required: true,
-    },
-    switchForm: {
-      type: Function as PropType<(form: 'login' | 'register') => void>,
-      required: true,
-    },
   },
   methods: {
     ...mapActions(useAuthStore, ['login', 'registration', 'clearState']),
     ...mapActions(useUserStore, ['getUser']),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useGlobalActionsStore, ['update_locale']),
-    switchFormHandler(form: 'login' | 'register') {
+    switchFormHandler(form: 'login' | 'signup') {
       this.clearState();
-      this.switchForm(form);
+      this.authForm = form;
     },
     closeFormHandler() {
       this.clearState();
-      this.closeAuth();
     },
-    async registrationSubmitHandler() {
+    async signupSubmitHandler() {
       const res = await this.registration();
       if (!isAxiosError(res)) {
         this.password = this.password1;
@@ -106,18 +87,17 @@ export default {
 
 <template>
   <Teleport to="body">
-    <div class="overlay" v-if="showAuth"></div>
+    <div class="overlay"></div>
 
     <OnClickOutside
       :options="{ ignore: ['#notifications'] }"
       @trigger="closeFormHandler"
-      v-if="showAuth"
     >
       <div class="modal-auth">
         <form
           @submit.prevent="loginSubmitHandler"
           class="modal-auth--form"
-          v-if="viewAuth === 'login'"
+          v-if="authForm === 'login'"
         >
           <h2 class="modal-auth--title">{{ $t('auth.welcomeAgain') }}</h2>
           <div class="modal-auth--form--inputs">
@@ -155,7 +135,7 @@ export default {
             />
             <div class="auth-switcher">
               {{ $t('auth.noAccount') }}
-              <a class="modal-auth--link" @click="() => switchFormHandler('register')">
+              <a class="modal-auth--link" @click="() => switchFormHandler('signup')">
                 {{ $t('auth.signUp') }}
               </a>
             </div>
@@ -163,9 +143,9 @@ export default {
         </form>
 
         <form
-          @submit.prevent="registrationSubmitHandler"
+          @submit.prevent="signupSubmitHandler"
           class="modal-auth--form"
-          v-if="viewAuth === 'register'"
+          v-if="authForm === 'signup'"
         >
           <h2 class="modal-auth--title">{{ $t('auth.welcome') }}</h2>
           <div class="modal-auth--form--inputs">
