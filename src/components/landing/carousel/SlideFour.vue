@@ -81,8 +81,7 @@ export default {
       <LanguageCard size="extra-small" :language="langIt" :disabled="true" />
       <LanguageCard size="extra-small" :language="langFr" :disabled="true" />
     </div>
-    ></Slide
-  >
+  </Slide>
 </template>
 
 <style lang="scss" module>
