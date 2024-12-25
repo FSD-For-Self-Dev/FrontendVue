@@ -10,9 +10,10 @@ import { isAxiosError } from 'axios';
 import WordTools from './WordTools.vue';
 import { useModalStore } from '@/store/modal';
 import { joinWithComma } from '@/utils/joinWithComma';
+import PopupTip from '../UI/tip/PopupTip.vue';
 
 export default {
-  components: { WordTagCard, WordTools },
+  components: { WordTagCard, WordTools, PopupTip },
   props: {
     word: {
       type: Object as PropType<WordDto>,
@@ -27,6 +28,7 @@ export default {
     return {
       translationCurrentIndex: 0,
       showWordTools: false,
+      showLanguageTip: false,
       joinWithComma,
     };
   },
@@ -65,6 +67,9 @@ export default {
     getFavOpacity() {
       return this.word.favorite ? 100 : 0;
     },
+    languageData() {
+      return this.getLanguageByIsocode(this.word.language);
+    },
   },
   methods: {
     ...mapActions(useNotificationsStore, ['addNewMessage']),
@@ -74,7 +79,7 @@ export default {
       'updateFavoriteWords',
     ]),
     ...mapActions(useModalStore, ['openModal']),
-    ...mapActions(useLanguagesStore, ['getFlagIcon']),
+    ...mapActions(useLanguagesStore, ['getFlagIcon', 'getLanguageByIsocode']),
     goToNextTranslation() {
       if (this.translationCurrentIndex >= this.word.translations_count - 1) {
         this.translationCurrentIndex = 0;
@@ -146,16 +151,18 @@ export default {
     class="card"
     :class="{ 'card-disabled': disabled }"
     v-bind="{ ...$attrs }"
-    @click.stop="() => {
-      if (!disabled) {
-        openModal(
-          'WordProfileModal',
-          $t('title.wordProfile'),
-          'WordsIcon',
-          'lg',
-          word.slug,
-        );
-      }}
+    @click.stop="
+      () => {
+        if (!disabled) {
+          openModal(
+            'WordProfileModal',
+            $t('title.wordProfile'),
+            'WordsIcon',
+            'lg',
+            word.slug,
+          );
+        }
+      }
     "
   >
     <div class="card__background" :class="{ 'with-image': word.image }">
@@ -185,7 +192,7 @@ export default {
           />
           <svg-icon name="FavouriteIcon" size="lg" class="unfav" />
         </div>
-        <div class="more-icon" :class="{'more-icon-disabled': disabled}">
+        <div class="more-icon" :class="{ 'more-icon-disabled': disabled }">
           <svg-icon
             name="MoreFilledIcon"
             size="lg"
@@ -199,9 +206,11 @@ export default {
             name="MoreIcon"
             size="lg"
             :hoverColor="disabled ? 'var:neutrals-900' : 'var:primary-500'"
-            @click.stop="() => {
-              if (!disabled) showWordTools = !showWordTools
-            }"
+            @click.stop="
+              () => {
+                if (!disabled) showWordTools = !showWordTools;
+              }
+            "
             class="more-active"
             v-else
           />
@@ -214,7 +223,17 @@ export default {
       :word-slug="word.slug"
     />
     <div class="card__content" :class="backgroundClasses">
-      <div class="card__content--language">
+      <div
+        class="card__content--language"
+        @mouseover="showLanguageTip = true"
+        @mouseleave="showLanguageTip = false"
+      >
+        <PopupTip
+          :text="languageData ? `${languageData.name} (${languageData.country})` : ''"
+          :icon-url="languageData?.flag_icon"
+          :showTip="showLanguageTip"
+          :style="{'margin-bottom': '140%'}"
+        />
         <img :src="getFlagIcon(word.language)" alt="Icon" class="language-icon" />
       </div>
       <div class="card__content--word-info">
@@ -302,7 +321,6 @@ export default {
   padding-inline: 2rem;
   box-shadow: $regular-shadow;
   cursor: pointer;
-  overflow: hidden;
 
   // Text wrap
   white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
@@ -320,11 +338,13 @@ export default {
     height: 100%;
     inset: 0;
     background-color: $neutrals-100;
+    border-radius: $radius-xl;
 
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: $radius-xl;
     }
 
     &--overlay {
@@ -378,6 +398,7 @@ export default {
       width: 2.4rem;
       height: 2.4rem;
       padding: 0.1rem;
+      cursor: default;
 
       .language-icon {
         width: 100%;

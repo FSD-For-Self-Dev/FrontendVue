@@ -1,3 +1,5 @@
+import { maxProgressInactiveStatus } from "./constants";
+
 export const ru = {
   auth: {
     signUp: 'Зарегистрироваться',
@@ -5,7 +7,7 @@ export const ru = {
     logOut: 'Выйти',
     signUpConfirm: 'Создать аккаунт',
     noAccount: 'Нет аккаунта?',
-    alreadyHaveAccount: "Уже есть аккаунт?",
+    alreadyHaveAccount: 'Уже есть аккаунт?',
     forgotPassword: 'Забыли пароль?',
     rememberMe: 'Запомнить меня',
     welcome: 'Добро пожаловать!',
@@ -68,10 +70,12 @@ export const ru = {
   },
   emptyTip: {
     vocabularyTitle: 'В вашем словаре пока нет слов или фраз',
-    vocabularyText: 'Записывайте актуальные для вас слова, которые уже знаете или хотите запомнить, для любого изучаемого языка',
+    vocabularyText:
+      'Записывайте актуальные для вас слова, которые уже знаете или хотите запомнить, для любого изучаемого языка',
     vocabularyByLanguage: 'В вашем словаре пока нет слов или фраз этого языка',
     learningLanguagesTitle: 'Нет изучаемых языков',
-    learningLanguagesText: 'Начните добавлять слова в свой словарь, и ваши языки отобразятся здесь автоматически, или добавьте изучаемые языки вручную',
+    learningLanguagesText:
+      'Начните добавлять слова в свой словарь, и ваши языки отобразятся здесь автоматически, или добавьте изучаемые языки вручную',
     translationLanguages: 'Нет родных или других изучаемых языков',
     translations: 'Нет переводов',
     associations: 'Нет ассоциаций',
@@ -127,8 +131,10 @@ export const ru = {
     learningLanguage: 'Изучаемый язык',
   },
   infoMessage: {
-    newWordsCreated: 'В словарь добавлено {n} слово | В словарь добавлены {n} слова | В словарь добавлены {n} слов',
-    newLanguagesAdded: 'Добавлено {n} изучаемых языков | Добавлен {n} изучаемый язык | Добавлены {n} изучаемых языков',
+    newWordsCreated:
+      'В словарь добавлено {n} слово | В словарь добавлены {n} слова | В словарь добавлены {n} слов',
+    newLanguagesAdded:
+      'Добавлено {n} изучаемых языков | Добавлен {n} изучаемый язык | Добавлены {n} изучаемых языков',
     changesSaved: 'Изменения сохранены',
     newWordCreated: 'Новое слово добавлено в словарь',
     deleteAccount: 'Аккаунт удален',
@@ -148,11 +154,12 @@ export const ru = {
     notFoundTitle: 'Мы не нашли страницу, которую вы ищете',
     notFoundSubTitle: 'Но мы знаем, что вас может заинтересовать',
     serverErrorTitle: 'Ошибка сервера',
-    serverErrorSubTitle: 'Мы уже работаем над проблемой, попробуйте повторить действие позже',
+    serverErrorSubTitle:
+      'Мы уже работаем над проблемой, попробуйте повторить действие позже',
   },
   counter: {
     languages: 'Нет доступных языков | Доступно {n} язык | Доступно {n} языков',
-    words: 'Нет подходящих слов | Найдено {n} слово | Найдено {n} слов'
+    words: 'Нет подходящих слов | Найдено {n} слово | Найдено {n} слов',
   },
   filter: {
     allWords: 'Все слова',
@@ -169,22 +176,37 @@ export const ru = {
   },
   activityStatus: ({ named }) => {
     if (named('status') === 'Inactive') {
-      return 'Неактивное'
+      return 'Неактивное';
     } else if (named('status') === 'Active') {
-      return 'Активное'
+      return 'Активное';
     } else if (named('status') === 'Mastered') {
-      return 'Усвоенное'
+      return 'Усвоенное';
     }
-    return ''
+    return '';
   },
   activityStatusPlural: ({ named }) => {
     if (named('status') === 'Inactive') {
-      return 'Неактивные'
+      return 'Неактивные';
     } else if (named('status') === 'Active') {
-      return 'Активные'
+      return 'Активные';
     } else if (named('status') === 'Mastered') {
-      return 'Усвоенные'
+      return 'Усвоенные';
     }
-    return ''
+    return '';
   },
-}
+  activityStatusTip: ({ named }) => {
+    if (named('status') === 'Inactive') {
+      return (
+        `Неактивные слова - слова, которые вы добавили недавно или ` +
+        `давно не повторяли в упражнениях и не использовали в общении в чатах. \n` +
+        `Повторите это слово в упражнениях или используйте в чатах еще ` +
+        `${maxProgressInactiveStatus - named('progress')} раз, чтобы оно приобрело статус Активное`
+      );
+    } else if (named('status') === 'Active') {
+      return 'Активное';
+    } else if (named('status') === 'Mastered') {
+      return 'Усвоенное';
+    }
+    return '';
+  },
+};

@@ -290,9 +290,6 @@ export default {
           console.log(res.response?.data);
         }
       } else {
-        this.filterOptions.language = '';
-        this.filterOptions.activity_status = '';
-        this.filterOptions.search = '';
         await this.handleClose();
         await this.getVocabulary();
         await this.getFavoriteWords();

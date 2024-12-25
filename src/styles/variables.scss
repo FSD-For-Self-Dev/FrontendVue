@@ -62,11 +62,16 @@ $white-lucid: rgba(255, 255, 255, 0.8);
 $white-superlucid: rgba(255, 255, 255, 0.3);
 $white-barely-lucid: rgba(255, 255, 255, 0.9);
 
-$outer-shadow: 0px 0px 8px 0px #11111a1a;
-$inner-shadow: 0px 1px 0px 0px #11111a0d;
-$regular-shadow: $inner-shadow, $outer-shadow;
+$regular-outer-shadow: 0px 0px 8px 0px #11111a1a;
+$regular-inner-shadow: 0px 1px 0px 0px #11111a0d;
+$regular-shadow: $regular-inner-shadow, $regular-outer-shadow;
+
+$strong-outer-shadow: 0px 0px 8px 0px #11111a26;
+$strong-inner-shadow: 0px 1px 0px 0px #11111a0d;
+$strong-shadow: $strong-inner-shadow, $strong-outer-shadow;
 
 $radius-full: 100%;
+$radius-3xl: 6rem;
 $radius-2xl: 4rem;
 $radius-xl: 2rem;
 $radius-lg: 3.6rem;

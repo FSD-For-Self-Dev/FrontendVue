@@ -1,3 +1,5 @@
+import { maxProgressInactiveStatus } from "./constants";
+
 export const en = {
   auth: {
     signUp: 'Sign up',
@@ -172,5 +174,20 @@ export const en = {
   },
   activityStatusPlural: ({ named }) => {
     return named('status')
+  },
+  activityStatusTip: ({ named }) => {
+    if (named('status') === 'Inactive') {
+      return (
+        `Inactive words are words that you added recently or ` +
+        `haven't repeated in exercises or used in chat rooms for a certain time. \n` +
+        `Repeat this word in exercises or use it in chats ` +
+        `${maxProgressInactiveStatus - named('progress')} more times to get the Active status.`
+      );
+    } else if (named('status') === 'Active') {
+      return 'Активное';
+    } else if (named('status') === 'Mastered') {
+      return 'Усвоенное';
+    }
+    return '';
   },
 }

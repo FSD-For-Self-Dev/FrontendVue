@@ -35,6 +35,7 @@ export interface LanguageDto {
     id: string;
     name: string;
     name_local: string;
+    country: string;
     flag_icon: string;
     isocode: string;
 }

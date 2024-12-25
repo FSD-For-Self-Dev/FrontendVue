@@ -5,9 +5,10 @@ import IconButton from '../UI/button/IconButton.vue';
 import LanguageTools from './LanguageTools.vue';
 import { mapActions } from 'pinia';
 import { useModalStore } from '@/store/modal';
+import PopupTip from '../UI/tip/PopupTip.vue';
 
 export default {
-  components: { IconButton, LanguageTools },
+  components: { IconButton, LanguageTools, PopupTip },
   props: {
     language: {
       type: Object as PropType<LearningLanguageDto>,
@@ -17,6 +18,7 @@ export default {
   data() {
     return {
       showLanguageTools: false,
+      showTip: false,
       statusWordOptions: [
         {
           value: 'I',
@@ -42,7 +44,7 @@ export default {
           icon_component: 'WordsIcon',
         },
       ],
-    }
+    };
   },
   methods: {
     ...mapActions(useModalStore, ['openModal']),
@@ -54,16 +56,32 @@ export default {
   <div class="language-cover">
     <img class="cover-image" :src="language.cover" />
     <div class="language-cover-header">
-      <div class="language-cover-header-title">
+      <div
+        class="language-cover-header-title"
+        @mouseover="showTip = true"
+        @mouseleave="showTip = false"
+      >
+        <PopupTip
+          :text="`${language.language.name} (${language.language.country})`"
+          :icon-url="language.language.flag_icon"
+          :showTip="showTip"
+          :style="{
+            'margin-bottom': 0,
+            'margin-left': '5%',
+            'margin-top': '50%',
+            transform: 'translate(-50%, 50%)',
+          }"
+        />
         <img :src="language.language.flag_icon" alt="Icon" class="language-icon" />
         <p>{{ language.language.name_local }}</p>
       </div>
       <div class="language-cover-header-actions">
         <IconButton
-            icon="ImageIcon"
-            size="lg"
-            variant="lucid"
-            @click.stop="() => {
+          icon="ImageIcon"
+          size="lg"
+          variant="lucid"
+          @click.stop="
+            () => {
               openModal(
                 'LanguageCoverChange',
                 $t('title.languageCover'),
@@ -71,7 +89,8 @@ export default {
                 'lg',
                 language.language.isocode,
               );
-            }"
+            }
+          "
         />
         <IconButton
           icon="MoreIcon"
@@ -84,16 +103,18 @@ export default {
       <LanguageTools
         :handleClose="() => (showLanguageTools = false)"
         v-if="showLanguageTools"
-        :handle-delete="() => {
-          openModal(
-            'DeleteLanguageForm',
-            $t('title.deleteLanguage'),
-            'InfoIcon',
-            'lg',
-            language.language.isocode,
-          );
-          showLanguageTools = false;
-        }"
+        :handle-delete="
+          () => {
+            openModal(
+              'DeleteLanguageForm',
+              $t('title.deleteLanguage'),
+              'InfoIcon',
+              'lg',
+              language.language.isocode,
+            );
+            showLanguageTools = false;
+          }
+        "
       />
     </div>
   </div>
@@ -107,7 +128,6 @@ export default {
   width: 100%;
   height: 29.4rem;
   border-radius: $radius-2xl;
-  overflow: hidden;
 
   .cover-image {
     @include abs-center;
@@ -115,6 +135,7 @@ export default {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: $radius-2xl;
   }
 
   &-header {
@@ -126,6 +147,7 @@ export default {
     height: max-content;
 
     &-title {
+      position: relative;
       display: flex;
       align-items: center;
       gap: 1.2rem;

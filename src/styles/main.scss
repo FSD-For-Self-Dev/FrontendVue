@@ -27,6 +27,9 @@ body {
     -webkit-overflow-scrolling: touch;
     position: relative;
     text-overflow: ellipsis;
+    word-wrap: normal;
+    word-break: keep-all;
+    white-space: pre-wrap;
 }
 
 #app {
