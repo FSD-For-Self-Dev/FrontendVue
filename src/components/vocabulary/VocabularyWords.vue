@@ -8,6 +8,7 @@ import NewWordButton from './NewWordButton.vue';
 import Preloader from '@/components/UI/preloader/Preloader.vue';
 import type { PropType } from 'vue';
 import type { WordDto } from '@/dto/vocabulary.dto';
+import { handleScroll } from '@/utils/handleInfiniteScroll';
 
 export default {
   components: { IconButton, WordCard, NewWordButton, Preloader },
@@ -27,19 +28,34 @@ export default {
     wordsCount: {
       type: Number,
       required: false,
-    }
+    },
   },
   mounted() {
     if (this.makeRequest) {
-      this.getWords ? this.getWords(true) : this.getVocabulary(true)
+      this.getWords ? this.getWords(true) : this.getVocabulary(true);
     } else {
       this.filteredWords = this.words ? this.words : this.vocabularyWords;
-      this.filteredCount = this.wordsCount? this.wordsCount : this.count;
+      this.filteredCount = this.wordsCount ? this.wordsCount : this.count;
     }
+    window.addEventListener('scroll', this.handleWordsScroll);
+  },
+  unmounted() {
+    window.removeEventListener('scroll', this.handleWordsScroll);
+    this.resetPage();
   },
   computed: {
-    ...mapState(useVocabularyStore, ['vocabularyWords', 'count', 'filterOptions', 'isLoading']),
-    ...mapWritableState(useVocabularyStore, ['filteredWords', 'filteredCount']),
+    ...mapState(useVocabularyStore, [
+      'vocabularyWords',
+      'count',
+      'filterOptions',
+      'isLoading',
+      'isLoadingMore',
+    ]),
+    ...mapWritableState(useVocabularyStore, [
+      'filteredWords',
+      'filteredCount',
+      'nextPageLink',
+    ]),
     ...mapState(useLanguagesStore, ['learning_languages']),
     noResults(): string {
       return new URL(`/src/assets/images/noResults.svg`, import.meta.url).href;
@@ -49,9 +65,18 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useVocabularyStore, ['getVocabulary']),
+    ...mapActions(useVocabularyStore, [
+      'getVocabulary',
+      'getVocabularyNextPage',
+      'resetPage',
+    ]),
     updateWords() {
       this.getWords ? this.getWords(true) : this.getVocabulary(true);
+    },
+    async handleWordsScroll() {
+      handleScroll(async () => {
+        this.getVocabularyNextPage(true);
+      });
     },
   },
 };
@@ -76,7 +101,7 @@ export default {
         @word-deleted="updateWords"
       />
     </div>
-    <div v-else class="vocabulary-content--preloader">
+    <div v-if="isLoading || isLoadingMore" class="preloader-inner">
       <Preloader />
     </div>
     <div class="empty-tip" v-if="filteredCount === 0">
@@ -126,13 +151,6 @@ export default {
     grid-template-columns: repeat(4, 29.5rem);
     justify-content: space-between;
     gap: 2rem;
-  }
-
-  &--preloader {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20%;
   }
 }
 

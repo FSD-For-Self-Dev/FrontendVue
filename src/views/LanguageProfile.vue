@@ -12,32 +12,35 @@ const { y } = useWindowScroll({ behavior: 'instant' });
 
 export default {
   components: { PageLayout, LanguageProfileHeader, VocabularyWords, VocabularyTools },
-  computed: {
-    ...mapWritableState(useVocabularyStore, ["filterOptions"]),
-    languageObject() {
-      if (typeof this.$route.params.slug === 'string') {
-        const lang_obj = this.getLanguageObjectByIsocode(this.$route.params.slug);
-        if (lang_obj) {
-          return lang_obj
-        } else {
-          this.$router.push({ name: '404' });
-          return
-        }
-      } else {
-        this.$router.push({ name: '404' });
-        return
-      }
-    },
-  },
-  methods: {
-    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
-  },
   setup() {
     y.value = 0;
   },
   beforeMount() {
     const lang_obj = this.languageObject;
     this.filterOptions.language = lang_obj ? lang_obj.language.isocode : '';
+  },
+  mounted() {
+    this.pageKey = 'languageProfile';
+  },
+  computed: {
+    ...mapWritableState(useVocabularyStore, ['filterOptions', 'pageKey']),
+    languageObject() {
+      if (typeof this.$route.params.slug === 'string') {
+        const lang_obj = this.getLanguageObjectByIsocode(this.$route.params.slug);
+        if (lang_obj) {
+          return lang_obj;
+        } else {
+          this.$router.push({ name: '404' });
+          return;
+        }
+      } else {
+        this.$router.push({ name: '404' });
+        return;
+      }
+    },
+  },
+  methods: {
+    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
   },
 };
 </script>

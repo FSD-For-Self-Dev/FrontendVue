@@ -1,5 +1,7 @@
 import type { IApi } from '@/types/api/api-types';
 
+export const coverImagesPerPage = 20;
+
 export default (api: IApi) => {
   api.languages = {
     getAvailableLanguages() {
@@ -30,7 +32,9 @@ export default (api: IApi) => {
       }
     },
     getLanguageCovers(languageSlug) {
-      return api.request.get(`/api/languages/${languageSlug}/cover-choices/`);
+      const url = `/api/languages/${languageSlug}/cover-choices/`;
+      const paginationQuery = `?limit=${coverImagesPerPage}`;
+      return api.request.get(url + paginationQuery);
     },
     setLanguageCover(languageSlug, data) {
       return api.request.post(`/api/languages/${languageSlug}/set-cover/`, data);

@@ -10,6 +10,10 @@ export interface ILanguagesState {
   all_languages: LanguageDto[];
   count: number;
   covers: LanguageCoverDto[];
+  nextPageLink: {
+    'covers': string;
+  };
+  isLoadingMore: boolean;
 }
 
 export const useLanguagesStore = defineStore('languages', {
@@ -21,6 +25,10 @@ export const useLanguagesStore = defineStore('languages', {
       global_languages: [],
       all_languages: [],
       covers: [],
+      nextPageLink: {
+        'covers': '',
+      },
+      isLoadingMore: false,
     };
   },
   actions: {
@@ -66,11 +74,26 @@ export const useLanguagesStore = defineStore('languages', {
       try {
         const res = await api.languages.getLanguageCovers(languageSlug);
         this.covers = res.data.results as unknown as LanguageCoverDto[];
+        this.nextPageLink['covers'] = res.data.next as unknown as string;
       } catch (error) {
         if (isAxiosError(error)) {
           return error;
         }
       }
+    },
+    async getLanguageCoversNextPage() {
+      this.isLoadingMore = true;
+      try {
+        const nextPage = this.nextPageLink['covers']
+        const { data } = nextPage ? await api.request.get(nextPage) : {};
+        if (data && data.results) {
+          this.covers.push.apply(this.covers, data.results);
+          this.nextPageLink['covers'] = data.next as unknown as string;
+        }
+      } catch (error) {
+        console.error('Error fetching vocabulary:', error);
+      }
+      this.isLoadingMore = false;
     },
     async setLanguageCover(languageSlug: string, data: Object) {
       try {
@@ -91,7 +114,9 @@ export const useLanguagesStore = defineStore('languages', {
       }
     },
     getLanguageObject(langName: string) {
-      const lang_obj = this.learning_languages.filter((lang) => { return lang.language.name === langName})[0];
+      const lang_obj = this.learning_languages.filter((lang) => {
+        return lang.language.name === langName
+      })[0];
       if (lang_obj) {
         return lang_obj
       } else {
@@ -100,7 +125,9 @@ export const useLanguagesStore = defineStore('languages', {
     },
     getLanguageObjectByIsocode(langCode: string | undefined) {
       if (!langCode) return;
-      const lang_obj = this.learning_languages.filter((lang) => { return lang.language.isocode === langCode})[0];
+      const lang_obj = this.learning_languages.filter((lang) => {
+        return lang.language.isocode === langCode
+      })[0];
       if (lang_obj) {
         return lang_obj
       } else {
