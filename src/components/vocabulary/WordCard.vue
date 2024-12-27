@@ -8,31 +8,35 @@ import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { isAxiosError } from 'axios';
 import WordTools from './WordTools.vue';
-import Modal from '../UI/modal/Modal.vue';
+import { useModalStore } from '@/store/modal';
+import { joinWithComma } from '@/utils/joinWithComma';
 
 export default {
-  components: { WordTagCard, WordTools, Modal },
-  emits: ['wordEdited', 'wordDeleted'],
+  components: { WordTagCard, WordTools },
   props: {
     word: {
       type: Object as PropType<WordDto>,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
     return {
       translationCurrentIndex: 0,
       showWordTools: false,
-      showEditWordModal: false,
-      showDeleteWordModal: false,
-      showWordProfileModal: false,
-      editWordSlug: '' as string,
-      deleteWordSlug: '' as string,
+      joinWithComma,
     };
   },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
-    ...mapWritableState(useVocabularyStore, ['favoriteWords', 'favoriteCount', 'vocabularyWords']),
+    ...mapWritableState(useVocabularyStore, [
+      'favoriteWords',
+      'favoriteCount',
+      'vocabularyWords',
+    ]),
     backgroundClasses() {
       return {
         grey: !this.word.image,
@@ -64,10 +68,13 @@ export default {
   },
   methods: {
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapActions(useVocabularyStore, ['addWordToFavorite', 'removeWordFromFavorite']),
-    getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
-    },
+    ...mapActions(useVocabularyStore, [
+      'addWordToFavorite',
+      'removeWordFromFavorite',
+      'updateFavoriteWords',
+    ]),
+    ...mapActions(useModalStore, ['openModal']),
+    ...mapActions(useLanguagesStore, ['getFlagIcon']),
     goToNextTranslation() {
       if (this.translationCurrentIndex >= this.word.translations_count - 1) {
         this.translationCurrentIndex = 0;
@@ -81,9 +88,6 @@ export default {
       } else {
         this.translationCurrentIndex -= 1;
       }
-    },
-    joinTypes(word_types: string[]) {
-      return word_types.join(', ');
     },
     async copyToClipboard(text: string) {
       navigator.clipboard.writeText(text);
@@ -105,7 +109,8 @@ export default {
             console.log(res.response?.data);
           }
         } else {
-          this.updateFavorite(false);
+          this.word.favorite = false;
+          this.updateFavoriteWords(false, this.word.id);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordRemovedFromFavorite')}: ${this.word.text}`,
@@ -123,7 +128,8 @@ export default {
             console.log(res.response?.data);
           }
         } else {
-          this.updateFavorite(true);
+          this.word.favorite = true;
+          this.updateFavoriteWords(true, this.word.id);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordAddedToFavorite')}: ${this.word.text}`,
@@ -131,48 +137,27 @@ export default {
         }
       }
     },
-    updateFavorite(value: boolean) {
-      if (value) {
-        this.favoriteWords.unshift(this.word);
-        this.favoriteCount += 1;
-      } else {
-        this.favoriteWords = this.favoriteWords.filter((word) => {
-          return word.id !== this.word.id
-        });
-        this.favoriteCount -= 1;
-      }
-      this.word.favorite = value;
-      const vocabularyWord = this.vocabularyWords.find((word) => {
-        return word.id === this.word.id
-      });
-      if (vocabularyWord) {
-        vocabularyWord.favorite = value;
-      }
-    },
-    handleDelete() {
-      this.showWordTools = false;
-      this.showWordProfileModal = false;
-      this.showDeleteWordModal = true;
-      this.deleteWordSlug = this.word.slug;
-      return;
-    },
-    handleEdit() {
-      this.showWordTools = false;
-      this.showWordProfileModal = false;
-      this.showEditWordModal = true;
-      this.editWordSlug = this.word.slug;
-      return;
-    },
-    handleWordProfile() {
-      this.showWordProfileModal = true;
-      return;
-    },
   },
 };
 </script>
 
 <template>
-  <article class="card" v-bind="{ ...$attrs }" @click.stop="handleWordProfile">
+  <article
+    class="card"
+    :class="{ 'card-disabled': disabled }"
+    v-bind="{ ...$attrs }"
+    @click.stop="() => {
+      if (!disabled) {
+        openModal(
+          'WordProfileModal',
+          $t('title.wordProfile'),
+          'WordsIcon',
+          'lg',
+          word.slug,
+        );
+      }}
+    "
+  >
     <div class="card__background" :class="{ 'with-image': word.image }">
       <div class="card__background--overlay" v-if="word.image" />
       <img :src="word.image" alt="Word image" v-if="word.image" />
@@ -186,7 +171,11 @@ export default {
         <p>{{ $t('activityStatus', { status: word.activity_status }) }}</p>
       </div>
       <div class="card__header--actions" :class="backgroundClasses">
-        <div @click.stop="handleFavourite" class="fav-icon">
+        <div
+          @click.stop="disabled ? () => {} : handleFavourite()"
+          class="fav-icon"
+          :class="{ 'fav-icon-disabled': disabled }"
+        >
           <svg-icon
             name="FavouriteFilledIcon"
             size="lg"
@@ -196,7 +185,7 @@ export default {
           />
           <svg-icon name="FavouriteIcon" size="lg" class="unfav" />
         </div>
-        <div class="more-icon">
+        <div class="more-icon" :class="{'more-icon-disabled': disabled}">
           <svg-icon
             name="MoreFilledIcon"
             size="lg"
@@ -209,8 +198,10 @@ export default {
           <svg-icon
             name="MoreIcon"
             size="lg"
-            hoverColor="var:primary-500"
-            @click.stop="() => (showWordTools = !showWordTools)"
+            :hoverColor="disabled ? 'var:neutrals-900' : 'var:primary-500'"
+            @click.stop="() => {
+              if (!disabled) showWordTools = !showWordTools
+            }"
             class="more-active"
             v-else
           />
@@ -218,10 +209,9 @@ export default {
       </div>
     </div>
     <WordTools
-      :handleClose="() => (showWordTools = false)"
       v-if="showWordTools"
-      :handle-delete="handleDelete"
-      :handle-edit="handleEdit"
+      :handleClose="() => (showWordTools = false)"
+      :word-slug="word.slug"
     />
     <div class="card__content" :class="backgroundClasses">
       <div class="card__content--language">
@@ -229,7 +219,7 @@ export default {
       </div>
       <div class="card__content--word-info">
         <div class="card__content--word--types" v-if="word.types.length > 0">
-          {{ joinTypes(word.types) }}
+          {{ joinWithComma(word.types) }}
         </div>
         <div class="card__content--word">
           <h4 class="word" ref="word" data-word>{{ word.text }}</h4>
@@ -239,6 +229,7 @@ export default {
             color="var:neutrals-600"
             hoverColor="var:primary-700"
             @click.stop="copyToClipboard(word.text)"
+            class="copy-icon"
           />
         </div>
       </div>
@@ -279,38 +270,6 @@ export default {
       </div>
     </div>
   </article>
-  <Modal
-    size="lg"
-    v-if="showEditWordModal"
-    :close-modal="() => (showEditWordModal = false)"
-    :title-modal="$t('title.editWord')"
-    icon="EditIcon"
-    modalContent="NewWordForm"
-    :objectLookup="editWordSlug"
-    @word-created="$emit('wordEdited')"
-  />
-  <Modal
-    size="lg"
-    v-if="showDeleteWordModal"
-    :close-modal="() => (showDeleteWordModal = false)"
-    :title-modal="$t('title.deleteWord')"
-    icon="InfoIcon"
-    modalContent="DeleteWordForm"
-    :objectLookup="deleteWordSlug"
-    @word-deleted="$emit('wordDeleted')"
-  />
-  <Modal
-    size="lg"
-    v-if="showWordProfileModal"
-    :close-modal="() => (showWordProfileModal = false)"
-    :title-modal="$t('title.wordProfile')"
-    icon="WordsIcon"
-    modalContent="WordProfileModal"
-    :objectLookup="word.slug"
-    @favoriteupdate="updateFavorite"
-    @editword="handleEdit"
-    @deleteword="handleDelete"
-  />
 </template>
 
 <style lang="scss" scoped>
@@ -343,6 +302,7 @@ export default {
   padding-inline: 2rem;
   box-shadow: $regular-shadow;
   cursor: pointer;
+  overflow: hidden;
 
   // Text wrap
   white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
@@ -360,8 +320,6 @@ export default {
     height: 100%;
     inset: 0;
     background-color: $neutrals-100;
-    border-radius: $radius-xl;
-    overflow: hidden;
 
     img {
       width: 100%;
@@ -375,6 +333,7 @@ export default {
       height: 100%;
       background-color: $neutrals-900;
       opacity: 10%;
+      border-radius: $radius-xl;
     }
   }
 
@@ -438,7 +397,7 @@ export default {
       flex-direction: row;
       gap: 0.4rem;
       width: max-content;
-      padding-left: 1.6rem;
+      margin-left: 2.8rem;
       align-items: center;
 
       .word {
@@ -449,6 +408,10 @@ export default {
         line-height: v-bind(getLineHeight);
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+
+      .copy-icon {
+        cursor: pointer;
       }
 
       &--types {
@@ -521,15 +484,19 @@ export default {
     }
   }
 
-  &:hover {
+  &-disabled {
+    cursor: default;
+  }
+
+  &:hover:not(.card-disabled) {
     outline: $primary-400 solid 0.1rem;
   }
 
-  &:hover > .card__background > .card__background--overlay {
+  &:hover:not(.card-disabled) > .card__background > .card__background--overlay {
     opacity: 0%;
   }
 
-  &:active {
+  &:active:not(.card-disabled) {
     outline: $primary-500 solid 0.1rem;
   }
 }
@@ -542,9 +509,13 @@ export default {
     position: absolute;
     opacity: v-bind(getFavOpacity);
   }
+
+  &-disabled {
+    cursor: default;
+  }
 }
 
-.fav-icon:hover {
+.fav-icon:hover:not(.fav-icon-disabled) {
   .fav {
     opacity: 100%;
   }
@@ -562,6 +533,10 @@ export default {
 
   .more-active {
     height: 100%;
+  }
+
+  &-disabled {
+    cursor: default;
   }
 }
 </style>

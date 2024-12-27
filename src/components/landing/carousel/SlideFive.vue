@@ -43,7 +43,7 @@ export default {
         <img :class="$style.image" :src="Img1" />
         <img :class="$style.image" :src="Img2" />
       </div>
-      <WordCard :style="{ width: '100%' }" :word="word" />
+      <WordCard :disabled="true" :style="{ width: '100%' }" :word="word" />
     </div>
     <div></div
   ></Slide>

@@ -1,12 +1,17 @@
 <script lang="ts">
 import Carousel from '@/components/landing/carousel/Carousel.vue';
 import Button from '@/components/UI/button/Button.vue';
-import Authentication from '@/components/authentication/Authentication.vue';
 import AddIcon from '@/components/icons/AddIcon.vue';
-import { mapState } from 'pinia';
 import { useLanguagesStore } from '@/store/languages';
+import { mapActions } from 'pinia';
+import { useAuthStore } from '@/store/auth';
 
 export default {
+  components: {
+    Carousel,
+    Button,
+    AddIcon,
+  },
   setup() {
     const languagesStore = useLanguagesStore();
     const englishUrl = languagesStore.global_languages.find(
@@ -20,23 +25,9 @@ export default {
       frenchUrl,
     };
   },
-  data() {
-    return {
-      showAuth: false,
-      viewAuth: 'login' as 'login' | 'register',
-    };
-  },
-  components: {
-    Carousel,
-    Button,
-    Authentication,
-    AddIcon,
-  },
   methods: {
-    loginProcceedHandle() {
-      this.$emit("loginProcceed");
-    },
-  }
+    ...mapActions(useAuthStore, ['openAuthModal']),
+  },
 };
 </script>
 
@@ -59,7 +50,7 @@ export default {
     <Carousel />
 
     <div :class="$style['button-vacabulary-wrapper']">
-      <button :class="$style.button" @click="showAuth = true">
+      <button :class="$style.button" @click="openAuthModal">
         Создать собственный словарь
       </button>
     </div>
@@ -68,7 +59,7 @@ export default {
       <div :class="$style.left">
         <img :class="$style.img1" src="../../assets/images/landing-mock-word1.png" />
         <img :class="$style.img2" src="../../assets/images/landing-mock-word2.png" />
-        <button :class="$style.button" @click="showAuth = true">
+        <button :class="$style.button" @click="openAuthModal">
           <AddIcon /> Новое слово или фраза
         </button>
       </div>
@@ -98,24 +89,21 @@ export default {
         </div>
       </div>
     </section>
-
-    <Authentication
-      :show-auth="showAuth"
-      :close-auth="() => (showAuth = false)"
-      :view-auth="viewAuth"
-      :switch-form="(view: 'login' | 'register') => (viewAuth = view)"
-    />
   </div>
 </template>
 
 <style lang="scss" module>
 .landing {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+
   .header {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    padding: 16.4rem 15.2rem 2rem;
+    padding: 4rem 15.2rem 2rem;
 
     .img {
       width: 77.9rem;
@@ -125,7 +113,7 @@ export default {
     .h1 {
       font-family: 'Inter-SemiBold';
       font-size: 6rem;
-      line-height: 7.5rem;
+      line-height: 6.8rem;
       letter-spacing: -1px;
       text-align: center;
       color: $primary-700;
@@ -229,6 +217,7 @@ export default {
         font-size: 4rem;
         line-height: 4.9rem;
         color: $primary-700;
+        text-align: right;
       }
       .p {
         @include subheading-3;

@@ -1,3 +1,5 @@
+export type activityStatus = "Inactive" | "Active" | "Mastered";
+
 export interface WordDto {
   id: string;
   slug: string;
@@ -9,7 +11,7 @@ export interface WordDto {
   tags: string[];
   favorite: boolean;
   is_problematic: boolean;
-  activity_status: "Inactive" | "Active" | "Mastered";
+  activity_status: activityStatus;
   activity_progress: number;
   last_exercise_date?: string;
   types: string[];
@@ -41,20 +43,25 @@ export interface ImageAssociationsDto {
 }
 
 export interface WordProfileDto {
+  id?: string;
   language?: string;
   text?: string;
   slug?: string;
   author?: AuthorDto;
   favorite?: boolean;
-  activity_status?: string;
+  activity_status?: activityStatus;
   activity_progress?: number;
   types?: string[];
-  tags?: WordTagDto[];
+  tags?: string[];
   translations?: WordTranslationDto[];
   image_associations?: ImageAssociationsDto[];
   note?: string;
   translations_count?: number;
   image_associations_count?: number;
+  created?: string;
+  modified?: string;
+  is_problematic?: boolean;
+  last_exercise_date?: string;
 }
 
 export interface WordTagDto {

@@ -13,17 +13,17 @@ export interface VocabularyStore {
   favoriteCount: number;
   favoriteWords: WordDto[];
   nextPageLink: {
-    'vocabulary': {
-      'constant': string,
-      'variable': string,
+    vocabulary: {
+      constant: string;
+      variable: string;
     };
-    'favorites': {
-      'constant': string,
-      'variable': string,
+    favorites: {
+      constant: string;
+      variable: string;
     };
-    'languageProfile': {
-      'constant': string,
-      'variable': string,
+    languageProfile: {
+      constant: string;
+      variable: string;
     };
   };
   pageKey: string;
@@ -53,17 +53,17 @@ export const useVocabularyStore = defineStore('vocabulary', {
         activity_status: '',
       },
       nextPageLink: {
-        'vocabulary': {
-          'constant': '',
-          'variable': '',
+        vocabulary: {
+          constant: '',
+          variable: '',
         },
-        'favorites': {
-          'constant': '',
-          'variable': '',
+        favorites: {
+          constant: '',
+          variable: '',
         },
-        'languageProfile': {
-          'constant': '',
-          'variable': '',
+        languageProfile: {
+          constant: '',
+          variable: '',
         },
       },
       pageKey: 'vocabulary',
@@ -99,7 +99,8 @@ export const useVocabularyStore = defineStore('vocabulary', {
     async getVocabularyNextPage(filtered: boolean = false) {
       this.isLoadingMore = true;
       try {
-        const nextPage = this.nextPageLink[this.pageKey as keyof typeof this.nextPageLink]['variable']
+        const nextPage =
+          this.nextPageLink[this.pageKey as keyof typeof this.nextPageLink]['variable'];
         const { data } = nextPage ? await api.request.get(nextPage) : {};
         if (data && data.results) {
           if (filtered) {
@@ -191,13 +192,59 @@ export const useVocabularyStore = defineStore('vocabulary', {
             this.favoriteCount = data.count as unknown as number;
           }
           this.nextPageLink['favorites']['constant'] = data.next as unknown as string;
-          this.nextPageLink['favorites']['variable'] = this.nextPageLink['favorites']['constant'];
+          this.nextPageLink['favorites']['variable'] =
+            this.nextPageLink['favorites']['constant'];
         }
       } catch (error) {
         console.error('Error fetching vocabulary:', error);
         this.favoriteWords = [];
         this.favoriteCount = 0;
       }
+      this.isLoading = false;
+    },
+    async updateWords(filtered: boolean = false) {
+      const mapWords = {
+        vocabulary: this.getVocabulary,
+        languageProfile: this.getVocabulary,
+        favorites: this.getFavoriteWords,
+      };
+      return mapWords[this.pageKey as keyof typeof mapWords](filtered);
+    },
+    updateFavoriteWords(value: boolean, wordId: string): boolean {
+      if (value) {
+        const word = this.vocabularyWords.filter((word) => {
+          return word.id === wordId;
+        })[0];
+        this.favoriteWords.unshift(word);
+        this.favoriteCount += 1;
+      } else {
+        this.favoriteWords = this.favoriteWords.filter((word) => {
+          return word.id !== wordId;
+        });
+        this.favoriteCount -= 1;
+      }
+      const vocabularyWord = this.vocabularyWords.find((word) => {
+        return word.id === wordId;
+      });
+      if (vocabularyWord) {
+        vocabularyWord.favorite = value;
+      }
+      return value;
+    },
+    resetFilteredWords() {
+      this.isLoading = true;
+      const mapWords = {
+        vocabulary: this.vocabularyWords,
+        languageProfile: this.vocabularyWords,
+        favorites: this.favoriteWords,
+      };
+      const mapCounter = {
+        vocabulary: this.count,
+        languageProfile: this.count,
+        favorites: this.favoriteCount,
+      };
+      this.filteredWords = mapWords[this.pageKey as keyof typeof mapWords];
+      this.filteredCount = mapCounter[this.pageKey as keyof typeof mapCounter];
       this.isLoading = false;
     },
     resetPage() {

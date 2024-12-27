@@ -1,19 +1,19 @@
 <script lang="ts">
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapActions, mapState } from 'pinia';
-import { ref } from 'vue';
 import type { PropType } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
-import type { WordProfileDto, WordTagDto } from '@/dto/vocabulary.dto';
+import type { WordProfileDto } from '@/dto/vocabulary.dto';
 import { isAxiosError } from 'axios';
 import IconButton from '../../button/IconButton.vue';
 import Tab from '../../tab/Tab.vue';
 import WordTranslationItem from '@/components/vocabulary/WordTranslationItem.vue';
 import WordImageItem from '@/components/vocabulary/WordImageItem.vue';
 import WordTools from '@/components/vocabulary/WordTools.vue';
-import Modal from '../Modal.vue';
 import { useNotificationsStore } from '@/store/notifications';
+import { useModalStore } from '@/store/modal';
+import { joinWithComma } from '@/utils/joinWithComma';
 
 export default {
   components: {
@@ -23,18 +23,6 @@ export default {
     WordTranslationItem,
     WordImageItem,
     WordTools,
-    Modal,
-  },
-  emits: ['favoriteupdate', 'deleteword', 'editword'],
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-    objectLookup: {
-      type: String,
-      required: true,
-    },
   },
   data() {
     return {
@@ -42,10 +30,12 @@ export default {
       translationCurrentIndex: 0,
       tab: 1,
       showWordTools: false,
+      joinWithComma,
     };
   },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
+    ...mapState(useModalStore, ['modalObjectLookup']),
     counterBind() {
       return this.wordProfile.translations_count
         ? `${this.wordProfile.translations_count * 100}%`
@@ -100,14 +90,12 @@ export default {
       'getWordProfile',
       'addWordToFavorite',
       'removeWordFromFavorite',
+      'updateFavoriteWords',
     ]),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
-    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
-    getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
-    },
-    joinTypes(word_types: string[]) {
-      return word_types.join(', ');
+    ...mapActions(useLanguagesStore, ['getLearningLanguageByIsocode', 'getFlagIcon']),
+    changeTab(tab: number) {
+      this.tab = tab;
     },
     goToNextTranslation() {
       if (
@@ -125,9 +113,6 @@ export default {
       } else {
         this.translationCurrentIndex -= 1;
       }
-    },
-    changeTab(tab: number) {
-      this.tab = tab;
     },
     async copyToClipboard(text: string) {
       navigator.clipboard.writeText(text);
@@ -150,7 +135,7 @@ export default {
           }
         } else {
           this.wordProfile.favorite = false;
-          this.$emit('favoriteupdate', false);
+          if (this.wordProfile.id) this.updateFavoriteWords(false, this.wordProfile.id);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordRemovedFromFavorite')}: ${this.wordProfile.text}`,
@@ -169,7 +154,7 @@ export default {
           }
         } else {
           this.wordProfile.favorite = true;
-          this.$emit('favoriteupdate', true);
+          if (this.wordProfile.id) this.updateFavoriteWords(true, this.wordProfile.id);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordAddedToFavorite')}: ${this.wordProfile.text}`,
@@ -177,20 +162,10 @@ export default {
         }
       }
     },
-    handleDelete() {
-      this.showWordTools = false;
-      this.$emit('deleteword');
-      return;
-    },
-    handleEdit() {
-      this.showWordTools = false;
-      this.$emit('editword');
-      return;
-    },
   },
   async beforeMount() {
-    if (this.objectLookup) {
-      await this.getWordProfile(this.objectLookup);
+    if (this.modalObjectLookup) {
+      await this.getWordProfile(this.modalObjectLookup);
       const { wordProfile } = useVocabularyStore();
       this.wordProfile = wordProfile;
     }
@@ -233,7 +208,7 @@ export default {
               alt="Icon"
               class="language-icon"
             />
-            <p>{{ getLanguageObjectByIsocode(wordProfile.language)?.language.name }}</p>
+            <p>{{ getLearningLanguageByIsocode(wordProfile.language)?.language.name_local }}</p>
           </div>
           <div class="status-tag" :class="backgroundClasses">
             <svg-icon
@@ -264,10 +239,9 @@ export default {
           />
         </div>
         <WordTools
-          :handleClose="() => (showWordTools = false)"
           v-if="showWordTools"
-          :handle-delete="handleDelete"
-          :handle-edit="handleEdit"
+          :handleClose="() => (showWordTools = false)"
+          :word-slug="wordProfile.slug ? wordProfile.slug : ''"
         />
       </div>
       <div class="word-profile--word-content" :class="backgroundClasses">
@@ -276,7 +250,7 @@ export default {
             class="word-types"
             v-if="wordProfile.types && wordProfile.types.length > 0"
           >
-            <p>{{ joinTypes(wordProfile.types) }}</p>
+            <p>{{ joinWithComma(wordProfile.types) }}</p>
           </div>
           <div id="word-info--word">
             <p id="word-info--word-text">{{ wordProfile.text }}</p>
@@ -290,7 +264,7 @@ export default {
             </div>
           </div>
           <div class="word-tags" v-if="wordProfile.tags && wordProfile.tags.length > 0">
-            <WordTagCard :tag="tag.name" v-for="tag in wordProfile.tags" size="medium" />
+            <WordTagCard :tag="tag" v-for="tag in wordProfile.tags" size="medium" />
           </div>
         </div>
         <div

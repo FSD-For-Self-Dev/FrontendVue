@@ -90,11 +90,8 @@ export default {
     };
   },
   methods: {
-    ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
+    ...mapActions(useLanguagesStore, ['getLearningLanguageByIsocode']),
     handleFilter() {
-      this.getFilteredWords ? this.getFilteredWords(true) : this.getVocabulary(true);
-    },
-    updateWords() {
       this.getFilteredWords ? this.getFilteredWords(true) : this.getVocabulary(true);
     },
   },
@@ -140,8 +137,6 @@ export default {
       <NewWordButton
         button-size="medium"
         :button-text="$t('buttons.addNewWord')"
-        :chosenLanguage="filterOptions.language"
-        @word-created="updateWords"
         v-if="!hideAddButton"
       />
     </div>

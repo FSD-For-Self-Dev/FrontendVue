@@ -1,51 +1,40 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
-import Modal from '@/components/UI/modal/Modal.vue';
+import { useModalStore } from '@/store/modal';
+import type { ButtonProps } from '@/types/components/button';
+import { mapActions } from 'pinia';
 import { type PropType } from 'vue';
 
 export default {
-  components: { Button, Modal },
-  emits: ['wordCreated'],
+  components: { Button },
   props: {
     buttonText: {
       type: String,
       required: true,
     },
     buttonSize: {
-      type: String as PropType<'normal' | 'medium' | 'small'>,
+      type: String as PropType<ButtonProps['size']>,
       default: 'small',
     },
-    chosenLanguage: {
-      type: String,
-      required: false,
-    },
-  },
-  data() {
-    return {
-      showModal: false,
-    };
   },
   methods: {
-    handleOpen() {
-      this.showModal = true;
-    },
-    handleClose() {
-      this.showModal = false;
-    },
+    ...mapActions(useModalStore, ['openModal']),
   },
 };
 </script>
 
 <template>
-  <Button @click.stop="handleOpen" :size="buttonSize" :text="buttonText" icon="AddIcon" />
-  <Modal
-    size="lg"
-    v-if="showModal"
-    :close-modal="handleClose"
-    :title-modal="$t('title.newWord')"
+  <Button
+    @click.stop="() => {
+      openModal(
+        'NewWordForm',
+        $t('title.newWord'),
+        'AddIcon',
+        'lg',
+      );
+    }"
+    :size="buttonSize"
+    :text="buttonText"
     icon="AddIcon"
-    modalContent="NewWordForm"
-    :chosenLanguage="chosenLanguage"
-    @word-created="$emit('wordCreated')"
   />
 </template>

@@ -3,10 +3,8 @@ import type { PropType } from 'vue';
 import { useNotificationsStore } from '@/store/notifications';
 import { mapActions, mapState } from 'pinia';
 import { isAxiosError } from 'axios';
-import { ref } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import Button from '@/components/UI/button/Button.vue';
-import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
 import type {
   LanguageCoverDto,
   LanguageDeleteCoverDto,
@@ -18,24 +16,14 @@ import { useUserStore } from '@/store/user';
 import { uploadFile } from '@/utils/uploadFileB64';
 import Preloader from '../../preloader/Preloader.vue';
 import { handleElementScroll } from '@/utils/handleInfiniteScroll';
+import { useModalStore } from '@/store/modal';
 
 export default {
   components: {
     Button,
-    WordTagCard,
     LanguageCoverItem,
     ImageUploadForm,
     Preloader,
-  },
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-    objectLookup: {
-      type: String,
-      required: true,
-    },
   },
   data() {
     return {
@@ -48,17 +36,12 @@ export default {
       deleteData: {} as LanguageDeleteCoverDto,
     };
   },
-  setup(props) {
-    const objectLookup = ref(props.objectLookup);
-    return {
-      objectLookup,
-    };
-  },
   computed: {
     ...mapState(useUserStore, ['username']),
     ...mapState(useLanguagesStore, ['isLoadingMore']),
+    ...mapState(useModalStore, ['modalObjectLookup']),
     languageObject() {
-      return this.getLanguageObjectByIsocode(this.objectLookup);
+      return this.getLearningLanguageByIsocode(this.modalObjectLookup);
     },
     getCoverImage() {
       try {
@@ -77,9 +60,10 @@ export default {
       'setLanguageCover',
       'deleteLanguageCover',
       'getLanguageCovers',
-      'getLanguageObjectByIsocode',
+      'getLearningLanguageByIsocode',
       'getLanguageCoversNextPage',
     ]),
+    ...mapActions(useModalStore, ['closeModal']),
     handleChoose(id: string) {
       this.setData = {
         id: id,
@@ -105,20 +89,20 @@ export default {
     async handleCoverChange() {
       this.submitProcess = true;
       if (this.deleteData['id']) {
-        const res = await this.deleteLanguageCover(this.objectLookup, this.deleteData);
+        const res = await this.deleteLanguageCover(this.modalObjectLookup, this.deleteData);
         if (isAxiosError(res)) {
           console.log(res.response?.data);
         }
       }
       if (this.setData['id'] || this.setData['image']) {
-        const res = await this.setLanguageCover(this.objectLookup, this.setData);
+        const res = await this.setLanguageCover(this.modalObjectLookup, this.setData);
         if (isAxiosError(res)) {
           console.log(res.response?.data);
         } else {
           await this.getLearningLanguages();
         }
       }
-      this.closeForm();
+      this.closeModal();
       this.addNewMessage({
         type: 'info',
         text: this.$t('infoMessage.changesSaved'),
@@ -136,8 +120,8 @@ export default {
   async mounted() {
     const lang_obj = this.languageObject;
     this.cover_id = lang_obj ? lang_obj.cover_id : '';
-    if (this.objectLookup) {
-      await this.getLanguageCovers(this.objectLookup);
+    if (this.modalObjectLookup) {
+      await this.getLanguageCovers(this.modalObjectLookup);
       const { covers } = useLanguagesStore();
       this.cover_choices = covers;
     }
@@ -204,7 +188,7 @@ export default {
         variant="secondary"
         :text="$t('buttons.cancel')"
         size="medium"
-        @click="() => closeForm()"
+        @click="() => closeModal()"
       />
       <div>
         <Button

@@ -1,50 +1,42 @@
 <script lang="ts">
 import Button from '@/components/UI/button/Button.vue';
-import Modal from '@/components/UI/modal/Modal.vue';
+import { useModalStore } from '@/store/modal';
+import type { ButtonProps } from '@/types/components/button';
+import { mapActions } from 'pinia';
 import { type PropType } from 'vue';
 
 export default {
-  data() {
-    return {
-      showModal: false,
-    };
-  },
-  components: { Button, Modal },
+  components: { Button },
   props: {
     buttonText: {
       type: String,
       required: true,
     },
     buttonSize: {
-      type: String as PropType<'normal' | 'medium' | 'small'>,
+      type: String as PropType<ButtonProps['size']>,
       default: 'small',
     },
   },
   methods: {
-    handleOpen() {
-      this.showModal = true;
-    },
-    handleClose() {
-      this.showModal = false;
-    },
+    ...mapActions(useModalStore, ['openModal']),
   },
 };
 </script>
 
 <template>
   <Button
-    @click.stop="handleOpen"
+    @click.stop="
+      () =>
+        openModal(
+          'AddLanguagesForm',
+          $t('title.newLearningLanguages'),
+          'ExercisesIcon',
+          'md',
+        )
+    "
     :size="buttonSize"
     :text="buttonText"
     icon="AddIcon"
     v-bind="{ ...$attrs }"
-  />
-  <Modal
-    v-if="showModal"
-    :close-modal="handleClose"
-    :title-modal="$t('title.newLearningLanguages')"
-    icon="ExercisesIcon"
-    modalContent="AddLanguagesForm"
-    size="md"
   />
 </template>

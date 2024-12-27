@@ -3,10 +3,11 @@ import type { PropType } from 'vue';
 import type { LearningLanguageDto } from '@/dto/languages.dto';
 import IconButton from '../UI/button/IconButton.vue';
 import LanguageTools from './LanguageTools.vue';
-import Modal from '../UI/modal/Modal.vue';
+import { mapActions } from 'pinia';
+import { useModalStore } from '@/store/modal';
 
 export default {
-  components: { IconButton, LanguageTools, Modal },
+  components: { IconButton, LanguageTools },
   props: {
     language: {
       type: Object as PropType<LearningLanguageDto>,
@@ -16,8 +17,6 @@ export default {
   data() {
     return {
       showLanguageTools: false,
-      showLanguageCoversModal: false,
-      showDeleteLanguageModal: false,
       statusWordOptions: [
         {
           value: 'I',
@@ -46,12 +45,8 @@ export default {
     }
   },
   methods: {
-    handleDelete() {
-      this.showLanguageTools = false;
-      this.showDeleteLanguageModal = true;
-      return;
-    },
-  }
+    ...mapActions(useModalStore, ['openModal']),
+  },
 };
 </script>
 
@@ -68,7 +63,15 @@ export default {
             icon="ImageIcon"
             size="lg"
             variant="lucid"
-            @click.stop="() => (showLanguageCoversModal = !showLanguageCoversModal)"
+            @click.stop="() => {
+              openModal(
+                'LanguageCoverChange',
+                $t('title.languageCover'),
+                'ImageIcon',
+                'lg',
+                language.language.isocode,
+              );
+            }"
         />
         <IconButton
           icon="MoreIcon"
@@ -81,28 +84,19 @@ export default {
       <LanguageTools
         :handleClose="() => (showLanguageTools = false)"
         v-if="showLanguageTools"
-        :handle-delete="handleDelete"
+        :handle-delete="() => {
+          openModal(
+            'DeleteLanguageForm',
+            $t('title.deleteLanguage'),
+            'InfoIcon',
+            'lg',
+            language.language.isocode,
+          );
+          showLanguageTools = false;
+        }"
       />
     </div>
   </div>
-  <Modal
-    size="lg"
-    v-if="showDeleteLanguageModal"
-    :close-modal="() => (showDeleteLanguageModal = false)"
-    :title-modal="$t('title.deleteLanguage')"
-    icon="InfoIcon"
-    modalContent="DeleteLanguageForm"
-    :objectLookup="language.language.isocode"
-  />
-  <Modal
-    size="lg"
-    v-if="showLanguageCoversModal"
-    :close-modal="() => (showLanguageCoversModal = false)"
-    :title-modal="$t('title.languageCover')"
-    icon="ImageIcon"
-    modalContent="LanguageCoverChange"
-    :objectLookup="language.language.isocode"
-  />
 </template>
 
 <style lang="scss">

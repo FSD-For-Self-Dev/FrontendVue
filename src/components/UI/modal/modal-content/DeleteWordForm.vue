@@ -3,50 +3,34 @@ import { useNotificationsStore } from '@/store/notifications';
 import { useVocabularyStore } from '@/store/vocabulary';
 import { mapActions, mapState, mapWritableState } from 'pinia';
 import Button from '@/components/UI/button/Button.vue';
-import { ref } from 'vue';
 import type { PropType } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
-import type { WordTagDto } from '@/dto/vocabulary.dto';
 import { isAxiosError } from 'axios';
+import { useModalStore } from '@/store/modal';
+import { joinWithComma } from '@/utils/joinWithComma';
 
 export default {
   components: { Button, WordTagCard },
-  emits: ['wordDeleted'],
-  props: {
-    closeForm: {
-      type: Function,
-      required: true,
-    },
-    objectLookup: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
       word: '',
       language: '',
       activity_status: '',
       activity_progress: 0 as number,
-      tags: [] as WordTagDto[],
+      tags: [] as string[],
       types: [] as string[],
       translations_count: 0,
       image_associations_count: 0,
       favorite: false,
       submitProcess: false,
-    };
-  },
-  setup(props) {
-    const objectLookup = ref(props.objectLookup);
-
-    return {
-      objectLookup,
+      joinWithComma,
     };
   },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
     ...mapWritableState(useVocabularyStore, ['filterOptions']),
+    ...mapWritableState(useModalStore, ['modalObjectLookup']),
   },
   methods: {
     ...mapActions(useVocabularyStore, [
@@ -54,43 +38,43 @@ export default {
       'getWordProfile',
       'deleteWord',
       'getFavoriteWords',
+      'resetFilteredWords',
     ]),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useLanguagesStore, [
       'getLearningLanguages',
-      'getLanguageObjectByIsocode',
+      'getLearningLanguageByIsocode',
+      'getFlagIcon',
     ]),
+    ...mapActions(useModalStore, ['closeModal']),
     async handleDelete() {
       this.submitProcess = true;
-      const res = await this.deleteWord(this.objectLookup);
-      if (isAxiosError(res)) {
-        console.log(res.response?.data);
-      } else {
-        this.$emit('wordDeleted');
-        this.filterOptions.language = '';
-        this.filterOptions.activity_status = '';
-        this.filterOptions.search = '';
-        this.getVocabulary();
-        this.getLearningLanguages();
-        if (this.favorite) this.getFavoriteWords();
-        this.closeForm();
-        this.addNewMessage({
-          type: 'info',
-          text: this.$t('infoMessage.deleteWord'),
-        });
+      if (this.modalObjectLookup) {
+        const res = await this.deleteWord(this.modalObjectLookup);
+        if (isAxiosError(res)) {
+          console.log(res.response?.data);
+        } else {
+          this.filterOptions.language = '';
+          this.filterOptions.activity_status = '';
+          this.filterOptions.search = '';
+          const successMsg = this.$t('infoMessage.deleteWord');
+          await this.closeModal();
+          await this.getVocabulary();
+          if (this.favorite) await this.getFavoriteWords();
+          this.resetFilteredWords();
+          this.getLearningLanguages();
+          this.addNewMessage({
+            type: 'info',
+            text: successMsg,
+          });
+        }
       }
       this.submitProcess = false;
     },
-    getFlagIcon(neededLang: string | undefined) {
-      return this.global_languages.find((lang) => lang.isocode === neededLang)?.flag_icon;
-    },
-    joinTypes(word_types: string[]) {
-      return word_types.join(', ');
-    },
   },
   async mounted() {
-    if (this.objectLookup) {
-      await this.getWordProfile(this.objectLookup);
+    if (this.modalObjectLookup) {
+      await this.getWordProfile(this.modalObjectLookup);
       const { wordProfile } = useVocabularyStore();
       this.word = wordProfile.text ? wordProfile.text : '';
       this.language = wordProfile.language ? wordProfile.language : '';
@@ -120,15 +104,15 @@ export default {
       <div class="word-info--language-icon">
         <img :src="getFlagIcon(language)" alt="Icon" class="language-icon" />
       </div>
-      <p>{{ getLanguageObjectByIsocode(language)?.language.name }}</p>
+      <p>{{ getLearningLanguageByIsocode(language)?.language.name_local }}</p>
     </div>
     <div class="word-info">
       <div class="word-info--types" v-if="types.length > 0">
-        <p>{{ joinTypes(types) }}</p>
+        <p>{{ joinWithComma(types) }}</p>
       </div>
       <p id="word">{{ word }}</p>
       <div class="word-info--tags" v-if="tags.length > 0">
-        <WordTagCard :tag="tag.name" v-for="tag in tags" size="medium" />
+        <WordTagCard :tag="tag" v-for="tag in tags" size="medium" />
       </div>
     </div>
     <div class="word-info--summary">
@@ -156,7 +140,7 @@ export default {
       <Button
         type="button"
         variant="secondary"
-        @click="() => closeForm()"
+        @click="() => closeModal()"
         :text="$t('buttons.cancel')"
         size="medium"
       />
@@ -228,7 +212,7 @@ export default {
       p {
         width: 100%;
         text-align: left;
-        @include tag-big;
+        @include tag-large;
       }
     }
 
