@@ -235,7 +235,9 @@ export const useVocabularyStore = defineStore('vocabulary', {
       this.isLoading = true;
       const mapWords = {
         vocabulary: this.vocabularyWords,
-        languageProfile: this.vocabularyWords,
+        languageProfile: this.vocabularyWords.filter((word) => {
+          return word.language === this.filterOptions.language
+        }),
         favorites: this.favoriteWords,
       };
       const mapCounter = {

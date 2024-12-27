@@ -1,6 +1,6 @@
 <script lang="ts">
 import { useVocabularyStore } from '@/store/vocabulary';
-import { mapActions, mapState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import type { PropType } from 'vue';
 import { useLanguagesStore } from '@/store/languages';
 import WordTagCard from '@/components/vocabulary/WordTagCard.vue';
@@ -14,6 +14,7 @@ import WordTools from '@/components/vocabulary/WordTools.vue';
 import { useNotificationsStore } from '@/store/notifications';
 import { useModalStore } from '@/store/modal';
 import { joinWithComma } from '@/utils/joinWithComma';
+import PopupTip from '../../tip/PopupTip.vue';
 
 export default {
   components: {
@@ -23,6 +24,7 @@ export default {
     WordTranslationItem,
     WordImageItem,
     WordTools,
+    PopupTip,
   },
   data() {
     return {
@@ -30,6 +32,8 @@ export default {
       translationCurrentIndex: 0,
       tab: 1,
       showWordTools: false,
+      showLanguageTip: false,
+      showStatusTip: false,
       joinWithComma,
     };
   },
@@ -83,6 +87,9 @@ export default {
       } else {
         return 0;
       }
+    },
+    languageData() {
+      return this.getLearningLanguageByIsocode(this.wordProfile.language)?.language;
     },
   },
   methods: {
@@ -202,15 +209,34 @@ export default {
             />
             <p>{{ wordProfile.author?.first_name }}</p>
           </div>
-          <div class="language-tag" :class="backgroundClasses">
-            <img
-              :src="getFlagIcon(wordProfile.language)"
-              alt="Icon"
-              class="language-icon"
+          <div
+            class="language-tag"
+            :class="backgroundClasses"
+            @mouseover="showLanguageTip = true"
+            @mouseleave="showLanguageTip = false"
+          >
+            <PopupTip
+              :text="languageData ? `${languageData.name} (${languageData.country})` : ''"
+              :icon-url="languageData?.flag_icon"
+              :showTip="showLanguageTip"
             />
-            <p>{{ getLearningLanguageByIsocode(wordProfile.language)?.language.name_local }}</p>
+            <img :src="languageData?.flag_icon" alt="Icon" class="language-icon" />
+            <p>{{ languageData?.name_local }}</p>
           </div>
-          <div class="status-tag" :class="backgroundClasses">
+          <div
+            class="status-tag"
+            :class="backgroundClasses"
+          >
+            <PopupTip
+              :text="
+                $t('activityStatusTip', {
+                  status: wordProfile.activity_status,
+                  progress: wordProfile.activity_progress,
+                })
+              "
+              :icon-name="`${wordProfile.activity_status}${wordProfile.activity_progress}StatusIcon`"
+              :showTip="showStatusTip"
+            />
             <svg-icon
               :name="`${wordProfile.activity_status}${wordProfile.activity_progress}StatusIcon`"
               size="nm"
@@ -219,7 +245,13 @@ export default {
             <p v-if="wordProfile.activity_status">
               {{ $t('activityStatus', { status: wordProfile.activity_status }) }}
             </p>
-            <svg-icon name="InfoIcon" size="sm" color="var:neutrals-700" />
+            <svg-icon
+              name="InfoIcon"
+              size="sm"
+              color="var:neutrals-700"
+              @mouseover="showStatusTip = true"
+              @mouseleave="showStatusTip = false"
+            />
           </div>
         </div>
         <div class="word-profile--word-header-actions">
@@ -429,6 +461,7 @@ export default {
         }
 
         .language-tag {
+          position: relative;
           display: flex;
           flex-direction: row;
           align-items: center;
@@ -447,6 +480,7 @@ export default {
         }
 
         .status-tag {
+          position: relative;
           display: flex;
           flex-direction: row;
           align-items: center;

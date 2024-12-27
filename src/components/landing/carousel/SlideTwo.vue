@@ -12,16 +12,16 @@ export default {
 </script>
 
 <template>
-  <Slide
-    ><div :class="$style.wrapper">
+  <Slide>
+    <div :class="$style.wrapper">
       <ul :class="$style.list">
         <li :class="$style.item" v-if="more" v-for="item in list">{{item}}</li>
         <li :class="$style.item" v-else v-for="item in list.slice(0, 2)">{{item}}</li>
 
         <li v-if="!more" @click="more = true" :class="$style.more">Еще 5</li>
       </ul>
-    </div></Slide
-  >
+    </div>
+  </Slide>
 </template>
 
 <style lang="scss" module>

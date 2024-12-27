@@ -72,7 +72,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useVocabularyStore, ['vocabularyWords', 'count']),
+    ...mapState(useVocabularyStore, ['vocabularyWords', 'count', 'pageKey']),
     ...mapWritableState(useVocabularyStore, [
       'filterOptions',
       'favoriteWords',
@@ -290,12 +290,16 @@ export default {
           console.log(res.response?.data);
         }
       } else {
+        await this.handleClose();
+        const lang = this.filterOptions.language;
         this.filterOptions.language = '';
         this.filterOptions.activity_status = '';
         this.filterOptions.search = '';
-        await this.handleClose();
         await this.getVocabulary();
         await this.getFavoriteWords();
+        if (this.pageKey === 'languageProfile') {
+          this.filterOptions.language = lang;
+        }
         this.resetFilteredWords();
         this.getLearningLanguages();
         this.addNewMessage({

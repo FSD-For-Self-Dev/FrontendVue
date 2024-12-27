@@ -29,6 +29,7 @@ export default {
   },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
+    ...mapState(useVocabularyStore, ['pageKey']),
     ...mapWritableState(useVocabularyStore, ['filterOptions']),
     ...mapWritableState(useModalStore, ['modalObjectLookup']),
   },
@@ -54,6 +55,7 @@ export default {
         if (isAxiosError(res)) {
           console.log(res.response?.data);
         } else {
+          const lang = this.filterOptions.language;
           this.filterOptions.language = '';
           this.filterOptions.activity_status = '';
           this.filterOptions.search = '';
@@ -61,6 +63,9 @@ export default {
           await this.closeModal();
           await this.getVocabulary();
           if (this.favorite) await this.getFavoriteWords();
+          if (this.pageKey === 'languageProfile') {
+            this.filterOptions.language = lang;
+          }
           this.resetFilteredWords();
           this.getLearningLanguages();
           this.addNewMessage({

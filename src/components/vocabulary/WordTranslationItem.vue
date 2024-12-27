@@ -2,9 +2,10 @@
 import IconButton from '../UI/button/IconButton.vue';
 import { useLanguagesStore } from '@/store/languages';
 import { mapActions, mapState } from 'pinia';
+import PopupTip from '../UI/tip/PopupTip.vue';
 
 export default {
-  components: { IconButton },
+  components: { IconButton, PopupTip },
   props: {
     translationText: {
       type: String,
@@ -31,21 +32,47 @@ export default {
       required: false,
     },
   },
+  data() {
+    return {
+      showLanguageTip: false,
+    };
+  },
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
+    languageData() {
+      return this.getLanguageByIsocode(this.translationLanguage);
+    },
   },
   methods: {
-    ...mapActions(useLanguagesStore, ['getFlagIcon']),
+    ...mapActions(useLanguagesStore, ['getFlagIcon', 'getLanguageByIsocode']),
   },
 };
 </script>
 
 <template>
   <div class="translation-item" :class="{ editable: editable }">
-    <div class="translation-item--language">
+    <div
+      class="translation-item--language"
+      :style="{ position: 'relative' }"
+      @mouseover="showLanguageTip = true"
+      @mouseleave="showLanguageTip = false"
+    >
+      <PopupTip
+        :text="languageData ? `${languageData.name} (${languageData.country})` : ''"
+        :icon-url="languageData?.flag_icon"
+        :showTip="showLanguageTip"
+        style="
+          margin-bottom: 0;
+          left: 0;
+          top: 80%;
+          transform: translate(0, 10%);
+          max-width: 22.8rem;
+          --text-line-clamp: 2;
+        "
+      />
       <img :src="getFlagIcon(translationLanguage)" alt="Icon" class="language-icon" />
     </div>
-    <p>{{ translationText }}</p>
+    <p class="translation-text">{{ translationText }}</p>
     <div class="translation-item--edit-actions" v-if="editable">
       <IconButton
         icon="DeleteIcon"
@@ -81,28 +108,31 @@ export default {
   @include subheading-4;
   color: $neutrals-900;
 
-  p {
+  .translation-text {
     width: 100%;
     max-width: 100%;
     height: 100%;
     max-height: 4.4rem;
-    display: inline-block;
-    text-overflow: ellipsis;
     text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
 
     // Text wrap
-    white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
-    white-space: -pre-wrap;      /* Opera 4-6 */
-    white-space: -o-pre-wrap;    /* Opera 7 */
-    white-space: pre-wrap;       /* css-3 */
-    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+    white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */
+    white-space: -o-pre-wrap; /* Opera 7 */
+    white-space: pre-wrap; /* css-3 */
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
     white-space: -webkit-pre-wrap; /* Newer versions of Chrome/Safari*/
     word-break: break-all;
     white-space: normal;
   }
 
   &--language {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
