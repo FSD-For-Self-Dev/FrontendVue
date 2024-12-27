@@ -16,8 +16,16 @@ import Modal from '../Modal.vue';
 import { useNotificationsStore } from '@/store/notifications';
 
 export default {
-  components: { WordTagCard, IconButton, Tab, WordTranslationItem, WordImageItem, WordTools, Modal },
-  emits: ["favoriteupdate", "deleteword", "editword"],
+  components: {
+    WordTagCard,
+    IconButton,
+    Tab,
+    WordTranslationItem,
+    WordImageItem,
+    WordTools,
+    Modal,
+  },
+  emits: ['favoriteupdate', 'deleteword', 'editword'],
   props: {
     closeForm: {
       type: Function,
@@ -39,42 +47,60 @@ export default {
   computed: {
     ...mapState(useLanguagesStore, ['global_languages']),
     counterBind() {
-      return this.wordProfile.translations_count ? `${this.wordProfile.translations_count * 100}%` : '';
+      return this.wordProfile.translations_count
+        ? `${this.wordProfile.translations_count * 100}%`
+        : '';
     },
     getTransform() {
       return `translateX(${-this.translationCurrentIndex * 100}%)`;
     },
     backgroundClasses() {
-      if (this.wordProfile.image_associations && this.wordProfile.image_associations.length > 0) {
-        return 'ghost'
+      if (
+        this.wordProfile.image_associations &&
+        this.wordProfile.image_associations.length > 0
+      ) {
+        return 'ghost';
       } else {
-        return 'grey'
-      };
+        return 'grey';
+      }
     },
     buttonVariant() {
-      if (this.wordProfile.image_associations && this.wordProfile.image_associations.length > 0) {
-        return 'lucid'
+      if (
+        this.wordProfile.image_associations &&
+        this.wordProfile.image_associations.length > 0
+      ) {
+        return 'lucid';
       } else {
-        return 'secondary'
-      };
+        return 'secondary';
+      }
     },
     favoriteButtonVariant() {
-      if (this.wordProfile.image_associations && this.wordProfile.image_associations.length > 0) {
-        return 'favorite-lucid'
+      if (
+        this.wordProfile.image_associations &&
+        this.wordProfile.image_associations.length > 0
+      ) {
+        return 'favorite-lucid';
       } else {
-        return 'favorite'
-      };
+        return 'favorite';
+      }
     },
     paddingBind() {
-      if (this.wordProfile.image_associations && this.wordProfile.image_associations.length > 0) {
-        return '2rem 2rem 2.8rem 2rem'
+      if (
+        this.wordProfile.image_associations &&
+        this.wordProfile.image_associations.length > 0
+      ) {
+        return '2rem 2rem 2.8rem 2rem';
       } else {
-        return 0
+        return 0;
       }
-    }
+    },
   },
   methods: {
-    ...mapActions(useVocabularyStore, ['getWordProfile', 'addWordToFavorite', 'removeWordFromFavorite']),
+    ...mapActions(useVocabularyStore, [
+      'getWordProfile',
+      'addWordToFavorite',
+      'removeWordFromFavorite',
+    ]),
     ...mapActions(useNotificationsStore, ['addNewMessage']),
     ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
     getFlagIcon(neededLang: string | undefined) {
@@ -84,7 +110,10 @@ export default {
       return word_types.join(', ');
     },
     goToNextTranslation() {
-      if (this.wordProfile.translations_count && this.translationCurrentIndex >= this.wordProfile.translations_count - 1) {
+      if (
+        this.wordProfile.translations_count &&
+        this.translationCurrentIndex >= this.wordProfile.translations_count - 1
+      ) {
         this.translationCurrentIndex = 0;
       } else {
         this.translationCurrentIndex += 1;
@@ -121,7 +150,7 @@ export default {
           }
         } else {
           this.wordProfile.favorite = false;
-          this.$emit("favoriteupdate", false);
+          this.$emit('favoriteupdate', false);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordRemovedFromFavorite')}: ${this.wordProfile.text}`,
@@ -140,7 +169,7 @@ export default {
           }
         } else {
           this.wordProfile.favorite = true;
-          this.$emit("favoriteupdate", true);
+          this.$emit('favoriteupdate', true);
           this.addNewMessage({
             type: 'info',
             text: `${this.$t('infoMessage.wordAddedToFavorite')}: ${this.wordProfile.text}`,
@@ -150,12 +179,12 @@ export default {
     },
     handleDelete() {
       this.showWordTools = false;
-      this.$emit("deleteword");
+      this.$emit('deleteword');
       return;
     },
     handleEdit() {
       this.showWordTools = false;
-      this.$emit("editword");
+      this.$emit('editword');
       return;
     },
   },
@@ -172,19 +201,38 @@ export default {
 <template>
   <div class="word-profile">
     <div class="word-profile--word">
-      <div class="word-profile--word-background" :class="{ 'with-image': wordProfile.image_associations }" v-if="wordProfile.image_associations && wordProfile.image_associations.length > 0">
+      <div
+        class="word-profile--word-background"
+        :class="{ 'with-image': wordProfile.image_associations }"
+        v-if="wordProfile.image_associations && wordProfile.image_associations.length > 0"
+      >
         <div class="background-overlay" />
-        <img :src="wordProfile.image_associations[0].image" alt="Word image" v-if="wordProfile.image_associations[0].image" />
-        <img :src="wordProfile.image_associations[0].image_url" alt="Word image" v-else-if="wordProfile.image_associations[0].image_url" />
+        <img
+          :src="wordProfile.image_associations[0].image"
+          alt="Word image"
+          v-if="wordProfile.image_associations[0].image"
+        />
+        <img
+          :src="wordProfile.image_associations[0].image_url"
+          alt="Word image"
+          v-else-if="wordProfile.image_associations[0].image_url"
+        />
       </div>
       <div class="word-profile--word-header">
         <div class="word-profile--word-header-tags">
-          <div class='author-tag' :class="backgroundClasses">
-            <img :src="wordProfile.author?.image ? wordProfile.author.image : ''" class="avatar" />
+          <div class="author-tag" :class="backgroundClasses">
+            <img
+              :src="wordProfile.author?.image ? wordProfile.author.image : ''"
+              class="avatar"
+            />
             <p>{{ wordProfile.author?.first_name }}</p>
           </div>
           <div class="language-tag" :class="backgroundClasses">
-            <img :src="getFlagIcon(wordProfile.language)" alt="Icon" class="language-icon" />
+            <img
+              :src="getFlagIcon(wordProfile.language)"
+              alt="Icon"
+              class="language-icon"
+            />
             <p>{{ getLanguageObjectByIsocode(wordProfile.language)?.language.name }}</p>
           </div>
           <div class="status-tag" :class="backgroundClasses">
@@ -224,12 +272,22 @@ export default {
       </div>
       <div class="word-profile--word-content" :class="backgroundClasses">
         <div class="word-profile--word-content-word-info">
-          <div class="word-types" v-if="wordProfile.types && wordProfile.types.length > 0">
+          <div
+            class="word-types"
+            v-if="wordProfile.types && wordProfile.types.length > 0"
+          >
             <p>{{ joinTypes(wordProfile.types) }}</p>
           </div>
           <div id="word-info--word">
-            <p id="word-info--word-text" >{{ wordProfile.text }}</p>
-            <div><IconButton icon="CopyIcon" size="md" variant="secondary" @click.stop="copyToClipboard(wordProfile.text ? wordProfile.text : '')" /></div>
+            <p id="word-info--word-text">{{ wordProfile.text }}</p>
+            <div>
+              <IconButton
+                icon="CopyIcon"
+                size="md"
+                variant="secondary"
+                @click.stop="copyToClipboard(wordProfile.text ? wordProfile.text : '')"
+              />
+            </div>
           </div>
           <div class="word-tags" v-if="wordProfile.tags && wordProfile.tags.length > 0">
             <WordTagCard :tag="tag.name" v-for="tag in wordProfile.tags" size="medium" />
@@ -240,7 +298,10 @@ export default {
           v-if="wordProfile.translations_count && wordProfile.translations_count > 0"
         >
           <div class="translations-carousel--inner">
-            <div class="translations-carousel--item" v-for="translation in wordProfile.translations">
+            <div
+              class="translations-carousel--item"
+              v-for="translation in wordProfile.translations"
+            >
               {{ translation.text }}
             </div>
           </div>
@@ -270,8 +331,16 @@ export default {
     </div>
     <div class="word-profile--word-additions">
       <div class="word-profile--word-additions-tabs">
-        <Tab :active="tab === 1" @click="() => changeTab(1)" :title="$t('title.translations')" />
-        <Tab :active="tab === 2" @click="() => changeTab(2)" :title="$t('title.associations')" />
+        <Tab
+          :active="tab === 1"
+          @click="() => changeTab(1)"
+          :title="$t('title.translations')"
+        />
+        <Tab
+          :active="tab === 2"
+          @click="() => changeTab(2)"
+          :title="$t('title.associations')"
+        />
       </div>
 
       <div v-if="tab === 1" class="additions-list">
@@ -279,19 +348,22 @@ export default {
           :translation-text="translation.text"
           :translation-language="translation.language"
           v-for="translation in wordProfile.translations"
-          :editable=false
+          :editable="false"
         />
         <p class="additions-list-empty-tip" v-if="wordProfile.translations?.length === 0">
           {{ $t('emptyTip.translations') }}
         </p>
       </div>
-      <div v-if="tab === 2" class="additions-list" style="max-height: 54.4rem;">
+      <div v-if="tab === 2" class="additions-list" style="max-height: 54.4rem">
         <WordImageItem
           :image="image.image ? image.image : image.image_url"
           v-for="image in wordProfile.image_associations"
-          :editable=false
+          :editable="false"
         />
-        <p class="additions-list-empty-tip" v-if="wordProfile.image_associations?.length === 0">
+        <p
+          class="additions-list-empty-tip"
+          v-if="wordProfile.image_associations?.length === 0"
+        >
           {{ $t('emptyTip.associations') }}
         </p>
       </div>
@@ -455,7 +527,7 @@ export default {
             text-align: left;
             @include tag-large;
           }
-        } 
+        }
 
         .word-tags {
           @include word-tags-list-big;

@@ -14,10 +14,6 @@ export default {
   setup() {
     y.value = 0;
   },
-  unmounted() {
-    this.filteredWords = this.vocabularyWords;
-    this.filteredCount = this.count;
-  },
   computed: {
     ...mapState(useVocabularyStore, ['vocabularyWords', 'count']),
     ...mapWritableState(useVocabularyStore, ['filteredWords', 'filteredCount']),

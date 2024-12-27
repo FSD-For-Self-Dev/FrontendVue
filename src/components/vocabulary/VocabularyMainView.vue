@@ -38,7 +38,7 @@ export default {
     </div>
     <div class="vocabulary-main-view--content">
       <div class="vocabulary-main-view--not-found" v-if="!vocabularyWords.length">
-        {{ $t('emptyTip.vocabulary') }}
+        {{ $t('emptyTip.vocabularyTitle') }}
         <NewWordButton :button-text="$t('buttons.addFirstWords')" />
       </div>
       <div class="vocabulary-main-view--words" v-else @wheel.prevent="handleWheel">

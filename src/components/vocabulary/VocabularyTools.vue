@@ -18,6 +18,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    hideStatusFilter: {
+      type: Boolean,
+      default: false,
+    },
+    hideAddButton: {
+      type: Boolean,
+      default: false,
+    },
+    getFilteredWords: {
+      type: Function,
+      required: false,
+    },
   },
   computed: {
     ...mapState(useLanguagesStore, ["learning_languages"]),
@@ -30,20 +42,22 @@ export default {
     if (!props.hideLanguageFilter) {
       filterOptions.language = ''
     }
-    filterOptions.activity_status = ''
+    if (!props.hideStatusFilter) {
+      filterOptions.activity_status = ''
+    }
     filterOptions.search = ''
 
     watchDebounced(
       () => filterOptions.search,
       () => {
-        getVocabulary(true);
+        props.getFilteredWords ? props.getFilteredWords(true) : getVocabulary(true);
       },
       { debounce: 1000, maxWait: 5000 },
     );
 
     return {
       filterOptions,
-      getVocabulary
+      getVocabulary,
     };
   },
   data() {
@@ -77,12 +91,11 @@ export default {
   },
   methods: {
     ...mapActions(useLanguagesStore, ['getLanguageObjectByIsocode']),
-    ...mapActions(useVocabularyStore, ['getVocabulary']),
     handleFilter() {
-      this.getVocabulary(true);
+      this.getFilteredWords ? this.getFilteredWords(true) : this.getVocabulary(true);
     },
     updateWords() {
-      this.getVocabulary(true);
+      this.getFilteredWords ? this.getFilteredWords(true) : this.getVocabulary(true);
     },
   },
 };
@@ -120,6 +133,7 @@ export default {
           v-model="filterOptions.activity_status"
           :items="statusWordOptions"
           @update:model-value="handleFilter"
+          v-if="!hideStatusFilter"
           style="min-width: 18.6rem;"
         />
       </div>
@@ -128,6 +142,7 @@ export default {
         :button-text="$t('buttons.addNewWord')"
         :chosenLanguage="filterOptions.language"
         @word-created="updateWords"
+        v-if="!hideAddButton"
       />
     </div>
     <Search v-model="filterOptions.search" />
